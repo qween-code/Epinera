@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const supabase = createClient();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -12,14 +14,12 @@ export default function LoginPage() {
 
   const getURL = () => {
     let url =
-      process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
-      process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+      process?.env?.NEXT_PUBLIC_SITE_URL ??
+      process?.env?.NEXT_PUBLIC_VERCEL_URL ??
       'http://localhost:3000/';
-    // Make sure to include `https` in production URLs.
     url = url.includes('http') ? url : `https://${url}`;
-    // Make sure to include a trailing `/`.
     url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
-    return url;
+    return `${url}auth/callback`;
   };
 
   const handleGoogleLogin = async () => {
@@ -28,7 +28,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${getURL()}auth/callback`,
+        redirectTo: getURL(),
       },
     });
     if (error) {
@@ -46,7 +46,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${getURL()}auth/callback`,
+        emailRedirectTo: getURL(),
       },
     });
 
@@ -59,58 +59,90 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
-      <div className="w-full max-w-sm p-8 space-y-6 bg-gray-800 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center">Epin Marketplace</h1>
-
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        {emailSent && <p className="text-green-500 text-center">Giriş linki için e-postanızı kontrol edin!</p>}
-
-        <button
-          onClick={handleGoogleLogin}
-          disabled={loading}
-          className="w-full px-4 py-2 font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:opacity-50"
-        >
-          {loading ? 'Giriş yapılıyor...' : 'Google ile Giriş Yap'}
-        </button>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-600" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-gray-800 text-gray-400">
-              VEYA E-POSTA İLE DEVAM ET
-            </span>
-          </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Welcome to Epin Marketplace
+          </h1>
+          <p className="mt-2 text-sm text-gray-600">
+            Sign in to continue to your account
+          </p>
         </div>
 
-        <form onSubmit={handleOtpLogin} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-              E-posta adresi
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={loading || emailSent}
-              className="block w-full px-3 py-2 mt-1 text-gray-300 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
-              placeholder="you@example.com"
-            />
+        {error && (
+          <div className="p-4 text-sm text-red-700 bg-red-100 rounded-lg">
+            {error}
           </div>
+        )}
+        {emailSent && (
+          <div className="p-4 text-sm text-green-700 bg-green-100 rounded-lg">
+            A sign-in link has been sent to your email address.
+          </div>
+        )}
+
+        <div className="space-y-4">
           <button
-            type="submit"
-            disabled={loading || emailSent}
-            className="w-full px-4 py-2 font-semibold text-white bg-sky-600 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 disabled:opacity-50"
+            onClick={handleGoogleLogin}
+            disabled={loading}
+            className="flex items-center justify-center w-full px-4 py-2 font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
           >
-            {loading ? 'Gönderiliyor...' : 'Giriş Linki Gönder'}
+            <svg
+              className="w-5 h-5 mr-2"
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fab"
+              data-icon="google"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 488 512"
+            >
+              <path
+                fill="currentColor"
+                d="M488 261.8C488 403.3 381.5 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 126 24.5 172.4 64.4L364.5 128C330.7 98.2 292.2 80 248 80c-82.6 0-150.2 67.6-150.2 150.2S165.4 406.2 248 406.2c92.2 0 134.4-66.3 138.6-100.2H248v-73.6h239.2c1.3 12.8 2.2 26.1 2.2 39.4z"
+              ></path>
+            </svg>
+            Sign in with Google
           </button>
-        </form>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 text-gray-500 bg-white">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <form onSubmit={handleOtpLogin} className="space-y-4">
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading || emailSent}
+                className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="you@example.com"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading || emailSent}
+              className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+            >
+              {loading ? 'Sending...' : 'Send Magic Link'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
