@@ -4,33 +4,48 @@ import { createClient } from '@/lib/supabase/server';
 
 export default async function HomePage() {
   const supabase = createClient();
-  const { data: categories, error } = await supabase
+
+  // Fetch categories
+  const { data: categories, error: categoriesError } = await supabase
     .from('categories')
     .select('name, slug');
 
-  if (error) {
-    console.error('Error fetching categories:', error);
-    // You might want to render an error state here
+  // Fetch featured products (e.g., the 8 most recent)
+  const { data: products, error: productsError } = await supabase
+    .from('products')
+    .select(`
+      id,
+      slug,
+      title,
+      product_variants (
+        price,
+        currency
+      )
+    `)
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(8);
+
+  if (categoriesError || productsError) {
+    console.error('Error fetching homepage data:', categoriesError || productsError);
+    // Optionally render an error state
   }
 
   return (
     <div>
-      {/* Search Bar section can be added here later */}
       <section>
         <h1 className="text-3xl font-bold mb-2">Welcome to the Marketplace!</h1>
         <p className="text-gray-400">Find the best deals for your favorite games.</p>
       </section>
 
       <section className="mt-8">
-        {/* Pass the fetched categories to the component */}
         <CategoryCarousel categories={categories || []} />
       </section>
 
       <section className="mt-8">
-        <ProductGrid />
+        <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
+        <ProductGrid products={products || []} />
       </section>
-
-      {/* Other sections like "Flash Deals", "For You", "Community" can be added here */}
     </div>
   );
 }
