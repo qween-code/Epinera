@@ -1,6 +1,6 @@
 -- Custom types
 CREATE TYPE public.user_role AS ENUM ('buyer', 'seller', 'creator', 'admin');
-CREATE TYPE public.kyc_status AS ENUM ('not_started', 'pending', 'verified', 'rejected');
+CREATE TYPE public.kyc_status AS ENUM ('pending', 'verified', 'rejected');
 
 -- Profiles table
 CREATE TABLE public.profiles (
@@ -10,7 +10,7 @@ CREATE TABLE public.profiles (
   avatar_url TEXT,
   phone TEXT UNIQUE,
   role user_role NOT NULL DEFAULT 'buyer',
-  kyc_status kyc_status NOT NULL DEFAULT 'not_started',
+  kyc_status kyc_status NOT NULL DEFAULT 'pending',
 
   CONSTRAINT phone_length CHECK (
     phone IS NULL OR char_length(phone) >= 10
@@ -36,9 +36,9 @@ BEGIN
     END,
     CASE
       WHEN metadata ? 'kyc_status'
-        AND metadata->>'kyc_status' = ANY (ARRAY['not_started', 'pending', 'verified', 'rejected'])
+        AND metadata->>'kyc_status' = ANY (ARRAY['pending', 'verified', 'rejected'])
       THEN (metadata->>'kyc_status')::public.kyc_status
-      ELSE 'not_started'
+      ELSE 'pending'
     END
   );
   RETURN new;
