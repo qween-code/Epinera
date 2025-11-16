@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--workspace",
+        "/home/user/Epinera/epin-marketplace"
+      ],
+      "description": "Serena AI Coding Agent Toolkit for semantic code analysis and editing",
+      "disabled": false
+    }
+  },
+  "capabilities": {
+    "symbolLevelCodeRetrieval": true,
+    "semanticEditing": true,
+    "lspIntegration": true,
+    "supportedLanguages": [
+      "typescript",
+      "javascript",
+      "tsx",
+      "jsx"
+    ]
+  }
+}
