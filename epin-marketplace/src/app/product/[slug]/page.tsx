@@ -1,5 +1,9 @@
-import { createClient } from '@/lib/supabase/server';
+'use client';
+
+import { createClient } from '@/lib/supabase/client';
 import { notFound } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import useCartStore from '@/store/cart';
 
 type ProductPageProps = {
   params: {
@@ -7,31 +11,43 @@ type ProductPageProps = {
   };
 };
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default function ProductPage({ params }: ProductPageProps) {
   const { slug } = params;
-  const supabase = createClient();
+  const [product, setProduct] = useState<any>(null);
+  const { addItem } = useCartStore();
 
-  // Fetch the product and its variants based on the slug
-  const { data: product, error } = await supabase
-    .from('products')
-    .select(`
-      id,
-      title,
-      description,
-      product_variants (
-        id,
-        name,
-        price,
-        currency,
-        stock_quantity
-      )
-    `)
-    .eq('slug', slug)
-    .eq('status', 'active')
-    .single();
+  useEffect(() => {
+    const supabase = createClient();
+    const fetchProduct = async () => {
+      const { data, error } = await supabase
+        .from('products')
+        .select(`
+          id,
+          title,
+          description,
+          product_variants (
+            id,
+            name,
+            price,
+            currency,
+            stock_quantity
+          )
+        `)
+        .eq('slug', slug)
+        .eq('status', 'active')
+        .single();
 
-  if (error || !product) {
-    notFound();
+      if (error || !data) {
+        notFound();
+      }
+      setProduct(data);
+    };
+
+    fetchProduct();
+  }, [slug]);
+
+  if (!product) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -50,7 +66,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="mt-8">
             <h2 className="text-2xl font-semibold mb-4">Select an option:</h2>
             <div className="space-y-4">
-              {product.product_variants.map((variant) => (
+              {product.product_variants.map((variant: any) => (
                 <div key={variant.id} className="bg-gray-800 p-4 rounded-lg flex justify-between items-center">
                   <div>
                     <h3 className="text-lg font-medium">{variant.name}</h3>
@@ -60,7 +76,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     <p className="text-2xl font-bold text-sky-400">
                       {variant.price.toFixed(2)} {variant.currency}
                     </p>
-                    <button className="mt-1 px-6 py-2 bg-sky-600 rounded-md text-sm font-semibold hover:bg-sky-700">
+                    <button onClick={() => addItem(variant.id)} className="mt-1 px-6 py-2 bg-sky-600 rounded-md text-sm font-semibold hover:bg-sky-700">
                       Add to Cart
                     </button>
                   </div>
