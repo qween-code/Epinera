@@ -10,7 +10,7 @@ type CategoryPageProps = {
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = params;
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Fetch the category details
   const { data: category, error: categoryError } = await supabase
