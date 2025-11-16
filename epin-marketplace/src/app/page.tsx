@@ -1,6 +1,7 @@
 import CategoryCarousel from '@/components/ui/CategoryCarousel';
 import ProductGrid from '@/components/ui/ProductGrid';
 import { createClient } from '@/lib/supabase/server';
+import Link from 'next/link';
 
 export default async function HomePage() {
   const supabase = createClient();
@@ -43,7 +44,12 @@ export default async function HomePage() {
       </section>
 
       <section className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">Featured Products</h2>
+          <Link href="/products" className="text-primary hover:underline">
+            View All
+          </Link>
+        </div>
         <ProductGrid products={products || []} />
       </section>
     </div>
