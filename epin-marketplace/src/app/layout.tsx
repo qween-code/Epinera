@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
-
-const inter = Inter({ subsets: ['latin'] });
+import Providers from '@/components/Providers';
 
 export const metadata: Metadata = {
   title: 'Epin Marketplace',
@@ -16,10 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-gray-900 text-white`}>
-        <Header />
-        <main className="container mx-auto p-4">{children}</main>
+    <html lang="tr">
+      <body className="font-sans bg-gray-900 text-white antialiased">
+        <Providers>
+          <Header />
+          <main className="container mx-auto p-4">{children}</main>
+        </Providers>
       </body>
     </html>
   );

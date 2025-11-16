@@ -3,7 +3,7 @@ import ProductGrid from '@/components/ui/ProductGrid';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function HomePage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Fetch categories
   const { data: categories, error: categoriesError } = await supabase
