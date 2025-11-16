@@ -10,6 +10,7 @@ export default function Header() {
         <nav className="space-x-4">
           <Link href="/games">Games</Link>
           <Link href="/categories">Categories</Link>
+          <Link href="/history">History</Link>
           <Link href="/sell">Sell</Link>
         </nav>
         <div>
