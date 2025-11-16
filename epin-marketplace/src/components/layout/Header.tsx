@@ -13,6 +13,9 @@ export default function Header() {
           <Link href="/sell">Sell</Link>
         </nav>
         <div>
+          <Link href="/onboarding" className="px-4 py-2 bg-green-600 rounded-md mr-2">
+            Onboarding
+          </Link>
           <Link href="/login" className="px-4 py-2 bg-sky-600 rounded-md">
             Login
           </Link>
