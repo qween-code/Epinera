@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import OrderItemActions from '@/components/seller/OrderItemActions';
 
 export default async function SellerOrdersPage() {
   const supabase = await createClient();
@@ -118,14 +119,10 @@ export default async function SellerOrdersPage() {
                         </div>
                       )}
 
-                      <div className="flex gap-2">
-                        <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors">
-                          Teslimat Başlat
-                        </button>
-                        <button className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors">
-                          Teslim Edildi İşaretle
-                        </button>
-                      </div>
+                      <OrderItemActions
+                        orderItemId={item.id}
+                        currentStatus={item.delivery_status}
+                      />
                     </div>
                   ))}
                 </div>
@@ -148,10 +145,11 @@ export default async function SellerOrdersPage() {
                           </p>
                         </div>
                         <div className="text-right">
-                          <div className="text-xl font-bold">{parseFloat(item.total_price).toFixed(2)} TRY</div>
-                          <button className="mt-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors text-sm">
-                            Teslim Edildi İşaretle
-                          </button>
+                          <div className="text-xl font-bold mb-2">{parseFloat(item.total_price).toFixed(2)} TRY</div>
+                          <OrderItemActions
+                            orderItemId={item.id}
+                            currentStatus={item.delivery_status}
+                          />
                         </div>
                       </div>
                     </div>
