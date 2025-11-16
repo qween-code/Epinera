@@ -6,7 +6,10 @@ import Header from '@/components/layout/Header';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Epin Marketplace',
+  title: {
+    default: 'Epin Marketplace',
+    template: 'Epin Marketplace - %s',
+  },
   description: 'The next generation digital marketplace for gamers.',
 };
 
