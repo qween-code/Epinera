@@ -104,6 +104,19 @@ export default function CheckoutPage() {
 
       if (itemsError) throw itemsError;
 
+      // Decrement stock for each variant
+      for (const item of items) {
+        const { error: stockError } = await supabase.rpc('decrement_stock', {
+          p_variant_id: item.variant_id,
+          p_quantity: item.quantity,
+        });
+
+        if (stockError) {
+          console.error('Stock decrement error:', stockError);
+          // Continue even if stock decrement fails (log for admin review)
+        }
+      }
+
       // Clear cart
       await clearCart();
 
