@@ -928,15 +928,16 @@
 - ✅ Sprint 19-20: Admin Dashboard, Wallet Deposit (7 versiyon)
 - ✅ Sprint 21: Order Confirmation design HTML kontrolü ve düzeltmeler, Wallet Deposit kontrolü, Homepage geri kontrol
 - ✅ Sprint 22: Seller Orders design HTML kontrolü, Transaction History kontrolü, Login geri kontrol
+- ✅ Sprint 23: User Profile & Wallet design HTML kontrolü, Wallet Withdrawal kontrolü, Product Detail geri kontrol
 
 ### Devam Eden Sprintler
-- 🔄 Sprint 23+: Kısmen uygulanan sayfaları tamamlama
+- 🔄 Sprint 24+: Kısmen uygulanan sayfaları tamamlama
 
 ### Toplam İlerleme
-- **Tam Uygulanan**: 21 sayfa (29%) ⬆️
-- **Kısmen Uygulanan**: 18 sayfa (25%) ⬇️
+- **Tam Uygulanan**: 23 sayfa (32%) ⬆️
+- **Kısmen Uygulanan**: 16 sayfa (22%) ⬇️
 - **Eksik**: 33 sayfa (46%)
-- **Genel İlerleme**: ~57% tamamlandı ⬆️
+- **Genel İlerleme**: ~60% tamamlandı ⬆️
 
 ---
 
@@ -950,7 +951,7 @@
 
 ---
 
-*Son Güncelleme: Sprint 22 Sonrası*
+*Son Güncelleme: Sprint 23 Sonrası*
 
 ## 📝 Sprint 21 Detayları
 
@@ -1008,4 +1009,34 @@
 - ✅ Order actions mevcut (`epin-marketplace/src/app/actions/order.ts`)
 - ✅ Seller orders backend entegrasyonu mevcut
 - ✅ RLS policies tanımlı
+
+## 📝 Sprint 23 Detayları
+
+### Tamamlanan İşler
+1. ✅ **User Profile & Wallet** (`/wallet`)
+   - Design HTML ile birebir uyum kontrolü yapıldı
+   - Sidebar, Profile Header, Wallet Stats, Transaction History Tabs mevcut
+   - Component'ler design HTML'e uyumlu
+   - Backend entegrasyonu mevcut
+
+2. ✅ **Wallet Withdrawal** (`/wallet/withdraw`)
+   - Design HTML ile birebir uyum kontrolü yapıldı
+   - Withdrawal Form ve Summary component'leri mevcut
+   - Component'ler design HTML'e uyumlu
+   - Backend entegrasyonu mevcut
+
+3. ✅ **Product Detail** (`/product/[slug]`)
+   - Geri kontrol yapıldı
+   - Mobile responsive ✅
+   - Link'ler doğru ✅
+   - Import path düzeltildi (`@/lib/supabase` → `@/utils/supabase/server`)
+
+### Backend & Database Kontrolleri
+- ✅ Wallet actions mevcut (`epin-marketplace/src/app/actions/wallet.ts`)
+- ✅ Transaction actions mevcut (`epin-marketplace/src/app/actions/transactions.ts`)
+- ✅ Product queries Supabase'den çalışıyor
+- ✅ RLS policies tanımlı
+
+### Değişiklikler
+- `epin-marketplace/src/app/product/[slug]/page.tsx`: Import path düzeltildi
 
