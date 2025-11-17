@@ -23,9 +23,9 @@ export default function CheckoutHeader() {
       <div className="hidden lg:flex flex-1 justify-end gap-8">
         <div className="flex items-center gap-9">
           <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/">Home</Link>
-          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/">Store</Link>
-          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/">Publishers</Link>
-          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/">Brands</Link>
+          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/products">Store</Link>
+          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/publishers">Publishers</Link>
+          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/brands">Brands</Link>
         </div>
         <div className="flex gap-2">
           <Link

@@ -95,7 +95,7 @@ export default function StoreSettingsPage() {
             </div>
             <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
           </Link>
-          <label className="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+          <Link href="/search" className="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
             <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
               <div className="text-slate-500 dark:text-slate-400 flex border border-r-0 border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800/50 items-center justify-center pl-4 rounded-l-lg">
                 <span className="material-symbols-outlined text-xl">search</span>
@@ -103,10 +103,10 @@ export default function StoreSettingsPage() {
               <input
                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-black dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-l-0 border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800/50 h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 pl-2 text-sm"
                 placeholder="Search for products..."
-                value=""
+                readOnly
               />
             </div>
-          </label>
+          </Link>
         </div>
         <div className="flex flex-1 justify-end gap-3 sm:gap-4">
           <div className="hidden lg:flex items-center gap-6">
