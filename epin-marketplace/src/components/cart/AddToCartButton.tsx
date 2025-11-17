@@ -8,12 +8,14 @@ interface AddToCartButtonProps {
   variantId: string;
   variantName: string;
   stockQuantity: number;
+  className?: string;
 }
 
 export default function AddToCartButton({
   variantId,
   variantName,
-  stockQuantity
+  stockQuantity,
+  className
 }: AddToCartButtonProps) {
   const { addToCart } = useCart();
   const [adding, setAdding] = useState(false);
@@ -53,7 +55,7 @@ export default function AddToCartButton({
     <button
       onClick={handleAddToCart}
       disabled={adding || stockQuantity <= 0}
-      className={`mt-1 px-6 py-2 rounded-md text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+      className={className || `mt-1 px-6 py-2 rounded-md text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
         added
           ? 'bg-green-600 hover:bg-green-700'
           : 'bg-blue-600 hover:bg-blue-700'

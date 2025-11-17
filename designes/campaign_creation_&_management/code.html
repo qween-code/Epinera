@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Campaign Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="w-64 flex-shrink-0 bg-[#101d23] p-4 flex flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Store profile picture with an abstract purple and blue gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCvdc3Sh4EIy6ZG2GGtBR5E1lqJjyO7blHmf9AmuOFx1aOtZHybfOslsy4g4hV_Tr06K0Cn6QegAg2C9VC8zwq5lnmvycoqEXO_UwMOoc1Rl1D4M7filU3aAd0jbW_Yt1dvtUai0_pVM9Kz1J1y39995fcTFoSTj8SHmLM03HHhEvJfXWuQOlCaMor411lScLvS15rDiIm2piTdcHBfSBSL6nOW_uGfnJZu1kpHhTezyf-FzgogDvjjf2xVnZDxVqQfjNvOjcm-uU05");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Mehmet's Store</h1>
+<p class="text-gray-400 text-sm font-normal leading-normal">Seller Account</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<p class="text-sm font-medium leading-normal">Campaigns</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded" href="#">
+<span class="material-symbols-outlined">pie_chart</span>
+<p class="text-sm font-medium leading-normal">Analytics</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded" href="#">
+<span class="material-symbols-outlined">inventory</span>
+<p class="text-sm font-medium leading-normal">Products</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-sm font-medium leading-normal">Orders</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium leading-normal">Help</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-7xl mx-auto">
+<!-- PageHeading -->
+<header class="flex flex-wrap justify-between items-center gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Campaign Management</h1>
+<p class="text-gray-400 text-base font-normal leading-normal">Create and oversee your promotional activities.</p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
+<span class="material-symbols-outlined text-xl">add</span>
+<span class="truncate">Create New Campaign</span>
+</button>
+</header>
+<!-- Stats -->
+<section class="mb-8">
+<h2 class="text-white text-lg font-bold mb-3">Campaign Overview</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-[#16252d] border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">Total Active Campaigns</p>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">12</p>
+<p class="text-green-400 text-sm font-medium leading-normal flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_upward</span> +2 this month</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-[#16252d] border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">Total Spend</p>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">$4,850</p>
+<p class="text-green-400 text-sm font-medium leading-normal flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_upward</span> +$300 this week</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-[#16252d] border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">Overall ROI</p>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">15.2%</p>
+<p class="text-green-400 text-sm font-medium leading-normal flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_upward</span> +1.5%</p>
+</div>
+</div>
+</section>
+<!-- Campaign List -->
+<section>
+<!-- SectionHeader -->
+<h2 class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] mb-4">My Campaigns</h2>
+<!-- ToolBar -->
+<div class="flex justify-between items-center gap-4 p-4 bg-[#16252d] rounded-lg border border-white/10 mb-6 flex-wrap">
+<div class="flex items-center gap-4 flex-wrap">
+<div class="relative min-w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="bg-[#101c22] border border-white/10 text-white text-sm rounded w-full h-10 pl-10 pr-4 focus:ring-primary focus:border-primary" placeholder="Search campaigns..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<select class="bg-[#101c22] border border-white/10 text-white text-sm rounded h-10 pl-3 pr-8 focus:ring-primary focus:border-primary">
+<option>Status: All</option>
+<option>Active</option>
+<option>Scheduled</option>
+<option>Ended</option>
+</select>
+<select class="bg-[#101c22] border border-white/10 text-white text-sm rounded h-10 pl-3 pr-8 focus:ring-primary focus:border-primary">
+<option>Type: All</option>
+<option>Discount</option>
+<option>Loyalty</option>
+<option>Social</option>
+</select>
+</div>
+</div>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded h-10 bg-transparent border border-white/20 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4 hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">sort</span>
+<span class="truncate">Sort by Date</span>
+</button>
+</div>
+<!-- Campaign Cards -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Campaign Card 1 -->
+<div class="bg-[#16252d] border border-white/10 rounded-xl p-6 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-lg font-bold">Summer Sale 2024</h3>
+<p class="text-gray-400 text-sm">Discount Code</p>
+</div>
+<span class="text-xs font-semibold text-green-300 bg-green-500/20 px-2 py-1 rounded-full">Active</span>
+</div>
+<div class="flex justify-between text-white text-sm">
+<span class="text-gray-400">Conversions</span>
+<strong>1,204</strong>
+</div>
+<div class="w-full bg-[#101c22] rounded-full h-2">
+<div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div>
+</div>
+<div class="flex items-center justify-between text-xs text-gray-400">
+<span>Ends in 12 days</span>
+<span>75% Budget Used</span>
+</div>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 flex items-center justify-center gap-2 h-9 px-3 rounded text-sm font-bold bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">visibility</span>View
+                                </button>
+<button class="flex-1 flex items-center justify-center gap-2 h-9 px-3 rounded text-sm font-bold bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">edit</span>Edit
+                                </button>
+<button class="h-9 w-9 flex items-center justify-center rounded bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Campaign Card 2 -->
+<div class="bg-[#16252d] border border-white/10 rounded-xl p-6 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-lg font-bold">New Game Launch</h3>
+<p class="text-gray-400 text-sm">Social Media Giveaway</p>
+</div>
+<span class="text-xs font-semibold text-orange-300 bg-orange-500/20 px-2 py-1 rounded-full">Scheduled</span>
+</div>
+<div class="flex justify-between text-white text-sm">
+<span class="text-gray-400">Engagements</span>
+<strong>-</strong>
+</div>
+<div class="w-full bg-[#101c22] rounded-full h-2">
+<div class="bg-orange-500 h-2 rounded-full" style="width: 0%"></div>
+</div>
+<div class="flex items-center justify-between text-xs text-gray-400">
+<span>Starts in 3 days</span>
+<span>$0 Budget Used</span>
+</div>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 flex items-center justify-center gap-2 h-9 px-3 rounded text-sm font-bold bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">visibility</span>View
+                                </button>
+<button class="flex-1 flex items-center justify-center gap-2 h-9 px-3 rounded text-sm font-bold bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">edit</span>Edit
+                                </button>
+<button class="h-9 w-9 flex items-center justify-center rounded bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Campaign Card 3 -->
+<div class="bg-[#16252d] border border-white/10 rounded-xl p-6 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-lg font-bold">VIP Loyalty Rewards</h3>
+<p class="text-gray-400 text-sm">Loyalty Program</p>
+</div>
+<span class="text-xs font-semibold text-gray-300 bg-gray-500/20 px-2 py-1 rounded-full">Ended</span>
+</div>
+<div class="flex justify-between text-white text-sm">
+<span class="text-gray-400">Total ROI</span>
+<strong class="text-green-400">22.5%</strong>
+</div>
+<div class="w-full bg-[#101c22] rounded-full h-2">
+<div class="bg-gray-500 h-2 rounded-full" style="width: 100%"></div>
+</div>
+<div class="flex items-center justify-between text-xs text-gray-400">
+<span>Ended on 01/06/24</span>
+<span>$500 Budget Used</span>
+</div>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 flex items-center justify-center gap-2 h-9 px-3 rounded text-sm font-bold bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">analytics</span>Analytics
+                                </button>
+<button class="flex-1 flex items-center justify-center gap-2 h-9 px-3 rounded text-sm font-bold bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">content_copy</span>Duplicate
+                                </button>
+<button class="h-9 w-9 flex items-center justify-center rounded bg-white/10 text-white hover:bg-white/20">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

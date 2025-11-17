@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Seller &amp; Creator Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101c22",
+              "success": "#2E7D32",
+              "warning": "#FF8F00",
+              "danger": "#C62828",
+              "info": "#0277BD"
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex h-screen min-h-screen flex-col bg-[#182b34]/50 dark:bg-[#101d23] w-64 p-4 border-r border-slate-200/10 dark:border-white/10 sticky top-0">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Abstract blue and teal circular logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHvcQUus36mnh-T8c2gTZf5xwPpHJOetv5iGfqscYybU-jyLepplJJ__GiAZ8wwlWuE94pFLVxWgmyHriP9BAZFDGUqW3bdMwPQP1J11faQuSWL-ehhWZSuWN67P4SiaQQ4Fx1qQOnLOf14CMR7MUmxlM3dSfZiuCp2qo7K9b-byMJjNkhC-RDlge5FBHScEOnKrsHX9FRLvPMZbh4MhJZH7xK2dARNPUngfGIS5rcvqPWZC7HZXVtrdFZBw9XbIiUbyMAYosibK24");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-800 dark:text-white text-base font-medium leading-normal">Admin Panel</h1>
+<p class="text-slate-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Epin Marketplace</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 dark:bg-[#223d49] text-primary dark:text-white" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<p class="text-sm font-medium leading-normal">Verifications</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<p class="text-sm font-medium leading-normal">Sellers</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<p class="text-sm font-medium leading-normal">Creators</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium leading-normal">Support</p>
+</a>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity">
+<span class="truncate">Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1">
+<div class="p-8">
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Queue -->
+<div class="col-span-12 lg:col-span-5 flex flex-col gap-4">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3">
+<div class="flex min-w-72 flex-col gap-1">
+<p class="text-slate-900 dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">Verification Queue</p>
+<p class="text-slate-500 dark:text-[#90b8cb] text-base font-normal leading-normal">Review and manage pending applications.</p>
+</div>
+</div>
+<!-- SearchBar -->
+<div class="w-full">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 dark:text-[#90b8cb] flex bg-slate-200 dark:bg-[#223d49] items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-none bg-slate-200 dark:bg-[#223d49] h-full placeholder:text-slate-500 dark:placeholder:text-[#90b8cb] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search by Applicant Name or ID..." value=""/>
+</div>
+</label>
+</div>
+<!-- Chips -->
+<div class="flex gap-3 overflow-x-auto pb-2">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-200 dark:bg-[#223d49] px-3">
+<span class="material-symbols-outlined text-base text-slate-500 dark:text-white">tune</span>
+<p class="text-slate-800 dark:text-white text-sm font-medium leading-normal">Status: All</p>
+<span class="material-symbols-outlined text-base text-slate-500 dark:text-white">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-200 dark:bg-[#223d49] px-3">
+<span class="material-symbols-outlined text-base text-slate-500 dark:text-white">layers</span>
+<p class="text-slate-800 dark:text-white text-sm font-medium leading-normal">Tier: All</p>
+<span class="material-symbols-outlined text-base text-slate-500 dark:text-white">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-200 dark:bg-[#223d49] px-3">
+<span class="material-symbols-outlined text-base text-slate-500 dark:text-white">category</span>
+<p class="text-slate-800 dark:text-white text-sm font-medium leading-normal">Type: All</p>
+<span class="material-symbols-outlined text-base text-slate-500 dark:text-white">expand_more</span>
+</button>
+</div>
+<!-- Table -->
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-[#315768] bg-background-light dark:bg-[#182b34]/50">
+<table class="w-full">
+<thead>
+<tr class="bg-slate-100 dark:bg-[#182b34]">
+<th class="px-4 py-3 text-left text-slate-600 dark:text-white text-xs font-medium uppercase tracking-wider">Applicant</th>
+<th class="px-4 py-3 text-left text-slate-600 dark:text-white text-xs font-medium uppercase tracking-wider">Date</th>
+<th class="px-4 py-3 text-left text-slate-600 dark:text-white text-xs font-medium uppercase tracking-wider">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-t border-t-slate-200 dark:border-t-[#315768] hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer bg-primary/10 dark:bg-primary/20">
+<td class="h-[72px] px-4 py-2">
+<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">John Doe</p>
+<p class="text-slate-500 dark:text-[#90b8cb] text-xs">Seller / Tier 3</p>
+</td>
+<td class="h-[72px] px-4 py-2 text-slate-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">2023-10-26</td>
+<td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-full bg-warning/20 px-2.5 py-0.5 text-xs font-medium text-warning-800 dark:text-warning">In Review</span></td>
+</tr>
+<tr class="border-t border-t-slate-200 dark:border-t-[#315768] hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer">
+<td class="h-[72px] px-4 py-2">
+<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Jane Smith</p>
+<p class="text-slate-500 dark:text-[#90b8cb] text-xs">Creator / N/A</p>
+</td>
+<td class="h-[72px] px-4 py-2 text-slate-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">2023-10-25</td>
+<td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-full bg-info/20 px-2.5 py-0.5 text-xs font-medium text-info-800 dark:text-info">Pending</span></td>
+</tr>
+<tr class="border-t border-t-slate-200 dark:border-t-[#315768] hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer">
+<td class="h-[72px] px-4 py-2">
+<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">GameStore Inc.</p>
+<p class="text-slate-500 dark:text-[#90b8cb] text-xs">Seller / Tier 2</p>
+</td>
+<td class="h-[72px] px-4 py-2 text-slate-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">2023-10-25</td>
+<td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-full bg-danger/20 px-2.5 py-0.5 text-xs font-medium text-danger-800 dark:text-danger">Action Required</span></td>
+</tr>
+<tr class="border-t border-t-slate-200 dark:border-t-[#315768] hover:bg-slate-100 dark:hover:bg-slate-800/50 cursor-pointer">
+<td class="h-[72px] px-4 py-2">
+<p class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Artisan Creations</p>
+<p class="text-slate-500 dark:text-[#90b8cb] text-xs">Creator / N/A</p>
+</td>
+<td class="h-[72px] px-4 py-2 text-slate-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">2023-10-24</td>
+<td class="h-[72px] px-4 py-2"><span class="inline-flex items-center rounded-full bg-info/20 px-2.5 py-0.5 text-xs font-medium text-info-800 dark:text-info">Pending</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column: Details -->
+<div class="col-span-12 lg:col-span-7">
+<div class="sticky top-8 flex flex-col gap-6 bg-slate-100/50 dark:bg-[#182b34]/50 rounded-xl p-6 border border-slate-200 dark:border-[#315768]">
+<!-- Main Review Panel Header -->
+<div class="flex justify-between items-start">
+<div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">John Doe</h2>
+<p class="text-slate-500 dark:text-[#90b8cb]">Seller Verification - Tier 3</p>
+</div>
+<span class="inline-flex items-center rounded-full bg-warning/20 px-3 py-1 text-sm font-medium text-warning-800 dark:text-warning">In Review</span>
+</div>
+<!-- Progressive Verification Stepper -->
+<div>
+<ol class="flex items-center w-full">
+<li class="flex w-full items-center text-success dark:text-success after:content-[''] after:w-full after:h-1 after:border-b after:border-success after:border-4 after:inline-block">
+<span class="flex items-center justify-center w-10 h-10 bg-success rounded-full lg:h-12 lg:w-12 shrink-0"><span class="material-symbols-outlined text-white">check</span></span>
+</li>
+<li class="flex w-full items-center text-success dark:text-success after:content-[''] after:w-full after:h-1 after:border-b after:border-success after:border-4 after:inline-block">
+<span class="flex items-center justify-center w-10 h-10 bg-success rounded-full lg:h-12 lg:w-12 shrink-0"><span class="material-symbols-outlined text-white">check</span></span>
+</li>
+<li class="flex w-full items-center text-primary dark:text-primary after:content-[''] after:w-full after:h-1 after:border-b after:border-slate-200 after:border-4 after:inline-block dark:after:border-slate-700">
+<span class="flex items-center justify-center w-10 h-10 bg-primary rounded-full lg:h-12 lg:w-12 shrink-0"><span class="material-symbols-outlined text-white">edit</span></span>
+</li>
+<li class="flex items-center">
+<span class="flex items-center justify-center w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-full lg:h-12 lg:w-12 text-slate-500 shrink-0"><span class="material-symbols-outlined">domain_verification</span></span>
+</li>
+</ol>
+<div class="flex justify-between mt-2 text-xs text-slate-500 dark:text-[#90b8cb]">
+<p>Tier 1</p>
+<p>Tier 2</p>
+<p class="text-primary font-bold">Tier 3</p>
+<p>Completed</p>
+</div>
+</div>
+<!-- Information Accordions -->
+<div class="space-y-4">
+<!-- Identity Document -->
+<details class="group p-4 rounded-lg bg-slate-200 dark:bg-[#223d49]" open="">
+<summary class="flex items-center justify-between cursor-pointer list-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-success">check_circle</span>
+<h3 class="font-medium text-slate-900 dark:text-white">Identity Document &amp; Phone</h3>
+<span class="text-xs text-slate-500 dark:text-slate-400">(Tier 1 - Verified)</span>
+</div>
+<span class="transition group-open:rotate-180 material-symbols-outlined text-slate-500 dark:text-slate-400">expand_more</span>
+</summary>
+<div class="mt-4 text-sm text-slate-600 dark:text-slate-300 space-y-3 pl-9">
+<p>Passport: <span class="font-mono bg-slate-300 dark:bg-slate-600 rounded px-1">**********234</span></p>
+<p>Phone: <span class="font-mono bg-slate-300 dark:bg-slate-600 rounded px-1">+1-***-***-5678</span></p>
+<p>AI Check: <span class="text-success font-medium">Match Confirmed</span></p>
+</div>
+</details>
+<!-- Video KYC -->
+<details class="group p-4 rounded-lg bg-slate-200 dark:bg-[#223d49]" open="">
+<summary class="flex items-center justify-between cursor-pointer list-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-success">check_circle</span>
+<h3 class="font-medium text-slate-900 dark:text-white">Video KYC Call</h3>
+<span class="text-xs text-slate-500 dark:text-slate-400">(Tier 2 - Verified)</span>
+</div>
+<span class="transition group-open:rotate-180 material-symbols-outlined text-slate-500 dark:text-slate-400">expand_more</span>
+</summary>
+<div class="mt-4 text-sm text-slate-600 dark:text-slate-300 pl-9">
+<button class="inline-flex items-center gap-2 text-info hover:underline">
+<span class="material-symbols-outlined text-base">videocam</span>
+<span>Watch Recorded Call</span>
+</button>
+<p class="mt-2">Admin Note: <span class="italic">"User confirmed details clearly. No issues."</span></p>
+</div>
+</details>
+<!-- Business Documents -->
+<details class="group p-4 rounded-lg bg-slate-200 dark:bg-[#223d49]" open="">
+<summary class="flex items-center justify-between cursor-pointer list-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-warning animate-pulse">pending</span>
+<h3 class="font-medium text-slate-900 dark:text-white">Business Documents &amp; Address</h3>
+<span class="text-xs text-slate-500 dark:text-slate-400">(Tier 3 - Pending Review)</span>
+</div>
+<span class="transition group-open:rotate-180 material-symbols-outlined text-slate-500 dark:text-slate-400">expand_more</span>
+</summary>
+<div class="mt-4 text-sm text-slate-600 dark:text-slate-300 pl-9 space-y-3">
+<button class="inline-flex items-center gap-2 text-info hover:underline">
+<span class="material-symbols-outlined text-base">description</span>
+<span>View Business License.pdf</span>
+</button>
+<button class="inline-flex items-center gap-2 text-info hover:underline">
+<span class="material-symbols-outlined text-base">description</span>
+<span>View Utility Bill.pdf</span>
+</button>
+</div>
+</details>
+</div>
+<!-- Internal Notes / Activity Log -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" for="internal-notes">Internal Notes</label>
+<textarea class="form-textarea block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-background-light dark:bg-background-dark text-slate-900 dark:text-white focus:ring-primary focus:border-primary" id="internal-notes" name="internal-notes" placeholder="Add a comment for the team..." rows="3"></textarea>
+<div class="text-right mt-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-slate-300 dark:bg-slate-600 text-slate-800 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity ml-auto">
+<span class="truncate">Add Note</span>
+</button>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex gap-4 pt-4 border-t border-slate-200 dark:border-slate-600">
+<button class="flex-1 flex items-center justify-center gap-2 rounded-lg h-12 bg-danger/80 hover:bg-danger text-white font-bold transition-colors">
+<span class="material-symbols-outlined">close</span>
+                                    Reject Application
+                                </button>
+<button class="flex-1 flex items-center justify-center gap-2 rounded-lg h-12 bg-success/80 hover:bg-success text-white font-bold transition-colors">
+<span class="material-symbols-outlined">check</span>
+                                    Approve Tier 3
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

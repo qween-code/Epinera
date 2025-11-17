@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Earnings &amp; Payouts - Streamer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex-shrink-0 w-64 bg-[#101d23] border-r border-white/10">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 p-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Profile picture of Streamer Ayşe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBu_EwFCa6tW4Lnc71O0UHVtRrGF1i-LWFRf-9KQDi7bzzaM6plw8s9q3UlHBe9yKp9sic6Fr-4C7VLtzvTJtbCCxC8x5jN7VjY2Wq3JH_oMHj4MFSSM-avHRXSgOz3xcdz8tLCjGB5osTbKsOEZoVNareVq2mt0tYQCeO-xpSR-LeKkhR45duPstnDxj6MnZW0HiT4HON7Zob5a7Vreft1GCjML4AWDEKyd8Mwrk9TP4pwLRNkdqy3o5v53ER-vJmIYYaaOInquFxe");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Streamer Ayşe</h1>
+<p class="text-gray-400 text-sm font-normal leading-normal">ayse_streams</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">video_library</span>
+<p class="text-sm font-medium leading-normal">My Content</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+<p class="text-sm font-bold leading-normal">Earnings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<p class="text-sm font-medium leading-normal">Analytics</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium leading-normal">Help</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- PageHeading & Main Action Button -->
+<div class="flex flex-wrap justify-between items-start gap-4">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Earnings &amp; Payouts</h1>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors duration-200">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="truncate">Withdraw Funds</span>
+</button>
+</div>
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white/5 border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">Available for Payout</p>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">$4,250.75</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white/5 border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">Lifetime Earnings</p>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">$87,432.10</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white/5 border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">30-Day Earnings</p>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">$6,812.30</p>
+</div>
+</div>
+<!-- Earnings Overview Chart -->
+<div class="bg-white/5 border border-white/10 rounded-xl p-6">
+<div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Earnings Overview</h2>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-primary/20 text-primary">Last 30 Days</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/10">Last 90 Days</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg text-gray-300 hover:bg-white/10">This Year</button>
+</div>
+</div>
+<div class="h-80 flex items-center justify-center">
+<img class="object-contain h-full w-full opacity-75" data-alt="A placeholder line chart showing earnings data over a period of time, with peaks and valleys indicating fluctuations in income. The chart has a dark background with a bright blue line representing the data." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClzxG7Bi72krQSyVUSPhxNf3DxL8HQx0b5VE8AHomu_pvJe_vnNV5tRA6ArQV8g8jcPWsk4GOwcbU8hOs7FKjbiM6F-Z55jyeUs6-2tz2pMZKoEfSTGeHEmWWnqEylEROiySrD0pwpnIw9OgFf-9d1qQOpHjOrdiUCHZWHbF7V8KChNqozlHbyoDhQAfmtHq0WdXbug9h21TAuhyr-oOJ9r4jpjM9c-7MFoRPBy5CAZlQ86MhsEb60f9tfJYTQRxPsflY-NautuDzp"/>
+</div>
+</div>
+<!-- Payout Management & History -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-white/5 border border-white/10 rounded-xl p-6">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6">Payout History</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-white/10">
+<tr>
+<th class="p-3 text-sm font-semibold text-gray-300">Date</th>
+<th class="p-3 text-sm font-semibold text-gray-300">Amount</th>
+<th class="p-3 text-sm font-semibold text-gray-300">Method</th>
+<th class="p-3 text-sm font-semibold text-gray-300">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-white/10">
+<td class="p-3 text-sm text-gray-200">Oct 15, 2023</td>
+<td class="p-3 text-sm text-gray-200 font-medium">$1,200.00</td>
+<td class="p-3 text-sm text-gray-200">Bank Transfer</td>
+<td class="p-3 text-sm text-green-400">
+<div class="flex items-center gap-1.5"><div class="size-2 rounded-full bg-green-400"></div>Paid</div>
+</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="p-3 text-sm text-gray-200">Sep 28, 2023</td>
+<td class="p-3 text-sm text-gray-200 font-medium">$550.50</td>
+<td class="p-3 text-sm text-gray-200">Web3 Wallet</td>
+<td class="p-3 text-sm text-green-400">
+<div class="flex items-center gap-1.5"><div class="size-2 rounded-full bg-green-400"></div>Paid</div>
+</td>
+</tr>
+<tr>
+<td class="p-3 text-sm text-gray-200">Sep 12, 2023</td>
+<td class="p-3 text-sm text-gray-200 font-medium">$2,500.00</td>
+<td class="p-3 text-sm text-gray-200">Bank Transfer</td>
+<td class="p-3 text-sm text-green-400">
+<div class="flex items-center gap-1.5"><div class="size-2 rounded-full bg-green-400"></div>Paid</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-white/5 border border-white/10 rounded-xl p-6">
+<h3 class="text-white text-lg font-bold mb-4">Payout Methods</h3>
+<div class="space-y-4">
+<div class="p-3 rounded-lg border border-white/20 bg-white/5">
+<p class="text-white font-medium">Web3 Wallet (Primary)</p>
+<p class="text-gray-400 text-sm truncate">0x123...abcd</p>
+</div>
+<div class="p-3 rounded-lg border border-white/10">
+<p class="text-white font-medium">Bank Account</p>
+<p class="text-gray-400 text-sm">**** **** **** 5678</p>
+</div>
+<button class="w-full text-center py-2 text-sm font-bold text-primary hover:bg-primary/10 rounded-lg transition-colors duration-200">Add New Method</button>
+</div>
+</div>
+<div class="bg-white/5 border border-white/10 rounded-xl p-6">
+<h3 class="text-white text-lg font-bold mb-4">Tax &amp; Reports</h3>
+<div class="space-y-3">
+<a class="flex items-center gap-2 text-primary hover:underline" href="#">
+<span class="material-symbols-outlined text-base">download</span>
+<span class="text-sm font-medium">Download 2023 Tax Form</span>
+</a>
+<a class="flex items-center gap-2 text-primary hover:underline" href="#">
+<span class="material-symbols-outlined text-base">description</span>
+<span class="text-sm font-medium">Generate Earnings Report</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Earnings Breakdown Table -->
+<div class="bg-white/5 border border-white/10 rounded-xl p-6">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-6">Earnings Details</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-white/10">
+<tr>
+<th class="p-3 text-sm font-semibold text-gray-300">Date</th>
+<th class="p-3 text-sm font-semibold text-gray-300">Source</th>
+<th class="p-3 text-sm font-semibold text-gray-300">Type</th>
+<th class="p-3 text-sm font-semibold text-gray-300 text-right">Amount</th>
+<th class="p-3 text-sm font-semibold text-gray-300 text-right">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-white/10">
+<td class="p-3 text-sm text-gray-200">Oct 28, 2023</td>
+<td class="p-3 text-sm text-gray-200">Campaign - Brand Y</td>
+<td class="p-3 text-sm text-gray-200">Commission</td>
+<td class="p-3 text-sm text-white font-medium text-right">$350.00</td>
+<td class="p-3 text-sm text-orange-400 text-right">Pending</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="p-3 text-sm text-gray-200">Oct 27, 2023</td>
+<td class="p-3 text-sm text-gray-200">Affiliate Link - Game X</td>
+<td class="p-3 text-sm text-gray-200">Affiliate</td>
+<td class="p-3 text-sm text-white font-medium text-right">$45.50</td>
+<td class="p-3 text-sm text-green-400 text-right">Cleared</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="p-3 text-sm text-gray-200">Oct 26, 2023</td>
+<td class="p-3 text-sm text-gray-200">Platform Bonus</td>
+<td class="p-3 text-sm text-gray-200">Bonus</td>
+<td class="p-3 text-sm text-white font-medium text-right">$100.00</td>
+<td class="p-3 text-sm text-green-400 text-right">Cleared</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="p-3 text-sm text-gray-200">Oct 25, 2023</td>
+<td class="p-3 text-sm text-gray-200">Affiliate Link - Game Z</td>
+<td class="p-3 text-sm text-gray-200">Affiliate</td>
+<td class="p-3 text-sm text-white font-medium text-right">$82.10</td>
+<td class="p-3 text-sm text-green-400 text-right">Cleared</td>
+</tr>
+<tr>
+<td class="p-3 text-sm text-gray-200">Oct 24, 2023</td>
+<td class="p-3 text-sm text-gray-200">Campaign - Brand Y</td>
+<td class="p-3 text-sm text-gray-200">Commission</td>
+<td class="p-3 text-sm text-white font-medium text-right">$350.00</td>
+<td class="p-3 text-sm text-orange-400 text-right">Pending</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
