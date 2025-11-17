@@ -1,143 +1,92 @@
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+// Mock data for products - replace with actual data fetching later
+const products = [
+  {
+    id: '1',
+    name: 'Cyber Warrior - 1000 Credits',
+    sku: 'CW-1000C-US',
+    stock: 250,
+    price: '$10.00',
+    status: 'Active',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2mn3GXfErq_j9PiqwdJt6bkGxyTtCa2657-WafVAZVzs_XTzWE3DbMQqen9bHLn059Fkkf0WiEcmIYOkrccGwuXPyLxnUUzJdm0SmZPycozzQh3lBt1Tzcc4xo9buCAUPedl-waKUFjHqrzr8TBIWIBUqPOkPJ27g7_eUTBBNW9bF7oYd4M_TPqEGGuHZnY2V5w8h_dkMeU2rDeRju9L-b4gt3djKBBBfsyclTxuLQ9db_8rmxW35Y7z85EPrg6Xt3obz4GVZTR22',
+  },
+  {
+    id: '2',
+    name: 'Galaxy Runner - Starter Pack',
+    sku: 'GR-SP-EU',
+    stock: 120,
+    price: '$5.00',
+    status: 'Active',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBi8IZokgZb3XXI4k7MyQ_ZTOidCtbfed1hBOGqQu-7uuIOdEcY_Jwko8LzJOWJpPfA9ijENJbgW5YnTn5hmulGfBf_f66Q6lL-utNhsqOI4iQ8_UFt9vDsFpXjuzw9Cn2qQyd_O9n_tsIrN2okgs0_7ViMT4TYlkDMgnSxZs7VVbattZ3W96HpKDNjd96ML2nOTOo9IokaYdt0yAvMJOJ5sWhpU33G33akk3vNrJq3JV9oZ74r-ZibGOE4PbK74g_6__-ISDtnBEgd',
+  },
+  {
+    id: '3',
+    name: 'Mystic Legends - Dragon Skin',
+    sku: 'ML-DS-WW',
+    stock: 0,
+    price: '$15.00',
+    status: 'Out of Stock',
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCXklPr8TBZ49pBa8uTg64XHmyrej510RYz8kShk2e3jYOH3Y1q9kOGYpK6xzxl7HKA6dYxgdln6hO6kWtXHwki5xeIFUdJJJ2AeTnVxr7_2VAUvjpagiFM9WkpRxdnwbvfPaWXHvB2zBGa06ksL88kJjk0iEgJy4Dx8Cgq_okHDa5jqfRMYXK1YJNlNEBpG6fl-vQQnMIHdgBJrQl_LJiHP2jQC_BXhouTPCuOX43_K-HmMMcJ4kJP1WIzWnFTLXy8bSiHGN1h9ZyD',
+  },
+];
 
-export default async function SellerProductsPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login?redirect=/seller/products');
-  }
-
-  // Fetch seller's products
-  const { data: products, error } = await supabase
-    .from('products')
-    .select(`
-      id,
-      title,
-      slug,
-      status,
-      created_at,
-      product_variants (
-        id,
-        name,
-        price,
-        currency,
-        stock_quantity,
-        status
-      )
-    `)
-    .eq('seller_id', user.id)
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching products:', error);
-  }
-
+export default function ProductListingsPage() {
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Ürünlerim</h1>
-          <Link
-            href="/seller/products/new"
-            className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg font-semibold transition-colors"
-          >
-            + Yeni Ürün Ekle
-          </Link>
+    <div>
+      <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
+        <h1 className="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">My Products</h1>
+        <div className="flex items-center gap-2">
+          <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700">
+            <span className="truncate">Import via CSV</span>
+          </button>
+          <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+            <span className="truncate">Add New Product</span>
+          </button>
         </div>
-
-        {!products || products.length === 0 ? (
-          <div className="bg-gray-800 rounded-lg p-12 text-center">
-            <div className="text-6xl mb-4">📦</div>
-            <h2 className="text-2xl font-bold mb-2">Henüz Ürününüz Yok</h2>
-            <p className="text-gray-400 mb-6">İlk ürününüzü ekleyerek satışa başlayın</p>
-            <Link
-              href="/seller/products/new"
-              className="inline-block px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
-            >
-              Ürün Ekle
-            </Link>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {products.map((product) => {
-              const variantCount = product.product_variants?.length || 0;
-              const activeVariants = product.product_variants?.filter((v: any) => v.status === 'active').length || 0;
-              const totalStock = product.product_variants?.reduce((sum: number, v: any) => sum + (v.stock_quantity || 0), 0) || 0;
-
-              return (
-                <div
-                  key={product.id}
-                  className="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-xl font-bold">{product.title}</h3>
-                        <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                          product.status === 'active' ? 'bg-green-900 text-green-300' :
-                          product.status === 'draft' ? 'bg-gray-700 text-gray-300' :
-                          'bg-red-900 text-red-300'
-                        }`}>
-                          {product.status === 'active' && 'Aktif'}
-                          {product.status === 'draft' && 'Taslak'}
-                          {product.status === 'inactive' && 'Pasif'}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-400">
-                        {variantCount} varyant ({activeVariants} aktif) • Toplam stok: {totalStock}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        Oluşturulma: {new Date(product.created_at).toLocaleDateString('tr-TR')}
-                      </p>
+      </div>
+      <div className="bg-slate-100/50 dark:bg-slate-900/50 rounded-xl overflow-hidden border border-slate-200/10 dark:border-slate-800">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left text-slate-600 dark:text-slate-400">
+            <thead className="text-xs text-slate-700 dark:text-slate-300 uppercase bg-slate-200/30 dark:bg-slate-800/50">
+              <tr>
+                <th scope="col" className="p-4"><input type="checkbox" className="w-4 h-4 text-primary bg-slate-200 border-slate-400 rounded focus:ring-primary" /></th>
+                <th scope="col" className="px-6 py-3">Product Name</th>
+                <th scope="col" className="px-6 py-3">SKU</th>
+                <th scope="col" className="px-6 py-3">Stock</th>
+                <th scope="col" className="px-6 py-3">Price</th>
+                <th scope="col" className="px-6 py-3">Status</th>
+                <th scope="col" className="px-6 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id} className="border-b border-slate-200 dark:border-slate-800 hover:bg-slate-200/20 dark:hover:bg-slate-800/20">
+                  <td className="w-4 p-4"><input type="checkbox" className="w-4 h-4 text-primary bg-slate-200 border-slate-400 rounded focus:ring-primary" /></td>
+                  <th scope="row" className="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-center bg-no-repeat aspect-square bg-cover rounded size-10" style={{ backgroundImage: `url("${product.image}")` }}></div>
+                      <span>{product.name}</span>
                     </div>
-
-                    <div className="flex gap-2">
-                      <Link
-                        href={`/product/${product.slug}`}
-                        target="_blank"
-                        className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-sm"
-                      >
-                        Önizle
-                      </Link>
-                      <Link
-                        href={`/seller/products/${product.id}/edit`}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm"
-                      >
-                        Düzenle
-                      </Link>
+                  </th>
+                  <td className="px-6 py-4">{product.sku}</td>
+                  <td className="px-6 py-4">{product.stock}</td>
+                  <td className="px-6 py-4">{product.price}</td>
+                  <td className="px-6 py-4">
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${product.status === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'}`}>
+                      {product.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <button className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span className="material-symbols-outlined" style={{ fontSize: '20px' }}>edit</span></button>
+                      <button className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span className="material-symbols-outlined" style={{ fontSize: '20px' }}>visibility</span></button>
+                      <button className="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500"><span className="material-symbols-outlined" style={{ fontSize: '20px' }}>delete</span></button>
                     </div>
-                  </div>
-
-                  {/* Variants */}
-                  {product.product_variants && product.product_variants.length > 0 && (
-                    <div className="mt-4 space-y-2">
-                      <div className="text-sm font-semibold text-gray-400 mb-2">Varyantlar:</div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                        {product.product_variants.map((variant: any) => (
-                          <div
-                            key={variant.id}
-                            className="bg-gray-700 rounded p-3 text-sm"
-                          >
-                            <div className="font-medium">{variant.name}</div>
-                            <div className="text-gray-400">
-                              {parseFloat(variant.price).toFixed(2)} {variant.currency}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              Stok: {variant.stock_quantity}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
