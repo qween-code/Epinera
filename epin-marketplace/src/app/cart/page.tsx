@@ -2,20 +2,34 @@
 
 import { useCart } from '@/lib/cart/CartContext';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import CartItem from '@/components/cart/CartItem';
+import CartSummary from '@/components/cart/CartSummary';
+import WalletBalance from '@/components/cart/WalletBalance';
+import { createClient } from '@/lib/supabase/client';
 
 export default function CartPage() {
-  const { items, loading, removeFromCart, updateQuantity, getTotal, clearCart } = useCart();
-  const [removing, setRemoving] = useState<string | null>(null);
+  const { items, loading, removeFromCart, updateQuantity, getTotal } = useCart();
+  const [walletBalance, setWalletBalance] = useState(10000); // Mock balance, will fetch from API
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
+
+  useEffect(() => {
+    // TODO: Fetch actual wallet balance
+    const fetchWalletBalance = async () => {
+      // const { data } = await supabase.from('wallets').select('balance').single();
+      // setWalletBalance(data?.balance || 0);
+    };
+    fetchWalletBalance();
+  }, []);
 
   const handleRemove = async (itemId: string) => {
-    setRemoving(itemId);
     try {
       await removeFromCart(itemId);
     } catch (error) {
       console.error('Error removing item:', error);
-    } finally {
-      setRemoving(null);
     }
   };
 
@@ -27,167 +41,154 @@ export default function CartPage() {
     }
   };
 
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    try {
+      // Navigate to checkout
+      router.push('/checkout');
+    } catch (error) {
+      console.error('Error during checkout:', error);
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl">Sepet yükleniyor...</div>
+      <div className="min-h-screen flex items-center justify-center font-display bg-background-light dark:bg-background-dark">
+        <div className="text-xl text-white">Loading your cart...</div>
       </div>
     );
   }
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-24 w-24 text-gray-600"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-        <h1 className="text-2xl font-bold">Sepetiniz Boş</h1>
-        <p className="text-gray-400">Alışverişe başlamak için ürünlere göz atın</p>
-        <Link
-          href="/"
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-        >
-          Alışverişe Başla
-        </Link>
+      <div className="relative flex min-h-screen w-full flex-col font-display bg-background-light dark:bg-background-dark">
+        <main className="flex-grow">
+          <div className="container mx-auto px-4 py-8 md:py-12">
+            <div className="mb-8">
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <Link
+                  href="/"
+                  className="text-gray-400 hover:text-primary text-sm font-medium transition-colors"
+                >
+                  Home
+                </Link>
+                <span className="text-gray-500 text-sm">/</span>
+                <span className="text-white text-sm font-medium">Your Cart</span>
+              </div>
+              <h1 className="text-white text-4xl lg:text-5xl font-bold tracking-tighter">
+                Your Shopping Cart
+              </h1>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-4 py-12">
+              <span className="material-symbols-outlined text-6xl text-gray-400">shopping_cart</span>
+              <h2 className="text-2xl font-bold text-white">Your Cart is Empty</h2>
+              <p className="text-gray-400">Looks like you haven't added anything to your cart yet.</p>
+              <Link
+                href="/"
+                className="px-6 py-3 bg-primary hover:bg-primary/90 rounded-lg font-semibold transition-colors text-white"
+              >
+                Continue Shopping
+              </Link>
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
 
-  const total = getTotal();
+  const subtotal = getTotal();
+  const discount = 0; // TODO: Calculate from applied discount codes
+  const taxes = subtotal * 0.08; // 8% tax (mock)
+  const total = subtotal - discount + taxes;
+  const currency = items[0]?.variant?.currency || 'USD';
 
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Sepetim</h1>
-          <button
-            onClick={clearCart}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
-          >
-            Sepeti Temizle
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-4">
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className="bg-gray-800 rounded-lg p-6 flex gap-6 items-center"
-              >
-                <div className="w-24 h-24 bg-gray-700 rounded-lg flex items-center justify-center">
-                  <span className="text-3xl">🎮</span>
-                </div>
-
-                <div className="flex-1">
-                  <Link
-                    href={`/product/${item.product.slug}`}
-                    className="text-xl font-semibold hover:text-blue-400 transition-colors"
-                  >
-                    {item.product.title}
-                  </Link>
-                  <p className="text-gray-400 mt-1">{item.variant.name}</p>
-                  <p className="text-2xl font-bold mt-2">
-                    {item.variant.price.toFixed(2)} {item.variant.currency}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                      className="w-8 h-8 bg-gray-700 hover:bg-gray-600 rounded flex items-center justify-center transition-colors"
-                      disabled={item.quantity <= 1}
-                    >
-                      -
-                    </button>
-                    <span className="w-12 text-center font-semibold">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                      className="w-8 h-8 bg-gray-700 hover:bg-gray-600 rounded flex items-center justify-center transition-colors"
-                    >
-                      +
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => handleRemove(item.id)}
-                    disabled={removing === item.id}
-                    className="p-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors disabled:opacity-50"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-800 rounded-lg p-6 sticky top-4">
-              <h2 className="text-2xl font-bold mb-6">Sipariş Özeti</h2>
-
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-gray-400">
-                  <span>Ara Toplam</span>
-                  <span>{total.toFixed(2)} TRY</span>
-                </div>
-                <div className="flex justify-between text-gray-400">
-                  <span>KDV (%20)</span>
-                  <span>{(total * 0.2).toFixed(2)} TRY</span>
-                </div>
-                <div className="border-t border-gray-700 pt-3">
-                  <div className="flex justify-between text-xl font-bold">
-                    <span>Toplam</span>
-                    <span>{(total * 1.2).toFixed(2)} TRY</span>
-                  </div>
-                </div>
-              </div>
-
-              <Link
-                href="/checkout"
-                className="w-full block text-center px-6 py-4 bg-green-600 hover:bg-green-700 rounded-lg font-semibold text-lg transition-colors"
-              >
-                Ödemeye Geç
-              </Link>
-
+    <div className="relative flex min-h-screen w-full flex-col font-display bg-background-light dark:bg-background-dark">
+      <main className="flex-grow">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          {/* Breadcrumbs & Heading */}
+          <div className="mb-8">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               <Link
                 href="/"
-                className="w-full block text-center mt-4 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                className="text-gray-400 hover:text-primary text-sm font-medium transition-colors"
               >
-                Alışverişe Devam Et
+                Home
+              </Link>
+              <span className="text-gray-500 text-sm">/</span>
+              <Link
+                href="/"
+                className="text-gray-400 hover:text-primary text-sm font-medium transition-colors"
+              >
+                Store
+              </Link>
+              <span className="text-gray-500 text-sm">/</span>
+              <span className="text-white text-sm font-medium">Your Cart</span>
+            </div>
+            <div className="flex flex-wrap justify-between gap-4 items-baseline">
+              <h1 className="text-white text-4xl lg:text-5xl font-bold tracking-tighter">
+                Your Shopping Cart
+              </h1>
+              <Link
+                href="/"
+                className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
+              >
+                Continue Shopping
               </Link>
             </div>
           </div>
+
+          {/* Wallet Balance */}
+          <WalletBalance balance={walletBalance} currency={currency} />
+
+          {/* Cart Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12">
+            {/* Cart Items */}
+            <div className="lg:col-span-2">
+              <div className="flex flex-col gap-px overflow-hidden rounded-lg border border-gray-200/20 bg-gray-200/20">
+                {items.map((item) => (
+                  <CartItem
+                    key={item.id}
+                    id={item.id}
+                    product={{
+                      id: item.product.id,
+                      title: item.product.title,
+                      slug: item.product.slug,
+                      image: item.product.image,
+                    }}
+                    variant={{
+                      id: item.variant.id,
+                      name: item.variant.name,
+                      price: parseFloat(item.variant.price.toString()),
+                      currency: item.variant.currency,
+                    }}
+                    quantity={item.quantity}
+                    onQuantityChange={handleQuantityChange}
+                    onRemove={handleRemove}
+                    platform={item.variant.name.includes('Steam') ? 'Steam' : item.variant.name.includes('Fortnite') ? 'Fortnite' : undefined}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Order Summary */}
+            <div className="lg:col-span-1">
+              <CartSummary
+                subtotal={subtotal}
+                discount={discount}
+                taxes={taxes}
+                total={total}
+                currency={currency}
+                walletBalance={walletBalance}
+                onCheckout={handleCheckout}
+                isLoading={isCheckingOut}
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
