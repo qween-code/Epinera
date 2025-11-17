@@ -1,11 +1,19 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import Header from '@/components/layout/Header';
-import Providers from '@/components/Providers';
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: {
-<<<<<<< HEAD
     default: "Epin Marketplace | AI-Powered Gaming Commerce",
     template: "%s | Epin Marketplace",
   },
@@ -27,26 +35,17 @@ export const metadata: Metadata = {
     description:
       "Next-gen digital goods marketplace with AI fraud protection and creator-first economics.",
   },
-=======
-    default: 'Epin Marketplace',
-    template: 'Epin Marketplace - %s',
-  },
-  description: 'The next generation digital marketplace for gamers.',
->>>>>>> origin/feature-full-epin-marketplace-implementation
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="tr">
-      <body className="font-sans bg-gray-900 text-white antialiased">
-        <Providers>
-          <Header />
-          <main className="container mx-auto p-4">{children}</main>
-        </Providers>
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {children}
       </body>
     </html>
   );
