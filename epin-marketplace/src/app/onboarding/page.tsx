@@ -77,19 +77,19 @@ const OnboardingPage: NextPage = () => {
               </p>
           <p className="text-center font-display text-xs text-slate-500 dark:text-slate-400 mt-4">
             By continuing, you agree to our{' '}
-            <a
+            <Link
               className="font-medium text-slate-600 underline hover:text-primary dark:text-slate-300 dark:hover:text-primary"
-              href="#"
+              href="/terms"
             >
               Terms of Service
-            </a>{' '}
+            </Link>{' '}
             and{' '}
-            <a
+            <Link
               className="font-medium text-slate-600 underline hover:text-primary dark:text-slate-300 dark:hover:text-primary"
-              href="#"
+              href="/privacy"
             >
               Privacy Policy
-            </a>
+            </Link>
             .
           </p>
         </div>

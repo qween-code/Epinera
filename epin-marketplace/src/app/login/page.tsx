@@ -12,7 +12,7 @@ export default function LoginPage() {
                 className="absolute inset-0 z-0 h-full w-full bg-cover bg-center"
                 data-alt="Abstract image of a futuristic digital landscape with neon blue and purple lights, representing a gaming universe."
                 style={{
-                  backgroundImage: "url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1920&q=80')",
+                  backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbDSMOoCPWuY9X9pvCiJaYmbtW86jzu0pNAeKIBTAzARkEGwq5DmlY6gEeByAHb_KinBCGt4Bkz-UWepWVAiBEKaXbYwwx2135UB9EUpaPhsnPRVGbCaHt5SE0MbmAicy4ocC2TO4Qs7SSXj_I7NXDkihq0WQiYJAwXHNs7NG4vLse2DbyZQOJiAh0Nv4GIrX6h27CgrPjruhdXf3RcWZSHFnxJpkUiil7ax8kuHJvThlBsTeOjfeHlxv64u1FrBXFUBy7BCSz-CvW')",
                 }}
               >
                 <div className="absolute inset-0 bg-black/60"></div>

@@ -5,24 +5,24 @@ import Link from 'next/link';
 export default function HomepageFooter() {
   const footerLinks = {
     marketplace: [
-      { label: 'Games', href: '#' },
-      { label: 'Gift Cards', href: '#' },
-      { label: 'Deals', href: '#' },
-      { label: 'Top-Ups', href: '#' },
+      { label: 'Games', href: '/products' },
+      { label: 'Gift Cards', href: '/category/gift-cards' },
+      { label: 'Deals', href: '/deals' },
+      { label: 'Top-Ups', href: '/category/top-ups' },
     ],
     support: [
-      { label: 'Help Center', href: '#' },
-      { label: 'Contact Us', href: '#' },
-      { label: 'FAQ', href: '#' },
+      { label: 'Help Center', href: '/support' },
+      { label: 'Contact Us', href: '/contact' },
+      { label: 'FAQ', href: '/faq' },
     ],
     company: [
-      { label: 'About Us', href: '#' },
-      { label: 'Careers', href: '#' },
-      { label: 'Press', href: '#' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Press', href: '/press' },
     ],
     legal: [
-      { label: 'Terms of Service', href: '#' },
-      { label: 'Privacy Policy', href: '#' },
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Privacy Policy', href: '/privacy' },
     ],
   };
 

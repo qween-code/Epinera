@@ -17,8 +17,8 @@ export default function HomepageHeader() {
           <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
         </Link>
         <nav className="hidden lg:flex items-center gap-9">
-          <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/">Games</Link>
-          <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/">Deals</Link>
+          <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/products">Games</Link>
+          <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/deals">Deals</Link>
           <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/community">Community</Link>
           <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/wallet">Wallet</Link>
         </nav>

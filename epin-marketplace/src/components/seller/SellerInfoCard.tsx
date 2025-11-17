@@ -77,13 +77,13 @@ export default function SellerInfoCard({
         </div>
       </div>
       <div className="border-t border-[#315768] mt-4 pt-4 flex flex-col gap-2">
-        <Link className="text-primary hover:underline text-sm font-semibold" href="#">
+        <Link className="text-primary hover:underline text-sm font-semibold" href="/seller/policies">
           Seller Policies
         </Link>
-        <Link className="text-primary hover:underline text-sm font-semibold" href="#">
+        <Link className="text-primary hover:underline text-sm font-semibold" href="/seller/contact">
           Contact Seller
         </Link>
-        <Link className="text-red-400 hover:underline text-sm font-semibold" href="#">
+        <Link className="text-red-400 hover:underline text-sm font-semibold" href="/report">
           Report Store
         </Link>
       </div>

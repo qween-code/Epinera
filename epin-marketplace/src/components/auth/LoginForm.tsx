@@ -24,7 +24,10 @@ export default function LoginForm() {
     if (error) {
       setMessage('Error: ' + error.message);
     } else {
-      window.location.href = '/';
+      // Check for redirect parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirect = urlParams.get('redirect') || '/';
+      window.location.href = redirect;
     }
   };
 
@@ -106,7 +109,7 @@ export default function LoginForm() {
               </button>
             </div>
           </label>
-          <Link className="font-display text-sm font-normal leading-normal text-right text-primary hover:underline" href="#">
+          <Link className="font-display text-sm font-normal leading-normal text-right text-primary hover:underline" href="/forgot-password">
             Forgot Password?
           </Link>
         </div>

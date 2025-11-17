@@ -177,28 +177,28 @@ export default function StoreSettingsPage() {
                 </Link>
                 <Link
                   className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
-                  href="#"
+                  href="/seller/settings#notifications"
                 >
                   <span className="material-symbols-outlined text-xl">notifications</span>
                   <p className="text-sm font-medium leading-normal">Notifications</p>
                 </Link>
                 <Link
                   className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
-                  href="#"
+                  href="/seller/policies"
                 >
                   <span className="material-symbols-outlined text-xl">policy</span>
                   <p className="text-sm font-medium leading-normal">Policies</p>
                 </Link>
                 <Link
                   className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
-                  href="#"
+                  href="/seller/settings#security"
                 >
                   <span className="material-symbols-outlined text-xl">verified_user</span>
                   <p className="text-sm font-medium leading-normal">Security</p>
                 </Link>
                 <Link
                   className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
-                  href="#"
+                  href="/seller/settings#theme"
                 >
                   <span className="material-symbols-outlined text-xl">palette</span>
                   <p className="text-sm font-medium leading-normal">Store Theme</p>
@@ -208,7 +208,7 @@ export default function StoreSettingsPage() {
             <div className="flex flex-col gap-2">
               <Link
                 className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
-                href="#"
+                href="/support"
               >
                 <span className="material-symbols-outlined text-xl">help_outline</span>
                 <p className="text-sm font-medium leading-normal">Support</p>

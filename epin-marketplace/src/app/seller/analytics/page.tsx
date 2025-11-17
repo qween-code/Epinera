@@ -173,7 +173,7 @@ export default function SellerAnalyticsPage() {
           <Link className="text-sm font-medium leading-normal text-[#4A90E2] dark:text-[#4A90E2]" href="/seller/analytics">
             Analytics
           </Link>
-          <Link className="text-sm font-medium leading-normal text-gray-600 dark:text-[#F0F0F0]" href="#">
+          <Link className="text-sm font-medium leading-normal text-gray-600 dark:text-[#F0F0F0]" href="/seller/marketing">
             Marketing
           </Link>
         </div>
