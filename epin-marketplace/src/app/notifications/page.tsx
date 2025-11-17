@@ -34,39 +34,30 @@ export default function NotificationsPage() {
           return;
         }
 
-        // TODO: Fetch from notifications table when it exists
-        // For now, using mock data
-        const mockNotifications: Notification[] = [
-          {
-            id: '1',
-            type: 'order',
-            title: 'Order #8452 Confirmed',
-            message: 'Your order for Cyber Odyssey - 1000 Credits has been confirmed and is being processed.',
-            isRead: false,
-            createdAt: new Date(Date.now() - 2 * 60 * 1000).toISOString(),
-            link: '/orders/8452',
-          },
-          {
-            id: '2',
-            type: 'price_alert',
-            title: 'Price Drop Alert',
-            message: 'Steam Wallet Code - $20 is now 15% off! Limited time offer.',
-            isRead: false,
-            createdAt: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
-            link: '/product/steam-wallet-20',
-          },
-          {
-            id: '3',
-            type: 'security',
-            title: 'Security Alert',
-            message: 'A new device logged into your account. If this wasn\'t you, please secure your account immediately.',
-            isRead: false,
-            createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
-            link: '/wallet',
-          },
-        ];
+        // Fetch from notifications table
+        const { data: notificationsData, error } = await supabase
+          .from('notifications')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(100);
 
-        setNotifications(mockNotifications);
+        if (error) {
+          console.error('Error fetching notifications:', error);
+          // Fallback to empty array if table doesn't exist yet
+          setNotifications([]);
+        } else {
+          const mappedNotifications: Notification[] = (notificationsData || []).map((notif) => ({
+            id: notif.id,
+            type: notif.type as Notification['type'],
+            title: notif.title,
+            message: notif.message,
+            isRead: notif.is_read || false,
+            createdAt: notif.created_at,
+            link: notif.link || undefined,
+          }));
+          setNotifications(mappedNotifications);
+        }
       } catch (error) {
         console.error('Error fetching notifications:', error);
       } finally {
@@ -92,13 +83,37 @@ export default function NotificationsPage() {
   };
 
   const markAsRead = async (id: string) => {
-    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
-    // TODO: Update in database
+    try {
+      const { error } = await supabase
+        .from('notifications')
+        .update({ is_read: true, read_at: new Date().toISOString() })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
   };
 
   const markAllAsRead = async () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
-    // TODO: Update in database
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('notifications')
+        .update({ is_read: true, read_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .eq('is_read', false);
+
+      if (error) throw error;
+
+      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error);
+    }
   };
 
   const getTypeIcon = (type: string) => {

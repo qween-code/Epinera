@@ -37,8 +37,30 @@ export default function ReferralPage() {
           return;
         }
 
-        // Generate or fetch referral code
-        const code = `USER${user.id.substring(0, 8).toUpperCase()}`;
+        // Fetch or create referral code
+        let { data: existingReferral } = await supabase
+          .from('referrals')
+          .select('referral_code')
+          .eq('referrer_id', user.id)
+          .limit(1)
+          .single();
+
+        let code: string;
+        if (existingReferral?.referral_code) {
+          code = existingReferral.referral_code;
+        } else {
+          // Generate new referral code
+          code = `USER${user.id.substring(0, 8).toUpperCase()}`;
+          // Create referral record if it doesn't exist
+          await supabase
+            .from('referrals')
+            .insert({
+              referrer_id: user.id,
+              referral_code: code,
+              status: 'pending',
+            });
+        }
+
         setReferralCode(code);
         setReferralLink(`${window.location.origin}/?ref=${code}`);
 
