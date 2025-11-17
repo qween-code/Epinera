@@ -14,7 +14,7 @@ export async function getWalletBalance(currency: string = 'USD') {
   try {
     const { data, error } = await supabase
       .from('wallets')
-      .select('balance, escrow_balance')
+      .select('balance, escrow_balance, bonus_balance, frozen_balance, currency')
       .eq('user_id', user.id)
       .eq('currency', currency)
       .single();
@@ -32,8 +32,10 @@ export async function getWalletBalance(currency: string = 'USD') {
           currency,
           balance: 0,
           escrow_balance: 0,
+          bonus_balance: 0,
+          frozen_balance: 0,
         })
-        .select('balance, escrow_balance')
+        .select('balance, escrow_balance, bonus_balance, frozen_balance, currency')
         .single();
 
       if (createError) throw createError;
@@ -41,6 +43,9 @@ export async function getWalletBalance(currency: string = 'USD') {
         success: true,
         balance: parseFloat(newWallet.balance.toString()),
         escrowBalance: parseFloat(newWallet.escrow_balance.toString()),
+        bonusBalance: parseFloat(newWallet.bonus_balance.toString()),
+        frozenBalance: parseFloat(newWallet.frozen_balance.toString()),
+        currency: newWallet.currency,
       };
     }
 
@@ -48,6 +53,9 @@ export async function getWalletBalance(currency: string = 'USD') {
       success: true,
       balance: parseFloat(data.balance.toString()),
       escrowBalance: parseFloat(data.escrow_balance.toString()),
+      bonusBalance: parseFloat(data.bonus_balance.toString()),
+      frozenBalance: parseFloat(data.frozen_balance.toString()),
+      currency: data.currency,
     };
   } catch (error: any) {
     console.error('Error fetching wallet balance:', error);

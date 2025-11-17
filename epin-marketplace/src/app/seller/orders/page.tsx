@@ -1,188 +1,262 @@
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
-import OrderItemActions from '@/components/seller/OrderItemActions';
+'use client';
 
-export default async function SellerOrdersPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+import { useState, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import OrderFilters from '@/components/seller/OrderFilters';
+import OrderSearch from '@/components/seller/OrderSearch';
+import BatchActionToolbar from '@/components/seller/BatchActionToolbar';
+import OrdersTable from '@/components/seller/OrdersTable';
+import OrderDetailsSidebar from '@/components/seller/OrderDetailsSidebar';
 
-  if (!user) {
-    redirect('/login?redirect=/seller/orders');
+export default function SellerOrdersPage() {
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [orderItems, setOrderItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
+  const [filters, setFilters] = useState({
+    status: 'all',
+    dateRange: 'all',
+    vip: 'all',
+    search: '',
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const supabase = createClient();
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
+
+        if (!currentUser) {
+          router.push('/login?redirect=/seller/orders');
+          return;
+        }
+
+        setUser(currentUser);
+
+        // Fetch seller's order items
+        let query = supabase
+          .from('order_items')
+          .select(
+            `
+            id,
+            quantity,
+            unit_price,
+            total_price,
+            delivery_status,
+            created_at,
+            orders!inner (
+              id,
+              buyer_id,
+              delivery_info,
+              created_at
+            ),
+            products (
+              title,
+              image_url
+            ),
+            product_variants (
+              name
+            ),
+            profiles!order_items_seller_id_fkey (
+              full_name
+            )
+          `
+          )
+          .eq('seller_id', currentUser.id)
+          .order('created_at', { ascending: false });
+
+        // Apply filters
+        if (filters.status !== 'all') {
+          query = query.eq('delivery_status', filters.status);
+        }
+
+        if (filters.dateRange !== 'all') {
+          const now = new Date();
+          let startDate: Date;
+          switch (filters.dateRange) {
+            case '7days':
+              startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+              break;
+            case '30days':
+              startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+              break;
+            case '90days':
+              startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+              break;
+            default:
+              startDate = new Date(0);
+          }
+          query = query.gte('created_at', startDate.toISOString());
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+          console.error('Error fetching orders:', error);
+        } else {
+          // Fetch buyer names
+          const buyerIds = [...new Set((data || []).map((item: any) => item.orders.buyer_id))];
+          const { data: buyers } = await supabase
+            .from('profiles')
+            .select('id, full_name')
+            .in('id', buyerIds);
+
+          const buyerMap = new Map(buyers?.map((b: any) => [b.id, b.full_name]) || []);
+
+          const enrichedData = (data || []).map((item: any) => ({
+            ...item,
+            buyer_name: buyerMap.get(item.orders.buyer_id) || 'Unknown',
+            buyer_id: item.orders.buyer_id,
+            order_id: item.orders.id,
+            product_title: item.products?.title || 'Unknown Product',
+            variant_name: item.product_variants?.name || '',
+            currency: 'USD',
+            is_vip: false, // TODO: Implement VIP check
+          }));
+
+          // Apply search filter
+          let filteredData = enrichedData;
+          if (filters.search) {
+            const searchLower = filters.search.toLowerCase();
+            filteredData = enrichedData.filter(
+              (item: any) =>
+                item.order_id.toLowerCase().includes(searchLower) ||
+                item.buyer_name.toLowerCase().includes(searchLower) ||
+                item.product_title.toLowerCase().includes(searchLower)
+            );
+          }
+
+          setOrderItems(filteredData);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [filters, router]);
+
+  const handleStatusChange = (status: string) => {
+    setFilters((prev) => ({ ...prev, status }));
+  };
+
+  const handleDateRangeChange = (range: string) => {
+    setFilters((prev) => ({ ...prev, dateRange: range }));
+  };
+
+  const handleVIPChange = (vip: string) => {
+    setFilters((prev) => ({ ...prev, vip }));
+  };
+
+  const handleSearchChange = (query: string) => {
+    setFilters((prev) => ({ ...prev, search: query }));
+  };
+
+  const handleSelectOrder = (orderId: string) => {
+    setSelectedOrders((prev) => (prev.includes(orderId) ? prev.filter((id) => id !== orderId) : [...prev, orderId]));
+  };
+
+  const handleSelectAll = (selected: boolean) => {
+    if (selected) {
+      setSelectedOrders(orderItems.map((item) => item.id));
+    } else {
+      setSelectedOrders([]);
+    }
+  };
+
+  const handleOrderClick = (orderId: string) => {
+    setSelectedOrder(orderId);
+  };
+
+  const handleBatchAction = (action: string) => {
+    // TODO: Implement batch actions
+    console.log('Batch action:', action, selectedOrders);
+  };
+
+  const handleExport = () => {
+    // TODO: Implement export
+    console.log('Export orders');
+  };
+
+  if (loading) {
+    return (
+      <div className="relative flex min-h-screen w-full bg-background-light dark:bg-background-dark font-display">
+        <div className="flex-1 p-8">
+          <div className="text-center text-gray-800 dark:text-[#EDF2F7]">Loading...</div>
+        </div>
+      </div>
+    );
   }
-
-  // Fetch seller's order items
-  const { data: orderItems, error } = await supabase
-    .from('order_items')
-    .select(`
-      id,
-      quantity,
-      unit_price,
-      total_price,
-      delivery_status,
-      created_at,
-      orders!inner (
-        id,
-        buyer_id,
-        delivery_info
-      ),
-      products (
-        title
-      ),
-      product_variants (
-        name
-      )
-    `)
-    .eq('seller_id', user.id)
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching orders:', error);
-  }
-
-  const pendingOrders = orderItems?.filter(item => item.delivery_status === 'pending') || [];
-  const processingOrders = orderItems?.filter(item => item.delivery_status === 'processing') || [];
-  const completedOrders = orderItems?.filter(item => item.delivery_status === 'completed') || [];
 
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Satıcı Siparişleri</h1>
-          <Link
-            href="/seller/dashboard"
-            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
-          >
-            Panele Dön
-          </Link>
+    <div className="relative flex min-h-screen w-full bg-background-light dark:bg-background-dark font-display">
+      <main className="flex-1">
+        <div className="flex">
+          {/* Orders List Section */}
+          <div className="flex-grow p-8">
+            {/* Page Heading */}
+            <header className="flex flex-wrap justify-between items-center gap-4 mb-6">
+              <div className="flex flex-col gap-1">
+                <h1 className="text-gray-800 dark:text-[#EDF2F7] text-4xl font-black leading-tight tracking-tighter">
+                  Order Management
+                </h1>
+                <p className="text-gray-600 dark:text-[#A0AEC0] text-base font-normal leading-normal">
+                  View and process all incoming and pending orders.
+                </p>
+              </div>
+              <button
+                onClick={handleExport}
+                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-white dark:bg-[#1A2831] text-gray-800 dark:text-[#EDF2F7] border border-gray-200 dark:border-[#2D3748] text-sm font-bold leading-normal tracking-wide hover:bg-primary/10 transition-colors"
+              >
+                <span className="truncate">Export Orders</span>
+              </button>
+            </header>
+
+            {/* Filters & Search */}
+            <div className="flex flex-col gap-4 mb-4">
+              <OrderFilters
+                onStatusChange={handleStatusChange}
+                onDateRangeChange={handleDateRangeChange}
+                onVIPChange={handleVIPChange}
+              />
+              <OrderSearch onSearchChange={handleSearchChange} />
+            </div>
+
+            {/* Batch Action Toolbar */}
+            {selectedOrders.length > 0 && (
+              <BatchActionToolbar
+                selectedCount={selectedOrders.length}
+                onBatchAction={handleBatchAction}
+              />
+            )}
+
+            {/* Orders Table */}
+            <div className="overflow-x-auto bg-white dark:bg-[#1A2831] rounded border border-gray-200 dark:border-[#2D3748]">
+              <OrdersTable
+                orders={orderItems}
+                selectedOrders={selectedOrders}
+                onSelectOrder={handleSelectOrder}
+                onSelectAll={handleSelectAll}
+                onOrderClick={handleOrderClick}
+              />
+            </div>
+          </div>
+
+          {/* Order Details Side Panel */}
+          {selectedOrder && (
+            <OrderDetailsSidebar
+              orderId={selectedOrder}
+              onClose={() => setSelectedOrder(null)}
+            />
+          )}
         </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">Bekleyen</div>
-            <div className="text-3xl font-bold text-yellow-400">{pendingOrders.length}</div>
-          </div>
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">İşleniyor</div>
-            <div className="text-3xl font-bold text-blue-400">{processingOrders.length}</div>
-          </div>
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">Tamamlanan</div>
-            <div className="text-3xl font-bold text-green-400">{completedOrders.length}</div>
-          </div>
-        </div>
-
-        {!orderItems || orderItems.length === 0 ? (
-          <div className="bg-gray-800 rounded-lg p-12 text-center">
-            <div className="text-6xl mb-4">📦</div>
-            <h2 className="text-2xl font-bold mb-2">Henüz Sipariş Yok</h2>
-            <p className="text-gray-400">Siparişler geldiğinde burada görünecek</p>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {/* Pending Orders */}
-            {pendingOrders.length > 0 && (
-              <div>
-                <h2 className="text-2xl font-bold mb-4 text-yellow-400">Bekleyen Siparişler</h2>
-                <div className="space-y-4">
-                  {pendingOrders.map((item: any) => (
-                    <div key={item.id} className="bg-gray-800 rounded-lg p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="text-lg font-bold">{item.products.title}</h3>
-                          <p className="text-gray-400">{item.product_variants.name}</p>
-                          <p className="text-sm text-gray-500 mt-1">
-                            Sipariş: #{item.orders.id.slice(0, 8)} • {new Date(item.created_at).toLocaleDateString('tr-TR')}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold">{parseFloat(item.total_price).toFixed(2)} TRY</div>
-                          <div className="text-sm text-gray-400">Adet: {item.quantity}</div>
-                        </div>
-                      </div>
-
-                      {item.orders.delivery_info && (
-                        <div className="bg-gray-700 rounded p-4 mb-4">
-                          <div className="text-sm font-semibold mb-2">Teslimat Bilgileri:</div>
-                          <div className="text-sm text-gray-300 space-y-1">
-                            {item.orders.delivery_info.email && (
-                              <p>Email: {item.orders.delivery_info.email}</p>
-                            )}
-                            {item.orders.delivery_info.phone && (
-                              <p>Telefon: {item.orders.delivery_info.phone}</p>
-                            )}
-                            {item.orders.delivery_info.notes && (
-                              <p>Not: {item.orders.delivery_info.notes}</p>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      <OrderItemActions
-                        orderItemId={item.id}
-                        currentStatus={item.delivery_status}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Processing Orders */}
-            {processingOrders.length > 0 && (
-              <div>
-                <h2 className="text-2xl font-bold mb-4 text-blue-400">İşleniyor</h2>
-                <div className="space-y-4">
-                  {processingOrders.map((item: any) => (
-                    <div key={item.id} className="bg-gray-800 rounded-lg p-6">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="text-lg font-bold">{item.products.title}</h3>
-                          <p className="text-gray-400">{item.product_variants.name}</p>
-                          <p className="text-sm text-gray-500 mt-1">
-                            Sipariş: #{item.orders.id.slice(0, 8)}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-xl font-bold mb-2">{parseFloat(item.total_price).toFixed(2)} TRY</div>
-                          <OrderItemActions
-                            orderItemId={item.id}
-                            currentStatus={item.delivery_status}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Completed Orders */}
-            {completedOrders.length > 0 && (
-              <div>
-                <h2 className="text-2xl font-bold mb-4 text-green-400">Tamamlanan Siparişler</h2>
-                <div className="space-y-4">
-                  {completedOrders.slice(0, 10).map((item: any) => (
-                    <div key={item.id} className="bg-gray-800 rounded-lg p-4">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h3 className="font-bold">{item.products.title}</h3>
-                          <p className="text-sm text-gray-400">{item.product_variants.name} • {item.quantity}x</p>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-bold">{parseFloat(item.total_price).toFixed(2)} TRY</div>
-                          <div className="text-xs text-green-400">✓ Teslim edildi</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+      </main>
     </div>
   );
 }
