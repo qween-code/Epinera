@@ -1,7 +1,33 @@
-import type { NextPage } from 'next';
-import Link from 'next/link';
+'use client';
 
-const OnboardingPage: NextPage = () => {
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { createClient } from '@/utils/supabase/client';
+
+export default function OnboardingPage() {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
+
+  const handlePhoneSignIn = () => {
+    router.push('/login?method=phone');
+  };
+
+  const handleGuestContinue = () => {
+    router.push('/');
+  };
+
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden p-4 bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
       {/* Background Image */}
@@ -10,7 +36,7 @@ const OnboardingPage: NextPage = () => {
           className="h-full w-full bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-10"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1920&q=80')",
+              "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnLq0aVbjLXyJC4TgmXsb6KP7YmnRnify9fSAmqDolSMmzrM2WyX7DU-H627KxJSB0Pqq5nC4x670dHv9z5J3EmMsBb_k90XbACuL7nQsUHuGGwpQumffaIY_-yxDLWD1_j-m8StWaBmypWmdXJPBuDa1yET02bE4DHPjhylrD56kLpOIQ8ibL5kvOr30HantW-ETniu-2i0UgYixwUMm4Br6BI6W8rSaY7d9A5443FIfjjOVcBeUdXZwyOZjBqsmYgrXxf4NpLlC4')",
           }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-t from-background-light via-background-light/80 to-transparent dark:from-background-dark dark:via-background-dark/80"></div>
@@ -42,7 +68,11 @@ const OnboardingPage: NextPage = () => {
 
         {/* ButtonGroup */}
         <div className="mt-8 flex w-full flex-col items-stretch gap-3">
-          <button className="flex h-12 w-full min-w-[84px] cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-lg bg-primary px-5 text-base font-bold leading-normal tracking-[0.015em] text-white transition-transform hover:scale-105">
+          <button
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
+            className="flex h-12 w-full min-w-[84px] cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-lg bg-primary px-5 text-base font-bold leading-normal tracking-[0.015em] text-white transition-transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <svg
               className="h-5 w-5"
               fill="currentColor"
@@ -56,16 +86,23 @@ const OnboardingPage: NextPage = () => {
             </svg>
             <span className="truncate">Continue with Google</span>
           </button>
-          <button className="flex h-12 w-full min-w-[84px] cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-lg bg-slate-200/80 px-5 text-base font-bold leading-normal tracking-[0.015em] text-slate-700 transition-transform hover:scale-105 dark:bg-[#223d49] dark:text-white">
+          <button
+            onClick={handlePhoneSignIn}
+            disabled={isLoading}
+            className="flex h-12 w-full min-w-[84px] cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-lg bg-slate-200/80 px-5 text-base font-bold leading-normal tracking-[0.015em] text-slate-700 transition-transform hover:scale-105 dark:bg-[#223d49] dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <span className="material-symbols-outlined text-xl">phone_iphone</span>
             <span className="truncate">Continue with Phone Number</span>
           </button>
         </div>
 
         {/* MetaText */}
-        <p className="mt-8 cursor-pointer text-center font-display text-sm font-normal leading-normal text-slate-500 underline decoration-slate-400 decoration-1 underline-offset-2 transition-colors hover:text-primary dark:text-[#90b8cb] dark:decoration-slate-500 dark:hover:text-primary">
+        <button
+          onClick={handleGuestContinue}
+          className="mt-8 cursor-pointer text-center font-display text-sm font-normal leading-normal text-slate-500 underline decoration-slate-400 decoration-1 underline-offset-2 transition-colors hover:text-primary dark:text-[#90b8cb] dark:decoration-slate-500 dark:hover:text-primary"
+        >
           Continue as Guest
-        </p>
+        </button>
 
         {/* Legal/Policy Links */}
         <div className="mt-8 w-full border-t border-slate-200/60 pt-4 dark:border-slate-700/60">
