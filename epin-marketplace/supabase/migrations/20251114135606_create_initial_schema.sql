@@ -17,7 +17,6 @@ CREATE TABLE public.profiles (
   )
 );
 
--- Function to create a profile when a new user signs up
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 DECLARE
