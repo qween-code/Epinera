@@ -1,85 +1,148 @@
-// Mock data for users - replace with actual data fetching later
-const users = [
-  {
-    id: '1',
-    name: 'Olivia Smith',
-    email: 'olivia.s@example.com',
-    role: 'Seller',
-    status: 'Active',
-    lastLogin: '2024-05-20',
-    riskScore: 15,
-  },
-  {
-    id: '2',
-    name: 'Liam Johnson',
-    email: 'liam.j@example.com',
-    role: 'Buyer',
-    status: 'Suspended',
-    lastLogin: '2024-04-12',
-    riskScore: 85,
-  },
-  {
-    id: '3',
-    name: 'Ava Brown',
-    email: 'ava.b@example.com',
-    role: 'Creator',
-    status: 'Pending',
-    lastLogin: '2024-05-18',
-    riskScore: 40,
-  },
-];
+import { createClient } from '@/lib/supabase/server';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
-const statusColors: { [key: string]: string } = {
-    Active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-    Suspended: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-    Pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  };
+export default async function AdminUsersPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-export default function UserManagementPage() {
+  if (!user) {
+    redirect('/login?redirect=/admin/users');
+  }
+
+  // Check if user is admin
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+
+  if (!profile || profile.role !== 'admin') {
+    redirect('/');
+  }
+
+  // Fetch all users
+  const { data: users, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .order('updated_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching users:', error);
+  }
+
+  const buyers = users?.filter(u => u.role === 'buyer') || [];
+  const sellers = users?.filter(u => u.role === 'seller') || [];
+  const creators = users?.filter(u => u.role === 'creator') || [];
+  const admins = users?.filter(u => u.role === 'admin') || [];
+
   return (
-    <div>
-        <div className="flex flex-wrap justify-between items-center gap-3 p-4">
-            <h1 className="text-4xl font-black leading-tight tracking-[-0.033em]">User Management</h1>
+    <div className="min-h-screen py-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Kullanıcı Yönetimi</h1>
+          <Link
+            href="/admin"
+            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+          >
+            Admin Paneline Dön
+          </Link>
         </div>
-        <div className="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-border-dark overflow-hidden">
-            <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                    <thead className="text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50 dark:bg-background-dark border-b border-gray-200 dark:border-border-dark">
-                        <tr>
-                            <th scope="col" className="p-4"><input type="checkbox" className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary"/></th>
-                            <th scope="col" className="px-6 py-3">User</th>
-                            <th scope="col" className="px-6 py-3">Role</th>
-                            <th scope="col" className="px-6 py-3">Status</th>
-                            <th scope="col" className="px-6 py-3">Last Login</th>
-                            <th scope="col" className="px-6 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map(user => (
-                            <tr key={user.id} className="border-b border-gray-200 dark:border-border-dark hover:bg-gray-50 dark:hover:bg-background-dark">
-                                <td className="w-4 p-4"><input type="checkbox" className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary"/></td>
-                                <td className="px-6 py-4 font-medium whitespace-nowrap">
-                                    <div className="flex items-center gap-3">
-                                        <div>
-                                            <div className="text-base font-bold">{user.name}</div>
-                                            <div className="font-normal text-gray-500 dark:text-gray-400">{user.email}</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">{user.role}</td>
-                                <td className="px-6 py-4">
-                                    <span className={`inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full ${statusColors[user.status]}`}>
-                                        {user.status}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4">{user.lastLogin}</td>
-                                <td className="px-6 py-4"><button className="text-primary hover:underline font-medium">Manage</button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gray-800 rounded-lg p-6">
+            <div className="text-gray-400 text-sm mb-2">Alıcılar</div>
+            <div className="text-3xl font-bold text-blue-400">{buyers.length}</div>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-6">
+            <div className="text-gray-400 text-sm mb-2">Satıcılar</div>
+            <div className="text-3xl font-bold text-green-400">{sellers.length}</div>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-6">
+            <div className="text-gray-400 text-sm mb-2">İçerik Üreticiler</div>
+            <div className="text-3xl font-bold text-purple-400">{creators.length}</div>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-6">
+            <div className="text-gray-400 text-sm mb-2">Adminler</div>
+            <div className="text-3xl font-bold text-red-400">{admins.length}</div>
+          </div>
         </div>
+
+        {/* User List */}
+        <div className="bg-gray-800 rounded-lg overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-900">
+                <tr>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">Kullanıcı</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">Rol</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">KYC Durumu</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">Kayıt Tarihi</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">İşlemler</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-700">
+                {users?.map((user: any) => (
+                  <tr key={user.id} className="hover:bg-gray-750">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        {user.avatar_url ? (
+                          <img
+                            src={user.avatar_url}
+                            alt={user.full_name || 'User'}
+                            className="w-10 h-10 rounded-full"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
+                            {(user.full_name || 'U').charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                        <div>
+                          <div className="font-semibold">{user.full_name || 'İsimsiz Kullanıcı'}</div>
+                          <div className="text-sm text-gray-400">{user.id.slice(0, 8)}...</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        user.role === 'admin' ? 'bg-red-900 text-red-300' :
+                        user.role === 'seller' ? 'bg-green-900 text-green-300' :
+                        user.role === 'creator' ? 'bg-purple-900 text-purple-300' :
+                        'bg-blue-900 text-blue-300'
+                      }`}>
+                        {user.role === 'admin' && 'Admin'}
+                        {user.role === 'seller' && 'Satıcı'}
+                        {user.role === 'creator' && 'İçerik Üretici'}
+                        {user.role === 'buyer' && 'Alıcı'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`px-3 py-1 rounded-full text-sm ${
+                        user.kyc_status === 'verified' ? 'bg-green-900 text-green-300' :
+                        user.kyc_status === 'rejected' ? 'bg-red-900 text-red-300' :
+                        'bg-yellow-900 text-yellow-300'
+                      }`}>
+                        {user.kyc_status === 'verified' && '✓ Doğrulandı'}
+                        {user.kyc_status === 'rejected' && '✗ Reddedildi'}
+                        {user.kyc_status === 'pending' && '⏳ Bekliyor'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-400">
+                      {new Date(user.updated_at).toLocaleDateString('tr-TR')}
+                    </td>
+                    <td className="px-6 py-4">
+                      <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm transition-colors">
+                        Detaylar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

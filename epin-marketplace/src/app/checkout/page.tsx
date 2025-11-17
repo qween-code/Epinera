@@ -1,116 +1,321 @@
+'use client';
+
+import { useCart } from '@/lib/cart/CartContext';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-// Mock data for order summary - replace with actual data fetching later
-const orderSummary = {
-  subtotal: 1000.00,
-  taxesAndFees: 150.00,
-  total: 1150.00,
-  currency: 'Credits',
-  item: {
-    name: '100 Game Credits - Product Name',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBg6KGg2BemNYapReU0vqgof1OQYPaQ18Vm3qWIf9cU5aYexFP07Kp-QFwhaQKQ9OMQctC4z2GEzorgqqzTa6YTrC-4VM7MdwBbpE7UvIbwkBpDthSzaSjtVXqzHn1-3VAu3xt85_4jIT2gKJFvZjnQYhREbe7FzTCmBJAXXpf6hnY7p18zt4Nk2p7Yk2D83QSV3JnImanXAWmtenpZnhQa_yFx2E9zch5CXNKtUQKvgthcCYVq5xfFi9pV1GY90ZmhH5s0mxbBj-DN',
-  },
-};
-
-const user = {
-    availableCredits: 1500.00,
-}
-
-const sufficientCredits = user.availableCredits >= orderSummary.total;
-
 export default function CheckoutPage() {
-  return (
-    <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-      <div className="flex flex-wrap justify-between gap-4 mb-8">
-        <p className="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Confirm Your Purchase</p>
+  const { items, getTotal, clearCart } = useCart();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [processing, setProcessing] = useState(false);
+  const supabase = createClient();
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    email: '',
+    phone: '',
+    deliveryNotes: '',
+    paymentMethod: 'credit_card' as 'credit_card' | 'paypal' | 'bank_transfer',
+  });
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login?redirect=/checkout');
+        return;
+      }
+      setUser(user);
+      setFormData(prev => ({ ...prev, email: user.email || '' }));
+      setLoading(false);
+    };
+
+    getUser();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (items.length === 0) {
+      alert('Sepetinizde ürün yok');
+      return;
+    }
+
+    setProcessing(true);
+
+    try {
+      const total = getTotal();
+      const totalWithTax = total * 1.2;
+
+      // Create order
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          buyer_id: user.id,
+          total_amount: totalWithTax,
+          currency: 'TRY',
+          status: 'pending',
+          payment_status: 'pending',
+          payment_method: formData.paymentMethod,
+          delivery_info: {
+            email: formData.email,
+            phone: formData.phone,
+            notes: formData.deliveryNotes,
+          },
+        })
+        .select()
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Create order items
+      const orderItemsPromises = items.map(async (item) => {
+        // Fetch seller_id and product_id for this variant
+        const { data: variant } = await supabase
+          .from('product_variants')
+          .select('product_id, products!inner(seller_id)')
+          .eq('id', item.variant_id)
+          .single();
+
+        if (!variant) throw new Error('Variant not found');
+
+        const products = variant.products as any;
+        const sellerId = Array.isArray(products) ? products[0]?.seller_id : products?.seller_id;
+
+        return {
+          order_id: order.id,
+          variant_id: item.variant_id,
+          product_id: variant.product_id,
+          seller_id: sellerId,
+          quantity: item.quantity,
+          unit_price: item.variant.price,
+          total_price: item.variant.price * item.quantity,
+        };
+      });
+
+      const orderItems = await Promise.all(orderItemsPromises);
+
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems);
+
+      if (itemsError) throw itemsError;
+
+      // Decrement stock for each variant
+      for (const item of items) {
+        const { error: stockError } = await supabase.rpc('decrement_stock', {
+          p_variant_id: item.variant_id,
+          p_quantity: item.quantity,
+        });
+
+        if (stockError) {
+          console.error('Stock decrement error:', stockError);
+          // Continue even if stock decrement fails (log for admin review)
+        }
+      }
+
+      // Clear cart
+      await clearCart();
+
+      // Redirect to success page
+      router.push(`/orders/${order.id}?success=true`);
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      alert('Sipariş oluşturulurken bir hata oluştu: ' + (error.message || 'Bilinmeyen hata'));
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">Yükleniyor...</div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-        <div className="lg:col-span-1 lg:order-last">
-          <div className="sticky top-28">
-            <div className="bg-slate-100 dark:bg-slate-800/50 rounded-xl p-6">
-              <h2 className="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-4">Order Summary</h2>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 py-2">
-                  <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12" style={{backgroundImage: `url("${orderSummary.item.image}")`}}></div>
-                  <p className="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal flex-1 truncate">{orderSummary.item.name}</p>
-                  <div className="shrink-0"><p className="text-slate-900 dark:text-white text-base font-medium leading-normal">{orderSummary.total.toFixed(2)} {orderSummary.currency}</p></div>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <h1 className="text-2xl font-bold">Sepetiniz Boş</h1>
+        <p className="text-gray-400">Ödeme yapabilmek için sepetinize ürün eklemelisiniz</p>
+        <Link
+          href="/"
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+        >
+          Alışverişe Başla
+        </Link>
+      </div>
+    );
+  }
+
+  const subtotal = getTotal();
+  const tax = subtotal * 0.2;
+  const total = subtotal + tax;
+
+  return (
+    <div className="min-h-screen py-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8">Ödeme</h1>
+
+        <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Checkout Form */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Contact Information */}
+              <div className="bg-gray-800 rounded-lg p-6">
+                <h2 className="text-2xl font-bold mb-4">İletişim Bilgileri</h2>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      E-posta <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="ornek@email.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Telefon
+                    </label>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="+90 555 123 4567"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="border-t border-slate-200 dark:border-slate-700 mt-4 pt-4">
-                <div className="flex justify-between gap-x-6 py-2">
-                  <p className="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Subtotal</p>
-                  <p className="text-slate-800 dark:text-slate-200 text-sm font-medium leading-normal text-right">{orderSummary.subtotal.toFixed(2)} {orderSummary.currency}</p>
-                </div>
-                <div className="flex justify-between gap-x-6 py-2">
-                  <p className="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Taxes &amp; Fees</p>
-                  <p className="text-slate-800 dark:text-slate-200 text-sm font-medium leading-normal text-right">{orderSummary.taxesAndFees.toFixed(2)} {orderSummary.currency}</p>
-                </div>
-                <div className="flex justify-between gap-x-6 py-3 border-t border-slate-200 dark:border-slate-700 mt-2">
-                  <p className="text-slate-600 dark:text-slate-300 text-base font-bold leading-normal">Total</p>
-                  <p className="text-slate-900 dark:text-white text-base font-bold leading-normal text-right">{orderSummary.total.toFixed(2)} {orderSummary.currency}</p>
+
+              {/* Delivery Information */}
+              <div className="bg-gray-800 rounded-lg p-6">
+                <h2 className="text-2xl font-bold mb-4">Teslimat Bilgileri</h2>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Özel Notlar
+                  </label>
+                  <textarea
+                    value={formData.deliveryNotes}
+                    onChange={(e) => setFormData({ ...formData, deliveryNotes: e.target.value })}
+                    className="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"
+                    placeholder="Teslimat için özel talepleriniz varsa buraya yazabilirsiniz..."
+                  />
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="lg:col-span-2">
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Payment Method</h2>
-              <div className="bg-slate-100 dark:bg-slate-800/50 rounded-xl p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center size-12 rounded-lg bg-primary/10 text-primary">
-                      <span className="material-symbols-outlined text-3xl">account_balance_wallet</span>
-                    </div>
+
+              {/* Payment Method */}
+              <div className="bg-gray-800 rounded-lg p-6">
+                <h2 className="text-2xl font-bold mb-4">Ödeme Yöntemi</h2>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-650">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="credit_card"
+                      checked={formData.paymentMethod === 'credit_card'}
+                      onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as any })}
+                      className="w-5 h-5"
+                    />
                     <div>
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white">Site Credits</h3>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">Using your available balance</p>
+                      <div className="font-medium">Kredi/Banka Kartı</div>
+                      <div className="text-sm text-gray-400">Visa, Mastercard, American Express</div>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Available</p>
-                    <p className="text-xl font-bold text-slate-900 dark:text-white">{user.availableCredits.toFixed(2)} {orderSummary.currency}</p>
-                  </div>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-650">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="paypal"
+                      checked={formData.paymentMethod === 'paypal'}
+                      onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as any })}
+                      className="w-5 h-5"
+                    />
+                    <div>
+                      <div className="font-medium">PayPal</div>
+                      <div className="text-sm text-gray-400">Güvenli PayPal ile ödeme</div>
+                    </div>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-650">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="bank_transfer"
+                      checked={formData.paymentMethod === 'bank_transfer'}
+                      onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as any })}
+                      className="w-5 h-5"
+                    />
+                    <div>
+                      <div className="font-medium">Banka Havalesi</div>
+                      <div className="text-sm text-gray-400">Havale/EFT ile ödeme</div>
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>
 
-            {sufficientCredits ? (
-                <div className="p-6 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
-                    <div className="flex items-start gap-4">
-                        <span className="material-symbols-outlined text-2xl text-green-600 dark:text-green-400 mt-1">check_circle</span>
-                        <div>
-                            <h3 className="text-lg font-bold text-green-800 dark:text-green-300">Sufficient Credits</h3>
-                            <p className="text-green-700 dark:text-green-400 mt-1">You have enough credits to complete this purchase. Click the button below to confirm and finalize your transaction.</p>
-                            <div className="mt-6">
-                                <button className="w-full sm:w-auto flex items-center justify-center rounded-lg h-12 px-8 bg-primary text-white text-base font-bold transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
-                                    <span>Confirm Purchase</span>
-                                </button>
-                            </div>
-                        </div>
+            {/* Order Summary */}
+            <div className="lg:col-span-1">
+              <div className="bg-gray-800 rounded-lg p-6 sticky top-4">
+                <h2 className="text-2xl font-bold mb-6">Sipariş Özeti</h2>
+
+                <div className="space-y-4 mb-6">
+                  {items.map((item) => (
+                    <div key={item.id} className="flex justify-between text-sm">
+                      <div className="flex-1">
+                        <div className="font-medium">{item.product.title}</div>
+                        <div className="text-gray-400 text-xs">{item.variant.name} x {item.quantity}</div>
+                      </div>
+                      <div className="font-semibold">
+                        {(item.variant.price * item.quantity).toFixed(2)} TRY
+                      </div>
                     </div>
+                  ))}
                 </div>
-            ) : (
-                <div className="p-6 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                    <div className="flex items-start gap-4">
-                        <span className="material-symbols-outlined text-3xl text-red-600 dark:text-red-400 mt-0.5">error</span>
-                        <div className="flex-1">
-                            <h3 className="text-xl font-bold text-red-800 dark:text-red-300">Insufficient Credits</h3>
-                            <p className="text-red-700 dark:text-red-400 mt-2 text-base">You do not have enough credits for this purchase. Please add funds to your wallet to proceed.</p>
-                            <div className="mt-6">
-                                <button className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg h-12 px-8 bg-primary text-white text-base font-bold transition-opacity hover:opacity-90">
-                                    <span className="material-symbols-outlined">add_card</span>
-                                    <span>Add Funds to Wallet</span>
-                                </button>
-                            </div>
-                        </div>
+
+                <div className="space-y-3 mb-6 border-t border-gray-700 pt-4">
+                  <div className="flex justify-between text-gray-400">
+                    <span>Ara Toplam</span>
+                    <span>{subtotal.toFixed(2)} TRY</span>
+                  </div>
+                  <div className="flex justify-between text-gray-400">
+                    <span>KDV (%20)</span>
+                    <span>{tax.toFixed(2)} TRY</span>
+                  </div>
+                  <div className="border-t border-gray-700 pt-3">
+                    <div className="flex justify-between text-xl font-bold">
+                      <span>Toplam</span>
+                      <span>{total.toFixed(2)} TRY</span>
                     </div>
+                  </div>
                 </div>
-            )}
+
+                <button
+                  type="submit"
+                  disabled={processing}
+                  className="w-full px-6 py-4 bg-green-600 hover:bg-green-700 rounded-lg font-semibold text-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {processing ? 'İşleniyor...' : `${total.toFixed(2)} TRY Öde`}
+                </button>
+
+                <p className="text-xs text-gray-400 mt-4 text-center">
+                  Siparişinizi tamamlayarak <Link href="/terms" className="underline">Kullanım Koşullarını</Link> kabul etmiş olursunuz.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
-    </main>
+    </div>
   );
 }

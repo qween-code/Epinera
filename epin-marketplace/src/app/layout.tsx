@@ -5,6 +5,7 @@ import Providers from '@/components/Providers';
 
 export const metadata: Metadata = {
   title: {
+<<<<<<< HEAD
     default: "Epin Marketplace | AI-Powered Gaming Commerce",
     template: "%s | Epin Marketplace",
   },
@@ -26,6 +27,12 @@ export const metadata: Metadata = {
     description:
       "Next-gen digital goods marketplace with AI fraud protection and creator-first economics.",
   },
+=======
+    default: 'Epin Marketplace',
+    template: 'Epin Marketplace - %s',
+  },
+  description: 'The next generation digital marketplace for gamers.',
+>>>>>>> origin/feature-full-epin-marketplace-implementation
 };
 
 export default function RootLayout({
