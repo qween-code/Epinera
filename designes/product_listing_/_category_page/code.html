@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace - Product Listing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#EAEAEA]">
+<div class="relative flex w-full flex-col">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 flex w-full items-center justify-center border-b border-white/10 bg-background-dark/80 px-4 py-3 backdrop-blur-lg sm:px-6 lg:px-8">
+<div class="flex w-full max-w-7xl items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+<nav class="hidden items-center gap-8 lg:flex">
+<a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Home</a>
+<a class="text-white text-sm font-bold leading-normal" href="#">Games</a>
+<a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Platforms</a>
+<a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Publishers</a>
+<a class="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Deals</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4">
+<label class="relative hidden w-full max-w-xs md:flex">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-white/50">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full rounded-lg border-none bg-white/10 text-white placeholder:text-white/50 focus:outline-0 focus:ring-2 focus:ring-primary/50 h-10 pl-10 pr-4 text-sm font-normal leading-normal" placeholder="Search for products..." value=""/>
+</label>
+<div class="flex items-center gap-2">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white hover:bg-white/20 text-sm font-bold leading-normal tracking-[0.015em] transition-colors">
+<span class="truncate">Wallet</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-white/10 text-white hover:bg-white/20 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDuuZcEI6TEQBklhc5XaVyfDO9CqypPLhYyEj-SkfZ-ZzE7dqtRdH84ASOlR1FOFL6xgwG6o2zgBba28JLpAnkObIWxS6wQC_X8AZnnLkeGvB4mNiv2QaFb9Gnf8LScf6sVdItk0j7vNcJK1jUapnwrzCGmbytcmPu60OUNgBhQx4CaSJTv9zE9wwMC2oaoZW3BQwc4xZoMMH2YkgqOun3D7anV4Ft8rTdvh6UkV7eDyGfxTOghKWzXRh9JfrIn27Ns2wUvtc5TAkFf");'></div>
+</div>
+</div>
+</header>
+<main class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+<div class="flex flex-col gap-8 lg:flex-row">
+<!-- Sidebar -->
+<aside class="w-full lg:w-1/4 xl:w-1/5">
+<div class="sticky top-28 flex flex-col gap-6">
+<!-- Filters Header -->
+<div class="flex items-center justify-between">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Filters</h3>
+<button class="text-primary hover:text-primary/80 text-sm font-medium transition-colors">Reset</button>
+</div>
+<!-- Filter Sections -->
+<div class="flex flex-col gap-6">
+<!-- Category Filter -->
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-white">Category</h4>
+<div class="flex flex-col gap-2">
+<label class="flex items-center gap-2 text-sm text-white/80"><input class="form-checkbox h-4 w-4 rounded border-white/20 bg-transparent text-primary focus:ring-primary/50" type="checkbox"/> Valorant Points</label>
+<label class="flex items-center gap-2 text-sm text-white/80"><input checked="" class="form-checkbox h-4 w-4 rounded border-white/20 bg-transparent text-primary focus:ring-primary/50" type="checkbox"/> Steam Wallet</label>
+<label class="flex items-center gap-2 text-sm text-white/80"><input class="form-checkbox h-4 w-4 rounded border-white/20 bg-transparent text-primary focus:ring-primary/50" type="checkbox"/> PlayStation Network</label>
+<label class="flex items-center gap-2 text-sm text-white/80"><input class="form-checkbox h-4 w-4 rounded border-white/20 bg-transparent text-primary focus:ring-primary/50" type="checkbox"/> Xbox Live</label>
+</div>
+</div>
+<!-- Price Range Filter -->
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-white">Price Range</h4>
+<div class="flex flex-col gap-2">
+<input class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+<div class="flex justify-between text-sm text-white/60">
+<span>$0</span>
+<span>$1000</span>
+</div>
+</div>
+</div>
+<!-- Seller Rating Filter -->
+<div class="flex flex-col gap-3">
+<h4 class="font-bold text-white">Seller Rating</h4>
+<div class="flex flex-col gap-2">
+<button class="flex items-center gap-1 text-sm text-white/80 hover:text-white">
+<span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span>
+</button>
+<button class="flex items-center gap-1 text-sm text-white/80 hover:text-white">
+<span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-white/30">star</span>
+<span class="ml-1">&amp; Up</span>
+</button>
+<button class="flex items-center gap-1 text-sm text-white/80 hover:text-white">
+<span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-yellow-400">star</span><span class="material-symbols-outlined text-white/30">star</span><span class="material-symbols-outlined text-white/30">star</span>
+<span class="ml-1">&amp; Up</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Apply Button -->
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] transition-opacity hover:opacity-90">Apply Filters</button>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="w-full lg:w-3/4 xl:w-4/5">
+<div class="flex flex-col gap-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2">
+<a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Home</a>
+<span class="text-white/60 text-sm font-medium leading-normal">/</span>
+<a class="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors" href="#">Games</a>
+<span class="text-white/60 text-sm font-medium leading-normal">/</span>
+<span class="text-white text-sm font-medium leading-normal">Valorant Points</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<p class="text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Valorant Points</p>
+<p class="text-white/70 text-sm">Showing 1-12 of 86 results</p>
+</div>
+<!-- Sorting Chips -->
+<div class="flex flex-wrap items-center gap-3">
+<span class="text-white/80 text-sm font-medium">Sort by:</span>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 text-primary px-3 text-sm font-medium">Popularity</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white/10 hover:bg-white/20 px-3 text-sm font-medium text-white transition-colors">Price: Low to High</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white/10 hover:bg-white/20 px-3 text-sm font-medium text-white transition-colors">Price: High to Low</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white/10 hover:bg-white/20 px-3 text-sm font-medium text-white transition-colors">Newest</button>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+<!-- Product Card 1 -->
+<div class="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10">
+<div class="aspect-square w-full overflow-hidden">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" data-alt="Valorant Points product art" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDwiIVVVPITdg9G4arTyPNa7dlYj9R3F6Guq1v0s4tw7_67_YiUqMd3N8ufL6z4gOcHN7sakSxAdPXha6LI4EPItsK5uQ343XgB2v3esMw-w5HGGjYCpm5RK6bI2Exqw2Ohr-8BuU5eLrRxYNSWEv1FtQ7VAuDukc8QNa3aak3YYkW_ih1ZmCl58-_zwkTE-XzzZYxcfAwgs5xTGbg7Z2mI-BqzqleUIign5df0K1-ExIlqiDbu98LvFv5SUPnyDb0LjaAtNjBAzHik')"></div>
+</div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="font-bold text-white">1000 Valorant Points</h3>
+<div class="mt-1 flex items-center gap-2">
+<p class="text-sm text-white/70">GamerStore</p>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+<span class="text-xs font-medium text-white/90">4.9</span>
+</div>
+</div>
+<p class="mt-4 text-xl font-bold text-primary">$9.99</p>
+</div>
+<button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<!-- Product Card 2 -->
+<div class="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10">
+<div class="aspect-square w-full overflow-hidden">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" data-alt="Steam Wallet Card" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDD5VJOa9N6H7oKW7ggOCQ-7bOFpkJTdvBNqgveCViNAROCQOBl1tM4w47aLQ1N2jdczDm8LT5l9i5gIgc-3OgwSlGVhEVNAOV-o--5q5JnOMrUJN_Md1W1Z8ypIuwWlCSbFakcZc1kw6K3ygE8e01cME7xUf5mVRKWTT_ltZbwONQGIV8So5z0SCcxtIfMPz4_uIg4RXTkOIP4NjikLZYRhEtdFo6dr1JfHIcHUlcnZqk1dgzFb4Zd_bTFm2oCHU2fSVHXY4gqJede')"></div>
+</div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="font-bold text-white">$20 Steam Wallet Card</h3>
+<div class="mt-1 flex items-center gap-2">
+<p class="text-sm text-white/70">TopUpKing</p>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+<span class="text-xs font-medium text-white/90">5.0</span>
+</div>
+</div>
+<p class="mt-4 text-xl font-bold text-primary">$20.00</p>
+</div>
+<button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<!-- Product Card 3 -->
+<div class="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10">
+<div class="aspect-square w-full overflow-hidden">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" data-alt="Playstation gift card" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYPrRwyPqznm1zubHSfztMV5PhM3XsxwgPBmycl-wjfIydUiuhNz2Ry4y3e6tPIH0BQtznRVfFxsXQPeRIXL_QAiawV4xo0pmQXD1XxMRjFrKLPjDnCcF0v76iogJN0isPPqAVJF4b1Pmi7H8YjjYVZB_EjeVeB2TEKKoijHI7DsjudyKwCKtTzrvwuLJgkEq-T0OgipMJQ_5aFbMe-VW9xlXUg87iyiD3pG1o_EUrU6ZopPZZPGv4MXhbwY_f1AiQQJKqKh-Faxr8')"></div>
+</div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="font-bold text-white">$50 PSN Card (US)</h3>
+<div class="mt-1 flex items-center gap-2">
+<p class="text-sm text-white/70">DigitalZone</p>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+<span class="text-xs font-medium text-white/90">4.8</span>
+</div>
+</div>
+<p class="mt-4 text-xl font-bold text-primary">$49.50</p>
+</div>
+<button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<!-- Product Card 4 -->
+<div class="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10">
+<div class="aspect-square w-full overflow-hidden">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" data-alt="Xbox gift card" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBbKmeYha_AbpcneDR4IGVIkVOQELYtVZbfuKS5IjA5tJzxbF1ynJVYoO_NuI_-rCYGc6ZX1v4LMRXpeVQyQlJfS5dzvPOqpz7losvGuMATZZ0BQFJiAfYVH1yVyYo0n04IJToLB8713kDeKAqdB_D4cVbnjf08nAcBbkOHUxNPdN4nxX6EL2aMaIElnWK6-oNKzanULVO1ycV-g9uqEPJ_BNYEa2mX52sWIxKxAgT1f4L5xAkoUib5WpsJ2XQuW-KgAYO0lUykEneq')"></div>
+</div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="font-bold text-white">$10 Xbox Gift Card</h3>
+<div class="mt-1 flex items-center gap-2">
+<p class="text-sm text-white/70">EpinMaster</p>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+<span class="text-xs font-medium text-white/90">4.9</span>
+</div>
+</div>
+<p class="mt-4 text-xl font-bold text-primary">$9.99</p>
+</div>
+<button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<!-- Repeat Cards for Layout -->
+<div class="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10">
+<div class="aspect-square w-full overflow-hidden">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" data-alt="Valorant Points product art" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_Vfyf1C4oS-1-bGEiQR1lbX5pejb_QyuA1-i3SMQ_mAETIdbM23kbOQvMf7tl6T1R5tPpjSM16qmwOWJyw1ajDRO7dcqx8eKW57WE7j2vToJ7--jYcmDNClXgxbvnQRslghn_YMMZTeTkGhPDBHuIsfKdHYfadr-06E61VNkem4AMS9wwZUUzlzwHK5EbNZsOkCATQs94Zx4P3XaAx3-uZ-RY3nWtqWM9-81Y_U_AiRTU3PUQyu3xylpH2E3Lwwl24e-QcFuLa8iI')"></div>
+</div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="font-bold text-white">2150 Valorant Points</h3>
+<div class="mt-1 flex items-center gap-2">
+<p class="text-sm text-white/70">GamerStore</p>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+<span class="text-xs font-medium text-white/90">4.9</span>
+</div>
+</div>
+<p class="mt-4 text-xl font-bold text-primary">$19.99</p>
+</div>
+<button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<div class="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10">
+<div class="aspect-square w-full overflow-hidden">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" data-alt="Steam Wallet Card" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD8Ccm-WGVgCc7IHNfn881XAnnSuxG0FS0Ev9uBDHeZ431Tff-rfLF1dMY4vfOrfptZt_Po9z0V81nR045ygxhxrK6qJXxLyoopMpgjmYGXXH2DgVm2aT2Yi_d5KYVoI_eAh21yhvVmhppBSmoT762XH87NZDhZUlmWTJvaU_tRVBPtR3yUl48VZ2oQBaNAsZ_TUMKi_z5DQkkA4bDheFIO1q6eOSLIoY1eYkn3jqL1MgAlhkhrmyJ9e65qPhZT-Yi5_DwXBm6GpBmx')"></div>
+</div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="font-bold text-white">$50 Steam Wallet Card</h3>
+<div class="mt-1 flex items-center gap-2">
+<p class="text-sm text-white/70">TopUpKing</p>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+<span class="text-xs font-medium text-white/90">5.0</span>
+</div>
+</div>
+<p class="mt-4 text-xl font-bold text-primary">$50.00</p>
+</div>
+<button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<div class="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10">
+<div class="aspect-square w-full overflow-hidden">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" data-alt="Playstation gift card" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCt3qjpFiyqvXBmNmoLgyJWcHkWQyb1JGFA1gbUoYrKc0b-IlYrTsM-Oty1w_k7X1M7rfFJyxkP1oBhpWvMRMqrOGEarvFye4HJPVhpCke0Njwgy-UFFL5ADItW9AkkxUbS6BJDQEsnUiAzHc2ru-tQtox-xbuqZPy6XyVf_m_sw9d5g1ijEAyofcd7NnGfx1OvhTz5qAfa2plvYYUQ99jwifg_6BBI-ezzwK69DrUixLCedbATDTRYmJB92xV3YNOqlzFmLQV8dPhj')"></div>
+</div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="font-bold text-white">$20 PSN Card (EU)</h3>
+<div class="mt-1 flex items-center gap-2">
+<p class="text-sm text-white/70">DigitalZone</p>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+<span class="text-xs font-medium text-white/90">4.8</span>
+</div>
+</div>
+<p class="mt-4 text-xl font-bold text-primary">$19.80</p>
+</div>
+<button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<div class="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10">
+<div class="aspect-square w-full overflow-hidden">
+<div class="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" data-alt="Xbox gift card" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTqFOxJ32BA3EA1ZnZd59OBUg1kMVUKxBlQifoGBiHJMU0EfnJ1qLOYGnsRuVsnW6junDCio2AHtVUQeqboJqAznhxthmJE4drRwQOjj9nkz0ebEBzs4p4FNGyr7N37Wkx4C-MwOJT2YWRw9Gf2inH-pD43LtHDFrxrzAE9DGi6PxI8q5MI3gUM6iWObH8ktLPWreYU6HdhEhAVDEmkiBmFeYtq0hOCl8He00DwvseRs1F2wHiEzwQ6PpdjVFs0JEiM1X0t2rsbDZt')"></div>
+</div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="font-bold text-white">$25 Xbox Gift Card</h3>
+<div class="mt-1 flex items-center gap-2">
+<p class="text-sm text-white/70">EpinMaster</p>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+<span class="text-xs font-medium text-white/90">4.9</span>
+</div>
+</div>
+<p class="mt-4 text-xl font-bold text-primary">$24.99</p>
+</div>
+<button class="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-center pt-8">
+<nav class="flex items-center gap-2">
+<a class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-white/70 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">chevron_left</span>
+</a>
+<a class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white text-sm font-bold" href="#">1</a>
+<a class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-white/70 hover:bg-primary hover:text-white transition-colors text-sm" href="#">2</a>
+<a class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-white/70 hover:bg-primary hover:text-white transition-colors text-sm" href="#">3</a>
+<span class="text-white/70">...</span>
+<a class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-white/70 hover:bg-primary hover:text-white transition-colors text-sm" href="#">8</a>
+<a class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-white/70 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

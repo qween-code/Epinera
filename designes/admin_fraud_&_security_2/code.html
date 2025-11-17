@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fraud &amp; Security Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3182CE",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#1A202C",
+                        "element-dark": "#2D3748",
+                        "text-light": "#E2E8F0",
+                        "status-red": "#E53E3E",
+                        "status-yellow": "#D69E2E",
+                        "status-green": "#38A169"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light">
+<div class="flex min-h-screen">
+<aside class="flex-shrink-0 w-64 bg-background-dark border-r border-element-dark/50">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 items-center px-2 py-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin Fatma's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDr0ayBCFZ5hiCrMfpawebgPy9cDhvdnXGI5ic-FlPItNx7FVguM-dfjI-7NLmtJSlEQeFIa5hEzpVge2AlKHGMJUqj1GJGVAizhcEGKP0nTdtQNH2Q5RD9EAN6Ar2_uFrspsZ1_BIIfVFAR6m_lwWdnSZIIR2fXGRb_tBwT2XDoJlMkkkEqbqU5V-4JKtB6B9alc8preSgKu13xclKEKhsd4Qcu3YcBcEClZ_-Rc42JSwsGqNKYeMPkt95a548EUzArJEFI_qf6fT7");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Admin Fatma</h1>
+<p class="text-gray-400 text-sm font-normal leading-normal">System Administrator</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-element-dark transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-400">dashboard</span>
+<p class="text-gray-300 text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20" href="#">
+<span class="material-symbols-outlined text-primary">security</span>
+<p class="text-primary text-sm font-bold leading-normal">Fraud &amp; Security</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-element-dark transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-400">group</span>
+<p class="text-gray-300 text-sm font-medium leading-normal">User Management</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-element-dark transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-400">receipt_long</span>
+<p class="text-gray-300 text-sm font-medium leading-normal">Transaction History</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-element-dark transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-400">settings</span>
+<p class="text-gray-300 text-sm font-medium leading-normal">System Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-element-dark transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-400">bar_chart</span>
+<p class="text-gray-300 text-sm font-medium leading-normal">Reports</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-element-dark transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-400">help</span>
+<p class="text-gray-300 text-sm font-medium leading-normal">Help</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-element-dark transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-400">logout</span>
+<p class="text-gray-300 text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-7xl mx-auto">
+<header class="flex flex-wrap justify-between items-center gap-4 mb-6">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Fraud &amp; Security Center</h1>
+</header>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-element-dark border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">Overall System Status</p>
+<p class="text-status-green tracking-light text-3xl font-bold leading-tight flex items-center gap-2"><span class="material-symbols-outlined text-3xl">verified_user</span> SECURE</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-element-dark border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">High-Risk Alerts</p>
+<p class="text-status-red tracking-light text-3xl font-bold leading-tight">12</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-element-dark border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">Suspicious Behaviors</p>
+<p class="text-status-yellow tracking-light text-3xl font-bold leading-tight">37</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-element-dark border border-white/10">
+<p class="text-gray-300 text-base font-medium leading-normal">Transactions Reviewed (24h)</p>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">1,203</p>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-8">
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Integrated Security Alerts</h2>
+<div class="flex items-center gap-2">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-red opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-status-red"></span>
+</span>
+<span class="text-sm font-medium text-gray-300">Live Feed</span>
+</div>
+</div>
+<div class="bg-element-dark rounded-xl border border-white/10">
+<ul class="divide-y divide-white/10">
+<li class="p-4 flex items-start gap-4 hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-status-red mt-1">error</span>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<p class="font-semibold text-white">High-Risk Transaction</p>
+<p class="text-xs text-gray-400">2 min ago</p>
+</div>
+<p class="text-sm text-gray-300 mb-2">Transaction ID <a class="text-primary font-semibold hover:underline" href="#">#84521</a> flagged for unusual amount from a new device.</p>
+<div class="flex items-center gap-4 text-sm">
+<a class="flex items-center gap-2 text-gray-300 hover:text-white" href="#"><span class="material-symbols-outlined text-base">person</span>User: PlayerX</a>
+<a class="font-medium text-primary hover:underline" href="#">Take Action</a>
+</div>
+</div>
+</li>
+<li class="p-4 flex items-start gap-4 hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-status-yellow mt-1">warning</span>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<p class="font-semibold text-white">Suspicious User Behavior</p>
+<p class="text-xs text-gray-400">15 min ago</p>
+</div>
+<p class="text-sm text-gray-300 mb-2">Multiple failed logins followed by a successful one from IP 192.168.1.1.</p>
+<div class="flex items-center gap-4 text-sm">
+<a class="flex items-center gap-2 text-gray-300 hover:text-white" href="#"><span class="material-symbols-outlined text-base">person</span>User: GamerPro123</a>
+<a class="font-medium text-primary hover:underline" href="#">Investigate</a>
+</div>
+</div>
+</li>
+<li class="p-4 flex items-start gap-4 hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-status-red mt-1">security</span>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<p class="font-semibold text-white">Account Security Alert</p>
+<p class="text-xs text-gray-400">45 min ago</p>
+</div>
+<p class="text-sm text-gray-300 mb-2">User 'SellerStore' changed password and 2FA settings from an unrecognized location.</p>
+<div class="flex items-center gap-4 text-sm">
+<a class="flex items-center gap-2 text-gray-300 hover:text-white" href="#"><span class="material-symbols-outlined text-base">store</span>Seller: SellerStore</a>
+<a class="font-medium text-primary hover:underline" href="#">Review Activity</a>
+</div>
+</div>
+</li>
+<li class="p-4 flex items-start gap-4 hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-primary mt-1">sms_failed</span>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<p class="font-semibold text-white">Spam &amp; Phishing Attempt</p>
+<p class="text-xs text-gray-400">1 hour ago</p>
+</div>
+<p class="text-sm text-gray-300 mb-2">Spam messages with phishing links detected and blocked from user 'SpamBot99'.</p>
+<div class="flex items-center gap-4 text-sm">
+<a class="flex items-center gap-2 text-gray-300 hover:text-white" href="#"><span class="material-symbols-outlined text-base">person</span>User: SpamBot99</a>
+<a class="font-medium text-primary hover:underline" href="#">View Details</a>
+</div>
+</div>
+</li>
+</ul>
+<div class="p-4 border-t border-white/10 text-center">
+<a class="text-primary text-sm font-semibold hover:underline" href="#">View Full Security Log</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Multi-Layer Fraud Detection</h2>
+<div class="bg-element-dark rounded-xl p-6 border border-white/10 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-primary/20 rounded-full">
+<span class="material-symbols-outlined text-primary">credit_card</span>
+</div>
+<div>
+<p class="text-gray-300 text-sm">Transaction Analysis</p>
+<p class="text-white font-bold text-lg">99.8% Secure</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="p-3 bg-status-yellow/20 rounded-full">
+<span class="material-symbols-outlined text-status-yellow">person_search</span>
+</div>
+<div>
+<p class="text-gray-300 text-sm">Behavioral Heuristics</p>
+<p class="text-white font-bold text-lg">37 Flags</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="p-3 bg-status-green/20 rounded-full">
+<span class="material-symbols-outlined text-status-green">hub</span>
+</div>
+<div>
+<p class="text-gray-300 text-sm">Network Integrity</p>
+<p class="text-white font-bold text-lg">Stable</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-8">
+<div>
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Immediate Actions</h2>
+<div class="bg-element-dark rounded-xl p-6 border border-white/10 flex flex-col gap-4">
+<button class="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-primary hover:bg-primary/80 transition-colors">
+<span class="material-symbols-outlined text-white">manage_search</span>
+<span class="text-white font-semibold">Investigate User/Transaction</span>
+</button>
+<button class="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-status-yellow/20 hover:bg-status-yellow/30 transition-colors">
+<span class="material-symbols-outlined text-status-yellow">pause_circle</span>
+<span class="text-status-yellow font-semibold">Suspend Account</span>
+</button>
+<button class="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-status-red/20 hover:bg-status-red/30 transition-colors">
+<span class="material-symbols-outlined text-status-red">block</span>
+<span class="text-status-red font-semibold">Block IP Address</span>
+</button>
+<button class="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-gray-300">flag</span>
+<span class="text-gray-300 font-semibold">Create Incident Report</span>
+</button>
+</div>
+</div>
+<div>
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Security Posture</h2>
+<div class="bg-element-dark rounded-xl p-6 border border-white/10">
+<p class="text-base text-gray-300 mb-4">System follows a <span class="font-bold text-white">Zero-Trust Security Architecture</span>.</p>
+<ul class="space-y-3">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-status-green">check_circle</span>
+<span class="text-sm">AI-Powered Detection Active</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-status-green">check_circle</span>
+<span class="text-sm">Web3 &amp; Blockchain Secure</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-status-green">check_circle</span>
+<span class="text-sm">Continuous Monitoring On</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

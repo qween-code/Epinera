@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Audience Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex flex-1">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col gap-4 border-r border-white/10 bg-background-light dark:bg-background-dark p-4 font-display">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Profile picture of Ayşe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkUi7qQ-KDPKCBWcvjAHERaxkfvIiXT9TnO5YlNr4Z-GUqfX1FaPHxm5NwbTi4WvycTuwdgiXmHfrhabifw02C_ishesVnlngd29K_Wqecs9ZzUKiG1mbRF2I8CYBz8mH2yeb6MhKvathxyfRwkEyCuKcjCFhgHY733WFmQCIxpuAGGaPenS2ivizAUnkpN1YIcbkrWRliN1ZbpCeSMn_Z072_-w9qeGQNxKUFftcHuKjrq82Dlx6t1jtMJ_5yH9g5EmRFGsEX-IiX");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-800 dark:text-white text-base font-medium leading-normal">Ayşe</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Influencer</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<p class="text-sm font-medium leading-normal">Audience Analytics</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">play_circle</span>
+<p class="text-sm font-medium leading-normal">Content</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<p class="text-sm font-medium leading-normal">Earnings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 lg:p-8">
+<div class="mx-auto max-w-7xl">
+<!-- PageHeading -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<div class="flex flex-col gap-1">
+<p class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Audience Analytics</p>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Understand your audience and optimize your content.</p>
+</div>
+<div class="flex items-center gap-3">
+<!-- Chips -->
+<div class="flex gap-2">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-200 dark:bg-slate-800 px-4 text-slate-700 dark:text-slate-300 text-sm font-medium">
+<span>Last 7 Days</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/90 px-4 text-white text-sm font-medium">
+<span>Last 30 Days</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-200 dark:bg-slate-800 pl-4 pr-3 text-slate-700 dark:text-slate-300 text-sm font-medium">
+<span>Custom Range</span>
+<span class="material-symbols-outlined text-base">calendar_month</span>
+</button>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-slate-700 dark:bg-slate-800 text-white text-sm font-bold leading-normal tracking-wide">
+<span class="material-symbols-outlined text-lg">download</span>
+<span class="truncate">Export</span>
+</button>
+</div>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<p class="text-slate-600 dark:text-slate-300 text-base font-medium leading-normal">Total Followers</p>
+<p class="text-slate-900 dark:text-white tracking-light text-3xl font-bold leading-tight">125,430</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-green-500 text-lg">arrow_upward</span>
+<p class="text-green-500 text-sm font-medium leading-normal">+5.1%</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<p class="text-slate-600 dark:text-slate-300 text-base font-medium leading-normal">Follower Growth</p>
+<p class="text-slate-900 dark:text-white tracking-light text-3xl font-bold leading-tight">1,200</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-green-500 text-lg">arrow_upward</span>
+<p class="text-green-500 text-sm font-medium leading-normal">+2.3%</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<p class="text-slate-600 dark:text-slate-300 text-base font-medium leading-normal">Total Epin Sales</p>
+<p class="text-slate-900 dark:text-white tracking-light text-3xl font-bold leading-tight">$15,820</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-green-500 text-lg">arrow_upward</span>
+<p class="text-green-500 text-sm font-medium leading-normal">+12.5%</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<p class="text-slate-600 dark:text-slate-300 text-base font-medium leading-normal">Conversion Rate</p>
+<p class="text-slate-900 dark:text-white tracking-light text-3xl font-bold leading-tight">4.2%</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-red-500 text-lg">arrow_downward</span>
+<p class="text-red-500 text-sm font-medium leading-normal">-0.8%</p>
+</div>
+</div>
+</div>
+<!-- Audience Demographics Section -->
+<div class="mb-8">
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight px-1 pb-4">Audience Demographics</h2>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Age Demographics Chart -->
+<div class="rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<h3 class="text-slate-800 dark:text-slate-200 font-semibold mb-4">Age Demographics</h3>
+<div class="w-full h-64 bg-contain bg-center bg-no-repeat" data-alt="A vertical bar chart showing audience age distribution across ranges like 13-17, 18-24, 25-34, 35-44, and 45+." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBxp4CZ_VGBa9p3fTLmXL4nNx4g58ShirTd_AfCqvo2vGSxTuI2Li61Za3JDw6Rew2fSk-rFE8QXieSd4ZeFdxl5uS_1wEnpNyfWzQwt53pYk-OJgH54iDQVLkWEPHEF5Cy4TYgNbGCcu__IOfkMbcbUuQShmvUtL0e10hgWMiOw8d9UtHtmRSPZjdyyto58KcCTrRh9dm5BmkghWMsaO2tEk6iouNgCkUQQRv50LEaqoAPBxkfkwgu8LXy3fSGtv62Od0-vG8PxaNg');"></div>
+</div>
+<!-- Gender Split & AI Insight -->
+<div class="flex flex-col gap-6">
+<div class="rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<h3 class="text-slate-800 dark:text-slate-200 font-semibold mb-4">Gender Split</h3>
+<div class="w-full h-32 bg-contain bg-center bg-no-repeat" data-alt="A donut chart showing gender split: 65% Male, 32% Female, 3% Other." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4LqOgDB4UCNt2wFTH4i8AZrb3Ak8I--Qv54FzgKIR-Ijg_XSFLZIEhHI3XohgJLEB5C44WnryDaH-dAEr-41qJz7IUSkVMY3PiD1RayxITdG83AMQq_Hto4Df_3VReb7G0MREXTP8Xi8H59nm6biF0PV1JLp5qmV9Q3AYt5K-_y3lNEH_VQ9zbgtBrZymftM_Tj5gQoKO4Ufb8Ikhq5gQ-Xthc1ZUc1jGlS_tnSuUcbUc5wStuqK96qPpha6dkKRgY-Z_j05jRmiG');"></div>
+</div>
+<div class="rounded-xl p-6 bg-primary/10 dark:bg-primary/20 border border-primary/20 dark:border-primary/30">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-xl">auto_awesome</span>
+<h3 class="text-slate-800 dark:text-white font-semibold">AI Insights</h3>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm">Your audience from Brazil is growing fast. Consider promoting Epins popular in that region to boost sales.</p>
+</div>
+</div>
+<!-- Geographical Map -->
+<div class="rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<h3 class="text-slate-800 dark:text-slate-200 font-semibold mb-4">Top Locations</h3>
+<div class="w-full h-64 bg-contain bg-center bg-no-repeat" data-alt="A world map highlighting audience concentration in North America, Europe, and Brazil." data-location="world" style="background-image: url('https://placeholder.pics/svg/300');"></div>
+</div>
+</div>
+</div>
+<!-- Sales & Content Performance -->
+<div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight px-1 pb-4">Sales &amp; Content Performance</h2>
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+<!-- Sales Over Time -->
+<div class="lg:col-span-3 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<h3 class="text-slate-800 dark:text-slate-200 font-semibold mb-4">Epin Sales Over Time</h3>
+<div class="w-full h-80 bg-contain bg-center bg-no-repeat" data-alt="A line chart showing a positive trend of Epin sales over the last 30 days." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAPpKKLkUdnYZf-b6emDb-_2GVg8_sF1vGpWb5-sc86qzn1malBd57y_l335FcY8ulc4_xq5vSX102jELD8dp_uaLjYIM2S-89odIh0yjTcn4NWT2nKBNxFpcfa-vbM6lRkt2rwK6Et8zqnVyRvQSfOk1V4cnjdtVnMofNBlpoaOxZL57Sc3wtz66xn0qr-YxbhkxXKLuxmx9kLQ5E67xnVUq2l0LJSAMNJHF3kDRuK9ENn7JI-cYIT7yiAIEliE0fQXPikYVvp93hj');"></div>
+</div>
+<!-- Top Performing Content Table -->
+<div class="lg:col-span-2 rounded-xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+<h3 class="text-slate-800 dark:text-slate-200 font-semibold mb-4">Top Performing Content</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left">
+<thead class="text-xs text-slate-500 dark:text-slate-400 uppercase border-b border-slate-200 dark:border-slate-700">
+<tr>
+<th class="py-3 pr-3" scope="col">Content</th>
+<th class="py-3 px-3 text-right" scope="col">Sales</th>
+<th class="py-3 pl-3 text-right" scope="col">Conv.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<td class="py-3 pr-3 font-medium text-slate-800 dark:text-slate-200 truncate">New Valorant Skins Review</td>
+<td class="py-3 px-3 text-right text-slate-600 dark:text-slate-300">$1,250</td>
+<td class="py-3 pl-3 text-right text-green-500">8.1%</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<td class="py-3 pr-3 font-medium text-slate-800 dark:text-slate-200 truncate">Apex Legends Tournament Stream</td>
+<td class="py-3 px-3 text-right text-slate-600 dark:text-slate-300">$980</td>
+<td class="py-3 pl-3 text-right text-green-500">6.5%</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<td class="py-3 pr-3 font-medium text-slate-800 dark:text-slate-200 truncate">CS2 Case Opening Fun</td>
+<td class="py-3 px-3 text-right text-slate-600 dark:text-slate-300">$760</td>
+<td class="py-3 pl-3 text-right text-green-500">5.2%</td>
+</tr>
+<tr>
+<td class="pt-3 pr-3 font-medium text-slate-800 dark:text-slate-200 truncate">Fortnite Chapter 5 Gameplay</td>
+<td class="pt-3 px-3 text-right text-slate-600 dark:text-slate-300">$610</td>
+<td class="pt-3 pl-3 text-right text-green-500">4.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Secure Checkout - Epin Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full flex-col font-display group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-6 sm:px-10 lg:px-20 py-4 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-20">
+<div class="flex items-center gap-4 text-slate-800 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+<div class="hidden lg:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal" href="#">Home</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal" href="#">Store</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal" href="#">Publishers</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal" href="#">Brands</a>
+</div>
+<div class="flex gap-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">My Wallet</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">shopping_basket</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBBIF3lhIXoZI0aHf0OSrs2o6Om-_YDqazBBPUD88tZZ9Wj7uQoJhKR2F_lP3ZuzjBOeqRUMSuH-AbvTnmnmAv0RcF7gJjMDGQqiWc9sKacvLaA9pmcfXBB3IprSxdR_xH-ExlCe8nbFKEHK5FB8vdnWnXsOvAbxslliRyD6MoeaQMLmluIxs0UiOzfXb-IcaXW9L3SQ3jN2J9xMblV1YZ0CZI4KimhNdActwm7B3GgJrK_CYu5Kjuno6odaUUAid4aenbWs8l6z6E3");'></div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+<div class="flex flex-wrap justify-between gap-4 mb-8">
+<p class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Secure Checkout</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+<div class="lg:col-span-1 lg:order-last">
+<div class="sticky top-28">
+<div class="bg-slate-100 dark:bg-slate-800/50 rounded-xl p-6">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-4">Order Summary</h2>
+<div class="space-y-4">
+<div class="flex items-center gap-4 py-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12" data-alt="Game Credits Product Image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBg6KGg2BemNYapReU0vqgof1OQYPaQ18Vm3qWIf9cU5aYexFP07Kp-QFwhaQKQ9OMQctC4z2GEzorgqqzTa6YTrC-4VM7MdwBbpE7UvIbwkBpDthSzaSjtVXqzHn1-3VAu3xt85_4jIT2gKJFvZjnQYhREbe7FzTCmBJAXXpf6hnY7p18zt4Nk2p7Yk2D83QSV3JnImanXAWmtenpZnhQa_yFx2E9zch5CXNKtUQKvgthcCYVq5xfFi9pV1GY90ZmhH5s0mxbBj-DN");'></div>
+<p class="text-slate-800 dark:text-slate-200 text-base font-medium leading-normal flex-1 truncate">100 Game Credits - Product Name</p>
+<div class="shrink-0"><p class="text-slate-900 dark:text-white text-base font-medium leading-normal">$10.00</p></div>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 mt-4 pt-4">
+<div class="flex justify-between gap-x-6 py-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Subtotal</p>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-medium leading-normal text-right">$10.00</p>
+</div>
+<div class="flex justify-between gap-x-6 py-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Taxes &amp; Fees</p>
+<p class="text-slate-800 dark:text-slate-200 text-sm font-medium leading-normal text-right">$1.50</p>
+</div>
+<div class="flex justify-between gap-x-6 py-3 border-t border-slate-200 dark:border-slate-700 mt-2">
+<p class="text-slate-600 dark:text-slate-300 text-base font-bold leading-normal">Total</p>
+<p class="text-slate-900 dark:text-white text-base font-bold leading-normal text-right">$11.50</p>
+</div>
+</div>
+<button class="w-full mt-6 flex items-center justify-center rounded-lg h-12 px-6 bg-primary text-white text-base font-bold transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
+<span>Confirm &amp; Pay $11.50</span>
+</button>
+<div class="flex items-center justify-center gap-2 mt-4">
+<span class="material-symbols-outlined text-base text-green-500">lock</span>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Your payment is secured with end-to-end encryption.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2">
+<div class="space-y-8">
+<div>
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Select Payment Method</h2>
+<div class="space-y-4">
+<div class="relative">
+<input checked="" class="peer absolute top-1/2 -translate-y-1/2 left-4 size-4" id="card1" name="paymentMethod" type="radio"/>
+<label class="block cursor-pointer rounded-lg border-2 border-primary bg-primary/10 dark:bg-primary/20 p-4 pl-10 peer-checked:border-primary" for="card1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img class="h-4" data-alt="Visa logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2J-RdPDS72ZiwnfnqWk7J3IIUzbYYADDCbJVuiBWGoZFA2kiWXLzL5crhDoHVSug6fJBwW-L8FzljOMpDWKfTr4U8CgLAIWP7x7ZeqSTOMOCz0-glpbeTjPVyW1GeewChO82JroCY5bx5WwMYzjZ8OCjvzHi_jd3kUWtnxKVVPnsJqhBeu1nLIU7bX_uHbIfw7RNs-PkJfFZVAw0SrmtIIhSpEDgREF_BhVRTZeMLFssMTeG2KSm-uQY1c9t7mw4Gqiwvn-2Ep6qj"/>
+<p class="font-medium text-slate-800 dark:text-slate-200">Visa ending in 4242</p>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Expires 12/26</p>
+</div>
+</label>
+</div>
+<div class="relative">
+<input class="peer absolute top-1/2 -translate-y-1/2 left-4 size-4" id="wallet1" name="paymentMethod" type="radio"/>
+<label class="block cursor-pointer rounded-lg border-2 border-transparent bg-slate-100 dark:bg-slate-800/50 p-4 pl-10 peer-checked:border-primary peer-checked:bg-primary/10 dark:peer-checked:bg-primary/20" for="wallet1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img class="h-6" data-alt="Papara logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEL0rfLjEdkIe8sPiER0WA7RkdR0lPhbimSt-l0kXgOQV1iSPYerTY6csAJTm7oDIjW8sWQXCW9qnoJHuGOQU4lkdDGBqKgtk3CkeoBSWbB1Vq3Sa4s1aEiWHZGiX61BeHXZHBGOpiZT_hAEZ1frrq2lrhOkVqL-pjX0pqdQRHsLMWQZ1DsxNGDWvQxH9vYiEJWpWkSXmhIuP6e6KNDTWY2RZ9q-bDv1UKbJy1ejpUi3fYfi5TTIdul9XJW5d1MGfF5q2qyx5zp6tV"/>
+<p class="font-medium text-slate-800 dark:text-slate-200">Papara Wallet</p>
+</div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-4 mb-4">
+<div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+<span class="flex-shrink text-sm text-slate-500 dark:text-slate-400">Or add a new method</span>
+<div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800/50 rounded-xl p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Add Credit/Debit Card</h3>
+<form class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1" for="card-number">Card Number</label>
+<div class="relative">
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary placeholder:text-slate-400 dark:placeholder:text-slate-500" id="card-number" name="card-number" placeholder="0000 0000 0000 0000" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">credit_card</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1" for="expiry-date">Expiry Date</label>
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary placeholder:text-slate-400 dark:placeholder:text-slate-500" id="expiry-date" name="expiry-date" placeholder="MM / YY" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1" for="cvc">CVC</label>
+<div class="relative">
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary placeholder:text-slate-400 dark:placeholder:text-slate-500" id="cvc" name="cvc" placeholder="123" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">lock</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-1" for="card-holder">Card Holder Name</label>
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary placeholder:text-slate-400 dark:placeholder:text-slate-500" id="card-holder" name="card-holder" placeholder="John Doe" type="text"/>
+</div>
+<div class="flex items-center pt-2">
+<input class="h-4 w-4 rounded border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-primary focus:ring-primary" id="save-card" name="save-card" type="checkbox"/>
+<label class="ml-3 block text-sm text-slate-600 dark:text-slate-300" for="save-card">Save this card for future purchases</label>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

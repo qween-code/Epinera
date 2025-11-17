@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin - GDPR Data Access Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="w-64 flex-shrink-0 bg-[#14242c]">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 p-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin Fatma avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAmd6AX5AsoVE4wUJ7KOkXIs13HFfbfe-FL5taJ2idcafsdmf4xPVBSvomOIdhq4SRV-1L4upG5BmcZ6jjkR33VASz0M4MUrCkQlQi5pwlMEiAc4n0yjcmQSLTLbFr2l7pR9q_SlSfklFfWRaU38BLiGoDanc1x6XRuhbe-xDmLmpx_FaUtyluAn-IfE1GNU15-8QJj1xaFD_38YRBUXFuMGdL31jvPghvUNCMWV1YKjHyRPuwB_hl_GlH60G6rxMvai2vLgrirNnq_");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Admin Fatma</h1>
+<p class="text-slate-400 text-sm font-normal leading-normal">Platform Manager</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Users</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<p class="text-sm font-medium leading-normal">Reports</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<p class="text-sm font-medium leading-normal">GDPR</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium leading-normal">Support</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8">
+<div class="max-w-7xl mx-auto">
+<!-- PageHeading -->
+<header class="mb-8">
+<p class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-tight">GDPR Data Access Report</p>
+</header>
+<!-- Filter and Action Bar -->
+<div class="bg-white dark:bg-[#14242c] p-4 rounded-xl shadow-sm mb-6">
+<div class="flex flex-wrap items-end gap-4">
+<!-- User Search Input -->
+<div class="flex-grow min-w-[200px]">
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300 pb-2" for="userID">Filter by User ID</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="form-input w-full pl-10 pr-4 py-2.5 rounded-lg border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-primary focus:border-primary" id="userID" placeholder="Search by User ID, Name, or Email..." type="text"/>
+</div>
+</div>
+<!-- Date Range Picker -->
+<div class="flex-grow min-w-[200px]">
+<label class="block text-sm font-medium text-slate-600 dark:text-slate-300 pb-2" for="dateRange">Date Range</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">calendar_month</span>
+<input class="form-input w-full pl-10 pr-4 py-2.5 rounded-lg border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-primary focus:border-primary" id="dateRange" placeholder="Select Date Range" type="text"/>
+</div>
+</div>
+<!-- Filter Buttons -->
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-11 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 gap-2 text-sm font-bold min-w-0 px-4 hover:bg-slate-300 dark:hover:bg-slate-600">
+<span>Reset</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-11 bg-primary text-white gap-2 text-sm font-bold min-w-0 px-4 hover:bg-primary/90">
+<span>Apply Filters</span>
+</button>
+</div>
+<!-- Spacer -->
+<div class="flex-grow hidden lg:block"></div>
+<!-- Export Button -->
+<div>
+<button class="flex w-full items-center justify-center rounded-lg h-11 bg-primary/20 text-primary gap-2 text-sm font-bold min-w-0 px-4 hover:bg-primary/30">
+<span class="material-symbols-outlined text-base">download</span>
+<span>Export Report</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white dark:bg-[#14242c] rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-slate-500 dark:text-slate-400">
+<thead class="text-xs text-slate-700 dark:text-slate-300 uppercase bg-slate-50 dark:bg-[#182d38]">
+<tr>
+<th class="px-6 py-4 font-medium" scope="col"><div class="flex items-center gap-1 cursor-pointer">User ID <span class="material-symbols-outlined text-base">swap_vert</span></div></th>
+<th class="px-6 py-4 font-medium" scope="col"><div class="flex items-center gap-1 cursor-pointer">User Name <span class="material-symbols-outlined text-base">swap_vert</span></div></th>
+<th class="px-6 py-4 font-medium" scope="col"><div class="flex items-center gap-1 cursor-pointer">Access Count <span class="material-symbols-outlined text-base">swap_vert</span></div></th>
+<th class="px-6 py-4 font-medium" scope="col"><div class="flex items-center gap-1 cursor-pointer">Last Export Timestamp <span class="material-symbols-outlined text-base">swap_vert</span></div></th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<td class="px-6 py-4 font-mono text-slate-700 dark:text-slate-300">USR-847261</td>
+<td class="px-6 py-4 text-slate-900 dark:text-white font-medium">ahmet.yılmaz@email.com</td>
+<td class="px-6 py-4">3</td>
+<td class="px-6 py-4">2023-10-26 14:30:15 UTC</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<td class="px-6 py-4 font-mono text-slate-700 dark:text-slate-300">USR-192837</td>
+<td class="px-6 py-4 text-slate-900 dark:text-white font-medium">zeynep.kaya@email.com</td>
+<td class="px-6 py-4">1</td>
+<td class="px-6 py-4">2023-10-25 09:12:45 UTC</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<td class="px-6 py-4 font-mono text-slate-700 dark:text-slate-300">USR-556210</td>
+<td class="px-6 py-4 text-slate-900 dark:text-white font-medium">can.demir@email.com</td>
+<td class="px-6 py-4">5</td>
+<td class="px-6 py-4">2023-10-24 18:55:02 UTC</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<td class="px-6 py-4 font-mono text-slate-700 dark:text-slate-300">USR-345987</td>
+<td class="px-6 py-4 text-slate-900 dark:text-white font-medium">elif.ozcan@email.com</td>
+<td class="px-6 py-4">2</td>
+<td class="px-6 py-4">2023-10-23 11:20:33 UTC</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<td class="px-6 py-4 font-mono text-slate-700 dark:text-slate-300">USR-882145</td>
+<td class="px-6 py-4 text-slate-900 dark:text-white font-medium">mehmet.sahin@email.com</td>
+<td class="px-6 py-4">8</td>
+<td class="px-6 py-4">2023-10-22 07:45:59 UTC</td>
+</tr>
+</tbody>
+</table>
+<!-- Empty State Example -->
+<!-- 
+                        <div class="text-center py-16 px-6">
+                            <span class="material-symbols-outlined text-5xl text-slate-400 dark:text-slate-600 mx-auto">manage_search</span>
+                            <h3 class="mt-2 text-lg font-semibold text-slate-800 dark:text-slate-200">No Data Access Logs Found</h3>
+                            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">No records match the selected criteria. Try adjusting your filters.</p>
+                        </div> 
+                        -->
+</div>
+<!-- Pagination -->
+<nav aria-label="Table navigation" class="flex items-center justify-between p-4 border-t border-slate-200 dark:border-slate-800">
+<span class="text-sm font-normal text-slate-500 dark:text-slate-400">
+                            Showing <span class="font-semibold text-slate-900 dark:text-white">1-5</span> of <span class="font-semibold text-slate-900 dark:text-white">100</span>
+</span>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-slate-500 bg-white rounded-lg border border-slate-300 hover:bg-slate-100 hover:text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white">
+                                Previous
+                            </button>
+<button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-slate-500 bg-white rounded-lg border border-slate-300 hover:bg-slate-100 hover:text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white">
+                                Next
+                            </button>
+</div>
+</nav>
+</div>
+</div>
+</main>
+</div>
+</body></html>
