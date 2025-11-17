@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customer Messages - Seller Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4A90E2",
+                        "background-light": "#F9F9FB",
+                        "background-dark": "#101d23",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-white p-4 dark:bg-[#0b1418]">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Store logo for Mehmet's Game Store" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHpv2rOb5P2ARhvSQNGJ5oZDDb-UyiXCivxAd8VodERhb35yliJHwTaD6Ou7v7fJpJ1V7jxXUUlhiS9hv75fGdCGpyCHmGhC12KVhva_zVtZN0O7P0wXLeWF9rLtakYY-krzSp4QJew69g4JRjfLpE5lho4XSZbEQe1lCsH9-mLTMK8xcke1hnZch0SZpXgSoy_Q5n-JkpmyyNdN2qLq64FiiWxdL8tcGkQ8EuWuwu6sGuwK0iam5eRoMQMGvVPFtm4cWZYM96EptM");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-800 dark:text-white text-base font-medium leading-normal">Mehmet's Game Store</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Seller Dashboard</p>
+</div>
+</div>
+<nav class="mt-4 flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-2xl">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-2xl">inventory_2</span>
+<p class="text-sm font-medium leading-normal">Products</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-2xl">list_alt</span>
+<p class="text-sm font-medium leading-normal">Orders</p>
+</a>
+<a class="relative flex items-center justify-between gap-3 rounded-lg bg-primary/10 px-3 py-2 text-primary dark:bg-primary/20" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">chat</span>
+<p class="text-sm font-medium leading-normal">Messages</p>
+</div>
+<span class="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">2</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-2xl">help</span>
+<p class="text-sm font-medium leading-normal">Help</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-2xl">logout</span>
+<p class="text-sm font-medium leading-normal">Log Out</p>
+</a>
+</div>
+</aside>
+<!-- Message List Panel -->
+<main class="flex w-96 flex-col border-x border-slate-200 bg-background-light dark:border-slate-800 dark:bg-background-dark">
+<div class="border-b border-slate-200 p-4 dark:border-slate-800">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Messages</h2>
+<div class="mt-4">
+<label class="flex flex-col h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-400 dark:text-slate-500 flex border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 focus:border-primary h-full placeholder:text-slate-400 dark:placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search by customer, order ID..." value=""/>
+</div>
+</label>
+</div>
+</div>
+<div class="flex gap-2 p-3 overflow-x-auto border-b border-slate-200 dark:border-slate-800">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-200 dark:bg-slate-800 px-3">
+<p class="text-slate-800 dark:text-slate-200 text-sm font-medium leading-normal">All</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-transparent px-3 text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800 dark:text-slate-400">
+<p class="text-sm font-medium leading-normal">Unread</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-transparent px-3 text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800 dark:text-slate-400">
+<p class="text-sm font-medium leading-normal">Archived</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-transparent px-3 text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800 dark:text-slate-400">
+<p class="text-sm font-medium leading-normal">Disputes</p>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Active List Item -->
+<div class="relative flex gap-4 bg-primary/10 px-4 py-3 dark:bg-primary/20">
+<div class="absolute left-0 top-0 h-full w-1 bg-primary"></div>
+<div class="flex items-start gap-3 w-full">
+<img class="h-12 w-12 rounded-full object-cover" data-alt="Avatar of Jane Doe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl6nikjeR0vzEI-FcM6cWXblBbkCg8Hg-pTsD5XAlgS109wVMCo-Hz5kfuDczL-wdKfe3jEH2cA-90jNuMyoaTSdRlgoQqx8-dhihDrgE253mH9FfUoftQbDt7Mt3NNZJRP8BFbBTWBswU2tFz5HaNpyejBgAYBVH4Y5ADRThBfacz4Uu1FaWMCKDCfdKqbDwtwzlRPEDjiYAl20Em9OypvNWYY6uJgTL8PXzLb3REL75D_COsZcQ0Pbco-lFge8B-T9tG0eW_x8jr"/>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Jane Doe</p>
+<p class="text-primary text-xs font-medium">2 min ago</p>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal">Regarding Order #12345</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal truncate">Hi, I'm having trouble redeeming the key...</p>
+</div>
+<div class="flex flex-col items-end justify-start gap-2 pt-1">
+<span class="flex h-2.5 w-2.5 rounded-full bg-[#50E3C2]"></span>
+</div>
+</div>
+</div>
+<!-- Unread List Item with Dispute -->
+<div class="flex cursor-pointer gap-4 border-b border-slate-200 px-4 py-3 hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800/50">
+<div class="flex items-start gap-3 w-full">
+<img class="h-12 w-12 rounded-full object-cover" data-alt="Avatar of Alex Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFVBvSOy44HgfLAPYQbSTc8FgtaJcazNoLwX1sPaEihTd0Yl_LwO5je4JtAF81Lz8xwmViBY2C_pdD_xj1zVypJGXOjrBzDGy7EamqSWGghpDZXUPFFi4ffRNNs4WtCxN5BWB9fmufnwC_OlzsPLxY4WEsMbJhvH5g6QsjTfPksrCT6Ba5stespcm0BMBULPpZniPugTRTP-a38GluTVzIdep7_iBADv64kUV3sOeCYoYPqQBzmmzUpfuOl8ArGe3djdWtT-7jJ7FL"/>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Alex Johnson</p>
+<p class="text-slate-400 dark:text-slate-500 text-xs font-normal">23 min ago</p>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-normal">Dispute Opened: Order #12342</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal truncate">The key I received was already used. I want a refund.</p>
+</div>
+<div class="flex flex-col items-end justify-between h-full">
+<span class="flex h-2.5 w-2.5 rounded-full bg-primary"></span>
+<span class="inline-flex items-center rounded-md bg-[#D0021B]/10 px-2 py-1 text-xs font-medium text-[#D0021B]">Dispute</span>
+</div>
+</div>
+</div>
+<!-- Read List Item -->
+<div class="flex cursor-pointer gap-4 border-b border-slate-200 px-4 py-3 hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800/50">
+<div class="flex items-start gap-3 w-full">
+<img class="h-12 w-12 rounded-full object-cover" data-alt="Avatar of John Smith" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbfcG9D73lepR1htuCjTKSDHnTooZJTQYWRiJQ4HVRojWkef81ery6hAMClzL4alSDokeKn62alKi0xFVHGWdvlTr9akyzk9tRAI1-MNaveWkUlSMd3O6ftXREweC1jyqzwOIGJqbuqDKYfwAULPodlyQWsYh2_msI4Um6ANNuHCwOkkmUEeI3EdKcHQsss5pOf7sVa0E30HQe7hxwwjAJaQUrCZUoP03pt47SGSHnkEw7qcN8uizp76MhTojxh9XwQLJ6wKgg2nTC"/>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">John Smith</p>
+<p class="text-slate-400 dark:text-slate-500 text-xs font-normal">1 hour ago</p>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-normal">Regarding Order #12341</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal truncate">Thank you, it's working now!</p>
+</div>
+</div>
+</div>
+<!-- AI Handled Item -->
+<div class="flex cursor-pointer gap-4 border-b border-slate-200 px-4 py-3 hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800/50">
+<div class="flex items-start gap-3 w-full">
+<img class="h-12 w-12 rounded-full object-cover" data-alt="Avatar of Emily Carter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx_Y5fIptMohT3jAjkcVI6ouZR3b0C3F4Jg1rH1whB369EqgTabV80IvZyuvLdy_RZBxCOrjHWGHMRxo1L_bl0XwD0AdhoHBv45kfE45qXNcgEuUX6vhnxxHqlP3_VfZSUpT1GIuTzP35oBJ44PpoVIiXw5zT2H7EuzQWh_xELCAMPsgOtTF19h4vuaqvDUhcN1eF55bLjdkPCK0qnEA3XrkoHoT_L0WUGninKG-pN_D56V-CuCC6nF3UceW2dxtekoW1gYp4qYDQf"/>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<p class="text-slate-900 dark:text-white text-base font-medium leading-normal">Emily Carter</p>
+<p class="text-slate-400 dark:text-slate-500 text-xs font-normal">3 hours ago</p>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-normal leading-normal">Question about delivery time</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal truncate">AI: Your key will be delivered instantly after payment...</p>
+</div>
+<div class="flex flex-col items-end justify-start pt-1">
+<span class="inline-flex items-center gap-1 rounded-md bg-[#F5A623]/10 px-2 py-1 text-xs font-medium text-[#F5A623]">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+                                AI Handled
+                            </span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Conversation Detail Panel -->
+<section class="flex flex-1 flex-col">
+<!-- Header -->
+<header class="flex h-[85px] items-center justify-between border-b border-slate-200 bg-white px-6 dark:border-slate-800 dark:bg-[#0b1418]">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Conversation with Jane Doe</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Regarding <a class="text-primary hover:underline" href="#">Order #12345</a></p>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-xl">archive</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-xl">mark_email_unread</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-2 rounded-lg border border-[#D0021B] px-3 text-sm font-medium text-[#D0021B] hover:bg-[#D0021B]/10">
+<span class="material-symbols-outlined text-xl">gavel</span>
+                        Initiate Dispute
+                    </button>
+</div>
+</header>
+<!-- Message Thread -->
+<div class="flex-1 overflow-y-auto bg-background-light p-6 dark:bg-background-dark">
+<div class="flex flex-col gap-4">
+<!-- Buyer Message -->
+<div class="flex items-start gap-3">
+<img class="h-10 w-10 rounded-full object-cover" data-alt="Avatar of Jane Doe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFYift3pOsB-STPI7X6EdRdJzyWQ7NCx-fa9dLNckSzJEvw3Ht5Juf_79cKIUpNJB81B-9Pp5utIBYujP1QPa0cgdlvCSKi8V19SROLwF4RuCVO3sLf1zjktomK3oHIqJrUOk0VTVH4B6cmK5lZ5GGMkDAZNZdox-_2D8G1rBbH9oNDO1HKWqdSQbZDDIaQ8Ep8PxE5T6wrvfrY-yNa_smfWkejjMkTQyOazzROOKPmpyboVmgvvpDrZT3BH6FDZik46mVfWG16lV4"/>
+<div class="flex flex-col items-start">
+<div class="max-w-md rounded-b-xl rounded-tr-xl bg-white p-3 dark:bg-slate-800">
+<p class="text-sm text-slate-800 dark:text-slate-200">Hi, I'm having trouble redeeming the key for the game I purchased (Order #12345). It says the key is invalid. Can you please help?</p>
+</div>
+<span class="mt-1 text-xs text-slate-400 dark:text-slate-500">2 minutes ago</span>
+</div>
+</div>
+<!-- Seller Message (You) -->
+<div class="flex flex-row-reverse items-start gap-3">
+<img class="h-10 w-10 rounded-full object-cover" data-alt="Avatar of Mehmet's Game Store" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7H6oas4uCmF-FixQAf3H3252ZQod0PWLSTnrUSQg31rGMXMmTNGwqE6GuPACs42_1Z4yyT28npe42J2A2qasUt2VVPO9I8q01OWlumSYhLBB0yqckSyy1kZJ-xLdpVxx5cCih2p_WlNI4FHl4DiGW9LukH7SZ9OsSX6pbfRYugiR7RYLN5eNwyfovUU4ydTDvSewG-XHXn65PaZj6Gr12QxdhhbPlHVPs9S6v8g72Hu1QEK10hXPI1V6QrVmzkOZUqiDmSK3EHpDd"/>
+<div class="flex flex-col items-end">
+<div class="max-w-md rounded-b-xl rounded-tl-xl bg-primary/20 p-3 dark:bg-primary/30">
+<p class="text-sm text-slate-800 dark:text-slate-100">Hello Jane, I'm sorry to hear you're having trouble. Could you please double-check if you entered the key correctly, including any dashes?</p>
+</div>
+<span class="mt-1 text-xs text-slate-400 dark:text-slate-500">1 minute ago</span>
+</div>
+</div>
+<!-- AI Suggestion -->
+<div class="flex items-center gap-2 rounded-lg border border-dashed border-[#F5A623] bg-[#F5A623]/10 p-3">
+<span class="material-symbols-outlined text-lg text-[#F5A623]">smart_toy</span>
+<p class="text-sm text-[#F5A623]"><strong>AI Suggestion:</strong> "Sometimes the issue is with the game launcher. Have you tried restarting Steam/Epic Games and trying again?"</p>
+<button class="ml-auto text-sm font-medium text-primary hover:underline">Use this reply</button>
+</div>
+</div>
+</div>
+<!-- Message Composer -->
+<footer class="border-t border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-[#0b1418]">
+<div class="relative">
+<textarea class="form-textarea w-full resize-none rounded-lg border-slate-300 bg-slate-100 p-3 pr-28 text-sm text-slate-800 placeholder-slate-400 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:placeholder-slate-500" placeholder="Type your message..." rows="3"></textarea>
+<div class="absolute bottom-2 right-2 flex items-center gap-1">
+<button class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-xl">attach_file</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-xl">note_stack</span>
+</button>
+</div>
+</div>
+<div class="mt-2 flex justify-end">
+<button class="flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-white hover:bg-primary/90">
+                        Send
+                        <span class="material-symbols-outlined text-xl">send</span>
+</button>
+</div>
+</footer>
+</section>
+</div>
+</body></html>

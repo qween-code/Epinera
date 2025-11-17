@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace - Notifications Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-gray-200/10 dark:border-white/10 px-4 sm:px-6 lg:px-10 py-3 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-gray-800 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-opacity="0.7"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<div class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Store</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Community</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Publishers</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Brands</a>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-gray-500/10 hover:bg-gray-500/20 text-gray-600 dark:text-gray-300 transition-colors">
+<span class="material-symbols-outlined text-xl">shopping_cart</span>
+</button>
+<button class="relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary/20 text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<div class="absolute top-2 right-2 size-2 bg-primary rounded-full border-2 border-background-light dark:border-background-dark"></div>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8Fs2Up3QpmrK5j2c09DBIsfqbHLFKRTzCxkkzbks6-4UL5_ldiRyj08Ff8oZpNT9b1AO2CqMnG45RBd56hAIbwR_-Q9spD3GPHq8Kqjov7XOpMY2IzUque6eI7eiDMtsmD3Y4rkrO8bdv9-42kcr3GAdKE5CSRnZW4shfUxJXBMihUoLOirjOM4vUBZ8TmwO5idgXiICd9ZcG8WUdzPBxz3uiq4-ZC1pPhF5O7Glszz6FzXkq_kdhlQxLDOZBQ6luBCHKZZSQ7_yc");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex w-full gap-8">
+<!-- SideNavBar (Left Column) -->
+<aside class="w-64 shrink-0 hidden md:block">
+<div class="flex h-full flex-col justify-between p-2">
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<p class="text-sm font-medium leading-normal">All Notifications</p>
+<span class="ml-auto text-xs font-semibold bg-primary text-white size-5 flex items-center justify-center rounded-full">8</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-500/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">package_2</span>
+<p class="text-sm font-medium leading-normal">Order Updates</p>
+<span class="ml-auto text-xs font-semibold bg-gray-500/20 text-gray-500 dark:text-gray-400 size-5 flex items-center justify-center rounded-full">2</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-500/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">sell</span>
+<p class="text-sm font-medium leading-normal">Price Alerts</p>
+<span class="ml-auto text-xs font-semibold bg-gray-500/20 text-gray-500 dark:text-gray-400 size-5 flex items-center justify-center rounded-full">1</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-500/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">lightbulb</span>
+<p class="text-sm font-medium leading-normal">Recommendations</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-500/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">campaign</span>
+<p class="text-sm font-medium leading-normal">Campaigns</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-500/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">security</span>
+<p class="text-sm font-medium leading-normal">Security Alerts</p>
+<span class="ml-auto text-xs font-semibold bg-amber-500 text-white size-5 flex items-center justify-center rounded-full">1</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-500/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">groups</span>
+<p class="text-sm font-medium leading-normal">Community</p>
+<span class="ml-auto text-xs font-semibold bg-gray-500/20 text-gray-500 dark:text-gray-400 size-5 flex items-center justify-center rounded-full">4</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-1 mt-8">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-500/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Notifications Content (Right Column) -->
+<div class="flex-1 flex flex-col gap-6">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between items-center gap-4">
+<h1 class="text-4xl font-black leading-tight tracking-[-0.033em]">Notifications Center</h1>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-500/10 hover:bg-gray-500/20 text-sm font-bold leading-normal tracking-[0.015em] transition-colors">
+<span class="truncate">Mark all as read</span>
+</button>
+</div>
+<!-- SearchBar -->
+<div class="px-0 py-0">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-gray-400 dark:text-gray-500 flex bg-gray-500/10 items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary focus:ring-inset border-none bg-gray-500/10 h-full placeholder:text-gray-400 dark:placeholder:text-gray-500 pl-3 text-base font-normal leading-normal" placeholder="Search notifications..." value=""/>
+</div>
+</label>
+</div>
+<!-- Notifications List -->
+<div class="flex flex-col divide-y divide-gray-200/10 dark:divide-white/10">
+<!-- List Item: Security Alert -->
+<div class="flex gap-4 bg-amber-500/10 px-4 py-4 justify-between items-center relative">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-500"></div>
+<div class="flex items-center gap-4 flex-1">
+<div class="text-amber-500 flex items-center justify-center rounded-full bg-amber-500/20 shrink-0 size-10">
+<span class="material-symbols-outlined">security</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="font-bold leading-normal">Security Alert: New Sign-In</p>
+<p class="text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">A sign-in attempt from a new location (New York, USA) was blocked.</p>
+<p class="text-gray-500 dark:text-gray-500 text-xs font-normal leading-normal mt-1">2m ago</p>
+</div>
+</div>
+<button class="hidden sm:inline-flex shrink-0 text-primary hover:underline text-sm font-bold">Review Activity</button>
+</div>
+<!-- List Item: Order Update -->
+<div class="flex gap-4 px-4 py-4 justify-between items-center relative">
+<div class="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary"></div>
+<div class="flex items-center gap-4 flex-1">
+<div class="text-green-500 flex items-center justify-center rounded-full bg-green-500/20 shrink-0 size-10">
+<span class="material-symbols-outlined">package_2</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="font-bold leading-normal">Order #12345 Confirmed</p>
+<p class="text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">Your purchase of 'Cyber Warrior Skin Pack' is complete.</p>
+<p class="text-gray-500 dark:text-gray-500 text-xs font-normal leading-normal mt-1">5m ago</p>
+</div>
+</div>
+<button class="hidden sm:inline-flex shrink-0 text-primary hover:underline text-sm font-bold">View Order</button>
+</div>
+<!-- List Item: Community Activity -->
+<div class="flex gap-4 px-4 py-4 justify-between items-center relative">
+<div class="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary"></div>
+<div class="flex items-center gap-4 flex-1">
+<div class="text-violet-400 flex items-center justify-center rounded-full bg-violet-500/20 shrink-0 size-10">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="font-bold leading-normal">New reply to your comment</p>
+<p class="text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">User 'PixelAvenger' replied to your comment on 'Top 10 Indie Games'.</p>
+<p class="text-gray-500 dark:text-gray-500 text-xs font-normal leading-normal mt-1">15m ago</p>
+</div>
+</div>
+<button class="hidden sm:inline-flex shrink-0 text-primary hover:underline text-sm font-bold">View Comment</button>
+</div>
+<!-- List Item: Price Alert -->
+<div class="flex gap-4 px-4 py-4 justify-between items-center relative">
+<div class="absolute left-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary"></div>
+<div class="flex items-center gap-4 flex-1">
+<div class="text-primary flex items-center justify-center rounded-full bg-primary/20 shrink-0 size-10">
+<span class="material-symbols-outlined">sell</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="font-bold leading-normal">Price Drop Alert!</p>
+<p class="text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">'Game Pass Ultimate' is now 15% off on your wishlist.</p>
+<p class="text-gray-500 dark:text-gray-500 text-xs font-normal leading-normal mt-1">1h ago</p>
+</div>
+</div>
+<button class="hidden sm:inline-flex shrink-0 text-primary hover:underline text-sm font-bold">See Product</button>
+</div>
+<!-- List Item: Campaign -->
+<div class="flex gap-4 px-4 py-4 justify-between items-center">
+<div class="flex items-center gap-4 flex-1">
+<div class="text-pink-500 flex items-center justify-center rounded-full bg-pink-500/20 shrink-0 size-10">
+<span class="material-symbols-outlined">campaign</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="font-medium leading-normal">Invitation to Summer Sale</p>
+<p class="text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">You're invited to the exclusive Summer Sale event. Get up to 70% off!</p>
+<p class="text-gray-500 dark:text-gray-500 text-xs font-normal leading-normal mt-1">Yesterday</p>
+</div>
+</div>
+<button class="hidden sm:inline-flex shrink-0 text-primary hover:underline text-sm font-bold">Join Event</button>
+</div>
+<!-- List Item: Recommendation -->
+<div class="flex gap-4 px-4 py-4 justify-between items-center">
+<div class="flex items-center gap-4 flex-1">
+<div class="text-teal-400 flex items-center justify-center rounded-full bg-teal-500/20 shrink-0 size-10">
+<span class="material-symbols-outlined">lightbulb</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="font-medium leading-normal">New recommendations for you</p>
+<p class="text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">Based on your recent activity, we think you'll love these titles.</p>
+<p class="text-gray-500 dark:text-gray-500 text-xs font-normal leading-normal mt-1">3 days ago</p>
+</div>
+</div>
+<button class="hidden sm:inline-flex shrink-0 text-primary hover:underline text-sm font-bold">View Items</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

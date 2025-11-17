@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Giveaway Setup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex flex-col w-64 bg-[#101d23] p-4 sticky top-0 h-screen">
+<div class="flex flex-col justify-between h-full">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Avatar of Streamer Ayşe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDjMG3MzRKqCjdD-lAYrwmlJcm_NLNR0_OzT8ri6BGNeRDJrMTuFaliC4wDl2uFhHa8irDYW13ksoa1K6-nsFEqj4_dME1HxdTsbr4OohOWZCSodYhjYFWyDXpOVt6RYJSu9uAzMsiHQwhwhXBwWjH48W1I6AFkU7naziE-tAKz4XxSyZZl6C_72NheBMpyIS_aM9vHr5hSLyMM-Du02zsDNFbK0GatfCyrUrMXamHfOaBwD1EQXPAKVOFO_45-WmdNZxxLJqV2OdBY");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Streamer Ayşe</h1>
+<p class="text-[#90b8cb] text-sm font-normal leading-normal">Influencer</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-white" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">card_giftcard</span>
+<p class="text-sm font-medium leading-normal">Giveaways</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<p class="text-sm font-medium leading-normal">My Inventory</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">pie_chart</span>
+<p class="text-sm font-medium leading-normal">Analytics</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors duration-200">
+<span class="truncate">Create New</span>
+</button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium leading-normal">Support</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:text-white transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-4xl mx-auto">
+<!-- PageHeading -->
+<header class="flex flex-wrap justify-between gap-3 mb-6">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Create a New Giveaway</p>
+<p class="text-[#90b8cb] text-base font-normal leading-normal">Guide your audience through an exciting giveaway experience from start to finish.</p>
+</div>
+</header>
+<!-- ProgressBar -->
+<div class="flex flex-col gap-3 mb-8">
+<div class="flex gap-6 justify-between">
+<p class="text-white text-base font-medium leading-normal">Step 1 of 4: Type &amp; Prize</p>
+</div>
+<div class="rounded-full h-2 bg-[#315768]">
+<div class="h-2 rounded-full bg-primary" style="width: 25%;"></div>
+</div>
+</div>
+<!-- Step 1: Form Content -->
+<div class="space-y-10">
+<!-- SectionHeader & ImageGrid -->
+<section>
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">1. Select Giveaway Type</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="flex flex-col gap-3 pb-3 border-2 border-primary rounded-xl p-3 bg-primary/20 cursor-pointer">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="A person streaming a video game to an audience" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCk6gJ9SjEKn3Y690-dMMEfWGrCh2g6jRpMD5i3AlrE-Y98YrITo2abjzxezZsKglVOcQapbQuGSyB-PcpEeJNNqj-Q_EO_iJG0YcqDBLfGR1p8DG6VmraqzqNdW6RDqHZOEiHwvX5Ymdr56zuVTrghMLLCWOz4OcpluCR8PoxU9eakXDtyzJKwNy6g53G2UXsVmopBg4qe0MnR3n2Z-D9k9ouXTywANdPOaBkIKxd0i-E8CQTE9MimIAmF7RJwHlVWMOGLVgMXTCS-");'></div>
+<div>
+<p class="text-white text-base font-medium leading-normal">Live Stream Giveaway</p>
+<p class="text-[#90b8cb] text-sm font-normal leading-normal">Engage your live audience with chat-triggered prizes.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 border-2 border-transparent hover:border-primary/50 rounded-xl p-3 transition-colors duration-200 cursor-pointer">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="A graphic showing progress towards a goal with celebrating icons" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0hGTw_EwVOZTf8VopT2XbUEcG8yobxEWQlPISK5z0lSg5n-97E9FL4to7JMqi1Lhe-H7McxkCnaVkj9DlZIhpxPX8diBItgReOomJVJH0vvyrRX4MyH89AEEmJChBfVXbbl3noBRYkcQDTyrbIZ4UQMiZvQGNkSlOt2Zt9_JKPcOpdK-MjXDad6TQM4qcSAXDz3KCJo3t_DKjdj3AjNwJSxm6EchNmWTBNaG2r4Hm04Md86lTmYMm1j-OgVSEgeDzqLeQOB8HEhd1");'></div>
+<div>
+<p class="text-white text-base font-medium leading-normal">Activity Milestone</p>
+<p class="text-[#90b8cb] text-sm font-normal leading-normal">Reward your community for hitting goals like follows or subs.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 pb-3 border-2 border-transparent hover:border-primary/50 rounded-xl p-3 transition-colors duration-200 cursor-pointer">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="A smartphone screen displaying a social media feed with likes and comments" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcYTP1r9eTAyF9XQY98bTewh5gUiD6XQP0ZvAPcGpsX6a-_fx63-y-B9ST5EbJDHpjRuaZggWOGgh3bNg-wo_GzaYNvTJgja20a-g2VZso7KY6tlxLNQZ6r-f8epQjJP7fE5CblKehaAm1puYCP0flfj_mg4iCbZEFUV5xDFxP_VGJYy1Iq2_dbYvInS_Bd6IYyqcXc46XJRk7K59yIVOmqDvXkVNodJyKzHzrDlQ2lUuSdk7ttXqNeH8LEhqlTQvOTxu8_7rmbtP_");'></div>
+<div>
+<p class="text-white text-base font-medium leading-normal">Social Media Post</p>
+<p class="text-[#90b8cb] text-sm font-normal leading-normal">Boost your reach on platforms like Twitter or Instagram.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Details -->
+<section>
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">2. Enter Giveaway Details</h2>
+<div class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-white/90 mb-2" for="giveaway-title">Giveaway Title</label>
+<input class="w-full bg-[#1F2937] border border-[#374151] text-white rounded-lg focus:ring-primary focus:border-primary" id="giveaway-title" placeholder="e.g., Epic 24-Hour Stream VALORANT Points Giveaway!" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-white/90 mb-2" for="prize-item">Prize Item(s)</label>
+<div class="flex items-center gap-4 p-4 border border-[#374151] rounded-lg bg-[#1F2937]">
+<div class="w-20 h-20 bg-center bg-no-repeat bg-cover rounded-lg" data-alt="A digital gift card for a video game" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCFY0oIxmbRfKn2b3orpnpwvLcMLjHVxp3VXySJMefsXuOddc7bO8F5TqK0D-RO-Rrr-YFo6p70EXkDgmwyJkdwZnI7lm3iSITW-vQywoBE7g1yjwLo8CzAGQkmODP5iw2tTWWubR2ognljoL5CKUzGk4MS6D2-cwPgJJWY7ZfkUa9bUal21ZooOEoAQsPF7wDYNAUXmaExRztP_Y5t3AWBsM4ptDu9jccnaVZjLye7ynZ8cjmO0eCz9qZEuxAwTKI7atK0IqwdUd6B');"></div>
+<div class="flex-1">
+<p class="font-bold text-white">1050 VALORANT Points</p>
+<p class="text-sm text-[#90b8cb]">Epin / Digital Code</p>
+</div>
+<button class="text-[#90b8cb] hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<button class="mt-4 flex items-center justify-center w-full gap-2 px-4 py-2 border-2 border-dashed border-[#374151] rounded-lg text-[#90b8cb] hover:bg-[#374151]/50 hover:text-white transition-colors duration-200">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Add Another Prize from Inventory</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Action Buttons -->
+<div class="flex justify-end gap-4 mt-12 border-t border-[#315768] pt-6">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-11 px-6 bg-transparent border border-[#315768] text-white/80 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[#315768]/50 transition-colors">
+<span class="truncate">Save Draft</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-11 px-6 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Next Step: Rules &amp; Entry</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

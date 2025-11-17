@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace - User Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101c22",
+              "surface-dark": "#182832",
+              "border-dark": "#223d49"
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-border-dark px-4 sm:px-6 lg:px-10 py-3 sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8">
+<div class="flex items-center gap-9">
+<a class="text-sm font-medium leading-normal text-gray-600 dark:text-gray-300 hover:text-primary" href="#">Dashboard</a>
+<a class="text-sm font-medium leading-normal text-primary" href="#">User Management</a>
+<a class="text-sm font-medium leading-normal text-gray-600 dark:text-gray-300 hover:text-primary" href="#">Transactions</a>
+<a class="text-sm font-medium leading-normal text-gray-600 dark:text-gray-300 hover:text-primary" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-gray-100 dark:bg-surface-dark text-gray-600 dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-gray-100 dark:bg-surface-dark text-gray-600 dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">help</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhi4LmdZv8KTfkb8m7aNLEwklRDwu8pDAFuijQEilVyiDa3AHuyGGdT1FY95bJ09po1bTiBUTbWe0ySYkjWsnzABitUGZie-XrU8FchkoznY1U9cUS2PDtSmbwryMel_Pa0ysUVUDzxghnvdWNlO6mCaRACWKQAPrhJDe-VIDsxJBiX4YlC6tcljiVBjplaWGj9T7-weQTSsvTiAmNLlq4wz2YEHi1QfIXDLBVErnnLNXEXAJ10KenqUVWXC0Dva9UtastuVEdzvRz");'></div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center py-5">
+<div class="w-full max-w-screen-2xl px-4 sm:px-6 lg:px-10">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-center gap-3 p-4">
+<h1 class="text-4xl font-black leading-tight tracking-[-0.033em]">User Management</h1>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark">
+<p class="text-base font-medium text-gray-600 dark:text-gray-300">Total Users</p>
+<p class="tracking-light text-2xl font-bold leading-tight">12,456</p>
+<p class="text-green-500 text-sm font-medium leading-normal">+2.5%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark">
+<p class="text-base font-medium text-gray-600 dark:text-gray-300">Active Today</p>
+<p class="tracking-light text-2xl font-bold leading-tight">832</p>
+<p class="text-green-500 text-sm font-medium leading-normal">+1.2%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark">
+<p class="text-base font-medium text-gray-600 dark:text-gray-300">Pending Verification</p>
+<p class="tracking-light text-2xl font-bold leading-tight">15</p>
+<p class="text-red-500 text-sm font-medium leading-normal">-0.5%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark">
+<p class="text-base font-medium text-gray-600 dark:text-gray-300">High-Risk Accounts</p>
+<p class="tracking-light text-2xl font-bold leading-tight">42</p>
+<p class="text-green-500 text-sm font-medium leading-normal">+5.0%</p>
+</div>
+</div>
+<!-- Main content area -->
+<div class="flex flex-col lg:flex-row gap-6 p-4">
+<!-- Filters Sidebar -->
+<aside class="w-full lg:w-72 xl:w-80 flex-shrink-0">
+<div class="sticky top-24 p-6 rounded-xl border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark space-y-6">
+<h3 class="text-lg font-bold">Filters</h3>
+<div>
+<label class="text-sm font-medium text-gray-600 dark:text-gray-300" for="search-user">Search User</label>
+<div class="relative mt-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 text-xl">search</span>
+<input class="form-input w-full rounded-lg border-gray-300 dark:border-[#2f4f60] bg-gray-50 dark:bg-background-dark focus:ring-primary focus:border-primary pl-10" id="search-user" placeholder="Name, email, ID..." type="text"/>
+</div>
+</div>
+<div>
+<label class="text-sm font-medium text-gray-600 dark:text-gray-300" for="user-role">User Role</label>
+<select class="form-select w-full mt-1 rounded-lg border-gray-300 dark:border-[#2f4f60] bg-gray-50 dark:bg-background-dark focus:ring-primary focus:border-primary" id="user-role">
+<option>All Roles</option>
+<option>Buyer</option>
+<option>Seller</option>
+<option>Creator</option>
+</select>
+</div>
+<div>
+<label class="text-sm font-medium text-gray-600 dark:text-gray-300" for="account-status">Account Status</label>
+<select class="form-select w-full mt-1 rounded-lg border-gray-300 dark:border-[#2f4f60] bg-gray-50 dark:bg-background-dark focus:ring-primary focus:border-primary" id="account-status">
+<option>All Statuses</option>
+<option>Active</option>
+<option>Suspended</option>
+<option>Pending</option>
+</select>
+</div>
+<div>
+<label class="text-sm font-medium text-gray-600 dark:text-gray-300" for="risk-score">Risk Score</label>
+<input class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer mt-2 accent-primary" id="risk-score" max="100" min="0" type="range" value="75"/>
+<div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+<span>0</span>
+<span>100</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="text-sm font-medium text-gray-600 dark:text-gray-300">Web3 Wallet</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-primary/50 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="pt-4 flex flex-col gap-2">
+<button class="w-full flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90">
+<span class="material-symbols-outlined text-xl">filter_alt</span>
+                                    Apply Filters
+                                </button>
+<button class="w-full flex items-center justify-center h-10 px-4 rounded-lg bg-transparent text-gray-600 dark:text-gray-300 text-sm font-medium hover:bg-gray-100 dark:hover:bg-surface-dark/50">
+                                    Clear All
+                                </button>
+</div>
+</div>
+</aside>
+<!-- User Data Table -->
+<div class="flex-grow">
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-border-dark overflow-hidden">
+<!-- Contextual Action Bar -->
+<div class="bg-primary/20 dark:bg-primary/20 p-3 flex items-center justify-between">
+<p class="text-sm font-medium text-gray-800 dark:text-white">3 users selected</p>
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg bg-white dark:bg-surface-dark text-gray-700 dark:text-white text-sm font-medium hover:bg-gray-100 dark:hover:bg-opacity-80">
+<span class="material-symbols-outlined text-base">block</span> Suspend
+                                    </button>
+<button class="flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg bg-white dark:bg-surface-dark text-gray-700 dark:text-white text-sm font-medium hover:bg-gray-100 dark:hover:bg-opacity-80">
+<span class="material-symbols-outlined text-base">verified_user</span> Verify
+                                    </button>
+<button class="flex items-center justify-center gap-1.5 h-8 px-3 rounded-lg bg-white dark:bg-surface-dark text-gray-700 dark:text-white text-sm font-medium hover:bg-gray-100 dark:hover:bg-opacity-80">
+<span class="material-symbols-outlined text-base">mail</span> Message
+                                    </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left">
+<thead class="text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50 dark:bg-background-dark border-b border-gray-200 dark:border-border-dark">
+<tr>
+<th class="p-4" scope="col">
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-background-dark focus:ring-2 dark:bg-gray-700 dark:border-gray-600" id="checkbox-all" type="checkbox"/>
+<label class="sr-only" for="checkbox-all">checkbox</label>
+</div>
+</th>
+<th class="px-6 py-3" scope="col">User</th>
+<th class="px-6 py-3" scope="col">Role</th>
+<th class="px-6 py-3" scope="col">Status</th>
+<th class="px-6 py-3" scope="col">Risk Score</th>
+<th class="px-6 py-3" scope="col">Last Login</th>
+<th class="px-6 py-3" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-gray-200 dark:border-border-dark hover:bg-gray-50 dark:hover:bg-background-dark">
+<td class="w-4 p-4"><input class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-background-dark focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full" data-alt="User avatar for Olivia Smith" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaW8dYXCe8_qMGbd3SwId7vRqXC6W3VEs_V6SnqIhRvhP1w2WyfXo4tbnZEdhZ2Gkd9edCEhUkLgGQY3pv6t1oUX0XtRCGIS3CbvH_Era4ZqWLPK51sVrNZTZHScH7p9Bdg-Z0OBwPr7sNc1NTVog8s7CW5UL6PnBSprIfNP3UN4Zpw8txoEMD89udKajut5dO-rYbYzwudXZGDrt4LLoZ4Ml89_Dkg7Fkf06d76y21OYUehWg2LISZkcz85s_Ba6I5tO4Y4gYwF9K"/>
+<div>
+<div class="text-base font-bold">Olivia Smith</div>
+<div class="font-normal text-gray-500 dark:text-gray-400">olivia.s@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">Seller</td>
+<td class="px-6 py-4"><span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Active</span></td>
+<td class="px-6 py-4"><div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-green-500 h-1.5 rounded-full" style="width: 15%"></div></div></td>
+<td class="px-6 py-4">2024-05-20</td>
+<td class="px-6 py-4"><button class="text-primary hover:underline font-medium">View</button></td>
+</tr>
+<tr class="border-b border-gray-200 dark:border-border-dark hover:bg-gray-50 dark:hover:bg-background-dark">
+<td class="w-4 p-4"><input checked="" class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-background-dark focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full" data-alt="User avatar for Liam Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhOPyZuapcwjW1L-F7ZBDJSADAj1naFXUCFyRVXm6HdISXjmH7n3f0DfLYUzn7mGjry5o4AawF8FZXjE-NUdq-B1hwzv-gtoDTNORcs5ixTXMr9y2o_DaiBmQq1uhIGRu-9UIOVTTlPH6cxeMbR3ufDERShQmbKbXFiPSMQlTtLp-OHe92l6TZ-E2d-eAfdMOwXNgtRjtVnQnaxSUe8bllI8kBxkbu2tGeR7qrE7HEXtT4sC0mGahwAwCKaZwL8-1JuCrrpdtI2p5a"/>
+<div>
+<div class="text-base font-bold">Liam Johnson</div>
+<div class="font-normal text-gray-500 dark:text-gray-400">liam.j@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">Buyer</td>
+<td class="px-6 py-4"><span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Suspended</span></td>
+<td class="px-6 py-4"><div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-red-500 h-1.5 rounded-full" style="width: 85%"></div></div></td>
+<td class="px-6 py-4">2024-04-12</td>
+<td class="px-6 py-4"><button class="text-primary hover:underline font-medium">View</button></td>
+</tr>
+<tr class="border-b border-gray-200 dark:border-border-dark hover:bg-gray-50 dark:hover:bg-background-dark">
+<td class="w-4 p-4"><input checked="" class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-background-dark focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full" data-alt="User avatar for Ava Brown" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv8LYCvqyRo7kniDkcwamlqjqeRqWayGCzi5f2oNk9Dq7uIaJ9oU2yE5skkIe9xHF7G7pkjlKeg32zQPcMd57Q7qAvNloIeYqn-n5rcxJqLLGrsSfXRRShegVYAEs9EIWozjWZydxoz9_VgfdF5Wvi3NtFBzg-QKBWrpEIttS6WsGvmon8MwYmpM4vlfot0r83Gfv51mygraodDP-hmUIPpJclqHb04zq3htNYhLXcLjsTsf-jpvJdHHbHjj3xvVo7wFhmaSp-r7nG"/>
+<div>
+<div class="text-base font-bold">Ava Brown</div>
+<div class="font-normal text-gray-500 dark:text-gray-400">ava.b@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">Creator</td>
+<td class="px-6 py-4"><span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Pending</span></td>
+<td class="px-6 py-4"><div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 40%"></div></div></td>
+<td class="px-6 py-4">2024-05-18</td>
+<td class="px-6 py-4"><button class="text-primary hover:underline font-medium">View</button></td>
+</tr>
+<tr class="border-b border-gray-200 dark:border-border-dark hover:bg-gray-50 dark:hover:bg-background-dark">
+<td class="w-4 p-4"><input checked="" class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-background-dark focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full" data-alt="User avatar for Noah Williams" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmYy3-x9tYJ85FqVYJxwif43W8YeGL7U6SpwuR95uphnLFHTCsRp8sypqtRO04J6u4W13ena5JDkGxdsJJybxvMSynyFDwIw8og8kz9Pc5J5ewTe6VtmTP05KAkA7fEpE_l7aB9agRCKRmtmIE96wyZv2M5Yy6HpTu8Ph9AAw2xK4RwnmufcxYN9FItFk2LtdpBjI1n1gQGqGgaOJnPgNxt7FDaNUxBbc9vJgxBbDkGNJA5LMS37C1jwEEqpEcVMaEHvgfgTLGFgi6"/>
+<div>
+<div class="text-base font-bold">Noah Williams</div>
+<div class="font-normal text-gray-500 dark:text-gray-400">noah.w@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">Buyer</td>
+<td class="px-6 py-4"><span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Active</span></td>
+<td class="px-6 py-4"><div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-green-500 h-1.5 rounded-full" style="width: 5%"></div></div></td>
+<td class="px-6 py-4">2024-05-21</td>
+<td class="px-6 py-4"><button class="text-primary hover:underline font-medium">View</button></td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-background-dark">
+<td class="w-4 p-4"><input class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-background-dark focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full" data-alt="User avatar for Emma Jones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOJOU2f50sXnD-MlEz8cCXdyiRLfttplclPMwVddpBcsK9jilZobPHL9SmF48kz9pRQD-orz1eQagi5m2oAsqxOu0pktZNyuNQIZToCsZmj-aKylNs9PSf1rx7IkYROOeO9CsAHQa_hh-J13mOqdsZvOOein8ElQTKfyOmej8Ke8Eox2r0caeHIbCsUtDfnDi7voi3ccRlJPMScVI7t4isvnpJ-W7tMFiEfAc2BIj9AtKZbPZs1JDS16n7PpgFvnF4yX4tfeOugyrq"/>
+<div>
+<div class="text-base font-bold">Emma Jones</div>
+<div class="font-normal text-gray-500 dark:text-gray-400">emma.j@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">Seller</td>
+<td class="px-6 py-4"><span class="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Active</span></td>
+<td class="px-6 py-4"><div class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 55%"></div></div></td>
+<td class="px-6 py-4">2024-05-19</td>
+<td class="px-6 py-4"><button class="text-primary hover:underline font-medium">View</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<nav aria-label="Table navigation" class="flex items-center justify-between p-4">
+<span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span class="font-semibold">1-5</span> of <span class="font-semibold">1000</span></span>
+<ul class="inline-flex items-center -space-x-px">
+<li>
+<a class="px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-surface-dark dark:border-border-dark dark:text-gray-400 dark:hover:bg-background-dark dark:hover:text-white flex items-center" href="#">Previous</a>
+</li>
+<li>
+<a class="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-surface-dark dark:border-border-dark dark:text-gray-400 dark:hover:bg-background-dark dark:hover:text-white flex items-center" href="#">1</a>
+</li>
+<li>
+<a class="px-3 h-8 leading-tight text-white bg-primary border border-primary dark:bg-primary dark:border-primary dark:text-white flex items-center" href="#">2</a>
+</li>
+<li>
+<a class="px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-surface-dark dark:border-border-dark dark:text-gray-400 dark:hover:bg-background-dark dark:hover:text-white flex items-center" href="#">Next</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

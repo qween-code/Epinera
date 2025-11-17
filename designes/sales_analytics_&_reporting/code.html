@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace - Sales Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4A90E2",
+                        "accent": "#50E3C2",
+                        "background-light": "#f0f0f0",
+                        "background-dark": "#1E1E2F",
+                        "card-dark": "#2C2C3E",
+                        "card-light": "#ffffff",
+                        "text-light-primary": "#1E1E2F",
+                        "text-light-secondary": "#6b7280",
+                        "text-dark-primary": "#FFFFFF",
+                        "text-dark-secondary": "#F0F0F0"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-secondary">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<header class="sticky top-0 z-10 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 bg-background-light/80 px-4 py-3 backdrop-blur-sm dark:bg-background-dark/80 md:px-8 lg:px-10">
+<div class="flex items-center gap-4 text-text-light-primary dark:text-text-dark-primary">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+<div class="hidden flex-1 items-center justify-center gap-8 md:flex">
+<a class="text-sm font-medium leading-normal text-text-light-secondary dark:text-text-dark-secondary" href="#">Dashboard</a>
+<a class="text-sm font-medium leading-normal text-text-light-secondary dark:text-text-dark-secondary" href="#">Inventory</a>
+<a class="text-sm font-medium leading-normal text-text-light-secondary dark:text-text-dark-secondary" href="#">Orders</a>
+<a class="text-sm font-medium leading-normal text-primary dark:text-primary" href="#">Analytics</a>
+<a class="text-sm font-medium leading-normal text-text-light-secondary dark:text-text-dark-secondary" href="#">Marketing</a>
+</div>
+<div class="flex flex-1 items-center justify-end gap-2">
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-card-light text-text-light-primary dark:bg-card-dark dark:text-text-dark-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-card-light text-text-light-primary dark:bg-card-dark dark:text-text-dark-primary">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPIINkw8uVcvWjG9Tw66MJZMG7Yu5i4sV39nCM2VRCSqRuW67MIST1A6nRgOofO0o2uFoVg6BY71V0ijjPP6nPA3Cs7CE9AeL74xnrrJk5vxIvtVIblJqhjVny2_C-A1rWz-Ig4LGsVwS-wtsrrpU-C90HmyCYB_z876ZX5cJWxrczvGHohRDoUZZFZyZisHhICbVnUC1gzUdCz01RrT6_FxeQENqFB2HS36RSnL9CWgIuOL8Gd9VvmEyUXlRGXcCsI9S0cm5CY3FT");'></div>
+</div>
+</header>
+<main class="flex w-full flex-1 flex-col items-center p-4 md:p-6 lg:p-10">
+<div class="flex w-full max-w-7xl flex-col gap-6">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<p class="text-3xl font-bold leading-tight tracking-[-0.033em] text-text-light-primary dark:text-text-dark-primary">Sales Analytics &amp; Reporting</p>
+<p class="text-base font-normal leading-normal text-text-light-secondary dark:text-text-dark-secondary">Detailed insights into your sales performance.</p>
+</div>
+<button class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold leading-normal tracking-[0.015em] text-white">
+<span class="material-symbols-outlined text-base">download</span>
+<span class="truncate">Export Report</span>
+</button>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary/20 pl-4 pr-2 text-primary dark:bg-primary/20 dark:text-primary">
+<p class="text-sm font-medium leading-normal">Last 30 Days</p>
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-card-light pl-4 pr-2 text-text-light-primary dark:bg-card-dark dark:text-text-dark-primary">
+<p class="text-sm font-medium leading-normal">Last 7 Days</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-card-light pl-4 pr-2 text-text-light-primary dark:bg-card-dark dark:text-text-dark-primary">
+<p class="text-sm font-medium leading-normal">Last 90 Days</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-card-light pl-4 pr-2 text-text-light-primary dark:bg-card-dark dark:text-text-dark-primary">
+<p class="text-sm font-medium leading-normal">This Year</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-card-light pl-4 pr-2 text-text-light-primary dark:bg-card-dark dark:text-text-dark-primary">
+<p class="text-sm font-medium leading-normal">Custom Range</p>
+</button>
+</div>
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+<div class="flex flex-1 flex-col gap-2 rounded-lg border border-white/10 bg-card-light p-4 dark:bg-card-dark">
+<p class="text-base font-medium leading-normal text-text-light-secondary dark:text-text-dark-secondary">Total Revenue</p>
+<p class="tracking-light text-2xl font-bold leading-tight text-text-light-primary dark:text-text-dark-primary">$12,450.78</p>
+<p class="text-base font-medium leading-normal text-accent">+5.2%</p>
+</div>
+<div class="flex flex-1 flex-col gap-2 rounded-lg border border-white/10 bg-card-light p-4 dark:bg-card-dark">
+<p class="text-base font-medium leading-normal text-text-light-secondary dark:text-text-dark-secondary">Units Sold</p>
+<p class="tracking-light text-2xl font-bold leading-tight text-text-light-primary dark:text-text-dark-primary">892</p>
+<p class="text-base font-medium leading-normal text-accent">+8.1%</p>
+</div>
+<div class="flex flex-1 flex-col gap-2 rounded-lg border border-white/10 bg-card-light p-4 dark:bg-card-dark">
+<p class="text-base font-medium leading-normal text-text-light-secondary dark:text-text-dark-secondary">Conversion Rate</p>
+<p class="tracking-light text-2xl font-bold leading-tight text-text-light-primary dark:text-text-dark-primary">4.7%</p>
+<p class="text-[#fa5f38] text-base font-medium leading-normal">-0.3%</p>
+</div>
+<div class="flex flex-1 flex-col gap-2 rounded-lg border border-white/10 bg-card-light p-4 dark:bg-card-dark">
+<p class="text-base font-medium leading-normal text-text-light-secondary dark:text-text-dark-secondary">Customer Satisfaction</p>
+<p class="tracking-light text-2xl font-bold leading-tight text-text-light-primary dark:text-text-dark-primary">95%</p>
+<p class="text-base font-medium leading-normal text-accent">+1.5%</p>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+<div class="flex flex-col gap-4 rounded-xl border border-white/10 bg-card-light p-6 dark:bg-card-dark lg:col-span-2">
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-light-primary dark:text-text-dark-primary">Revenue Trends</h2>
+<div class="aspect-[16/9] w-full bg-cover bg-center" data-alt="A line chart showing revenue trends over the last 30 days, with an upward trajectory." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCi0379GwxpvOJADOTaUs71OiQaAxWO_kuszAssJmamfE3GlihpLGuZwRDir9MCiA82WCYi-DfVwheV-9KcknYVcrpbAkl8vDe-KFWX3pApLSJVW1QkHtgwSaNbIqKnFWgbD9iU6Vp_suwnn4gxeJO9oO8gZTJG9JP6JEYilj7DUUJSVVNCLs3ly_6KSClF42AzzUBUA4_KlmEAfPKTr4iPLa-KLtv1N5VUny0MpO9oxz947tX1dVWlYLv9-7ZQy5-b_4LuDoDsXrfC');"></div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl border border-white/10 bg-card-light p-6 dark:bg-card-dark">
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-light-primary dark:text-text-dark-primary">Customer Insights</h2>
+<div class="aspect-square w-full bg-cover bg-center" data-alt="A donut chart showing a breakdown of 75% returning customers and 25% new customers." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD-p36qS4h7wp5PZHGNnCXe9Uh8TqfDjrzhrWG5F17lFGZUUWNNLhlXKHsCH3FMJXZuRBtms8C7qT0ahAjxS6rbqQurjY1ZgGUX_BN0Eya9s09aLz1dZKL453q3e5SGrfvr_umsoVW1pgZE99bmxhTQjXhd3nbjupFvhqfJfsmjzWxMew2Gpp8VSYQ5TDJnRe35TNvoKdwQH6fzJJE95Ud2NxDqV-6EXdm5dnH5Tj8445ozJEEZ7ACAZae-0H_KHKQLYDPAH4kaDZDe');"></div>
+<div class="flex justify-around text-sm">
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-primary"></div>
+<span>Returning (75%)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-accent"></div>
+<span>New (25%)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+<div class="flex flex-col gap-4 rounded-xl border border-white/10 bg-card-light p-6 dark:bg-card-dark">
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-light-primary dark:text-text-dark-primary">Top Products by Revenue</h2>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12" data-alt="Game X gold coins icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9pFz7qY_WhJbNjH_o529l9HlbWq_01NtDxGEZ505p-RNwfXTfPCYGcwxWBxeSNVEM54I3JBoRWNRUbKhUjA6CF2zuFkVi_KKc1G1fyEROb9hDvp5R4puHHh0kLB53hPBoidrY9fmJPSUjjtRLuZZo7Km8ZzIQ679CwTl0RVXiMTr85_5QcqcYUI7H9i-lZHMnAlEMDtqmZw6rlvo-JPLKUOPAU4Z-E0eTC22xaGG5PviE3Z8N5Cd7LqTrjy0IutsoAmkTmNxnwdaF");'></div>
+<div class="flex-1">
+<p class="font-medium text-text-light-primary dark:text-text-dark-primary">Game X: 10,000 Gold</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">250 units sold</p>
+</div>
+<p class="font-bold text-text-light-primary dark:text-text-dark-primary">$2,500.00</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-12" data-alt="Game Y premium pass icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBrKchwGAmT0gY-w8LDrEsWbJ9OXpsMDGpSTuZSaJJDUPxV1zSHQYzVCnpuYecaGj0XGXPwqScHl_mD_HmLopS2pGtsP8UvW01kjt93DEKHYoCX17sl6Y6hbt-PIqw4R9JYiX4fGBnTnuvzz9oIARi4iE-aVzm5mrtOVtAUuTGGl6_-txuWLggMdouyT8-lVpMxm2mlokxGhSjZEzv40MizluSFlDYBCKp5OFbyjvV0fDORJ1elgTH6jRt7ONQCGY1yHJwHDWhug7KE");'></div>
+<div class="flex-1">
+<p class="font-medium text-text-light-primary dark:text-text-dark-primary">Game Y: Premium Pass</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">150 units sold</p>
+</div>
+<p class="font-bold text-text-light-primary dark:text-text-dark-primary">$1,499.00</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl border border-white/10 bg-card-light p-6 dark:bg-card-dark">
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-text-light-primary dark:text-text-dark-primary">AI Market Intelligence</h2>
+<div class="space-y-3">
+<div class="flex gap-4 rounded-lg bg-accent/10 p-3">
+<span class="material-symbols-outlined text-accent">auto_awesome</span>
+<div>
+<p class="font-bold text-accent">Market Trend Opportunity</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Demand for 'Game X' credits is up 20% this week.</p>
+</div>
+</div>
+<div class="flex gap-4 rounded-lg bg-accent/10 p-3">
+<span class="material-symbols-outlined text-accent">inventory_2</span>
+<div>
+<p class="font-bold text-accent">Predictive Restock Alert</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Low stock on 'Game Z' skin. Predict 50 sales in next 7 days.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

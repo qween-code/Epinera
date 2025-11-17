@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace - Product Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 dark:border-white/10 px-4 md:px-10 lg:px-20 py-3 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-black dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+</div>
+<div class="hidden lg:flex flex-1 justify-center gap-8">
+<div class="flex items-center gap-9">
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Games</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Top-ups</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Stores</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Brands</a>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Sign Up</span>
+</button>
+<button class="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 px-4 bg-gray-200 dark:bg-white/10 text-black dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Log In</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded h-10 bg-gray-200 dark:bg-white/10 text-black dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-black dark:text-white">shopping_cart</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCi_xAjyIL_B06mTxp7WH0If2G_8I7arDPp8fnYr3O5Wz9fzV29QmTOlLtL4Qm0UGpukpsVYx1Pz8hWrYhhS6W8I8oCkZdMZ2QZifVeCQaUO8gb31OhbmsCTmaDWx-FE7WyUROgYqaKkeFFL36bgd4uV_t6xV9YiN9KWDVgmlqlybd539CtDpINwoASzweIoQiymIgDg1X75tR61jlm5UsEOg3pVE2zOiPxSxi8wZ4M4vE-EcJhQPlEpXDPGM8ZGFjrpSYP_JolwbUx");'></div>
+</div>
+</header>
+<main class="px-4 sm:px-10 lg:px-20 py-5">
+<div class="layout-content-container flex flex-col max-w-7xl mx-auto flex-1 gap-8">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2">
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Home</a>
+<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Games</a>
+<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Cybernetic Heroes</a>
+<span class="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<span class="text-black dark:text-white text-sm font-medium leading-normal">1000 Premium Currency</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Media Gallery -->
+<div class="lg:col-span-2 flex flex-col gap-4">
+<div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden bg-gray-200 dark:bg-white/5 rounded-xl aspect-video" data-alt="Hero image of the game Cybernetic Heroes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAOTtC-A_rj0OtrEcnHfp1HKACHVi3VH_UXLJIiSZIej4LCgtwX1P_-waM39N4WAfUbh9lsbkxXp-7E9AyOkwsvx7UingnsMYAcN6wUYWcqcAlvvQ1AquBGHn6T2fEvW0-k5eKNO5l03oGJbm4FUgS5DtLWebdTKe5BBiVKJMB_QZoYL1fapnvv68KupL7jtgeoDljMnwUSQ1HdRjNXaJejKgyXZCdwBoLqYd4t-llwvOMUeyJRyP45uNufZz-7-Zn-TV9BcRCquTpG");'></div>
+<div class="grid grid-cols-5 gap-4">
+<div class="w-full bg-center bg-no-repeat bg-cover rounded-lg aspect-video opacity-50 border-2 border-transparent" data-alt="Thumbnail of an in-game item" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAUcypqnKOTPncF_r3Ddztq_KWsO2tyVJh-HVvhEfawV5fBx5Xu8Q47NwCMsCz1GwdBqupmOwtOJKKkYf7xsGFxQYl9kjxGAt85oyd7qzm02aVrCXLJn1yUI88Z03clz0Rk3TZh8SGfCPiqR7zZ9-807m6soDp64Pd_uVnQJTxDN_Fo5l_nS10dkp8FAw1WV5SwkGjCDId7HqwTTfEq-GCnR6ZqpMjFAwmJ8EyjQz2yATD148fM61X8s5HK1tdAWvvckY3xWqdGa1hn");'></div>
+<div class="w-full bg-center bg-no-repeat bg-cover rounded-lg aspect-video border-2 border-primary" data-alt="Selected thumbnail of game box art" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfVDTMnguOfn1DUeaFijvKlb0H6ILzPpmy_16ABEto9etVzISG4-LONYHmf7WxUqUb_K6BQIco88mjtPXllZvEvhku8CNgT1Z1bGuG1qnnmrJ_yM65Xz-z2wQbg1DbVkskjAlmPdp8v6x4-VWzTAD9HyuySEKUdOE9ZU1y7CK-Q9sMDDEv1i3Ix9w3p-fifKiZugg7DcgE1EbPE2vjn7eSVbUgSX7FgQe4JKueEpBS-hR8ArYtce2MCe785ISr_EI8InL3SAGDj9my");'></div>
+<div class="w-full bg-center bg-no-repeat bg-cover rounded-lg aspect-video opacity-50 border-2 border-transparent" data-alt="Thumbnail of game characters" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDsixYgUx20LYzryJIBBnyqCgAZ8r6kbUpjrhJaim4cH6XvausohLCcJOK4evqSGQ0QiEy8GgscU6HynBqtrWCKC2mCt72E7TfvJvtlCtEbbmHDPXxs9gnsV91FQc7kZp2QUXEsWsTH-Y1SvUXytLdXB2xMVLuGjZ39-hAk8RHjJ_xbgOhfJvvDKttZrqPFk2oI57J6JYYBGIBtT9x3CMZ2m-jZtzVOtp1BP2-qVzxPR5e9zxfjuwcsFfqBRViDIO2wH2jtFQWlsw2W");'></div>
+<div class="w-full bg-center bg-no-repeat bg-cover rounded-lg aspect-video opacity-50 border-2 border-transparent" data-alt="Thumbnail of an in-game battle scene" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJciT1N8Q327hCRSTpbtAr3CAd-8mvl07x8GqvQMkjLfN705_XJSKnU3NRM1Wyp_NEGxNHktJbVOXATUPUsuBNOWgi4WRDHVg20lYwu-yNWcc1WkP3DgEaVztJ4NrG4a-YGffYQ3kdsRaUVfwCo3WvG5mJ8oGVhxbdd8mCVJP9rQLCPsryTN8ywQZg_nLyT2GIEspOpAsW6K6M4MnODXIRP47qs7b54YZYwvhxCSJXTdcGWRVh7scGwREYF5kXkYGkSx8ooyJBkkLV");'></div>
+<div class="w-full bg-black/20 rounded-lg aspect-video flex items-center justify-center text-black dark:text-white font-bold">+2</div>
+</div>
+</div>
+<!-- Right Column: Purchase Info -->
+<div class="flex flex-col gap-6">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-black dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">Cybernetic Heroes - 1000 Credits - PC - Global</p>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Sold by <a class="text-primary hover:underline" href="#">GamerzGalaxy</a></p>
+</div>
+<div class="p-6 bg-gray-100 dark:bg-white/5 rounded-xl flex flex-col gap-4">
+<div class="flex items-baseline gap-3">
+<h1 class="text-black dark:text-white text-4xl font-bold leading-tight tracking-[-0.015em]">$9.99</h1>
+<span class="text-gray-500 dark:text-gray-400 text-lg line-through">$14.99</span>
+<span class="bg-amber-500/20 text-amber-500 text-xs font-bold px-2 py-1 rounded">-33%</span>
+</div>
+<div class="flex flex-col gap-3 mt-2">
+<button class="w-full flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em]">Buy Now</button>
+<button class="w-full flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-gray-200 dark:bg-white/10 text-black dark:text-white text-base font-bold leading-normal tracking-[0.015em]">Add to Cart</button>
+</div>
+<div class="flex items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-primary cursor-pointer mt-2">
+<span class="material-symbols-outlined text-base">favorite_border</span>
+<span class="text-sm font-medium">Add to Wishlist</span>
+</div>
+</div>
+<div class="p-6 bg-gray-100 dark:bg-white/5 rounded-xl">
+<h3 class="text-black dark:text-white text-lg font-bold mb-4">Seller Information</h3>
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" data-alt="Seller avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzhEMANMLrU4N0AK7s3h9f4nDv4gn62Chy7X_6IDNCsiZpu1KFS_6NK7px8G_BB3QYzcYGzMbd_pEGTHMXH1naK-hmOHwOyZt2q9l3DX-kmbHuwo9ipmG4V1NlAvALTBBdbJPxH9h1-TqzLVCK6Y-KIHyd8s_OaMp7vc4mEzexdVuaS1uzkU0miK2FMkviZfDYmnghYWm-Yr3oXRYM27cphHVKcyKhTeCeLWzWEAudh9aCzfMjQj0ZcJgD8KESkg6PFcrBl_brtOji");'></div>
+<div>
+<p class="text-black dark:text-white font-bold">GamerzGalaxy</p>
+<a class="text-primary text-sm hover:underline" href="#">View Storefront</a>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+<div class="flex items-center gap-2 text-black dark:text-white"><span class="material-symbols-outlined text-lg text-amber-500">star</span> 4.9/5 Rating</div>
+<div class="flex items-center gap-2 text-black dark:text-white"><span class="material-symbols-outlined text-lg text-primary">local_shipping</span> Instant Delivery</div>
+<div class="flex items-center gap-2 text-black dark:text-white"><span class="material-symbols-outlined text-lg text-primary">shopping_bag</span> 25,000+ Sales</div>
+<div class="flex items-center gap-2 text-black dark:text-white"><span class="material-symbols-outlined text-lg text-emerald-500">verified_user</span> Verified Seller</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tabbed Information Panel -->
+<div class="mt-8">
+<div class="border-b border-gray-200 dark:border-white/10">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<a class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Description</a>
+<a class="border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-500 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Key Features</a>
+<a class="border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-500 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Web3 Security</a>
+</nav>
+</div>
+<div class="py-6 text-gray-600 dark:text-gray-300 space-y-4 text-base leading-relaxed">
+<p>Unlock your full potential in Cybernetic Heroes with 1000 Credits. Use these credits to purchase exclusive in-game items, character skins, weapon upgrades, and season passes. This global key is valid for the PC version of the game and can be activated worldwide.</p>
+<h4 class="text-black dark:text-white font-bold pt-2">Activation Instructions:</h4>
+<ol class="list-decimal list-inside space-y-2">
+<li>Launch the Cybernetic Heroes game client on your PC.</li>
+<li>Navigate to the in-game store or marketplace.</li>
+<li>Select the "Redeem Code" option.</li>
+<li>Enter the key provided after your purchase and click "Submit".</li>
+<li>Your 1000 Credits will be instantly added to your account balance.</li>
+</ol>
+</div>
+</div>
+<!-- Customer Reviews -->
+<div class="mt-8">
+<h2 class="text-2xl font-bold text-black dark:text-white mb-4">Customer Reviews &amp; Ratings</h2>
+<div class="bg-gray-100 dark:bg-white/5 rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center gap-6">
+<div class="flex flex-col items-center gap-2">
+<p class="text-5xl font-black text-black dark:text-white">4.8</p>
+<div class="flex text-amber-500">
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star_half</span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Based on 1,283 reviews</p>
+</div>
+<div class="w-full flex-1">
+<div class="flex items-center gap-2 text-sm"><span class="w-8 text-right">5</span> <span class="material-symbols-outlined text-amber-500 text-base">star</span> <div class="w-full bg-gray-200 dark:bg-white/10 rounded-full h-2"><div class="bg-amber-500 h-2 rounded-full" style="width: 85%"></div></div> <span class="text-gray-500 dark:text-gray-400 w-12 text-right">1090</span></div>
+<div class="flex items-center gap-2 text-sm"><span class="w-8 text-right">4</span> <span class="material-symbols-outlined text-amber-500 text-base">star</span> <div class="w-full bg-gray-200 dark:bg-white/10 rounded-full h-2"><div class="bg-amber-500 h-2 rounded-full" style="width: 10%"></div></div> <span class="text-gray-500 dark:text-gray-400 w-12 text-right">128</span></div>
+<div class="flex items-center gap-2 text-sm"><span class="w-8 text-right">3</span> <span class="material-symbols-outlined text-amber-500 text-base">star</span> <div class="w-full bg-gray-200 dark:bg-white/10 rounded-full h-2"><div class="bg-amber-500 h-2 rounded-full" style="width: 3%"></div></div> <span class="text-gray-500 dark:text-gray-400 w-12 text-right">38</span></div>
+<div class="flex items-center gap-2 text-sm"><span class="w-8 text-right">2</span> <span class="material-symbols-outlined text-amber-500 text-base">star</span> <div class="w-full bg-gray-200 dark:bg-white/10 rounded-full h-2"><div class="bg-amber-500 h-2 rounded-full" style="width: 1%"></div></div> <span class="text-gray-500 dark:text-gray-400 w-12 text-right">12</span></div>
+<div class="flex items-center gap-2 text-sm"><span class="w-8 text-right">1</span> <span class="material-symbols-outlined text-amber-500 text-base">star</span> <div class="w-full bg-gray-200 dark:bg-white/10 rounded-full h-2"><div class="bg-amber-500 h-2 rounded-full" style="width: 1%"></div></div> <span class="text-gray-500 dark:text-gray-400 w-12 text-right">15</span></div>
+</div>
+</div>
+<div class="mt-6 flex flex-col gap-6">
+<div class="border-b border-gray-200 dark:border-white/10 pb-6">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Reviewer avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCikSVGqVBvoLynMHpwNJnm-4r9liqH1oJhnraGHaOeCs7dfiUmGA0E1c5PY32Dkl7A_0gek1bN8T-t0spAEGWsnLDUvZ4dY1jtXd-hZpyb-d6yed9uHj2bE_ytX5bRhKKD3pjFrpXlgjS0YzMEJ0qPyzZoXONfolzP1GuXf7HACyKERCaAzRRz72x3z5r47S43aXT3kZ19TWhekBIrvwZtts4fH22mjv-YJ1oxGUU97l06tzteNsatDiuiUMAeTq6CrG0ulGBOZCYX");'></div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="font-bold text-black dark:text-white">GamerAli</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">2 days ago</p>
+</div>
+<div class="flex text-amber-500 -ml-1">
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+</div>
+</div>
+<p class="mt-3 text-gray-600 dark:text-gray-300">Super fast delivery! Got my code instantly and it worked perfectly. The seller is legit and the process was secured with blockchain verification which gave me peace of mind. Highly recommended!</p>
+</div>
+<div class="border-b border-gray-200 dark:border-white/10 pb-6">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Reviewer avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD6nDn3vX8-D5SRS-xfiSK7VbgaJO9WjQ6H3i-cdgZvewyr63O0ZusrDJIK1KvwBrTwu3wiZ6Ng07TKkINy1w1tUGjwn_ZJTW1xv_J1RDQnsb_EBBuldTxV9B94gSnQv4curSxBzU6egLNzj0NB_QZfdkv7tWQU8bH94xy2Dsnpn7oczLvCq-6CjT-vWEJi3cBa3BqXMFgKVi_mSTgbTRApY4wCU1-QaBL8K8JHB5KvdGKfkyIcAbPcZI7RHiDi-hZt2t4iHaHttp2w");'></div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="font-bold text-black dark:text-white">ProPlayer92</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">1 week ago</p>
+</div>
+<div class="flex text-amber-500 -ml-1">
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-600">star</span>
+</div>
+</div>
+</div>
+<p class="mt-3 text-gray-600 dark:text-gray-300">Good price and fast transaction. Would be 5 stars but the checkout process had a small glitch. Still, I got what I paid for.</p>
+</div>
+</div>
+</div>
+<!-- AI Recommendations -->
+<div class="mt-8">
+<h2 class="text-2xl font-bold text-black dark:text-white mb-4">Players Also Bought</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<div class="bg-gray-100 dark:bg-white/5 rounded-xl overflow-hidden flex flex-col">
+<div class="w-full bg-center bg-no-repeat bg-cover aspect-video" data-alt="Product image for Cybernetic Heroes Season Pass" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_PUKah0i3-HUJ4ii4rvfCwcne1ZahsCGaH60S1n0-2w57dvjRdUXJ6kqxX7Ix_VZ0kZtycXGNODL9DDKYMOv7XvXpwK2VDf0ujz6htOYg7CoQCB_VxQd5Tg9iX4xpcO-KZ7IB75CrrPEDP1qPf6khhJ_bQSEfMDQwJtdbR7Uc1i9Y1mEjHxpYhWY2wyLedJv-s1oNvcnfqLapmIcXJXUErktj7UNEdVxgz5gcTJEtgwRhZsFNccjKgetu5bfoK5HcHzygQbqvNO17");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h3 class="font-bold text-black dark:text-white flex-grow">Season 4 Battle Pass</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Cybernetic Heroes</p>
+<p class="text-lg font-bold text-black dark:text-white mt-2">$19.99</p>
+</div>
+</div>
+<div class="bg-gray-100 dark:bg-white/5 rounded-xl overflow-hidden flex flex-col">
+<div class="w-full bg-center bg-no-repeat bg-cover aspect-video" data-alt="Product image for a legendary skin pack" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWhddEOdatzsT8ft83Vqiae2ZCAHpsduqFaSNm7XlmNWeXyq_aGpuUMX-F0Jtxmh6cvXVeeBRFAPAVvEVgYtzzCqjNOXgH0zxcwPOlNj610Ahe5pTqW8byXkleatxNzqtYLfjlbIINOuQdu9idaURIKS6JMCWmcbLcTjSfnRPUh3TRokh2N6L_0UdHlqupuIY8VO2T4KkXq5NmxvI-18XCyT53-UYOCn5NCN-soaM4HrrFaC9TIaciVQp7h2Q8KtLDdH07m4HJCqo8");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h3 class="font-bold text-black dark:text-white flex-grow">Legendary Skin Pack</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Cybernetic Heroes</p>
+<p class="text-lg font-bold text-black dark:text-white mt-2">$12.50</p>
+</div>
+</div>
+<div class="bg-gray-100 dark:bg-white/5 rounded-xl overflow-hidden flex flex-col">
+<div class="w-full bg-center bg-no-repeat bg-cover aspect-video" data-alt="Product image for 5000 credits" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkWzaS67aDq42t39Hco9cIC609juTY_SnbuQISyJBC_Vd9fmVaxk14NRCK2zhteRa573hvvn0Se2Sjde9fpmhoxLdGIT_NVlOhX-NaNmdA_KF9adXxDPA-5sKK_4GrtZTCb0jem5I-ZlqZ7sN03XZkYJHL-KZgn5PxCHNZkfQBcilXmFcG2J4Y3amAE4B9hO5yYoooNgZAE48uT_NcPNu-W6KE4SgjeRlY-1fUo2Jymcmjg6vfD-sPx8EeYQ90flGERdcf3jsutX-y");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h3 class="font-bold text-black dark:text-white flex-grow">5000 Credits Pack</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Cybernetic Heroes</p>
+<p class="text-lg font-bold text-black dark:text-white mt-2">$44.99</p>
+</div>
+</div>
+<div class="bg-gray-100 dark:bg-white/5 rounded-xl overflow-hidden flex flex-col">
+<div class="w-full bg-center bg-no-repeat bg-cover aspect-video" data-alt="Product image for another popular game, 'Void Runners'" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJQvp5l88WtzKqO5sHV6DJrPQikrs6Mb25rM3z7G1X7YpqgGwNVjxZOuqHYFpFdXkp9_iBxsSXZLOmPSWR0yV1K5__UKxSjLaTKXbajFzmqFPPGTrEscV5YHpopgaZXmI-F5cQZ0-DkUBdmsLdYUjXB7qoYAb0Q2KoXfMTBnX9sPbJF1Dy_5JhF0c-MH6Q3x4i8MkXpImSpXPr6iZvfHvk8Yg_D758_8DnfC2rKoDmT_Tvweh-MOq0ouI2K68lpX5IkO0L4qHUtzhe");'></div>
+<div class="p-4 flex flex-col flex-grow">
+<h3 class="font-bold text-black dark:text-white flex-grow">Void Runners - Starter Pack</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Void Runners</p>
+<p class="text-lg font-bold text-black dark:text-white mt-2">$7.99</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

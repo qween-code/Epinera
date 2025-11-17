@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace Community</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.5rem",
+                        "xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 dark:border-white/10 px-6 sm:px-10 lg:px-20 py-3 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-black dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Marketplace</a>
+<a class="text-primary dark:text-primary text-sm font-bold leading-normal" href="#">Community</a>
+<a class="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Support</a>
+<a class="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Publishers</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<div class="hidden lg:flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-white/10 dark:bg-white/5 text-neutral-500 dark:text-neutral-400 hover:bg-white/20 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined !text-2xl">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-white/10 dark:bg-white/5 text-neutral-500 dark:text-neutral-400 hover:bg-white/20 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined !text-2xl">chat_bubble</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar with abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC_nAqGxiKjpoBqNi-AmFBjMvNe6JInbzvG5-OchIIMdW8abiyBQFCWmWm9E1axw8whqCdPFpwIik-4R3T44kfoOoMgJevVg2xDmLf460Yt4kFkg-uxr4PQevUvzxtfHVeSlUZMJAKFkegfar1IMWBM7EVow03ovezJEcfZ-wugFYK9w7aAf8aW9U1h0JV-ypf47FSrWAYQeZzw5nq4Sa2G-Q5sD0lRAkQ3x0aXGIGcRyAcGoqZLj8c-Cqe8xpFknoE0vE2sNOspPcX");'></div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-8 py-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Sidebar -->
+<aside class="lg:col-span-3 space-y-6">
+<!-- SearchBar & Create Post -->
+<div class="space-y-4">
+<button class="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-4 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Create Post</span>
+</button>
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-full h-full">
+<div class="text-neutral-500 dark:text-neutral-400 flex border-none bg-neutral-200 dark:bg-white/5 items-center justify-center pl-4 rounded-l-full border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-full text-black dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-neutral-200 dark:bg-white/5 h-full placeholder:text-neutral-500 dark:placeholder:text-neutral-400 px-4 pl-2 text-base font-normal leading-normal" placeholder="Search community..." value=""/>
+</div>
+</label>
+</div>
+<!-- SideNavBar -->
+<nav class="flex h-full flex-col justify-between bg-neutral-200/50 dark:bg-white/5 p-4 rounded-lg">
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full bg-primary/20 dark:bg-primary/20 text-primary dark:text-primary" href="#">
+<span class="material-symbols-outlined !text-2xl">home</span>
+<p class="text-sm font-bold leading-normal">Home</p>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors text-neutral-700 dark:text-neutral-200" href="#">
+<span class="material-symbols-outlined !text-2xl">sports_esports</span>
+<p class="text-sm font-medium leading-normal">Game Discussions</p>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors text-neutral-700 dark:text-neutral-200" href="#">
+<span class="material-symbols-outlined !text-2xl">storefront</span>
+<p class="text-sm font-medium leading-normal">Trading &amp; Marketplace</p>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors text-neutral-700 dark:text-neutral-200" href="#">
+<span class="material-symbols-outlined !text-2xl">support_agent</span>
+<p class="text-sm font-medium leading-normal">Support</p>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors text-neutral-700 dark:text-neutral-200" href="#">
+<span class="material-symbols-outlined !text-2xl">chat</span>
+<p class="text-sm font-medium leading-normal">General Chat</p>
+</a>
+</div>
+</nav>
+<!-- Trending Tags -->
+<div class="bg-neutral-200/50 dark:bg-white/5 p-4 rounded-lg">
+<h3 class="text-black dark:text-white text-base font-bold leading-tight tracking-[-0.015em] px-2 pb-3">Trending Tags</h3>
+<div class="flex flex-col gap-2">
+<a class="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary text-sm font-medium px-2 py-1 rounded-md transition-colors" href="#">#ValorantSkins</a>
+<a class="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary text-sm font-medium px-2 py-1 rounded-md transition-colors" href="#">#TradingTips</a>
+<a class="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary text-sm font-medium px-2 py-1 rounded-md transition-colors" href="#">#Web3Gaming</a>
+<a class="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary text-sm font-medium px-2 py-1 rounded-md transition-colors" href="#">#EpinDeals</a>
+<a class="text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary text-sm font-medium px-2 py-1 rounded-md transition-colors" href="#">#AccountSecurity</a>
+</div>
+</div>
+</aside>
+<!-- Right Column / Social Feed -->
+<div class="lg:col-span-9 space-y-6">
+<!-- Chips for sorting -->
+<div class="flex gap-3 overflow-x-auto pb-2">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary/20 dark:bg-primary/20 text-primary dark:text-primary px-5">
+<p class="text-sm font-bold leading-normal">Latest</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-neutral-200 dark:bg-white/5 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors px-5">
+<p class="text-sm font-medium leading-normal">Trending</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-neutral-200 dark:bg-white/5 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors px-5">
+<p class="text-sm font-medium leading-normal">Most Liked</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-neutral-200 dark:bg-white/5 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors px-5">
+<p class="text-sm font-medium leading-normal">Unanswered</p>
+</button>
+</div>
+<!-- Post Creation Card -->
+<div class="bg-neutral-200/50 dark:bg-white/5 p-4 rounded-lg flex items-start gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 flex-shrink-0" data-alt="User avatar with abstract gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAwg7aeRwJNvwebexwGQxuTRsarUxDGt4mLy8vzBYXYiTnlhWgrhAN611tCfnF9DJnZau4gk2sZSC71ZIMbby7PDCUT1AYmVaFDw6gMrr42jhulr3YlQgKHz2Wm6LHsNhxbFzLDPK03EvueOvjoy5ppnI0IOAAWIT8Xxu1HXZppchgcDVI73LqL2sGHfYy6guY7W8GIOffgUlRidhkTsoKOpm_766AA3q53eiRtBT2OSBbuA8FAW3qMW-lKBHp_k4llNICp_1nkoJgH");'></div>
+<div class="w-full">
+<textarea class="form-textarea w-full min-h-[60px] resize-none overflow-hidden rounded text-black dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-neutral-300/50 dark:bg-white/5 placeholder:text-neutral-500 dark:placeholder:text-neutral-400 text-base font-normal" placeholder="What's on your mind?"></textarea>
+<div class="flex justify-between items-center mt-3">
+<div class="flex gap-2 text-neutral-500 dark:text-neutral-400">
+<button class="p-2 rounded-full hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors"><span class="material-symbols-outlined !text-xl">image</span></button>
+<button class="p-2 rounded-full hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors"><span class="material-symbols-outlined !text-xl">gif_box</span></button>
+<button class="p-2 rounded-full hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors"><span class="material-symbols-outlined !text-xl">tag</span></button>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">Post</button>
+</div>
+</div>
+</div>
+<!-- Discussion Thread Card 1 -->
+<div class="bg-neutral-200/50 dark:bg-white/5 p-5 rounded-lg space-y-4">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Avatar of user SarahPixels" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDY9hyfYAOzlp9dfHHjVAB0UAmhQZr3NShNyU-I4xnirOnpw_fChWT-jU4TY2d9VDFP60HciX-YFT1DoXpctHB2-c-ZZZLTP85rs1dI7olZipscPFFtoMr2PWI9D1fivUkUGoKrQ_2rLjjvs4yfe_RZp-sasUwGnjco17ew_dPg0eIXjRMtcxwLJJ3k1tSwqc8Bd4x70mg7PJj-XEaax3qeHKNJBqOgvG8Voui0QTTU372spBS7mXEQtmldKxsXmskaSgdGoKXNHU_a");'></div>
+<div>
+<p class="font-bold text-black dark:text-white">SarahPixels</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">posted 2 hours ago</p>
+</div>
+</div>
+<button class="p-2 rounded-full text-neutral-500 dark:text-neutral-400 hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<div class="space-y-3 pl-13">
+<h3 class="text-xl font-bold text-black dark:text-white">Question about NFT Avatars Integration</h3>
+<p class="text-neutral-700 dark:text-neutral-300 text-base leading-relaxed">Hey everyone! Super excited about the Web3 features. I was wondering if there are any plans to allow us to use our own NFTs as avatars directly on our profiles? I think it would be a sick feature to show off our collections. What does the community think?</p>
+<div class="flex gap-2 pt-2">
+<span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full">#Web3</span>
+<span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full">#NFT</span>
+<span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full">#FeatureRequest</span>
+</div>
+</div>
+<div class="flex items-center gap-6 pl-13 pt-2 text-neutral-500 dark:text-neutral-400">
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined !text-2xl">thumb_up</span>
+<span class="text-sm font-medium">128</span>
+</button>
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined !text-2xl">chat_bubble_outline</span>
+<span class="text-sm font-medium">42</span>
+</button>
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined !text-2xl">share</span>
+<span class="text-sm font-medium">15</span>
+</button>
+</div>
+</div>
+<!-- Discussion Thread Card 2 -->
+<div class="bg-neutral-200/50 dark:bg-white/5 p-5 rounded-lg space-y-4">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Avatar of user GlitchGamer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBqCiVD56u9IYcfhZ292RsWJc6mb5uZKPazX_sii4JVF61JBgSL9JwQxkGvKgUFoK_6r7vT5aO8efEkcDnoxvThJ0frGJTHwxUqiko9uGMiBGdfWsTpAwKIF-tWtlXy9N0I1p2OiargKC7AfhmWkOHP8lsrIagFc6gyiukHVDaTgi4h1zs1DgTFthe4kgKmcTKQxX6VMaSq-dOouoOlNV1o8fktX_1e2x6d-2OCDSiqxWnoWjFzRh7UOg2xNr7OunzhijieACTgc6oj");'></div>
+<div>
+<p class="font-bold text-black dark:text-white">GlitchGamer</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">posted 5 hours ago</p>
+</div>
+</div>
+<button class="p-2 rounded-full text-neutral-500 dark:text-neutral-400 hover:bg-neutral-300/50 dark:hover:bg-white/10 transition-colors"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<div class="space-y-3 pl-13">
+<h3 class="text-xl font-bold text-black dark:text-white">PSA: Watch out for Phishing Scams</h3>
+<p class="text-neutral-700 dark:text-neutral-300 text-base leading-relaxed">Just a heads up to the community, seeing a rise in phishing attempts through DMs. Remember, Epin admins will NEVER ask for your password or private keys. Stay safe and always double-check who you're talking to. Use the official support channels for any account issues.</p>
+<div class="flex gap-2 pt-2">
+<span class="bg-red-500/20 text-red-500 text-xs font-bold px-3 py-1 rounded-full">#AccountSecurity</span>
+<span class="bg-red-500/20 text-red-500 text-xs font-bold px-3 py-1 rounded-full">#PSA</span>
+</div>
+</div>
+<div class="flex items-center gap-6 pl-13 pt-2 text-neutral-500 dark:text-neutral-400">
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined !text-2xl">thumb_up</span>
+<span class="text-sm font-medium">351</span>
+</button>
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined !text-2xl">chat_bubble_outline</span>
+<span class="text-sm font-medium">89</span>
+</button>
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined !text-2xl">share</span>
+<span class="text-sm font-medium">72</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

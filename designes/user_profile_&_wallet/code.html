@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile &amp; Wallet</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 1,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        .icon-regular {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full">
+<!-- Side Navigation Bar -->
+<aside class="flex h-screen w-64 flex-col bg-[#101d23] p-4 sticky top-0">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Emir Can's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCpz8I1gj_S49lded7A9n20NwpXaiUhSGDMawvOTd25FJTFkBg91ePn2w_mtVw5--GjgzxGnWvUsqTrcQZDJq-D1SGxnWNx417215u4oGpt4gNahurWUk6GV00i1jY7lDtUeDW6D308ake5mKlgu7O1SU-O9Ob7NawQGPo9GUv5202Ys79RqOoyGTwM1aSIqyCq6E9sX4pcZf4ia3Cu8t6hQC4r9dKO_HJoyNZfaeVGkrefkJOobnczg5xlzirdy5n0k0Q-DT_1x5mT");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Emir Can</h1>
+<p class="text-green-400 text-sm font-normal leading-normal">Verified User</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-6">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined text-primary" style="font-size: 24px;">account_balance_wallet</span>
+<p class="text-sm font-medium leading-normal">Dashboard &amp; Wallet</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10" href="#">
+<span class="material-symbols-outlined icon-regular" style="font-size: 24px;">history</span>
+<p class="text-sm font-medium leading-normal">Transaction History</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10" href="#">
+<span class="material-symbols-outlined icon-regular" style="font-size: 24px;">settings</span>
+<p class="text-sm font-medium leading-normal">Profile Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10" href="#">
+<span class="material-symbols-outlined icon-regular" style="font-size: 24px;">shield</span>
+<p class="text-sm font-medium leading-normal">Security</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10" href="#">
+<span class="material-symbols-outlined icon-regular" style="font-size: 24px;">support_agent</span>
+<p class="text-sm font-medium leading-normal">Support</p>
+</a>
+</div>
+</div>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10" href="#">
+<span class="material-symbols-outlined icon-regular" style="font-size: 24px;">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8">
+<div class="w-full max-w-5xl mx-auto">
+<!-- Profile Header -->
+<header class="flex p-4 @container border-b border-white/10 pb-8 mb-8">
+<div class="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
+<div class="flex gap-4 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-24 h-24" data-alt="Emir Can's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAH_5_UjDQ1Y4W6sp5JRmApCGsaMiLCJ_TD5pRyD5xVKpCG8Xn9G7S-ounkdkVrj5uLdlX2EckA9Fpmn84gPKwRlSTAZmlCqnpgPJYWDrXhzcRxiTG9qar_5EuQC2s3nSXwxrumZ0wzCC6kYhLYFfUAXkwO9mwqsvm7PI3hEoix4Do7DSTxvfm1pdnCj_9FexwU1p_25I3QHAuX1_8kwOOqpsDsMBOUWE3Qg45eGQTsjPYG4bveOMPIhtUhpNly4hOX98xejFkj2u6M");'></div>
+<div class="flex flex-col justify-center">
+<p class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Emir Can</p>
+<p class="text-gray-400 text-base font-normal leading-normal">emir.can@email.com</p>
+<p class="text-gray-400 text-base font-normal leading-normal">Joined: 12 Jan 2023</p>
+</div>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#223d49] hover:bg-[#315768] text-white text-sm font-bold leading-normal tracking-[0.015em] w-full max-w-[480px] @[480px]:w-auto">
+<span class="truncate">Edit Profile</span>
+</button>
+</div>
+</header>
+<!-- Wallet Section -->
+<section>
+<!-- Stats & Actions -->
+<div class="flex flex-col lg:flex-row gap-6 mb-8">
+<div class="flex-grow">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#223d49]/50 border border-white/10">
+<div class="flex items-center gap-2">
+<p class="text-white text-base font-medium leading-normal">Ana Bakiye (Main Balance)</p>
+</div>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">₺1,250.75</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#223d49]/50 border border-white/10">
+<div class="flex items-center gap-2" title="Funds held in escrow for ongoing transactions.">
+<p class="text-white text-base font-medium leading-normal">Escrow Bakiye (Escrow)</p>
+<span class="material-symbols-outlined icon-regular text-gray-400" style="font-size: 16px;">info</span>
+</div>
+<p class="text-white tracking-light text-3xl font-bold leading-tight">₺300.00</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#223d49]/50 border border-white/10">
+<div class="flex items-center gap-2" title="Promotional credits with specific usage terms.">
+<p class="text-white text-base font-medium leading-normal">Bonus Bakiye (Promotional)</p>
+<span class="material-symbols-outlined icon-regular text-gray-400" style="font-size: 16px;">info</span>
+</div>
+<p class="text-orange-400 tracking-light text-3xl font-bold leading-tight">₺50.00</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#223d49]/50 border border-white/10">
+<div class="flex items-center gap-2" title="Funds temporarily frozen for security verification.">
+<p class="text-white text-base font-medium leading-normal">Frozen Bakiye (Frozen)</p>
+<span class="material-symbols-outlined icon-regular text-gray-400" style="font-size: 16px;">info</span>
+</div>
+<p class="text-red-400 tracking-light text-3xl font-bold leading-tight">₺100.00</p>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 lg:w-52">
+<div class="flex flex-col gap-3 justify-start p-4 bg-[#223d49]/50 rounded-xl border border-white/10 h-full">
+<h3 class="text-white font-bold mb-2">Actions</h3>
+<button class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Deposit</span>
+</button>
+<button class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#223d49] hover:bg-[#315768] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Withdraw</span>
+</button>
+<a class="text-sm text-primary hover:underline mt-auto pt-4 text-center" href="#">Bonus Terms</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Transaction History Section -->
+<section>
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Transaction History</h2>
+<!-- Tabs -->
+<div class="border-b border-white/10 px-4">
+<nav class="-mb-px flex space-x-6">
+<a class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-primary border-primary" href="#">All Transactions</a>
+<a class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-400 hover:text-white border-transparent hover:border-gray-300" href="#">Deposits</a>
+<a class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-400 hover:text-white border-transparent hover:border-gray-300" href="#">Withdrawals</a>
+<a class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-400 hover:text-white border-transparent hover:border-gray-300" href="#">Purchases</a>
+</nav>
+</div>
+<!-- Transaction Table -->
+<div class="overflow-x-auto">
+<table class="min-w-full text-left text-sm font-light">
+<thead class="font-medium text-gray-400">
+<tr>
+<th class="px-6 py-4" scope="col">Date</th>
+<th class="px-6 py-4" scope="col">Type</th>
+<th class="px-6 py-4" scope="col">Amount</th>
+<th class="px-6 py-4" scope="col">Status</th>
+<th class="px-6 py-4 text-right" scope="col">Details</th>
+</tr>
+</thead>
+<tbody class="text-white">
+<tr class="border-b border-white/10 hover:bg-white/5">
+<td class="whitespace-nowrap px-6 py-4">24 Aug 2023, 11:45 AM</td>
+<td class="whitespace-nowrap px-6 py-4">Purchase - Game Key</td>
+<td class="whitespace-nowrap px-6 py-4 font-medium">-₺120.00</td>
+<td class="whitespace-nowrap px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400">Completed</span>
+</td>
+<td class="whitespace-nowrap px-6 py-4 text-right">
+<a class="text-primary hover:underline" href="#">View</a>
+</td>
+</tr>
+<tr class="border-b border-white/10 hover:bg-white/5">
+<td class="whitespace-nowrap px-6 py-4">23 Aug 2023, 02:10 PM</td>
+<td class="whitespace-nowrap px-6 py-4">Deposit</td>
+<td class="whitespace-nowrap px-6 py-4 font-medium text-green-400">+₺500.00</td>
+<td class="whitespace-nowrap px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400">Completed</span>
+</td>
+<td class="whitespace-nowrap px-6 py-4 text-right">
+<a class="text-primary hover:underline" href="#">View</a>
+</td>
+</tr>
+<tr class="border-b border-white/10 hover:bg-white/5">
+<td class="whitespace-nowrap px-6 py-4">22 Aug 2023, 09:00 AM</td>
+<td class="whitespace-nowrap px-6 py-4">Withdrawal</td>
+<td class="whitespace-nowrap px-6 py-4 font-medium">-₺200.00</td>
+<td class="whitespace-nowrap px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-orange-500/10 px-2 py-1 text-xs font-medium text-orange-400">Pending</span>
+</td>
+<td class="whitespace-nowrap px-6 py-4 text-right">
+<a class="text-primary hover:underline" href="#">View</a>
+</td>
+</tr>
+<tr class="border-b border-white/10 hover:bg-white/5">
+<td class="whitespace-nowrap px-6 py-4">21 Aug 2023, 06:30 PM</td>
+<td class="whitespace-nowrap px-6 py-4">Purchase - In-Game Credits</td>
+<td class="whitespace-nowrap px-6 py-4 font-medium">-₺50.00</td>
+<td class="whitespace-nowrap px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-red-500/10 px-2 py-1 text-xs font-medium text-red-400">Failed</span>
+</td>
+<td class="whitespace-nowrap px-6 py-4 text-right">
+<a class="text-primary hover:underline" href="#">View</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

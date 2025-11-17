@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace - Your Cart</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101c22;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #223d49;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0ba3ea;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-50 border-b border-gray-200/10 bg-background-dark/80 backdrop-blur-sm">
+<div class="container mx-auto px-4">
+<div class="flex h-20 items-center justify-between">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3 text-white" href="#">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight">Epin Marketplace</h2>
+</a>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-gray-300 hover:text-primary text-sm font-medium transition-colors" href="#">Home</a>
+<a class="text-gray-300 hover:text-primary text-sm font-medium transition-colors" href="#">Store</a>
+<a class="text-gray-300 hover:text-primary text-sm font-medium transition-colors" href="#">My Profile</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end items-center gap-4">
+<label class="hidden lg:flex flex-col relative !h-10 w-full max-w-xs">
+<div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-200/20 bg-gray-200/10 focus:border-primary/50 h-full placeholder:text-gray-400 pl-10 pr-4 text-sm font-normal" placeholder="Search for products..." value=""/>
+</label>
+<button class="relative flex shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-gray-200/10 text-white hover:bg-gray-200/20 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">shopping_cart</span>
+<div class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">2</div>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCDMYoMAtwENhb81x4yxMB6TyZKntGP3MZnGOkjkTOYbHQKPwQ-PN31FF74FYL-wJPZJOddx_goQGsKc4x73QVzwUn2jrnF0WQ2lNyRccY2_RSnbKs3ogdmOAObCgqRuvrceJzHwrS9UcT4uNFcOpF1_2UpBPEBuq-OItEiY7lMs0I7tgSnFbOby79f2xsSzOJQhAb3MWlYUAGeKvdGvxg-k1HPeS5TIRK7qNYl84eLmi9wME2EgQyhiyW9ui_TPhqa9CDGPydpHO5W");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<div class="container mx-auto px-4 py-8 md:py-12">
+<div class="mb-8">
+<div class="flex flex-wrap items-center gap-2 mb-4">
+<a class="text-gray-400 hover:text-primary text-sm font-medium transition-colors" href="#">Home</a>
+<span class="text-gray-500 text-sm">/</span>
+<a class="text-gray-400 hover:text-primary text-sm font-medium transition-colors" href="#">Store</a>
+<span class="text-gray-500 text-sm">/</span>
+<span class="text-white text-sm font-medium">Your Cart</span>
+</div>
+<div class="flex flex-wrap justify-between gap-4 items-baseline">
+<h1 class="text-white text-4xl lg:text-5xl font-bold tracking-tighter">Your Shopping Cart</h1>
+<a class="text-primary hover:text-primary/80 text-sm font-medium transition-colors" href="#">Continue Shopping</a>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12">
+<div class="lg:col-span-2">
+<div class="flex flex-col gap-px overflow-hidden rounded-lg border border-gray-200/20 bg-gray-200/20">
+<div class="flex flex-col sm:flex-row gap-4 bg-background-dark p-4 sm:p-6 justify-between items-start sm:items-center">
+<div class="flex items-start gap-4 w-full">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-20 shrink-0" data-alt="Steam Wallet Code product image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBrRmHp2nx-hFpmlWuYqzKc5hhmof2000CL-ZqQVbWPyplaECWCer6TPHhUy0uwesLdguaJYiT6lHucnmjb34QB7S6SsXd0FDVr6dgXrhx7r_ZMna2DZIycoTGXEEHYZvFD0qw2dobWXjSe15vWf4JtzIDmMucnrkGstNg55uTTEJ4OwTS8VS5kT38OYTaBYU2Q1mkfKsMm-NwwpgY-d-zG3m9ZvyR22_iHg2cPDJg1AcN_5bI3LIpVUnGuItP_r4Ikqnp7yT7xat7l");'></div>
+<div class="flex flex-1 flex-col justify-center gap-1">
+<p class="text-white text-lg font-semibold leading-tight">5,000 Credits Steam Wallet Code</p>
+<p class="text-gray-400 text-sm font-normal">Unit Price: 5,000 Credits</p>
+<p class="text-gray-400 text-sm font-normal">Platform: Steam</p>
+</div>
+</div>
+<div class="flex items-center justify-between w-full sm:w-auto gap-4">
+<div class="shrink-0">
+<div class="flex items-center gap-2 text-white bg-gray-200/10 rounded-full px-1">
+<button class="text-xl font-medium flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200/20 transition-colors cursor-pointer">-</button>
+<input class="text-base font-medium w-8 p-0 text-center bg-transparent focus:outline-none border-none [appearance:textfield] [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" type="number" value="1"/>
+<button class="text-xl font-medium flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200/20 transition-colors cursor-pointer">+</button>
+</div>
+</div>
+<p class="text-white text-lg font-semibold w-24 text-right">5,000 Cr</p>
+<button class="text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 bg-background-dark p-4 sm:p-6 justify-between items-start sm:items-center">
+<div class="flex items-start gap-4 w-full">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-20 shrink-0" data-alt="Fortnite V-Bucks product image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCOocAliale3TwHZpWe00zbHohz6kZpvIeVvN7eRn8TTsDwBNC_qSZEcx39Q048P8_jzUE3aVxeuqVQs3nyjhR6z0wSn-CpXEkVT_mtPYfZGAU1dRDGkkAiuQJMzXZ_XCTxnZj4YZ8D1rJtqwBhDtwsZAtjIPP9WeQsSwB4ucmIm4zv-Etc_eRzhonrgg1_b9KOaRpRkUB4xbK0d2gkaLoiSgyMKV9Fy6lfzV4BigF73D_EU445RC6FA_QWUw0OiOYTSiQ5B9Ms8BJ9");'></div>
+<div class="flex flex-1 flex-col justify-center gap-1">
+<p class="text-white text-lg font-semibold leading-tight">1,000 V-Bucks Gift Card</p>
+<p class="text-gray-400 text-sm font-normal">Unit Price: 999 Credits</p>
+<p class="text-gray-400 text-sm font-normal">Platform: Fortnite</p>
+</div>
+</div>
+<div class="flex items-center justify-between w-full sm:w-auto gap-4">
+<div class="shrink-0">
+<div class="flex items-center gap-2 text-white bg-gray-200/10 rounded-full px-1">
+<button class="text-xl font-medium flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200/20 transition-colors cursor-pointer">-</button>
+<input class="text-base font-medium w-8 p-0 text-center bg-transparent focus:outline-none border-none [appearance:textfield] [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" type="number" value="2"/>
+<button class="text-xl font-medium flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200/20 transition-colors cursor-pointer">+</button>
+</div>
+</div>
+<p class="text-white text-lg font-semibold w-24 text-right">1,998 Cr</p>
+<button class="text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1">
+<div class="sticky top-28 flex flex-col gap-6 rounded-xl border border-gray-200/20 bg-background-dark p-6">
+<h2 class="text-white text-2xl font-bold">Order Summary</h2>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center text-gray-300">
+<span>Subtotal</span>
+<span class="text-white font-medium">6,998 Credits</span>
+</div>
+<div class="flex justify-between items-center text-gray-300">
+<span>Discount</span>
+<span class="text-white font-medium">-0 Credits</span>
+</div>
+<div class="flex justify-between items-center text-gray-300">
+<span>Taxes (if applicable)</span>
+<span class="text-white font-medium">560 Credits</span>
+</div>
+</div>
+<div class="w-full h-px bg-gray-200/20"></div>
+<div class="flex justify-between items-center">
+<span class="text-white text-xl font-bold">Total Cost</span>
+<span class="text-white text-2xl font-bold">7,558 Credits</span>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-gray-300" for="discount-code">Discount Code or Coupon</label>
+<div class="flex gap-2">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-200/20 bg-gray-200/10 focus:border-primary/50 h-11 placeholder:text-gray-400 px-4 text-sm font-normal" id="discount-code" name="discount-code" placeholder="Enter code" type="text"/>
+<button class="flex shrink-0 max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 bg-gray-200/20 text-white gap-2 text-sm font-bold min-w-0 px-4 hover:bg-gray-200/30 transition-colors">Apply</button>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between rounded-lg bg-red-900/40 p-4 border border-red-500/50">
+<div class="flex flex-col">
+<p class="text-red-400 text-sm font-semibold">Insufficient Credits</p>
+<p class="text-gray-300 text-sm">Your balance: <span class="font-bold">5,000 Credits</span></p>
+</div>
+<a class="flex shrink-0 items-center justify-center rounded-lg h-10 bg-primary px-4 text-sm font-bold text-white hover:bg-primary/90 transition-colors" href="#">
+<span class="material-symbols-outlined mr-2">add_card</span>
+<span>Deposit</span>
+</a>
+</div>
+<button class="flex w-full cursor-not-allowed items-center justify-center overflow-hidden rounded-lg h-12 bg-gray-500 text-gray-300 gap-2 text-base font-bold tracking-wide transition-all" disabled="">
+<span class="material-symbols-outlined">lock</span>
+<span>Proceed to Credit Payment</span>
+</button>
+<p class="text-xs text-center text-gray-400 flex items-center justify-center gap-1.5"><span class="material-symbols-outlined text-sm text-green-400">verified_user</span> Blockchain Secured Transactions</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
