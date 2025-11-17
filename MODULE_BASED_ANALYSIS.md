@@ -930,15 +930,16 @@
 - ✅ Sprint 22: Seller Orders design HTML kontrolü, Transaction History kontrolü, Login geri kontrol
 - ✅ Sprint 23: User Profile & Wallet design HTML kontrolü, Wallet Withdrawal kontrolü, Product Detail geri kontrol
 - ✅ Sprint 24: Seller Wallet design HTML kontrolü, Seller Products kontrolü, Cart geri kontrol
+- ✅ Sprint 25: Seller Analytics design HTML kontrolü, Seller Settings kontrolü, Checkout geri kontrol
 
 ### Devam Eden Sprintler
-- 🔄 Sprint 25+: Kısmen uygulanan sayfaları tamamlama
+- 🔄 Sprint 26+: Kısmen uygulanan sayfaları tamamlama
 
 ### Toplam İlerleme
-- **Tam Uygulanan**: 25 sayfa (35%) ⬆️
-- **Kısmen Uygulanan**: 14 sayfa (19%) ⬇️
+- **Tam Uygulanan**: 27 sayfa (38%) ⬆️
+- **Kısmen Uygulanan**: 12 sayfa (17%) ⬇️
 - **Eksik**: 33 sayfa (46%)
-- **Genel İlerleme**: ~63% tamamlandı ⬆️
+- **Genel İlerleme**: ~66% tamamlandı ⬆️
 
 ---
 
@@ -952,7 +953,7 @@
 
 ---
 
-*Son Güncelleme: Sprint 24 Sonrası*
+*Son Güncelleme: Sprint 25 Sonrası*
 
 ## 📝 Sprint 21 Detayları
 
@@ -1068,4 +1069,37 @@
 - ✅ Seller wallet backend entegrasyonu mevcut
 - ✅ Product queries Supabase'den çalışıyor
 - ✅ RLS policies tanımlı
+
+## 📝 Sprint 25 Detayları
+
+### Tamamlanan İşler
+1. ✅ **Seller Analytics** (`/seller/analytics`)
+   - Design HTML ile birebir uyum kontrolü yapıldı
+   - Analytics Stats, Time Range Buttons, Revenue Chart, Customer Insights, Top Products, AI Market Intelligence mevcut
+   - Component'ler design HTML'e uyumlu
+   - Backend entegrasyonu mevcut
+
+2. ✅ **Seller Settings** (`/seller/settings`)
+   - Design HTML ile birebir uyum kontrolü yapıldı
+   - Store Profile, Security, Notifications sections mevcut
+   - Component'ler design HTML'e uyumlu
+   - Backend entegrasyonu mevcut
+
+3. ✅ **Checkout** (`/checkout`)
+   - Geri kontrol yapıldı
+   - Mobile responsive ✅
+   - Backend entegrasyonu mevcut ✅
+   - Payment method selection çalışıyor ✅
+   - Import path'ler düzeltildi
+
+### Backend & Database Kontrolleri
+- ✅ Checkout actions import path düzeltildi (`@/lib/supabase` → `@/utils/supabase/server`)
+- ✅ Cart actions import path düzeltildi (`@/lib/supabase` → `@/utils/supabase/server`)
+- ✅ Seller analytics backend entegrasyonu mevcut
+- ✅ Seller settings backend entegrasyonu mevcut
+- ✅ RLS policies tanımlı
+
+### Değişiklikler
+- `epin-marketplace/src/app/actions/checkout.ts`: Import path düzeltildi
+- `epin-marketplace/src/app/actions/cart.ts`: Import path düzeltildi
 
