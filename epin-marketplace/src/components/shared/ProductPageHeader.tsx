@@ -22,10 +22,10 @@ export default function ProductPageHeader() {
       </div>
       <div className="hidden lg:flex flex-1 justify-center gap-8">
         <div className="flex items-center gap-9">
-          <Link className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="/">Games</Link>
-          <Link className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="/">Top-ups</Link>
-          <Link className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="/">Stores</Link>
-          <Link className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="/">Brands</Link>
+          <Link className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="/products">Games</Link>
+          <Link className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="/products?category=top-ups">Top-ups</Link>
+          <Link className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="/stores">Stores</Link>
+          <Link className="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="/brands">Brands</Link>
         </div>
       </div>
       <div className="flex items-center gap-2">

@@ -49,8 +49,11 @@ export default function ProfileSidebar({ userName = 'User', userEmail, isVerifie
               }`}
             >
               <span
-                className={`material-symbols-outlined ${item.active ? 'text-primary' : 'icon-regular'}`}
-                style={{ fontSize: '24px' }}
+                className={`material-symbols-outlined ${item.active ? 'text-primary' : ''}`}
+                style={{ 
+                  fontSize: '24px',
+                  fontVariationSettings: item.active ? "'FILL' 1" : "'FILL' 0"
+                }}
               >
                 {item.icon}
               </span>
@@ -64,7 +67,13 @@ export default function ProfileSidebar({ userName = 'User', userEmail, isVerifie
           href="/logout"
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10 transition-colors"
         >
-          <span className="material-symbols-outlined icon-regular" style={{ fontSize: '24px' }}>
+          <span 
+            className="material-symbols-outlined" 
+            style={{ 
+              fontSize: '24px',
+              fontVariationSettings: "'FILL' 0"
+            }}
+          >
             logout
           </span>
           <p className="text-sm font-medium leading-normal">Logout</p>

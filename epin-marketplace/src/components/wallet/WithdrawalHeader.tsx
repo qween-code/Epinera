@@ -15,7 +15,7 @@ export default function WithdrawalHeader() {
           </div>
           <h2 className="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
         </Link>
-        <label className="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+        <Link href="/search" className="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
           <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
             <div className="text-gray-400 dark:text-[#90b8cb] flex border-none bg-black/5 dark:bg-[#223d49] items-center justify-center pl-4 rounded-l-lg border-r-0">
               <span className="material-symbols-outlined text-base">search</span>
@@ -23,10 +23,10 @@ export default function WithdrawalHeader() {
             <input
               className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-black dark:text-white focus:outline-0 focus:ring-0 border-none bg-black/5 dark:bg-[#223d49] focus:border-none h-full placeholder:text-gray-400 dark:placeholder:text-[#90b8cb] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
               placeholder="Search"
-              value=""
+              readOnly
             />
           </div>
-        </label>
+        </Link>
       </div>
       <div className="flex flex-1 justify-end gap-2 sm:gap-4 md:gap-8">
         <div className="hidden lg:flex items-center gap-9">
