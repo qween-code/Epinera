@@ -2,17 +2,19 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { useState, useEffect } from 'react';
-import ProductCard from '@/components/ui/ProductCard';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
+import CategoryPageHeader from '@/components/product/CategoryPageHeader';
+import CategoryFilters from '@/components/product/CategoryFilters';
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [sortBy, setSortBy] = useState('created_at');
+  const [sortBy, setSortBy] = useState('popularity');
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
@@ -64,7 +66,7 @@ export default function SearchPage() {
       }
 
       // Sort
-      if (sortBy === 'created_at') {
+      if (sortBy === 'newest') {
         queryBuilder = queryBuilder.order('created_at', { ascending: false });
       } else if (sortBy === 'title') {
         queryBuilder = queryBuilder.order('title', { ascending: true });
@@ -110,98 +112,137 @@ export default function SearchPage() {
     searchProducts();
   };
 
+  const handleSortChange = (newSort: string) => {
+    setSortBy(newSort);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('sort', newSort);
+    router.push(`/search?${params.toString()}`);
+  };
+
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Ürün Ara</h1>
+    <div className="relative flex w-full flex-col bg-background-light dark:bg-background-dark font-display text-[#EAEAEA]">
+      <CategoryPageHeader />
+      <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-8 lg:flex-row">
+          {/* Sidebar */}
+          <aside className="w-full lg:w-1/4 xl:w-1/5">
+            <CategoryFilters categories={categories} />
+          </aside>
 
-        {/* Search Form */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <form onSubmit={handleSearch} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Arama</label>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Ürün adı yazın..."
-                className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Kategori</label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          {/* Main Content */}
+          <div className="w-full lg:w-3/4 xl:w-4/5">
+            <div className="flex flex-col gap-6">
+              {/* Breadcrumbs */}
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  href="/"
+                  className="text-white/60 hover:text-white text-sm font-medium leading-normal transition-colors"
                 >
-                  <option value="">Tüm Kategoriler</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
+                  Home
+                </Link>
+                <span className="text-white/60 text-sm font-medium leading-normal">/</span>
+                <span className="text-white text-sm font-medium leading-normal">
+                  {query ? `Search: "${query}"` : 'Search Results'}
+                </span>
+              </div>
+
+              {/* Page Heading */}
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
+                  {query ? `Search: "${query}"` : 'Search Results'}
+                </h1>
+                <p className="text-white/70 text-sm">
+                  {loading ? 'Searching...' : `Showing 1-${Math.min(12, products.length)} of ${products.length} results`}
+                </p>
+              </div>
+
+              {/* Sorting Chips */}
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-white/80 text-sm font-medium">Sort by:</span>
+                {[
+                  { value: 'popularity', label: 'Popularity' },
+                  { value: 'price_asc', label: 'Price: Low to High' },
+                  { value: 'price_desc', label: 'Price: High to Low' },
+                  { value: 'newest', label: 'Newest' },
+                ].map((option) => {
+                  const isActive = sortBy === option.value;
+                  return (
+                    <button
+                      key={option.value}
+                      onClick={() => handleSortChange(option.value)}
+                      className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-3 text-sm font-medium transition-colors ${
+                        isActive
+                          ? 'bg-primary/20 text-primary'
+                          : 'bg-white/10 hover:bg-white/20 text-white'
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Product Grid */}
+              {loading ? (
+                <div className="text-center py-16">
+                  <div className="text-white/50">Searching...</div>
+                </div>
+              ) : products.length === 0 ? (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">🔍</div>
+                  <h2 className="text-2xl font-bold mb-2 text-white">No results found</h2>
+                  <p className="text-white/70 mb-8">
+                    {query ? `No products found for "${query}"` : 'Start searching to discover products'}
+                  </p>
+                  <Link
+                    href="/"
+                    className="inline-block px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-colors"
+                  >
+                    Back to Home
+                  </Link>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+                  {products.map((product) => (
+                    <div
+                      key={product.id}
+                      className="group relative flex flex-col overflow-hidden rounded-xl bg-white/5 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/10"
+                    >
+                      <div className="aspect-square w-full overflow-hidden">
+                        <div
+                          className="h-full w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
+                          style={{
+                            backgroundImage: `url(${product.image_url || 'https://via.placeholder.com/300'})`,
+                          }}
+                        ></div>
+                      </div>
+                      <div className="flex flex-1 flex-col p-4">
+                        <h3 className="font-bold text-white">{product.title}</h3>
+                        <div className="mt-1 flex items-center gap-2">
+                          <p className="text-sm text-white/70">Seller</p>
+                          <div className="flex items-center gap-0.5">
+                            <span className="material-symbols-outlined !text-[16px] text-yellow-400">star</span>
+                            <span className="text-xs font-medium text-white/90">4.8</span>
+                          </div>
+                        </div>
+                        <p className="mt-4 text-xl font-bold text-primary">
+                          ${product.lowest_price?.toFixed(2) || '0.00'} {product.currency || 'USD'}
+                        </p>
+                      </div>
+                      <Link
+                        href={`/product/${product.slug}`}
+                        className="absolute bottom-4 right-4 flex h-10 w-10 translate-y-3 items-center justify-center rounded-full bg-primary text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
+                      >
+                        <span className="material-symbols-outlined">add_shopping_cart</span>
+                      </Link>
+                    </div>
                   ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Sıralama</label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="created_at">En Yeni</option>
-                  <option value="title">İsme Göre (A-Z)</option>
-                  <option value="price_asc">Fiyat (Düşük - Yüksek)</option>
-                  <option value="price_desc">Fiyat (Yüksek - Düşük)</option>
-                </select>
-              </div>
+                </div>
+              )}
             </div>
-
-            <button
-              type="submit"
-              className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-colors"
-            >
-              Ara
-            </button>
-          </form>
+          </div>
         </div>
-
-        {/* Results */}
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="text-xl">Aranıyor...</div>
-          </div>
-        ) : products.length === 0 ? (
-          <div className="bg-gray-800 rounded-lg p-12 text-center">
-            <div className="text-6xl mb-4">🔍</div>
-            <h2 className="text-2xl font-bold mb-2">Sonuç Bulunamadı</h2>
-            <p className="text-gray-400 mb-6">
-              {query ? `"${query}" için sonuç bulunamadı` : 'Arama yaparak ürünleri keşfedin'}
-            </p>
-            <Link
-              href="/"
-              className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-            >
-              Ana Sayfaya Dön
-            </Link>
-          </div>
-        ) : (
-          <>
-            <div className="mb-4 text-gray-400">
-              {products.length} ürün bulundu
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </>
-        )}
-      </div>
+      </main>
     </div>
   );
 }
