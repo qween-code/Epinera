@@ -36,8 +36,7 @@ export default function CreatorLayout({ children }: { children: React.ReactNode 
 
   const navItems = [
     { href: '/creator', label: 'Dashboard', icon: 'dashboard' },
-    { href: '/creator/stream', label: 'Live Stream', icon: 'sensors' },
-    { href: '/creator/tools', label: 'Content Tools', icon: 'construction' },
+    { href: '/creator/campaigns', label: 'Campaigns', icon: 'campaign' },
     { href: '/creator/audience', label: 'Audience', icon: 'groups' },
     { href: '/creator/revenue', label: 'Revenue', icon: 'payments' },
     { href: '/creator/settings', label: 'Settings', icon: 'settings' },
