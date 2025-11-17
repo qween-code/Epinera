@@ -100,7 +100,7 @@ export default function ReviewsSection({
                 style={{
                   backgroundImage: review.reviewer.avatar
                     ? `url(${review.reviewer.avatar})`
-                    : 'url(/placeholder-avatar.jpg)',
+                    : 'url(https://api.dicebear.com/7.x/avataaars/svg?seed=default)',
                 }}
                 role="img"
                 aria-label="Reviewer avatar"

@@ -1,6 +1,6 @@
 'use client';
 
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 import { useState, useEffect } from 'react';
 import ProductCard from '@/components/ui/ProductCard';
 import Link from 'next/link';

@@ -9,7 +9,7 @@ interface ProductImageGalleryProps {
 
 export default function ProductImageGallery({ images, productTitle }: ProductImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const mainImage = images[selectedImage] || images[0] || '/placeholder-game.jpg';
+  const mainImage = images[selectedImage] || images[0] || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80';
   const thumbnails = images.slice(0, 5);
   const remainingCount = images.length > 5 ? images.length - 5 : 0;
 

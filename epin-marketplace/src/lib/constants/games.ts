@@ -55,4 +55,4 @@ export const CATEGORY_IMAGES = {
   knightOnline: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&q=80',
 } as const;
 
-export const PRODUCT_PLACEHOLDER = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80';
+export const PRODUCT_PLACEHOLDER = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80';

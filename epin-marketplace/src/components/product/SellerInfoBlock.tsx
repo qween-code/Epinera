@@ -23,7 +23,7 @@ export default function SellerInfoBlock({ seller }: SellerInfoBlockProps) {
           style={{
             backgroundImage: seller.avatar
               ? `url(${seller.avatar})`
-              : 'url(/placeholder-avatar.jpg)',
+              : `url(https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(seller.name)})`,
           }}
           role="img"
           aria-label="Seller avatar"

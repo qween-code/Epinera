@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 
 export interface CartItem {
   id: string;
@@ -11,6 +11,7 @@ export interface CartItem {
     id: string;
     title: string;
     slug: string;
+    image?: string | null;
   };
   variant: {
     id: string;
@@ -63,7 +64,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             products!inner (
               id,
               title,
-              slug
+              slug,
+              image_url
             )
           )
         `)
@@ -79,6 +81,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           id: item.product_variants.products.id,
           title: item.product_variants.products.title,
           slug: item.product_variants.products.slug,
+          image: item.product_variants.products.image_url || null,
         },
         variant: {
           id: item.product_variants.id,

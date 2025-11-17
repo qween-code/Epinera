@@ -1,6 +1,11 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
+import DashboardStats from '@/components/seller/DashboardStats';
+import TimeRangeSelector from '@/components/seller/TimeRangeSelector';
+import PerformanceChart from '@/components/seller/PerformanceChart';
+import TopSellingProducts from '@/components/seller/TopSellingProducts';
+import AIInsights from '@/components/seller/AIInsights';
+import RecentActivity from '@/components/seller/RecentActivity';
 
 export default async function SellerDashboardPage() {
   const supabase = await createClient();
@@ -13,141 +18,119 @@ export default async function SellerDashboardPage() {
   // Fetch seller stats
   const { data: products } = await supabase
     .from('products')
-    .select('id, title, status, product_variants(stock_quantity)')
+    .select('id, title, status, image_url, product_variants(id, name, price, stock_quantity)')
     .eq('seller_id', user.id);
 
   const { data: orders } = await supabase
     .from('order_items')
-    .select('id, total_price, delivery_status, created_at')
+    .select('id, total_price, delivery_status, created_at, products(title)')
+    .eq('seller_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(10);
+
+  const { data: reviews } = await supabase
+    .from('reviews')
+    .select('rating')
     .eq('seller_id', user.id);
 
-  const totalProducts = products?.length || 0;
-  const activeProducts = products?.filter(p => p.status === 'active').length || 0;
+  // Calculate stats
+  const totalRevenue = orders?.reduce((sum, order) => sum + parseFloat(order.total_price?.toString() || '0'), 0) || 0;
   const totalOrders = orders?.length || 0;
-  const pendingOrders = orders?.filter(o => o.delivery_status === 'pending').length || 0;
-  const totalRevenue = orders?.reduce((sum, order) => sum + parseFloat(order.total_price), 0) || 0;
+  const averageRating = reviews?.length
+    ? reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length
+    : 4.8;
+  const productViews = 15209; // Mock data, will be from analytics later
 
-  // Recent orders
-  const recentOrders = orders?.slice(0, 5) || [];
+  const stats = {
+    totalRevenue: Math.round(totalRevenue),
+    totalOrders,
+    rating: averageRating.toFixed(1),
+    productViews,
+  };
+
+  // Top selling products (mock for now)
+  const topProducts = [
+    {
+      id: '1',
+      name: 'Cyber Odyssey - 1000 Credits',
+      type: 'Digital Code',
+      revenue: 4520,
+      sold: 120,
+      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&q=80',
+    },
+    {
+      id: '2',
+      name: 'Starfall Chronicles Deluxe',
+      type: 'Steam Key',
+      revenue: 2890,
+      sold: 85,
+      image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80',
+    },
+    {
+      id: '3',
+      name: 'Valiant Heroes Skin Pack',
+      type: 'In-Game Item',
+      revenue: 1950,
+      sold: 210,
+      image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80',
+    },
+  ];
+
+  // Recent activities
+  const activities = [
+    {
+      id: '1',
+      type: 'order' as const,
+      message: 'New order #8452 for $49.99',
+      time: '2 minutes ago',
+      isPositive: true,
+    },
+    {
+      id: '2',
+      type: 'review' as const,
+      message: 'Jane Doe left a 5-star review',
+      time: '15 minutes ago',
+      isPositive: true,
+    },
+    {
+      id: '3',
+      type: 'order' as const,
+      message: 'New order #8451 for $19.99',
+      time: '1 hour ago',
+      isPositive: true,
+    },
+  ];
 
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Satıcı Paneli</h1>
-          <Link
-            href="/seller/products/new"
-            className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg font-semibold transition-colors"
-          >
-            + Yeni Ürün Ekle
-          </Link>
+    <div className="max-w-7xl mx-auto">
+      {/* PageHeading and Chips */}
+      <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
+        <div className="flex min-w-72 flex-col gap-3">
+          <p className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">
+            Welcome back, {user.email?.split('@')[0] || 'Seller'}!
+          </p>
+          <p className="text-slate-400 text-base font-normal leading-normal">
+            Here's a look at your store's performance.
+          </p>
+        </div>
+        <TimeRangeSelector />
+      </div>
+
+      {/* Stats Component */}
+      <DashboardStats stats={stats} />
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-3 gap-8">
+        {/* Left Column: Performance Chart & Top Products */}
+        <div className="col-span-3 lg:col-span-2 flex flex-col gap-8">
+          <PerformanceChart />
+          <TopSellingProducts products={topProducts} />
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">Toplam Ürün</div>
-            <div className="text-3xl font-bold">{totalProducts}</div>
-            <div className="text-green-400 text-sm mt-2">{activeProducts} aktif</div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">Toplam Sipariş</div>
-            <div className="text-3xl font-bold">{totalOrders}</div>
-            <div className="text-yellow-400 text-sm mt-2">{pendingOrders} beklemede</div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">Toplam Gelir</div>
-            <div className="text-3xl font-bold">{totalRevenue.toFixed(2)} TRY</div>
-          </div>
-
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">KYC Durumu</div>
-            <div className="text-lg font-semibold text-yellow-400">Beklemede</div>
-            <Link href="/seller/kyc" className="text-blue-400 text-sm mt-2 inline-block hover:underline">
-              Doğrulama Yap
-            </Link>
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Link
-            href="/seller/products"
-            className="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors"
-          >
-            <div className="text-4xl mb-4">📦</div>
-            <h3 className="text-xl font-bold mb-2">Ürünlerim</h3>
-            <p className="text-gray-400 text-sm">Ürünlerinizi yönetin ve düzenleyin</p>
-          </Link>
-
-          <Link
-            href="/seller/orders"
-            className="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors"
-          >
-            <div className="text-4xl mb-4">🚚</div>
-            <h3 className="text-xl font-bold mb-2">Siparişler</h3>
-            <p className="text-gray-400 text-sm">Bekleyen siparişleri teslim edin</p>
-          </Link>
-
-          <Link
-            href="/seller/analytics"
-            className="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors"
-          >
-            <div className="text-4xl mb-4">📊</div>
-            <h3 className="text-xl font-bold mb-2">Analizler</h3>
-            <p className="text-gray-400 text-sm">Satış istatistiklerinizi görüntüleyin</p>
-          </Link>
-        </div>
-
-        {/* Recent Orders */}
-        <div className="bg-gray-800 rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-6">Son Siparişler</h2>
-
-          {recentOrders.length === 0 ? (
-            <div className="text-center py-8 text-gray-400">
-              Henüz sipariş yok
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {recentOrders.map((order: any) => (
-                <div
-                  key={order.id}
-                  className="flex justify-between items-center p-4 bg-gray-700 rounded-lg"
-                >
-                  <div>
-                    <div className="font-semibold">Sipariş #{order.id.slice(0, 8)}</div>
-                    <div className="text-sm text-gray-400">
-                      {new Date(order.created_at).toLocaleDateString('tr-TR')}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-bold">{parseFloat(order.total_price).toFixed(2)} TRY</div>
-                    <div className={`text-sm ${
-                      order.delivery_status === 'pending' ? 'text-yellow-400' :
-                      order.delivery_status === 'processing' ? 'text-blue-400' :
-                      order.delivery_status === 'completed' ? 'text-green-400' :
-                      'text-gray-400'
-                    }`}>
-                      {order.delivery_status === 'pending' && 'Beklemede'}
-                      {order.delivery_status === 'processing' && 'İşleniyor'}
-                      {order.delivery_status === 'completed' && 'Tamamlandı'}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {recentOrders.length > 0 && (
-            <Link
-              href="/seller/orders"
-              className="block mt-6 text-center text-blue-400 hover:underline"
-            >
-              Tüm Siparişleri Gör
-            </Link>
-          )}
+        {/* Right Column: AI Insights & Recent Activity */}
+        <div className="col-span-3 lg:col-span-1 flex flex-col gap-8">
+          <AIInsights />
+          <RecentActivity activities={activities} />
         </div>
       </div>
     </div>
