@@ -220,7 +220,7 @@ export default function StorefrontPage() {
                 {/* ToolBar */}
                 <div className="flex justify-between items-center gap-2 py-3">
                   <div className="flex-1 max-w-sm">
-                    <label className="flex flex-col min-w-40 !h-10">
+                    <form onSubmit={(e) => { e.preventDefault(); }} className="flex flex-col min-w-40 !h-10">
                       <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
                         <div className="text-[#90b8cb] flex border-none bg-[#223d49] items-center justify-center pl-4 rounded-l-lg border-r-0">
                           <span className="material-symbols-outlined">search</span>
@@ -229,9 +229,12 @@ export default function StorefrontPage() {
                           className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#223d49] focus:border-none h-full placeholder:text-[#90b8cb] px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal"
                           placeholder="Search in this store..."
                           value=""
+                          onChange={(e) => {
+                            // TODO: Implement store-specific search
+                          }}
                         />
                       </div>
-                    </label>
+                    </form>
                   </div>
                   <div className="flex gap-2 items-center">
                     <span className="text-[#90b8cb] text-sm hidden sm:inline">Sort by:</span>

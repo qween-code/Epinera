@@ -1,6 +1,30 @@
-import LoginForm from '@/components/auth/LoginForm';
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { createClient } from '@/utils/supabase/client';
 
 export default function ForgotPasswordPage() {
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage('');
+    const supabase = createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setIsLoading(false);
+    if (error) {
+      setMessage('Error: ' + error.message);
+    } else {
+      setMessage('Password reset link sent! Check your email.');
+    }
+  };
+
   return (
     <div className="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
       <div className="layout-container flex h-full grow flex-col">
@@ -35,7 +59,12 @@ export default function ForgotPasswordPage() {
                     <p className="font-display text-base font-normal leading-normal text-gray-500 dark:text-gray-400">Enter your email to reset your password</p>
                   </div>
                 </div>
-                <form className="flex w-full flex-col gap-4">
+                <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
+                  {message && (
+                    <div className={`p-4 rounded-lg text-sm ${message.includes('Error') ? 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'}`}>
+                      {message}
+                    </div>
+                  )}
                   <label className="flex flex-col flex-1">
                     <p className="font-display text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200">Email</p>
                     <div className="flex w-full flex-1 items-stretch rounded-lg">
@@ -46,15 +75,19 @@ export default function ForgotPasswordPage() {
                         className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 rounded-l-none border-l-0 text-base font-normal leading-normal"
                         placeholder="Enter your email"
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </label>
                   <button
                     type="submit"
-                    className="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-bold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark"
+                    disabled={isLoading}
+                    className="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-bold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Send Reset Link
+                    {isLoading ? 'Sending...' : 'Send Reset Link'}
                   </button>
                 </form>
                 <p className="font-display text-center text-sm text-gray-500 dark:text-gray-400">
