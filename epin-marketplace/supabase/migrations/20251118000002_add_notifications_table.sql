@@ -54,8 +54,9 @@ CREATE POLICY "Users can update their own notifications"
   ON notifications FOR UPDATE
   USING (auth.uid() = user_id);
 
--- Policy: System can insert notifications (via service role)
-CREATE POLICY "System can insert notifications"
+-- Policy: Users can insert notifications for themselves (for system notifications)
+-- This allows the system to create notifications via service role
+CREATE POLICY "Users can insert notifications"
   ON notifications FOR INSERT
-  WITH CHECK (true);
+  WITH CHECK (auth.uid() = user_id OR auth.jwt() ->> 'role' = 'service_role');
 
