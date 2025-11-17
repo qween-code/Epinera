@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace - Gamification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101d23",
+              "bronze": "#CD7F32",
+              "silver": "#C0C0C0",
+              "gold": "#FFD700",
+              "platinum": "#E5E4E2",
+              "diamond": "#B9F2FF",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid dark:border-b-[#223d49] px-4 sm:px-10 py-3">
+<div class="flex items-center gap-4 md:gap-8">
+<div class="flex items-center gap-4 text-black dark:text-white">
+<div class="size-6">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8">
+<div class="flex items-center gap-9">
+<a class="text-gray-600 dark:text-white text-sm font-medium leading-normal" href="#">Store</a>
+<a class="text-gray-600 dark:text-white text-sm font-medium leading-normal" href="#">Publishers</a>
+<a class="text-gray-600 dark:text-white text-sm font-medium leading-normal" href="#">Brands</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Gamification</a>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Login</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDXasGGZQZNdTdhVYtRyMQTsjbCKAd3AO-mMTReo-WRRGn0cF9t_-SW9Zcgtjp4rJf8DrYV-f1lFzZ74tmbAkbmmh-wQ81BCsLEw700DwkoGXIGP2ZHjR3lxwGHeMCCXZf75q3Vz6kzx0gaNO7ARONqKqKxnAGibpaCGF5h2tZZ4Ep4Zr0_BlGYfhAbIhLrqMKhRa-5-6dmrhtmLEeY3Z9gADVPZxf_C1ll1o5g2lWfj9URGIYdyQokWx4GMAfF_AnZuyj4P7rK-nEU");'></div>
+</div>
+</header>
+<main class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Gamification &amp; Community Achievements</p>
+<p class="text-gray-500 dark:text-[#90b8cb] text-base font-normal leading-normal">Climb the ranks, unlock exclusive badges, and earn rewards for your engagement.</p>
+</div>
+</div>
+<div class="pb-3">
+<div class="flex border-b border-gray-200 dark:border-[#315768] px-4 gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-black dark:text-white pb-[13px] pt-4" href="#">
+<p class="text-black dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">Leaderboards</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#90b8cb] pb-[13px] pt-4" href="#">
+<p class="text-gray-500 dark:text-[#90b8cb] text-sm font-bold leading-normal tracking-[0.015em]">All Achievements</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-[#90b8cb] pb-[13px] pt-4" href="#">
+<p class="text-gray-500 dark:text-[#90b8cb] text-sm font-bold leading-normal tracking-[0.015em]">Badge &amp; Privilege Tiers</p>
+</a>
+</div>
+</div>
+<section class="flex flex-col gap-4 p-4">
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pt-5">Community Champions</h2>
+<div class="flex gap-3 overflow-x-auto pb-2">
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary text-white pl-4 pr-4 cursor-pointer">
+<p class="text-sm font-medium leading-normal">All-Time</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-200 dark:bg-[#223d49] pl-4 pr-4 cursor-pointer">
+<p class="text-gray-800 dark:text-white text-sm font-medium leading-normal">Monthly</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-200 dark:bg-[#223d49] pl-4 pr-4 cursor-pointer">
+<p class="text-gray-800 dark:text-white text-sm font-medium leading-normal">Weekly</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-200 dark:bg-[#223d49] pl-4 pr-4 cursor-pointer">
+<p class="text-gray-800 dark:text-white text-sm font-medium leading-normal">Top Buyers</p>
+</div>
+<div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-200 dark:bg-[#223d49] pl-4 pr-4 cursor-pointer">
+<p class="text-gray-800 dark:text-white text-sm font-medium leading-normal">Top Sellers</p>
+</div>
+</div>
+<div class="overflow-hidden rounded-lg border border-gray-200 dark:border-[#223d49]">
+<table class="w-full text-left">
+<thead class="bg-gray-100 dark:bg-[#1a2c36]">
+<tr>
+<th class="p-4 text-sm font-semibold text-gray-600 dark:text-[#90b8cb]">Rank</th>
+<th class="p-4 text-sm font-semibold text-gray-600 dark:text-[#90b8cb]">User</th>
+<th class="p-4 text-sm font-semibold text-gray-600 dark:text-[#90b8cb] text-right">Points</th>
+<th class="p-4 text-sm font-semibold text-gray-600 dark:text-[#90b8cb] text-center">Badge</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-[#223d49]">
+<tr class="bg-primary/10 dark:bg-primary/20">
+<td class="p-4 font-bold text-lg text-primary">1</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full" data-alt="User avatar of Alex Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKdi1uqLoSvBVsK8R8up15kFgna8Z4vSe7pLOE1Ej9bCn15oD0Qd7goIAdSVuK7E3ghY2VbXRecA0HbqLG-JxiG5JaHzO_RXwwFrSPcKWChE4fbIXBrrSMiC7TEuDVnLqQfSn23YOoto8glx0UKCa11rKZb89CfPJe8SUx5ju5_7rWjrywz50G5v2aSmE8SX47OVk06spx9NobqULXJ-0wdtRpKy5Qf91Vb47pHi7w2DxWIkbc7LK42Go9_YMPWziw-uzuX1nSd-KW"/>
+<div>
+<p class="font-bold text-black dark:text-white">AlexJohnson</p>
+<p class="text-xs text-gray-500 dark:text-[#90b8cb]">Joined 2021</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-bold text-black dark:text-white text-right">150,430</td>
+<td class="p-4">
+<div class="flex justify-center">
+<div class="flex items-center gap-2 rounded-full bg-diamond/20 px-3 py-1">
+<span class="material-symbols-outlined text-diamond text-lg">diamond</span>
+<p class="text-sm font-bold text-diamond">Diamond</p>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 font-bold text-lg text-gray-600 dark:text-[#90b8cb]">2</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full" data-alt="User avatar of Maria Garcia" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjp-oFZHsnHpU89I7aAQafRSs7uvU21NlM-rUdE_PvNVEmUtZcHrU25-67O9R8kA_KeZ-HAntkchl5t8ZQhVcizn6AR4JTfwq9SmxFQvxkcNisfp6r4BfFnes58X480hgEEPL-wUjIerDkuWnOdQ4KWI8Wwsj1uiMbz8Jyzi4E9LoBOLynlz9QLKgHxaBUjHK17CUP2wfBIELIR3aTSoieSJVm_wHjqvbt0r-IKAYLBrvQAoGfYYCH2f5tGPLoKcGccJWusdfbHk1y"/>
+<div>
+<p class="font-bold text-black dark:text-white">Maria_G</p>
+<p class="text-xs text-gray-500 dark:text-[#90b8cb]">Joined 2022</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-bold text-black dark:text-white text-right">142,880</td>
+<td class="p-4">
+<div class="flex justify-center">
+<div class="flex items-center gap-2 rounded-full bg-diamond/20 px-3 py-1">
+<span class="material-symbols-outlined text-diamond text-lg">diamond</span>
+<p class="text-sm font-bold text-diamond">Diamond</p>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 font-bold text-lg text-gray-600 dark:text-[#90b8cb]">3</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full" data-alt="User avatar of CryptoKing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA4hD1acKNS6Y0Dp86aSfbo3FlFyf-qAQzXDcbIP4_mKO5_B3DFecIj1fIEhxt1cjqrXx8mUCmcM0JyUQtb6t_BtQFSHHgo138AMSUWs52NUx3phJ8zqh-VOw8aSJj1q1bN3axfolsYY5Y1f-HIOgtdYvEGJ8LAV8snK8jk1ulQ2EZE9pHHen5jdNcXsx3G0UIHDyMs-r35p23W32IQBfpxXaI8kIki9uSo3O2DH5P10F551FyMwfxyRvaG8OiqGqe6oMZN0-sRdIG"/>
+<div>
+<p class="font-bold text-black dark:text-white">CryptoKing</p>
+<p class="text-xs text-gray-500 dark:text-[#90b8cb]">Joined 2020</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-bold text-black dark:text-white text-right">135,120</td>
+<td class="p-4">
+<div class="flex justify-center">
+<div class="flex items-center gap-2 rounded-full bg-platinum/20 px-3 py-1">
+<span class="material-symbols-outlined text-platinum text-lg">workspace_premium</span>
+<p class="text-sm font-bold text-platinum">Platinum</p>
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 font-bold text-lg text-gray-600 dark:text-[#90b8cb]">4</td>
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img class="size-10 rounded-full" data-alt="User avatar of SamTheMan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBom1efxWaz_S_0BjoM2C2bY6np5vTiuqKMiUyk6CNY1OzvGmAo45vB_mXkAzskMMYyNX7L3ivfNy21_1WSUOXvXJgSeRgl9CoUvFQnKRxjD3U_V0L2RV1y69LE9G2V65NQd2chIwhmC9jHZPojA_0Zez_ba9KxJkgkRPWV_Dx2Ar8mJ1uinCRI6d5cBhgQbPSMkW5bma4vJ6RhWnJxaRUcPKjpVfi5QhfcsX_2eJdlS92dbIPkassv8SqFCmxPdvV_SwZQnYry1oZu"/>
+<div>
+<p class="font-bold text-black dark:text-white">SamTheMan</p>
+<p class="text-xs text-gray-500 dark:text-[#90b8cb]">Joined 2023</p>
+</div>
+</div>
+</td>
+<td class="p-4 font-bold text-black dark:text-white text-right">121,500</td>
+<td class="p-4">
+<div class="flex justify-center">
+<div class="flex items-center gap-2 rounded-full bg-gold/20 px-3 py-1">
+<span class="material-symbols-outlined text-gold text-lg">military_tech</span>
+<p class="text-sm font-bold text-gold">Gold</p>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+</div>
+</div>
+</body></html>

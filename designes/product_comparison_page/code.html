@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Epin Marketplace - Compare Products</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-4 sm:px-10 lg:px-20 py-3 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-black dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+</div>
+<div class="hidden lg:flex flex-1 justify-center gap-8">
+<div class="flex items-center gap-9">
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Store</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Publishers</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Brands</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Community</a>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-gray-400 dark:text-gray-500 flex border-r-0 bg-gray-200/50 dark:bg-white/5 items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined text-base">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-black dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200/50 dark:bg-white/5 h-full placeholder:text-gray-500 dark:placeholder:text-gray-500 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hidden md:flex">
+<span class="truncate">Sign Up</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 text-black dark:text-white bg-gray-200/50 dark:bg-white/5 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBDAKhOLfpOqykXOEI-ktuyxN0H4Bos_PNgDA0SWEi5x34v28cJ7qeFM4egM7umdhxG68F2OV70iocP_CZqQPyPfyQUaqFbVb7EtjjeE3iqaVi3B_Uk1Fn6nbxf4PrfkxRhY6wJcolx9uXL3lZitFH8B_Fcz5h37BOi9UZEBWqRMADxw3TOdTa0W7P4g9heEf_L4HWoPt4OGWzuiN9f66WFulhuAuEKI9YZSWXBOChZiZWDHnLcUDggw50pe_29ul4f3z_vd9JWHvm9");'></div>
+</div>
+</header>
+<main class="px-4 sm:px-10 lg:px-20 py-8">
+<div class="mx-auto max-w-7xl">
+<div class="flex flex-wrap gap-2 mb-4">
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary text-base font-medium leading-normal" href="#">Home</a>
+<span class="text-gray-500 dark:text-gray-400 text-base font-medium leading-normal">/</span>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary text-base font-medium leading-normal" href="#">Search Results</a>
+<span class="text-gray-500 dark:text-gray-400 text-base font-medium leading-normal">/</span>
+<span class="text-black dark:text-white text-base font-medium leading-normal">Compare Products</span>
+</div>
+<div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+<p class="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Compare Products</p>
+</div>
+<div class="mb-6 @container">
+<div class="flex flex-1 flex-col items-start justify-between gap-4 rounded-lg border border-gray-200 dark:border-white/10 bg-white/30 dark:bg-white/5 p-5 @[480px]:flex-row @[480px]:items-center">
+<div class="flex flex-col gap-1">
+<p class="text-black dark:text-white text-base font-bold leading-tight">Highlight Differences</p>
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Visually emphasize the rows where the product attributes are different.</p>
+</div>
+<label class="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-gray-200 dark:bg-white/10 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary">
+<div class="h-full w-[27px] rounded-full bg-white" style="box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px, rgba(0, 0, 0, 0.06) 0px 3px 1px;"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<div class="overflow-x-auto">
+<div class="inline-block min-w-full align-middle">
+<div class="overflow-hidden rounded-lg border border-gray-200 dark:border-white/10 bg-background-light dark:bg-background-dark">
+<table class="min-w-full">
+<thead>
+<tr class="bg-gray-200/30 dark:bg-white/5">
+<th class="sticky left-0 bg-gray-200/30 dark:bg-background-dark z-10 px-4 py-3 text-left text-black dark:text-white w-56 min-w-56 text-sm font-medium leading-normal" scope="col">Feature</th>
+<th class="px-4 py-3 text-left w-64 min-w-64 text-black dark:text-white text-sm font-medium leading-normal" scope="col">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-lg mb-2" data-alt="Starlight Odyssey game cover art" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdIH2wUfgVkJ_ckFAihTdCALhPPtP_uIMvFfwsnKO9rCDbpoiHtZPWZtZjQt3UKD_1r6AlK14kznSsFq_d30rUtODKGX8Xwt225ZgNbY-OJcY1aH-i8F15qY5NjUJVBtntkmsGtBCvR22KctRy6cxx3riuU3DW5YA7mgdm8RGn801_wXk4vYuj7Fm7mtlQWni1qrNn8TEFmgnEndBJRw40CK2D0umrEb-FUrihaNV0jtgHLw05xuZoIbrXji3G8Y6qIFdc72uwkwaH");'></div>
+<button class="absolute top-2 right-2 flex items-center justify-center size-7 rounded-full bg-black/50 text-white hover:bg-black/70">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+<p class="font-bold">Starlight Odyssey</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">1000 Gems</p>
+</div>
+</th>
+<th class="px-4 py-3 text-left w-64 min-w-64 text-black dark:text-white text-sm font-medium leading-normal" scope="col">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-lg mb-2" data-alt="Cyberpunk Runner game cover art" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDk5ICAed10wPaRLzGsSNj8BItKbF-OrADXU9SzE_eIZyGKzKZt-GiGabQgUCjy1ntPRYf-rMWCaSzlMI534ZekWY35AvmnXCNVzKtCO47Zu4DEE9kA4aSH1TXERsdfhk-Cv-rOkaT9Y-3aNlatpr6EUAbwchN8jifUzIxUVDuth5Is0Ss-zjiW7k1W_ell8ZVr_GCbHS_4HRnnIFroRPGXAIqbYPTrTGKZIDq5DX25iYsEIZ7uj6bSpKVspal1hL-X0z1_t3EEnGWL");'></div>
+<button class="absolute top-2 right-2 flex items-center justify-center size-7 rounded-full bg-black/50 text-white hover:bg-black/70">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+<p class="font-bold">Cyberpunk Runner</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">500 Credits</p>
+</div>
+</th>
+<th class="px-4 py-3 text-left w-64 min-w-64 text-black dark:text-white text-sm font-medium leading-normal" scope="col">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-lg mb-2" data-alt="A generic $50 gift card" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCn936O129xdds_ps9ZyhNDjpbtgYlKz3b1NIdrZzDMw1M6jzI3lZeDtYcYEYglCfMQL9sQmE-qTatcOqhww0pomlRzMpcaLC6Yx3NCT9HQCr9wJ7C7HN06KIp3Vko155HTgyNHHgMFCer6hmZ3-qewYQ8t4MWTnEPex9LgayErdrpD5Er6kd-dBVv9dwvtGXopn959l5aG0KLaoCEAySs0jv76jN3dwtsmrPuHA0zbLe_j_DQgh8Ui37NZZvUYQDGzJ1lyC6zOFj1j");'></div>
+<button class="absolute top-2 right-2 flex items-center justify-center size-7 rounded-full bg-black/50 text-white hover:bg-black/70">
+<span class="material-symbols-outlined text-base">close</span>
+</button>
+<p class="font-bold">Digital Gift Card</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">$50 Value</p>
+</div>
+</th>
+<th class="px-4 py-3 text-left w-64 min-w-64 text-sm font-medium leading-normal" scope="col">
+<div class="flex items-center justify-center flex-col h-full aspect-[4/3] rounded-lg border-2 border-dashed border-gray-300 dark:border-white/20 text-gray-500 dark:text-gray-400 hover:border-primary hover:text-primary cursor-pointer">
+<span class="material-symbols-outlined text-4xl">add_circle</span>
+<p class="mt-2 text-sm">Add another item</p>
+</div>
+</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-white/10">
+<tr>
+<td class="sticky left-0 bg-background-light dark:bg-background-dark z-10 h-[72px] px-4 py-2 w-56 text-black dark:text-white text-sm font-normal leading-normal">Price</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm font-bold leading-normal tracking-[0.015em]">$19.99</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm font-bold leading-normal tracking-[0.015em]">$15.00</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm font-bold leading-normal tracking-[0.015em]">$50.00</td>
+<td class="h-[72px] px-4 py-2 w-64"></td>
+</tr>
+<tr>
+<td class="sticky left-0 bg-background-light dark:bg-background-dark z-10 h-[72px] px-4 py-2 w-56 text-black dark:text-white text-sm font-normal leading-normal">Seller</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm leading-normal">
+                                                TopSeller <span class="text-yellow-400 inline-flex items-center">(4.8 ★)</span>
+</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm leading-normal">
+                                                GameDeals <span class="text-yellow-400 inline-flex items-center">(4.5 ★)</span>
+</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm leading-normal">
+                                                CardHub <span class="text-yellow-400 inline-flex items-center">(4.9 ★)</span>
+</td>
+<td class="h-[72px] px-4 py-2 w-64"></td>
+</tr>
+<tr class="bg-primary/5">
+<td class="sticky left-0 bg-primary/5 dark:bg-primary/10 z-10 h-[72px] px-4 py-2 w-56 text-black dark:text-white text-sm font-normal leading-normal">Platform</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm font-bold leading-normal tracking-[0.015em]">Steam</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm font-bold leading-normal tracking-[0.015em]">PS5</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm font-bold leading-normal tracking-[0.015em]">Multi-Platform</td>
+<td class="h-[72px] px-4 py-2 w-64"></td>
+</tr>
+<tr class="bg-primary/5">
+<td class="sticky left-0 bg-primary/5 dark:bg-primary/10 z-10 h-[72px] px-4 py-2 w-56 text-black dark:text-white text-sm font-normal leading-normal">Region</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm leading-normal">Global</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm font-bold leading-normal tracking-[0.015em]">Europe (EU)</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm leading-normal">Global</td>
+<td class="h-[72px] px-4 py-2 w-64"></td>
+</tr>
+<tr>
+<td class="sticky left-0 bg-background-light dark:bg-background-dark z-10 h-[72px] px-4 py-2 w-56 text-black dark:text-white text-sm font-normal leading-normal">Delivery Method</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm leading-normal">Instant Email</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm leading-normal">On-site Code</td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-700 dark:text-gray-300 text-sm leading-normal">Instant Email</td>
+<td class="h-[72px] px-4 py-2 w-64"></td>
+</tr>
+<tr class="bg-primary/5">
+<td class="sticky left-0 bg-primary/5 dark:bg-primary/10 z-10 h-[72px] px-4 py-2 w-56 text-black dark:text-white text-sm font-normal leading-normal">Blockchain Security</td>
+<td class="h-[72px] px-4 py-2 w-64 text-green-500 text-sm leading-normal flex items-center gap-1">
+<span class="material-symbols-outlined text-base">verified_user</span> Verified
+                                            </td>
+<td class="h-[72px] px-4 py-2 w-64 text-gray-500 text-sm leading-normal flex items-center gap-1">
+<span class="material-symbols-outlined text-base">cancel</span> Not Verified
+                                            </td>
+<td class="h-[72px] px-4 py-2 w-64 text-green-500 text-sm leading-normal flex items-center gap-1">
+<span class="material-symbols-outlined text-base">verified_user</span> Verified
+                                            </td>
+<td class="h-[72px] px-4 py-2 w-64"></td>
+</tr>
+<tr class="bg-gray-100 dark:bg-white/5">
+<td class="sticky left-0 bg-gray-100 dark:bg-background-dark z-10 h-[120px] px-4 py-2 w-56"></td>
+<td class="h-[120px] px-4 py-2 w-64">
+<div class="flex flex-col gap-2">
+<button class="w-full flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Add to Cart</span>
+</button>
+<a class="w-full text-center text-primary text-sm font-medium hover:underline" href="#">View Details</a>
+</div>
+</td>
+<td class="h-[120px] px-4 py-2 w-64">
+<div class="flex flex-col gap-2">
+<button class="w-full flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Add to Cart</span>
+</button>
+<a class="w-full text-center text-primary text-sm font-medium hover:underline" href="#">View Details</a>
+</div>
+</td>
+<td class="h-[120px] px-4 py-2 w-64">
+<div class="flex flex-col gap-2">
+<button class="w-full flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Buy Now</span>
+</button>
+<a class="w-full text-center text-primary text-sm font-medium hover:underline" href="#">View Details</a>
+</div>
+</td>
+<td class="h-[120px] px-4 py-2 w-64"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Financial Reporting Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101d23",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex h-full w-full">
+<aside class="flex h-auto min-h-screen w-64 flex-col justify-between bg-[#101d23] p-4 border-r border-slate-800">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBaGU4aGeQjvlK7tpclWwt7MUoaePzQFVO9zwU50D3Vfu5eljP0554HQpIREKeWfMUIWlZ43fopHTnRtF0vxv_YWA19-H_XOgyJAzi2jZZnhlenoMvTfw-YjOxZs2JXVZKA5qRpfZCYdULE_jqoT3JPaVx4PhTUExS_Ga2TT772sfunwOC6EC2mBY8sZoNddv-iQRzFVtstMvRHoLO-In8lj9HEeIeAXBBLemzVSjPAUauQ1EE03JrjlDa19T1gHteO7ZOiRo_aHaVR");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Admin Fatma</h1>
+<p class="text-[#90b8cb] text-sm font-normal leading-normal">Administrator</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px; font-variation-settings: 'FILL' 1;">monitoring</span>
+<p class="text-sm font-medium leading-normal">Financial Reporting</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">group</span>
+<p class="text-sm font-medium leading-normal">User Management</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">folder</span>
+<p class="text-sm font-medium leading-normal">Content</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-opacity">
+<span class="truncate">New Report</span>
+</button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">help_center</span>
+<p class="text-sm font-medium leading-normal">Help Center</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-wrap justify-between items-start gap-4 mb-6">
+<div class="flex flex-col gap-2">
+<p class="text-white text-3xl font-black leading-tight tracking-[-0.033em]">Financial Reporting</p>
+<p class="text-[#90b8cb] text-base font-normal leading-normal">Full oversight of platform finances, payments, and escrow.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 rounded-lg bg-[#223d49] p-2">
+<span class="material-symbols-outlined text-white" style="font-size: 20px;">calendar_today</span>
+<p class="text-white text-sm font-medium">Dec 5, 2023 - Dec 30, 2023</p>
+<span class="material-symbols-outlined text-white" style="font-size: 20px;">arrow_drop_down</span>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#223d49] text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2 hover:bg-opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-white" style="font-size: 20px;">download</span>
+<span class="truncate">Download Summary</span>
+</button>
+</div>
+</div>
+<div class="pb-3 mb-6">
+<div class="flex border-b border-[#315768] gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-white pb-[13px] pt-4" href="#">
+<p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Overview</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#90b8cb] pb-[13px] pt-4 hover:text-white" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Payment &amp; Escrow</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#90b8cb] pb-[13px] pt-4 hover:text-white" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Costs &amp; Losses</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#90b8cb] pb-[13px] pt-4 hover:text-white" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Compliance Reports</p>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<div class="flex items-center gap-2">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Ana Bakiye</p>
+<span class="material-symbols-outlined text-[#90b8cb]" style="font-size: 16px;">info</span>
+</div>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$1,250,450</p>
+<p class="text-[#0bda57] text-sm font-medium leading-normal">+5.2%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<div class="flex items-center gap-2">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Escrow Bakiye</p>
+<span class="material-symbols-outlined text-[#90b8cb]" style="font-size: 16px;">info</span>
+</div>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$875,315</p>
+<p class="text-[#0bda57] text-sm font-medium leading-normal">+4.8%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<div class="flex items-center gap-2">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Bonus Bakiye</p>
+<span class="material-symbols-outlined text-[#90b8cb]" style="font-size: 16px;">info</span>
+</div>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$125,045</p>
+<p class="text-[#0bda57] text-sm font-medium leading-normal">+6.1%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<div class="flex items-center gap-2">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Frozen Bakiye</p>
+<span class="material-symbols-outlined text-[#90b8cb]" style="font-size: 16px;">info</span>
+</div>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$25,009</p>
+<p class="text-[#fa5f38] text-sm font-medium leading-normal">+1.5% due to new disputes</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+<div class="bg-[#1A2C3A] border border-[#315768] rounded-xl p-6">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-white font-bold text-lg">Payment Routing Intelligence</h3>
+<a class="text-primary text-sm font-medium hover:underline" href="#">Manage Rules</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-[#223d49] rounded-lg">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-size: 28px;">credit_card</span>
+<div>
+<p class="text-white font-medium">Credit Card Gateway A</p>
+<p class="text-sm text-[#90b8cb]">Success Rate: 98.5%</p>
+</div>
+</div>
+<span class="text-green-300 text-sm font-bold">Optimal</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-[#223d49] rounded-lg">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-size: 28px;">account_balance_wallet</span>
+<div>
+<p class="text-white font-medium">Crypto Payments (BTC/ETH)</p>
+<p class="text-sm text-[#90b8cb]">Success Rate: 99.8%</p>
+</div>
+</div>
+<span class="text-green-300 text-sm font-bold">Optimal</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-[#223d49] rounded-lg">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-yellow-400" style="font-size: 28px;">credit_card</span>
+<div>
+<p class="text-white font-medium">Credit Card Gateway B</p>
+<p class="text-sm text-[#90b8cb]">Success Rate: 82.1%</p>
+</div>
+</div>
+<span class="text-yellow-300 text-sm font-bold">Degraded</span>
+</div>
+</div>
+</div>
+<div class="bg-[#1A2C3A] border border-[#315768] rounded-xl p-6">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-white font-bold text-lg">Advanced Escrow Management</h3>
+<a class="text-primary text-sm font-medium hover:underline" href="#">View All</a>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-green-400">task_alt</span><span class="text-[#90b8cb]">Funds Released</span></div>
+<p class="text-white font-medium">$450,123</p>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-yellow-400">pending</span><span class="text-[#90b8cb]">Awaiting Delivery Confirmation</span></div>
+<p class="text-white font-medium">$210,567</p>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-400">gavel</span><span class="text-[#90b8cb]">In Dispute</span></div>
+<p class="text-white font-medium">$15,820</p>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400">cancel</span><span class="text-[#90b8cb]">Refunded from Escrow</span></div>
+<p class="text-white font-medium">$8,430</p>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-purple-400">verified_user</span><span class="text-[#90b8cb]">Pending Security Check</span></div>
+<p class="text-white font-medium">$9,189</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-[#1A2C3A] border border-[#315768] rounded-xl p-6">
+<div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+<h3 class="text-white font-bold text-lg">Recent High-Impact Transactions</h3>
+<div class="flex items-center gap-4">
+<input class="bg-[#223d49] border border-[#315768] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" placeholder="Search by ID, User, Status..." type="text"/>
+<button class="flex items-center gap-2 px-4 py-2.5 bg-[#223d49] border border-[#315768] text-white text-sm font-bold rounded-lg hover:bg-opacity-80">
+<span class="material-symbols-outlined" style="font-size: 18px;">filter_list</span>
+                                 Filter
+                             </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-[#90b8cb]">
+<thead class="text-xs text-white uppercase bg-[#223d49]">
+<tr>
+<th class="px-6 py-3 rounded-l-lg" scope="col">Transaction ID</th>
+<th class="px-6 py-3" scope="col">Date</th>
+<th class="px-6 py-3" scope="col">Type</th>
+<th class="px-6 py-3" scope="col">Amount</th>
+<th class="px-6 py-3" scope="col">Status</th>
+<th class="px-6 py-3 rounded-r-lg" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-[#315768]">
+<td class="px-6 py-4 font-medium text-white whitespace-nowrap">#ESC95421</td>
+<td class="px-6 py-4">2023-12-28</td>
+<td class="px-6 py-4">Escrow Release</td>
+<td class="px-6 py-4 text-white">$5,250.00</td>
+<td class="px-6 py-4"><span class="bg-green-900 text-green-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Completed</span></td>
+<td class="px-6 py-4"><a class="font-medium text-primary hover:underline" href="#">Investigate</a></td>
+</tr>
+<tr class="border-b border-[#315768]">
+<td class="px-6 py-4 font-medium text-white whitespace-nowrap">#DISPUTE883</td>
+<td class="px-6 py-4">2023-12-28</td>
+<td class="px-6 py-4">Dispute Raised</td>
+<td class="px-6 py-4 text-white">$1,200.00</td>
+<td class="px-6 py-4"><span class="bg-orange-900 text-orange-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Funds Frozen</span></td>
+<td class="px-6 py-4"><a class="font-medium text-primary hover:underline" href="#">View Dispute</a></td>
+</tr>
+<tr class="border-b border-[#315768]">
+<td class="px-6 py-4 font-medium text-white whitespace-nowrap">#PAY75033</td>
+<td class="px-6 py-4">2023-12-27</td>
+<td class="px-6 py-4">Payout</td>
+<td class="px-6 py-4 text-white">$12,305.00</td>
+<td class="px-6 py-4"><span class="bg-yellow-900 text-yellow-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Processing</span></td>
+<td class="px-6 py-4"><a class="font-medium text-primary hover:underline" href="#">Track Payout</a></td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-medium text-white whitespace-nowrap">#FLAG2190</td>
+<td class="px-6 py-4">2023-12-26</td>
+<td class="px-6 py-4">High-Risk Tx</td>
+<td class="px-6 py-4 text-white">$450.00</td>
+<td class="px-6 py-4"><span class="bg-red-900 text-red-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Action Required</span></td>
+<td class="px-6 py-4"><a class="font-medium text-primary hover:underline" href="#">Review Case</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

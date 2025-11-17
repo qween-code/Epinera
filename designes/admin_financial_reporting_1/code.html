@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Financial Reporting Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101d23",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex h-full w-full">
+<!-- SideNavBar -->
+<aside class="flex h-auto min-h-screen w-64 flex-col justify-between bg-[#101d23] p-4 border-r border-slate-800">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBaGU4aGeQjvlK7tpclWwt7MUoaePzQFVO9zwU50D3Vfu5eljP0554HQpIREKeWfMUIWlZ43fopHTnRtF0vxv_YWA19-H_XOgyJAzi2jZZnhlenoMvTfw-YjOxZs2JXVZKA5qRpfZCYdULE_jqoT3JPaVx4PhTUExS_Ga2TT772sfunwOC6EC2mBY8sZoNddv-iQRzFVtstMvRHoLO-In8lj9HEeIeAXBBLemzVSjPAUauQ1EE03JrjlDa19T1gHteO7ZOiRo_aHaVR");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Admin Fatma</h1>
+<p class="text-[#90b8cb] text-sm font-normal leading-normal">Administrator</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px; font-variation-settings: 'FILL' 1;">monitoring</span>
+<p class="text-sm font-medium leading-normal">Financial Reporting</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">group</span>
+<p class="text-sm font-medium leading-normal">User Management</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">folder</span>
+<p class="text-sm font-medium leading-normal">Content</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-opacity">
+<span class="truncate">New Report</span>
+</button>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">help_center</span>
+<p class="text-sm font-medium leading-normal">Help Center</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-[#223d49] transition-colors" href="#">
+<span class="material-symbols-outlined text-white" style="font-size: 24px;">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-7xl mx-auto">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between items-start gap-4 mb-6">
+<div class="flex flex-col gap-2">
+<p class="text-white text-3xl font-black leading-tight tracking-[-0.033em]">Financial Reporting</p>
+<p class="text-[#90b8cb] text-base font-normal leading-normal">Advanced analytics for strategic management.</p>
+</div>
+<div class="flex items-center gap-4">
+<!-- CalendarPicker modified into a Date Range Picker -->
+<div class="flex items-center gap-2 rounded-lg bg-[#223d49] p-2">
+<span class="material-symbols-outlined text-white" style="font-size: 20px;">calendar_today</span>
+<p class="text-white text-sm font-medium">Dec 5, 2023 - Dec 30, 2023</p>
+<span class="material-symbols-outlined text-white" style="font-size: 20px;">arrow_drop_down</span>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#223d49] text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2 hover:bg-opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-white" style="font-size: 20px;">download</span>
+<span class="truncate">Download Summary</span>
+</button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="pb-3 mb-6">
+<div class="flex border-b border-[#315768] gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-white pb-[13px] pt-4" href="#">
+<p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Overview</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#90b8cb] pb-[13px] pt-4 hover:text-white" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Revenue Streams</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#90b8cb] pb-[13px] pt-4 hover:text-white" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Costs &amp; Losses</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#90b8cb] pb-[13px] pt-4 hover:text-white" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Compliance Reports</p>
+</a>
+</div>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Gross Merchandise Value</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$1,250,450</p>
+<p class="text-[#0bda57] text-sm font-medium leading-normal">+5.2%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Net Revenue</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$875,315</p>
+<p class="text-[#0bda57] text-sm font-medium leading-normal">+4.8%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Commission Revenue</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$125,045</p>
+<p class="text-[#0bda57] text-sm font-medium leading-normal">+6.1%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Payment Processing Costs</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$25,009</p>
+<p class="text-[#fa5f38] text-sm font-medium leading-normal">-1.5%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-[#1A2C3A] border border-[#315768]">
+<p class="text-[#90b8cb] text-sm font-medium leading-normal">Chargeback Losses</p>
+<p class="text-white tracking-light text-2xl font-bold leading-tight">$5,120</p>
+<p class="text-[#fa5f38] text-sm font-medium leading-normal">+0.5%</p>
+</div>
+</div>
+<!-- Main Chart and Breakdowns -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Revenue Trends Chart -->
+<div class="lg:col-span-2 bg-[#1A2C3A] border border-[#315768] rounded-xl p-6">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-white font-bold text-lg">Revenue Trends</h3>
+<div class="flex items-center gap-4 text-sm">
+<div class="flex items-center gap-2"><div class="size-2.5 rounded-full bg-primary"></div><span class="text-[#90b8cb]">GMV</span></div>
+<div class="flex items-center gap-2"><div class="size-2.5 rounded-full bg-[#0bda57]"></div><span class="text-[#90b8cb]">Net Revenue</span></div>
+<div class="flex items-center gap-2"><div class="size-2.5 rounded-full bg-purple-500"></div><span class="text-[#90b8cb]">Commissions</span></div>
+</div>
+</div>
+<div class="w-full h-80 bg-center bg-no-repeat bg-contain" data-alt="A line chart showing revenue trends over the past month with three lines representing GMV, Net Revenue, and Commissions, all showing an upward trend." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDXGl-HBSLMJzBRixaTET6O6n4GBw7IEx4HIEB6SzPKLOTiDndUBklcpBZCDXez4NdVzXwAJoiBIDvVbIi4z51cNGmQaZaxHYKcyHEKarrt4rsVdIW4ZErrl3gFBa4Lh7X_FoEl0UJiQQXc9iJe_rCr5V0wSXDXQQzb7TF48S9tUojPQOp7QHz6RGjhMu9uPHlqUV2UPXJUFPac00xjFuagaAzDNpBfgg3q_DoibpFOq8subyNbPh7gNoxn8SeSftWHP45QGoQdHvF3');"></div>
+</div>
+<!-- Revenue Breakdown -->
+<div class="bg-[#1A2C3A] border border-[#315768] rounded-xl p-6">
+<h3 class="text-white font-bold text-lg mb-4">Revenue by Publisher</h3>
+<div class="w-full h-56 bg-center bg-no-repeat bg-contain mb-4" data-alt="A colorful donut chart showing revenue breakdown by publisher, with Riot Games, Steam, and Ubisoft as the top three." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDi9gJdshNbLyWnNekZogOgaxCgY8h2r46wQmTcAxu_0OJgk7wp3ZEaL3sVzR3IrBM3dhrTC5Yzx5x0b9TvOZT3h9RQOozeCgA0xHleQFdsYV8CZ0wmu3MS-0MSSEJbkLo73XcqrwTA4rJ6-GbBN6f32s9StJIbbdK1MQwa8a0aJjVktx5b6blh3cnPT4W9KnVTU7JnnEryPgQdS_ChNzeorYeogMh7zXIp552oNEGfPBgc5-hoBYWzr0ePShrWymfYIu6Sv57aty6T');"></div>
+<div class="flex flex-col gap-3 text-sm">
+<div class="flex justify-between items-center"><div class="flex items-center gap-2"><div class="size-2.5 rounded-full bg-primary"></div><span class="text-[#90b8cb]">Riot Games</span></div><span class="text-white font-medium">45%</span></div>
+<div class="flex justify-between items-center"><div class="flex items-center gap-2"><div class="size-2.5 rounded-full bg-[#0bda57]"></div><span class="text-[#90b8cb]">Steam</span></div><span class="text-white font-medium">30%</span></div>
+<div class="flex justify-between items-center"><div class="flex items-center gap-2"><div class="size-2.5 rounded-full bg-purple-500"></div><span class="text-[#90b8cb]">Ubisoft</span></div><span class="text-white font-medium">15%</span></div>
+<div class="flex justify-between items-center"><div class="flex items-center gap-2"><div class="size-2.5 rounded-full bg-yellow-500"></div><span class="text-[#90b8cb]">Others</span></div><span class="text-white font-medium">10%</span></div>
+</div>
+</div>
+</div>
+<!-- Detailed Transactions Table -->
+<div class="mt-8 bg-[#1A2C3A] border border-[#315768] rounded-xl p-6">
+<div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+<h3 class="text-white font-bold text-lg">Detailed Transactions</h3>
+<div class="flex items-center gap-4">
+<input class="bg-[#223d49] border border-[#315768] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" placeholder="Search transactions..." type="text"/>
+<button class="flex items-center gap-2 px-4 py-2.5 bg-[#223d49] border border-[#315768] text-white text-sm font-bold rounded-lg hover:bg-opacity-80">
+<span class="material-symbols-outlined" style="font-size: 18px;">filter_list</span>
+                                 Filter
+                             </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-[#90b8cb]">
+<thead class="text-xs text-white uppercase bg-[#223d49]">
+<tr>
+<th class="px-6 py-3 rounded-l-lg" scope="col">Transaction ID</th>
+<th class="px-6 py-3" scope="col">Date</th>
+<th class="px-6 py-3" scope="col">Product</th>
+<th class="px-6 py-3" scope="col">Amount</th>
+<th class="px-6 py-3" scope="col">Status</th>
+<th class="px-6 py-3 rounded-r-lg" scope="col">Payment Method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-[#315768]">
+<td class="px-6 py-4 font-medium text-white whitespace-nowrap">#TXN10235</td>
+<td class="px-6 py-4">2023-12-28</td>
+<td class="px-6 py-4">Valorant Points</td>
+<td class="px-6 py-4 text-white">$50.00</td>
+<td class="px-6 py-4"><span class="bg-green-900 text-green-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Completed</span></td>
+<td class="px-6 py-4">Credit Card</td>
+</tr>
+<tr class="border-b border-[#315768]">
+<td class="px-6 py-4 font-medium text-white whitespace-nowrap">#TXN10234</td>
+<td class="px-6 py-4">2023-12-28</td>
+<td class="px-6 py-4">Steam Wallet Code</td>
+<td class="px-6 py-4 text-white">$20.00</td>
+<td class="px-6 py-4"><span class="bg-green-900 text-green-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Completed</span></td>
+<td class="px-6 py-4">Crypto (BTC)</td>
+</tr>
+<tr class="border-b border-[#315768]">
+<td class="px-6 py-4 font-medium text-white whitespace-nowrap">#TXN10233</td>
+<td class="px-6 py-4">2023-12-27</td>
+<td class="px-6 py-4">AC: Mirage Credits</td>
+<td class="px-6 py-4 text-white">$35.00</td>
+<td class="px-6 py-4"><span class="bg-yellow-900 text-yellow-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Pending</span></td>
+<td class="px-6 py-4">PayPal</td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-medium text-white whitespace-nowrap">#TXN10232</td>
+<td class="px-6 py-4">2023-12-26</td>
+<td class="px-6 py-4">League of Legends RP</td>
+<td class="px-6 py-4 text-white">$100.00</td>
+<td class="px-6 py-4"><span class="bg-red-900 text-red-300 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Failed</span></td>
+<td class="px-6 py-4">Credit Card</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

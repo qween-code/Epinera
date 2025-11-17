@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Moderation Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101c22",
+              "status-yellow": "#F5A623",
+              "status-green": "#7ED321",
+              "status-red": "#D0021B",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex h-screen w-full">
+<aside class="flex w-64 flex-col bg-gray-100/50 dark:bg-background-dark/50 p-4 border-r border-gray-200 dark:border-gray-800">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD33QDAHA2jV_Vle2Ona4VBRStH81qUxkpbLRTcxAIPGia2ZnerRgo9qdkm_o8apQQKv3OUzorsATHOwBvf8wjRGBls-eKp-cSyQkp2T320AN8Kx31uF4BE4CZ9dmMzkk-8b3juN2qhRh5JS40MPOsFRYutKvTzEAYXU6HQDgsL_8wSaEEh-Gjl4tLEveP36EmSCK87zKe7fxTWLhiOu9J1afYK_T3oVQTI2zJ9ReSYx3R3OwR18SFr9Tdu3PlDOdJ7Dkg2GAwE1oqa");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Admin Fatma</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Platform Manager</p>
+</div>
+</div>
+<div class="flex flex-col gap-1 mt-4">
+<p class="px-3 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Content &amp; Products</p>
+<a class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl">spark</span>
+<p class="text-sm font-medium leading-normal">AI Flagged</p>
+</div>
+<span class="text-xs font-semibold bg-status-yellow text-white px-2 py-0.5 rounded-full">12</span>
+</a>
+<a class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl">visibility</span>
+<p class="text-sm font-medium leading-normal">Manual Review</p>
+</div>
+<span class="text-xs font-semibold bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-2 py-0.5 rounded-full">5</span>
+</a>
+<a class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl">flag</span>
+<p class="text-sm font-medium leading-normal">User Reports</p>
+</div>
+</a>
+<div class="my-2 border-t border-gray-200 dark:border-gray-800"></div>
+<p class="px-3 py-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Live Support &amp; Disputes</p>
+<a class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl">forum</span>
+<p class="text-sm font-medium leading-normal">Chat Transcripts</p>
+</div>
+<span class="text-xs font-semibold bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-2 py-0.5 rounded-full">3</span>
+</a>
+<a class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl">gavel</span>
+<p class="text-sm font-medium leading-normal">Dispute Resolution</p>
+</div>
+</a>
+<a class="flex items-center justify-between gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xl">quick_reference</span>
+<p class="text-sm font-medium leading-normal">Quick Responses</p>
+</div>
+</a>
+</div>
+</div>
+<div class="mt-auto">
+<button class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-200 dark:bg-white/10 text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal tracking-[0.015em] hover:bg-gray-300 dark:hover:bg-white/20">
+<span class="truncate">View Audit Logs</span>
+</button>
+</div>
+</aside>
+<main class="flex flex-1 flex-col overflow-hidden">
+<div class="flex flex-col p-6 space-y-4 flex-1 overflow-y-auto">
+<p class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Admin Moderation Hub</p>
+<div class="flex flex-col gap-4">
+<div class="w-full">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-gray-400 dark:text-gray-500 flex bg-gray-100 dark:bg-gray-900/50 items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-none bg-gray-100 dark:bg-gray-900/50 focus:border-none h-full placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search by Item, User, Ticket ID, or Keyword" value=""/>
+</div>
+</label>
+</div>
+<div class="flex gap-2 flex-wrap">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 text-primary pl-3 pr-2">
+<p class="text-sm font-medium leading-normal">Type: AI Flagged</p>
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-200 dark:bg-gray-800 pl-3 pr-2">
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal">Status: Pending</p>
+<span class="material-symbols-outlined text-lg text-gray-600 dark:text-gray-400">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-200 dark:bg-gray-800 pl-3 pr-2">
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal">Date Range: Last 7 Days</p>
+<span class="material-symbols-outlined text-lg text-gray-600 dark:text-gray-400">expand_more</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gray-200 dark:bg-gray-800 pl-3 pr-2">
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal">Sort By: Newest</p>
+<span class="material-symbols-outlined text-lg text-gray-600 dark:text-gray-400">expand_more</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between gap-2 p-3 bg-primary/20 rounded-lg border border-primary/30">
+<div class="flex items-center gap-2">
+<input class="form-checkbox h-5 w-5 rounded bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm font-medium text-gray-800 dark:text-gray-200">2 items selected</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-primary/20 hover:text-primary">
+<span class="material-symbols-outlined text-2xl">check_circle</span>
+</button>
+<button class="p-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-primary/20 hover:text-primary">
+<span class="material-symbols-outlined text-2xl">cancel</span>
+</button>
+<button class="p-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-primary/20 hover:text-primary">
+<span class="material-symbols-outlined text-2xl">person_add</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4">
+<span class="truncate">Bulk Actions</span>
+<span class="material-symbols-outlined text-xl">expand_more</span>
+</button>
+</div>
+</div>
+<div class="border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
+<table class="w-full text-sm text-left">
+<thead class="bg-gray-100 dark:bg-gray-900/50 text-xs text-gray-500 dark:text-gray-400 uppercase">
+<tr>
+<th class="p-4" scope="col"><input class="form-checkbox h-4 w-4 rounded bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-primary focus:ring-primary" type="checkbox"/></th>
+<th class="px-6 py-3" scope="col">Item / Ticket</th>
+<th class="px-6 py-3" scope="col">User(s) Involved</th>
+<th class="px-6 py-3" scope="col">Reason</th>
+<th class="px-6 py-3" scope="col">Date</th>
+<th class="px-6 py-3" scope="col">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-gray-50 dark:bg-gray-900 border-b dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer">
+<td class="w-4 p-4"><input checked="" class="form-checkbox h-4 w-4 rounded bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">Review #12345</td>
+<td class="px-6 py-4"><a class="text-primary hover:underline" href="#">GamerPro_92</a></td>
+<td class="px-6 py-4"><span class="bg-red-200 dark:bg-red-900/50 text-red-800 dark:text-red-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">AI: Profanity</span></td>
+<td class="px-6 py-4">2023-10-27</td>
+<td class="px-6 py-4"><span class="bg-yellow-200 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Pending</span></td>
+</tr>
+<tr class="bg-primary/10 border-b dark:border-gray-800 ring-2 ring-primary">
+<td class="w-4 p-4"><input checked="" class="form-checkbox h-4 w-4 rounded bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">Dispute #D7890</td>
+<td class="px-6 py-4"><a class="text-primary hover:underline" href="#">EpicSeller</a>, <a class="text-primary hover:underline" href="#">Buyer_007</a></td>
+<td class="px-6 py-4"><span class="bg-blue-200 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">User Escalation</span></td>
+<td class="px-6 py-4">2023-10-26</td>
+<td class="px-6 py-4"><span class="bg-yellow-200 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">In Review</span></td>
+</tr>
+<tr class="bg-gray-50 dark:bg-gray-900 border-b dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer">
+<td class="w-4 p-4"><input class="form-checkbox h-4 w-4 rounded bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">Chat #C5432</td>
+<td class="px-6 py-4"><a class="text-primary hover:underline" href="#">CommunityStar</a>, Agent</td>
+<td class="px-6 py-4"><span class="bg-red-200 dark:bg-red-900/50 text-red-800 dark:text-red-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">AI: Sentiment Alert</span></td>
+<td class="px-6 py-4">2023-10-25</td>
+<td class="px-6 py-4"><span class="bg-yellow-200 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Needs Review</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<aside class="flex w-96 flex-col bg-gray-100/50 dark:bg-background-dark/50 p-6 border-l border-gray-200 dark:border-gray-800 overflow-y-auto">
+<div class="flex flex-col gap-6">
+<div class="p-4 bg-gray-200 dark:bg-gray-900/50 rounded-lg">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Dispute Parties</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBBYZXqTpn7wkzt21I4ZcMhW1ra8JcN2cziJGbtXlyRH5jORvxizeOn0l1L41qPPnh_4qf5Yecu8slYK7RTFNqP-SEdWDiFkKw2tnOoRvAFKFAniavf0DLHQtmrQbKFugqw6LJhHaTz5hJGKLG6OiATuKt8fijNuCMl9a1uFCNhVeyj8V6kgOgQ_6MPM2vfnfkjK-ys_4ws4sEaAi_MxT2FY8sOHMvUJzDXfIk6mlqVPz9B5XI4-UlZRTBg6pR8uHSVaJXMvD5WyMo3");'></div>
+<div class="flex flex-col">
+<a class="text-gray-900 dark:text-white text-base font-semibold leading-normal hover:underline" href="#">EpicSeller (Seller)</a>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Reputation: 4.8 ★</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 bg-blue-500 flex items-center justify-center text-white font-bold text-xl" data-alt="User profile picture">B</div>
+<div class="flex flex-col">
+<a class="text-gray-900 dark:text-white text-base font-semibold leading-normal hover:underline" href="#">Buyer_007 (Buyer)</a>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Purchase History: 12 items</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Dispute Resolution Context</h3>
+<div class="text-sm space-y-2 text-gray-700 dark:text-gray-300">
+<p><strong class="font-medium text-gray-800 dark:text-gray-200">Ticket ID:</strong> #D7890</p>
+<p><strong class="font-medium text-gray-800 dark:text-gray-200">Reason:</strong> <span class="bg-blue-200 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-medium px-2 py-0.5 rounded-full">User Escalation</span></p>
+<p><strong class="font-medium text-gray-800 dark:text-gray-200">AI Chatbot Summary:</strong> "Buyer claims item not as described. Seller refutes, providing screenshots. Initial negotiation failed."</p>
+<a class="text-primary hover:underline font-medium" href="#">View Full Communication Log</a>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Live Communication Transcript</h3>
+<div class="p-4 bg-gray-200 dark:bg-gray-900/50 rounded-lg space-y-3 max-h-60 overflow-y-auto">
+<div class="text-sm">
+<p class="font-bold text-blue-500">Buyer_007:</p>
+<p class="text-gray-600 dark:text-gray-400 leading-relaxed">The account doesn't have the Renegade Raider skin as advertised! This is a scam.</p>
+</div>
+<div class="text-sm text-right">
+<p class="font-bold text-green-500">EpicSeller:</p>
+<p class="text-gray-600 dark:text-gray-400 leading-relaxed">It's there, you just have to look. I sent you proof. No refunds.</p>
+</div>
+<div class="text-sm">
+<p class="font-bold text-yellow-500">AI Chatbot:</p>
+<p class="text-gray-600 dark:text-gray-400 leading-relaxed">I can see both sides. To resolve this, please provide a video of you logging in and checking the locker. Escalating to a human agent for review.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 mt-2">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Resolution Actions</h3>
+<div class="flex flex-col gap-3">
+<button class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
+<span class="material-symbols-outlined text-xl">send</span>
+<span class="truncate">Send Message / Request Info</span>
+</button>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-status-green/80 text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
+<span class="truncate">Rule for Buyer</span>
+</button>
+<button class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-status-red/80 text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
+<span class="truncate">Rule for Seller</span>
+</button>
+</div>
+<select class="form-select w-full rounded-lg bg-gray-200 dark:bg-gray-800 border-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-gray-200" id="quick-response">
+<option>Use a Quick Response...</option>
+<option>Request for more evidence</option>
+<option>Final warning for policy violation</option>
+<option>Dispute resolution outcome</option>
+</select>
+</div>
+</div>
+</div>
+</aside>
+</div>
+
+</body></html>

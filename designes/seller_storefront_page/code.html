@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Seller Storefront Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101d23",
+                        "accent-yellow": "#FFD700"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px; /* Default size */
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- TopNavBar -->
+<div class="flex flex-1 justify-center w-full bg-[#101d23]">
+<div class="flex flex-col w-full max-w-7xl">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#223d49] px-6 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined !text-4xl">storefront</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#90b8cb] flex border-none bg-[#223d49] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#223d49] focus:border-none h-full placeholder:text-[#90b8cb] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden lg:flex items-center gap-9">
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Browse</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">My Wallet</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Support</a>
+</div>
+<div class="hidden md:flex gap-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Log In</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#223d49] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCjEK49Ov33HeVlnAHN7bgmQcpqUR6uaAqwUwM5NKMwYEY3bzkUDmtWq9ON_qSe9sESdXyW_74oWyGyv2DriFRLuccZ1hWTKVdzDIAsY4yOnn40qF3eo_n_NIGxjKrWedWEtiU5qT_W679Go0S3S-kLB-a8UlmN3CkDJnbNtCxOSDSad_pXxKB50OKVWpWrFfreaboARWFf88uyhoXcd3Q525Fs3ZsDwQThY6uAxjfOzRRp041fkJA84fXidSIzNr0jJ6A50u9jFjfU");'></div>
+</div>
+</header>
+</div>
+</div>
+<main class="flex flex-1 justify-center py-5 sm:px-4 md:px-8">
+<div class="layout-content-container flex flex-col w-full max-w-7xl gap-8">
+<!-- Header/Banner Section -->
+<div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden rounded-xl min-h-[250px] md:min-h-80" data-alt="Abstract blue and purple gaming-themed banner image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9sjvyfNp9DmlY16IpF3p7mP0H1HYQ_hje8Eaj9ipJLFtenScjB0NkMgekJUIfT8SPl-QbvOnjuaUgnCgQ7o8U9t9V89ZO6d5cWQst-TvC_ePR-1dGjYjrshZ3WYZZ0SZV62KszE2B7xVohASmiUzse_V38Xienl4pUjh01H-0aveVgIr_TWO8PWTcdUGBdGrN0-jmcAJz1F8K2s7dQta7iL2A0Q56-VMfbhNz1_pLSxzKV4pY0IKkR9of3mdjDY4NV8GqPb0d1PuY");'></div>
+<!-- ProfileHeader -->
+<div class="px-4 -mt-24">
+<div class="flex w-full flex-col gap-4 @container md:flex-row md:justify-between md:items-end">
+<div class="flex gap-4 items-end">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-32 border-4 border-[#101d23] shadow-lg" data-alt="Pro Gamer Supplies store logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXjVgmgmcETzj1pZm3rDPMsQDKbJJs1Pox7AIL1wa1VttdW6mOS7u5XgLuTyfhbO1dYbTGSVzdp_a7AP6E57UNhts9LpJ1k6SZb04sXt5wJ_EWvC4D4NMx3BTHy772SNS0PzFUUi5a1qU0H3l9LTUxW060gXYhisMlv0klhh9RLjwP3YXUqmVyCd979jfpjUCQc_Q946jF-mEOTqHszzVaqUYGvndX7uO44VPEvmtqNEy-aVPA2V5mciASBSHr3PsFi-BbBOhIRJZQ");'></div>
+<div class="flex flex-col justify-center pb-2">
+<p class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] flex items-center gap-2">Pro Gamer Supplies <span class="material-symbols-outlined text-primary !text-2xl">verified</span></p>
+<p class="text-[#90b8cb] text-base font-normal leading-normal">Your one-stop shop for all gaming needs!</p>
+</div>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full max-w-[480px] md:w-auto">
+<span class="truncate">Follow</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-8 px-4">
+<!-- Left Sidebar / Seller Info -->
+<aside class="w-full lg:w-1/3 xl:w-1/4 flex flex-col gap-6">
+<div class="bg-[#223d49] p-6 rounded-lg">
+<h3 class="text-white font-bold text-lg mb-4">Seller Information</h3>
+<div class="flex items-center gap-2 mb-3">
+<div class="flex text-accent-yellow">
+<span class="material-symbols-outlined !text-xl">star</span>
+<span class="material-symbols-outlined !text-xl">star</span>
+<span class="material-symbols-outlined !text-xl">star</span>
+<span class="material-symbols-outlined !text-xl">star</span>
+<span class="material-symbols-outlined !text-xl">star_half</span>
+</div>
+<p class="text-white font-bold">4.8 <span class="text-[#90b8cb] font-normal">(2,451 reviews)</span></p>
+</div>
+<p class="text-[#90b8cb] text-sm mb-4">Dedicated to providing gamers with the best digital codes and top-ups instantly and securely. We've been a trusted partner on Epin Marketplace for over 3 years.</p>
+<div class="border-t border-[#315768] pt-4 flex flex-col gap-3">
+<div class="flex justify-between text-sm">
+<span class="text-[#90b8cb]">Products Sold</span>
+<span class="text-white font-semibold">15,000+</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-[#90b8cb]">Years on Platform</span>
+<span class="text-white font-semibold">3</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-[#90b8cb]">Followers</span>
+<span class="text-white font-semibold">5,210</span>
+</div>
+</div>
+<div class="border-t border-[#315768] mt-4 pt-4 flex flex-col gap-2">
+<a class="text-primary hover:underline text-sm font-semibold" href="#">Seller Policies</a>
+<a class="text-primary hover:underline text-sm font-semibold" href="#">Contact Seller</a>
+<a class="text-red-400 hover:underline text-sm font-semibold" href="#">Report Store</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="flex-1">
+<!-- Tabs -->
+<div class="pb-3">
+<div class="flex border-b border-[#315768] gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-white pb-[13px] pt-4" href="#">
+<p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">All Products</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#90b8cb] pb-[13px] pt-4 hover:border-b-primary/50 hover:text-white transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Best Sellers</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#90b8cb] pb-[13px] pt-4 hover:border-b-primary/50 hover:text-white transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">New Arrivals</p>
+</a>
+</div>
+</div>
+<!-- ToolBar -->
+<div class="flex justify-between items-center gap-2 py-3">
+<div class="flex-1 max-w-sm">
+<label class="flex flex-col min-w-40 !h-10">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#90b8cb] flex border-none bg-[#223d49] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#223d49] focus:border-none h-full placeholder:text-[#90b8cb] px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search in this store..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex gap-2 items-center">
+<span class="text-[#90b8cb] text-sm hidden sm:inline">Sort by:</span>
+<select class="form-select bg-[#223d49] border-none text-white rounded-lg h-10 text-sm focus:ring-primary focus:border-primary">
+<option>Most Popular</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Newest</option>
+</select>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 pt-4">
+<!-- Product Card 1 -->
+<div class="bg-[#223d49] rounded-lg overflow-hidden flex flex-col group">
+<div class="w-full h-40 bg-cover bg-center" data-alt="Steam Wallet card banner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxVsKiizaYS7grdBP8w9PFlYnRNMXxDaSWDTyTCa3f0Vn-Bg_kEcC4ZHQMvQQeLhcAMKmrCJFxZnLrbIWf0oHuwwLey93sRN_5n3JTO5IfA1niUnx6i9RJbxFVul4DZybEnEqsZqBek6g5X6e6jKvSYf9ZTR2ORcOgNWoBxBRJkePaHR9ulHbkAKaA5PtPUHPNldReyAeexQLuDeB43dxtM0hwkvj3iGy-o3YRnoZSrQGXx4nAEAlhUqBWeh78W5VwVcVeYmuXhRTx')"></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-white font-bold text-base mb-1">Steam Wallet Code - $20</h4>
+<p class="text-[#90b8cb] text-sm mb-4">Platform: Steam</p>
+<div class="mt-auto flex justify-between items-center">
+<p class="text-white text-lg font-bold">2000 Credits</p>
+<button class="bg-primary text-white rounded-lg h-9 px-4 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">Add</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-[#223d49] rounded-lg overflow-hidden flex flex-col group">
+<div class="w-full h-40 bg-cover bg-center" data-alt="Playstation Network card banner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA81tzriBzYj404MvIRIHFl9zPxp2Qwv3gpo4g5MkFvWk1qhvAFuxUdt4ZwWFNRIO3IG6UxgMXVolM_6lbYs2QTeTuCJU7Y1hOVP_Td-f8HCX8r6tsh4KJOtz0HYG5qykoojDp4XN9eAFhSIrDOf3oDtW2Ek5YHx0oYWNj99NvAfRDamqD5Nh3Z9bA-ZVwhuG3uCBpSyg3fc5m8gKHn7fVaxpDIAqni6kMge1iu5zDIXBcl0kWnqoWbb4mJyzJfsGrSyp2K7f5U96iJ')"></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-white font-bold text-base mb-1">PlayStation Store Gift Card - $50</h4>
+<p class="text-[#90b8cb] text-sm mb-4">Platform: PSN</p>
+<div class="mt-auto flex justify-between items-center">
+<p class="text-white text-lg font-bold">5000 Credits</p>
+<button class="bg-primary text-white rounded-lg h-9 px-4 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">Add</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-[#223d49] rounded-lg overflow-hidden flex flex-col group">
+<div class="w-full h-40 bg-cover bg-center" data-alt="Xbox gift card banner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB8PZQEZWC0ADchJ4jAj4QLpD0dcbYOsT5KDmFlU6AF0w2jECo_W2cvENBr2FdRZhKdMV7sfwwlMzHwYIiDoqCkKp2pPjNCNL8ge2QpE87nvRBX50Pb2gqVqTNaduac5JRAJB20AkxRVNsJSxhICHN3kdQJBjWiCkjxDPpLRGTvswu775OVkgsCoVabCpA7wyfhlrdMfAZCrcuAFiK50sl9qBBZtMUFgZfiY26SlenEqqxmy5_pEaPi8wfw5egeeK0JUXYcAZz5jDXO')"></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-white font-bold text-base mb-1">Xbox Gift Card - $25</h4>
+<p class="text-[#90b8cb] text-sm mb-4">Platform: Xbox</p>
+<div class="mt-auto flex justify-between items-center">
+<p class="text-white text-lg font-bold">2500 Credits</p>
+<button class="bg-primary text-white rounded-lg h-9 px-4 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">Add</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-[#223d49] rounded-lg overflow-hidden flex flex-col group">
+<div class="w-full h-40 bg-cover bg-center" data-alt="Valorant game banner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_7C8l2u-4oOfPHnrIzSUv9SR8crnW6rkovsiLllgJlgzt2s8JUkveFh9YRd3frraH-_7bydUbxTNFe9-zmHAK8zHOUsCSK7Sv0tCJD5hCKDOltCRIbweMnaKrF48bP1K1Po3ygmPxAz00acoeQIJ7_sK3b-DBgaMafjo4I51dlHJoa3S4gO5LL579gM23WVg_IsZTPL3q9QDFwcnjcp19bUCTyqQ9Um6o6szj3PyWACrGTIGkxOpbhIDdQzfzaSGx79s-kGCpBujY')"></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-white font-bold text-base mb-1">Valorant Points - 2050 VP</h4>
+<p class="text-[#90b8cb] text-sm mb-4">Platform: PC</p>
+<div class="mt-auto flex justify-between items-center">
+<p class="text-white text-lg font-bold">1900 Credits</p>
+<button class="bg-primary text-white rounded-lg h-9 px-4 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">Add</button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-[#223d49] rounded-lg overflow-hidden flex flex-col group">
+<div class="w-full h-40 bg-cover bg-center" data-alt="Fortnite game banner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAwXEa7HQl9LiQQzv2g6soTiw3h78YYXPQFIlw_3gIx5LwPITsLyp49wSpWc7yP3NqBDu7MSqAzyHm0zAU8Ap4_EeS38GSebR-XWYbhADhD6AFlf78IW6n-8hesV03wcMzF6UuvbP6wdhmiVdotwieRnsFYjXTfAIRRjEo-oMYPyFh0Nk7ubVA7W6GuRp6pwbiJ0CmkJSPHZxD52HouVenymrfYjtdvdMz7mmXoSf3pU7mI96d9xl7wwdi6GOL9lNLKNiyi1aQy7Rim')"></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-white font-bold text-base mb-1">Fortnite V-Bucks - 1000</h4>
+<p class="text-[#90b8cb] text-sm mb-4">Platform: All</p>
+<div class="mt-auto flex justify-between items-center">
+<p class="text-white text-lg font-bold">800 Credits</p>
+<button class="bg-primary text-white rounded-lg h-9 px-4 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">Add</button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="bg-[#223d49] rounded-lg overflow-hidden flex flex-col group">
+<div class="w-full h-40 bg-cover bg-center" data-alt="Apex Legends game banner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDiPSOmiD0ZyP7ZFuAbGjArKWiwcwuWl5FL_TMr56kK9wzVrbvQC_LhxH9e-DvHnfUPyljEO5Lj6MEg78Xvz06J2yz_iewPza9cfPGiJFuhg2DclGGiOrBR3iGBOS-VXHyO0eDSPtS_sCNeJ-anu55Yjdkuw7-m8kGsrTY20w_oB0n3PokE9iDX6gRcvKl5IR8zwSc3ybsjSXedRRk8g4HdQWiqycLX_-5wac0fT819rl07ZfGkeEhuADvCaIN0CTcqtaFkwuKEcG5L')"></div>
+<div class="p-4 flex flex-col flex-grow">
+<h4 class="text-white font-bold text-base mb-1">Apex Legends Coins - 2150</h4>
+<p class="text-[#90b8cb] text-sm mb-4">Platform: PC, PSN, Xbox</p>
+<div class="mt-auto flex justify-between items-center">
+<p class="text-white text-lg font-bold">2000 Credits</p>
+<button class="bg-primary text-white rounded-lg h-9 px-4 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">Add</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Customer Reviews Section -->
+<div class="mt-12">
+<h3 class="text-white font-bold text-2xl mb-6 pb-3 border-b border-[#315768]">Customer Reviews</h3>
+<div class="flex flex-col md:flex-row gap-8">
+<!-- Review Summary -->
+<div class="w-full md:w-1/3">
+<div class="flex items-center gap-2 mb-4">
+<h4 class="text-4xl text-white font-bold">4.8</h4>
+<div>
+<div class="flex text-accent-yellow">
+<span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star</span><span class="material-symbols-outlined">star_half</span>
+</div>
+<p class="text-[#90b8cb] text-sm">Based on 2,451 reviews</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-sm">
+<span class="text-[#90b8cb]">5 star</span>
+<div class="w-full bg-[#315768] rounded-full h-2"><div class="bg-accent-yellow h-2 rounded-full" style="width: 85%"></div></div>
+<span class="text-white w-8 text-right">85%</span>
+</div>
+<div class="flex items-center gap-2 text-sm">
+<span class="text-[#90b8cb]">4 star</span>
+<div class="w-full bg-[#315768] rounded-full h-2"><div class="bg-accent-yellow h-2 rounded-full" style="width: 10%"></div></div>
+<span class="text-white w-8 text-right">10%</span>
+</div>
+<div class="flex items-center gap-2 text-sm">
+<span class="text-[#90b8cb]">3 star</span>
+<div class="w-full bg-[#315768] rounded-full h-2"><div class="bg-accent-yellow h-2 rounded-full" style="width: 3%"></div></div>
+<span class="text-white w-8 text-right">3%</span>
+</div>
+<div class="flex items-center gap-2 text-sm">
+<span class="text-[#90b8cb]">2 star</span>
+<div class="w-full bg-[#315768] rounded-full h-2"><div class="bg-accent-yellow h-2 rounded-full" style="width: 1%"></div></div>
+<span class="text-white w-8 text-right">1%</span>
+</div>
+<div class="flex items-center gap-2 text-sm">
+<span class="text-[#90b8cb]">1 star</span>
+<div class="w-full bg-[#315768] rounded-full h-2"><div class="bg-accent-yellow h-2 rounded-full" style="width: 1%"></div></div>
+<span class="text-white w-8 text-right">1%</span>
+</div>
+</div>
+</div>
+<!-- Review List -->
+<div class="flex-1 space-y-6">
+<!-- Review Card 1 -->
+<div class="border-b border-[#315768] pb-4">
+<div class="flex justify-between items-center mb-1">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuALd3BTZaJloRE_o2DDENQur7Gt6XCyFPNz9uFLKyM1uVnHHLLPehiZwfp5XcKLDFRGRimVeaizsGY6Mlb4STP9vg0K6T97unaHOm4VMMjLK5l_fdC4WgyhiClQd56woeRephCXqJ3IjmpqoLTwHyjwIGR4_7UvtZ6YDPwaUMuruoxlOr1k2CLGPeiP2GbPlY-yZs8LLwhjaohOjUBmEjFbxyqQmHhybqxCHbGXIAxJtfNyfqO3GBMx8QW2BTIwZR9oC0nILN17xTAc");'></div>
+<h5 class="font-bold text-white">Alex Johnson</h5>
+</div>
+<span class="text-sm text-[#90b8cb]">2 days ago</span>
+</div>
+<div class="flex text-accent-yellow mb-2 ml-11">
+<span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span>
+</div>
+<p class="text-[#90b8cb] text-sm ml-11">Super fast delivery! Got my code in seconds. Will definitely buy again.</p>
+</div>
+<!-- Review Card 2 -->
+<div class="border-b border-[#315768] pb-4">
+<div class="flex justify-between items-center mb-1">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCY8TEA_HdKrc5jDlZNWr_sPasvkOilY2dp4jIpQBRCoeJLDbPiuJKhI3PBmoX-Q-MdEaBWm8khzbfF6Y_2UGri0gnhLyDXKK2xO3dSbbDwHv8kM_nSmWsHa5u7JF0EO2w73baqMprIBIeSevKn23EQRGHwtSsN5aVjB5-wAWdKowOaspBRjggHcadeQBqpLP0og_vcxcOgK3ZzLbRyPhNKY1BiZD59a1Xsr6dYRWuQcL08B0XsBA4kalfQRGvFEO9YSIWZBo4jbXG4");'></div>
+<h5 class="font-bold text-white">Maria Garcia</h5>
+</div>
+<span class="text-sm text-[#90b8cb]">1 week ago</span>
+</div>
+<div class="flex text-accent-yellow mb-2 ml-11">
+<span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span>
+</div>
+<p class="text-[#90b8cb] text-sm ml-11">Legit seller, great prices. The whole process was smooth and easy. Highly recommended!</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin - System Monitoring &amp; Alerts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0ba3ea",
+            "background-light": "#f5f7f8",
+            "background-dark": "#101c22",
+          },
+          fontFamily: {
+            "display": ["Manrope"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex h-screen">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-[#101d23] p-4">
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-3 py-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin Fatma's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkKu8b_L-ny7Lik4KM7eCXCwyw51QMDZfLEXQQ-ObYi1AjBBwLhiFXPD2Y9Z4K_kkO8kq9IW7dIrcXMlt6Q8IuP7o39tNUx3Kf0p-rsBccd8HLIpzOv7pD5C5M-R6-gywp08GJWiVLIsy3ScZNH9oiIfRm7ca6Wmj4oEGyQu6--_6PJoYrKZmcPa4GynRdNQ-qR4vn6pnOYF667Q5-LtNjkDmJ2dg10lLt-wUoDGRqtBHsY-4cj6JKjIIanb_zH0kHSJaYiuoDEmue");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-medium leading-normal">Admin Fatma</h1>
+<p class="text-[#90b8cb] text-sm font-normal leading-normal">Platform Manager</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">User Management</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<p class="text-sm font-medium leading-normal">Transactions</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">article</span>
+<p class="text-sm font-medium leading-normal">Content</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<p class="text-sm font-medium leading-normal">Monitoring &amp; Alerts</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white hover:bg-white/10 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="flex flex-1 flex-col overflow-y-auto">
+<!-- TopNavBar -->
+<header class="flex shrink-0 items-center justify-between whitespace-nowrap border-b border-solid border-white/10 bg-[#101d23] px-10 py-3 sticky top-0 z-10">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+<div class="flex flex-1 items-center justify-end gap-4">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Configure Alerts</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#223d49] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#223d49] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined text-xl">chat_bubble</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin Fatma's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBr7V5VnWzfV0_nfWuAzbWJv2RfArI758j2DQNsndab-nFaoTw8Hx7AhawOXnVVw2RK3cS6vqOtYugsfwOqO_W8x596zK7Obex2vqr8M3heTvj0kR_qQojxu5CROG1RhIL_xW0UQhVkYeghAnXm87i3OQPhJ_T2rpW0gvadAYQdIb_VCgnU1gd4ps5SPdfzm00WbVijXyUJigaLrTBD5d4x9irGTu-LpPE_waaT0J0MNh3bDyHLqzafddFUlXnPa5wh-dVi6B7qIsI0");'></div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 p-6 lg:p-10">
+<div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+<!-- PageHeading -->
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">System Monitoring &amp; Alerts</p>
+<p class="text-[#90b8cb] text-base font-normal leading-normal">Real-time infrastructure, application, and business metrics.</p>
+</div>
+<!-- Chips -->
+<div class="flex flex-wrap gap-2">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#223d49] px-4 text-white text-sm font-medium leading-normal hover:bg-primary/30">All Time</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 px-4 text-primary text-sm font-medium leading-normal">Last 24h</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#223d49] px-4 text-white text-sm font-medium leading-normal hover:bg-primary/30">Last 7d</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#223d49] px-4 text-white text-sm font-medium leading-normal hover:bg-primary/30">Last 30d</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-[#223d49] px-4 text-white text-sm font-medium leading-normal hover:bg-primary/30">Custom Range</button>
+</div>
+</div>
+<!-- Section 1: Real-time Alerts Overview -->
+<!-- Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-[#ef4444]/50 bg-[#ef4444]/10">
+<p class="text-red-400 text-base font-medium leading-normal">Critical Alerts</p>
+<p class="text-white tracking-light text-4xl font-bold leading-tight">2</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-[#f59e0b]/50 bg-[#f59e0b]/10">
+<p class="text-yellow-400 text-base font-medium leading-normal">Warning Alerts</p>
+<p class="text-white tracking-light text-4xl font-bold leading-tight">5</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 border border-[#3b82f6]/50 bg-[#3b82f6]/10">
+<p class="text-blue-400 text-base font-medium leading-normal">Info Alerts</p>
+<p class="text-white tracking-light text-4xl font-bold leading-tight">12</p>
+</div>
+</div>
+<!-- Alerts Table -->
+<div class="bg-[#1a2c35] rounded-xl border border-white/10 p-6 mb-10">
+<h3 class="text-xl font-bold text-white mb-4">Active Alerts</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm text-[#90b8cb]">
+<thead class="border-b border-white/10">
+<tr>
+<th class="p-3">Severity</th>
+<th class="p-3">Timestamp</th>
+<th class="p-3">Alert Name</th>
+<th class="p-3">Status</th>
+<th class="p-3 text-right">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-white/10">
+<td class="p-3"><span class="inline-flex items-center rounded-full bg-red-500/20 px-2 py-1 text-xs font-medium text-red-400">Critical</span></td>
+<td class="p-3">2023-10-27 14:35:12</td>
+<td class="p-3 text-white">Database Connection Failure</td>
+<td class="p-3">Unacknowledged</td>
+<td class="p-3 text-right">
+<button class="text-primary hover:underline">View Details</button>
+</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="p-3"><span class="inline-flex items-center rounded-full bg-yellow-500/20 px-2 py-1 text-xs font-medium text-yellow-400">Warning</span></td>
+<td class="p-3">2023-10-27 14:30:05</td>
+<td class="p-3 text-white">API Latency &gt; 500ms</td>
+<td class="p-3">Acknowledged</td>
+<td class="p-3 text-right">
+<button class="text-primary hover:underline">View Details</button>
+</td>
+</tr>
+<tr class="border-b border-white/10">
+<td class="p-3"><span class="inline-flex items-center rounded-full bg-yellow-500/20 px-2 py-1 text-xs font-medium text-yellow-400">Warning</span></td>
+<td class="p-3">2023-10-27 14:28:19</td>
+<td class="p-3 text-white">Server CPU Usage &gt; 85%</td>
+<td class="p-3">Unacknowledged</td>
+<td class="p-3 text-right">
+<button class="text-primary hover:underline">View Details</button>
+</td>
+</tr>
+<tr>
+<td class="p-3"><span class="inline-flex items-center rounded-full bg-blue-500/20 px-2 py-1 text-xs font-medium text-blue-400">Info</span></td>
+<td class="p-3">2023-10-27 14:25:00</td>
+<td class="p-3 text-white">New Application Deployment</td>
+<td class="p-3">Resolved</td>
+<td class="p-3 text-right">
+<button class="text-primary hover:underline">View Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Section 2, 3, 4: Dashboards -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Infrastructure Health -->
+<div class="bg-[#1a2c35] rounded-xl border border-white/10 p-6 col-span-1 lg:col-span-2 xl:col-span-3">
+<h3 class="text-xl font-bold text-white mb-4">Infrastructure Health</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+<div class="flex flex-col gap-2 rounded-lg p-4 bg-[#101c22]">
+<p class="text-[#90b8cb] text-sm">Server CPU</p>
+<p class="text-green-400 text-3xl font-bold">42%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-4 bg-[#101c22]">
+<p class="text-[#90b8cb] text-sm">Memory Usage</p>
+<p class="text-green-400 text-3xl font-bold">58%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-4 bg-[#101c22]">
+<p class="text-[#90b8cb] text-sm">Network Latency</p>
+<p class="text-white text-3xl font-bold">32ms</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-4 bg-[#101c22]">
+<p class="text-[#90b8cb] text-sm">DB Connections</p>
+<p class="text-white text-3xl font-bold">128/200</p>
+</div>
+</div>
+</div>
+<!-- Application Performance -->
+<div class="bg-[#1a2c35] rounded-xl border border-white/10 p-6 col-span-1 lg:col-span-1 xl:col-span-2">
+<h3 class="text-xl font-bold text-white mb-4">Application Performance</h3>
+<div data-alt="A line chart showing API response times over the last 24 hours, with a peak around midday.">
+<img alt="API Response Time Chart" class="w-full h-64 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDpDQZfgQ0ZxqLuY3NhaTqfQCgqY2VLfJ-J5Yp1yEH6kgLmVhIXGskYFJsDyByyI9_S6wJ5dELZ-K-f2qmZlYQ5U2bPxcCW07V0mb4mEV31TzmofVa3e69OiDeALFLTiQ8d9zVT8XTX7XpgKvF-rkIAnA-a_yXNGCD1FMjGJcCHeM8h05c8L2cNArhAdcCk3f84v5xop2rGDIQ1uMVY-rfkHA5TyQaNri9MQ2-Mc3GYyxDDGJV2FOrk_qvD70o16p-w9cwY8-1nNGp"/>
+</div>
+</div>
+<div class="bg-[#1a2c35] rounded-xl border border-white/10 p-6">
+<h3 class="text-xl font-bold text-white mb-4">Error Rate</h3>
+<div class="flex items-center justify-center h-64" data-alt="A donut chart showing that 98% of requests are successful (2xx), 1.5% are client errors (4xx), and 0.5% are server errors (5xx).">
+<img alt="Error Rate Donut Chart" class="w-48 h-48 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0eo1dR2s_97SU3uYU13wxGs01N9IE_gz4MyYiHc0q9LWfHANA6n0a76ZTkf3SGUNrSLf5OgPIS08PE4fUS0yqTHh3np27Xjqj_817u51H9YPOyJkqJXd3BUnt2k6FYyfA2_HdmchlTCwyy-_guhE37HPSbe9v0gWMtCdQOPDBS4Rl8JtlEH3bMLbMve1CaOXuENqC_UpUnHduY-DLt1ciQ7J5-dHG_wHkxgQzqhVskYyfySbAPOQ7H5MYewarJ5iQ1JFw7YmrE5VS"/>
+</div>
+</div>
+<!-- Business Metrics -->
+<div class="bg-[#1a2c35] rounded-xl border border-white/10 p-6">
+<h3 class="text-xl font-bold text-white mb-4">Active Users</h3>
+<div class="flex items-center gap-2">
+<p class="text-white text-5xl font-bold">1,204</p>
+<span class="text-green-400 flex items-center text-sm font-medium">
+<span class="material-symbols-outlined text-base">arrow_upward</span>
+                +5.2%
+              </span>
+</div>
+</div>
+<div class="bg-[#1a2c35] rounded-xl border border-white/10 p-6 col-span-1 lg:col-span-1 xl:col-span-2">
+<h3 class="text-xl font-bold text-white mb-4">Credit Purchase Volume</h3>
+<div data-alt="A bar chart showing credit purchase volume increasing steadily over the last 7 days.">
+<img alt="Credit Purchase Volume Chart" class="w-full h-32 object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJHNDmIPPsMDtJ61Oeqkp9qdSg5FvG_fusa3rRxN1IUINBy_IJ_IzVHgxBm7fH5AwQu03f4ugprJZdlYLdsuFK-GO-0MLBXDnqI1LEIT1YJzDNcNiKmIwo1Rtm5a9ifEqGHQuhKzaMEvxz_57cmK9PjvqtTOwiE0KkVttGAad9VSlI5A6LZFTl57AEePQXl1ItAXQSZwli3Yww7JqjmYqYVvAxcNIr-kagsnyAwFDvpF0gq5MEieyStWUP-kFPVSM-r8CRL5U0QEzi"/>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>
