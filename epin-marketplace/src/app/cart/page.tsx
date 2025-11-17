@@ -1,99 +1,191 @@
+'use client';
+
+import { useCart } from '@/lib/cart/CartContext';
 import Link from 'next/link';
-
-// Mock data for cart items - replace with actual data fetching later
-const cartItems = [
-  {
-    id: 1,
-    name: '5,000 Credits Steam Wallet Code',
-    price: 5000,
-    quantity: 1,
-    platform: 'Steam',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrRmHp2nx-hFpmlWuYqzKc5hhmof2000CL-ZqQVbWPyplaECWCer6TPHhUy0uwesLdguaJYiT6lHucnmjb34QB7S6SsXd0FDVr6dgXrhx7r_ZMna2DZIycoTGXEEHYZvFD0qw2dobWXjSe15vWf4JtzIDmMucnrkGstNg55uTTEJ4OwTS8VS5kT38OYTaBYU2Q1mkfKsMm-NwwpgY-d-zG3m9ZvyR22_iHg2cPDJg1AcN_5bI3LIpVUnGuItP_r4Ikqnp7yT7xat7l',
-  },
-  {
-    id: 2,
-    name: '1,000 V-Bucks Gift Card',
-    price: 999,
-    quantity: 2,
-    platform: 'Fortnite',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCOocAliale3TwHZpWe00zbHohz6kZpvIeVvN7eRn8TTsDwBNC_qSZEcx39Q048P8_jzUE3aVxeuqVQs3nyjhR6z0wSn-CpXEkVT_mtPYfZGAU1dRDGkkAiuQJMzXZ_XCTxnZj4YZ8D1rJtqwBhDtwsZAtjIPP9WeQsSwB4ucmIm4zv-Etc_eRzhonrgg1_b9KOaRpRkUB4xbK0d2gkaLoiSgyMKV9Fy6lfzV4BigF73D_EU445RC6FA_QWUw0OiOYTSiQ5B9Ms8BJ9',
-  },
-];
-
-const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-const taxes = subtotal * 0.08; // Example tax rate
-const total = subtotal + taxes;
+import { useState } from 'react';
 
 export default function CartPage() {
-  return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
-      <div className="mb-8">
-        <div className="flex flex-wrap items-center gap-2 mb-4">
-          <Link href="/" className="text-gray-400 hover:text-primary text-sm font-medium transition-colors">
-            Home
-          </Link>
-          <span className="text-gray-500 text-sm">/</span>
-          <span className="text-white text-sm font-medium">Your Cart</span>
-        </div>
-        <div className="flex flex-wrap justify-between gap-4 items-baseline">
-          <h1 className="text-white text-4xl lg:text-5xl font-bold tracking-tighter">Your Shopping Cart</h1>
-          <Link href="/products" className="text-primary hover:text-primary/80 text-sm font-medium transition-colors">
-            Continue Shopping
-          </Link>
-        </div>
+  const { items, loading, removeFromCart, updateQuantity, getTotal, clearCart } = useCart();
+  const [removing, setRemoving] = useState<string | null>(null);
+
+  const handleRemove = async (itemId: string) => {
+    setRemoving(itemId);
+    try {
+      await removeFromCart(itemId);
+    } catch (error) {
+      console.error('Error removing item:', error);
+    } finally {
+      setRemoving(null);
+    }
+  };
+
+  const handleQuantityChange = async (itemId: string, newQuantity: number) => {
+    try {
+      await updateQuantity(itemId, newQuantity);
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">Sepet yükleniyor...</div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12">
-        <div className="lg:col-span-2">
-          <div className="flex flex-col gap-px overflow-hidden rounded-lg border border-gray-200/20 bg-gray-200/20">
-            {cartItems.map(item => (
-                <div key={item.id} className="flex flex-col sm:flex-row gap-4 bg-background-dark p-4 sm:p-6 justify-between items-start sm:items-center">
-                    <div className="flex items-start gap-4 w-full">
-                        <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-20 shrink-0" style={{ backgroundImage: `url("${item.image}")` }}></div>
-                        <div className="flex flex-1 flex-col justify-center gap-1">
-                            <p className="text-white text-lg font-semibold leading-tight">{item.name}</p>
-                            <p className="text-gray-400 text-sm font-normal">Platform: {item.platform}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center justify-between w-full sm:w-auto gap-4">
-                        <div className="shrink-0">
-                            <div className="flex items-center gap-2 text-white bg-gray-200/10 rounded-full px-1">
-                                <button className="text-xl font-medium flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200/20 transition-colors cursor-pointer">-</button>
-                                <input className="text-base font-medium w-8 p-0 text-center bg-transparent focus:outline-none border-none" type="number" value={item.quantity} readOnly />
-                                <button className="text-xl font-medium flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200/20 transition-colors cursor-pointer">+</button>
-                            </div>
-                        </div>
-                        <p className="text-white text-lg font-semibold w-24 text-right">{item.price * item.quantity} Cr</p>
-                        <button className="text-gray-400 hover:text-red-500 transition-colors">
-                            <span className="material-symbols-outlined">delete</span>
-                        </button>
-                    </div>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-24 w-24 text-gray-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+        <h1 className="text-2xl font-bold">Sepetiniz Boş</h1>
+        <p className="text-gray-400">Alışverişe başlamak için ürünlere göz atın</p>
+        <Link
+          href="/"
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+        >
+          Alışverişe Başla
+        </Link>
+      </div>
+    );
+  }
+
+  const total = getTotal();
+
+  return (
+    <div className="min-h-screen py-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Sepetim</h1>
+          <button
+            onClick={clearCart}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+          >
+            Sepeti Temizle
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Cart Items */}
+          <div className="lg:col-span-2 space-y-4">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="bg-gray-800 rounded-lg p-6 flex gap-6 items-center"
+              >
+                <div className="w-24 h-24 bg-gray-700 rounded-lg flex items-center justify-center">
+                  <span className="text-3xl">🎮</span>
                 </div>
+
+                <div className="flex-1">
+                  <Link
+                    href={`/product/${item.product.slug}`}
+                    className="text-xl font-semibold hover:text-blue-400 transition-colors"
+                  >
+                    {item.product.title}
+                  </Link>
+                  <p className="text-gray-400 mt-1">{item.variant.name}</p>
+                  <p className="text-2xl font-bold mt-2">
+                    {item.variant.price.toFixed(2)} {item.variant.currency}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                      className="w-8 h-8 bg-gray-700 hover:bg-gray-600 rounded flex items-center justify-center transition-colors"
+                      disabled={item.quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <span className="w-12 text-center font-semibold">
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                      className="w-8 h-8 bg-gray-700 hover:bg-gray-600 rounded flex items-center justify-center transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => handleRemove(item.id)}
+                    disabled={removing === item.id}
+                    className="p-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
-        </div>
-        <div className="lg:col-span-1">
-            <div className="sticky top-28 flex flex-col gap-6 rounded-xl border border-gray-200/20 bg-background-dark p-6">
-                <h2 className="text-white text-2xl font-bold">Order Summary</h2>
-                <div className="flex flex-col gap-4">
-                    <div className="flex justify-between items-center text-gray-300">
-                        <span>Subtotal</span>
-                        <span className="text-white font-medium">{subtotal} Credits</span>
-                    </div>
-                    <div className="flex justify-between items-center text-gray-300">
-                        <span>Taxes</span>
-                        <span className="text-white font-medium">{taxes.toFixed(0)} Credits</span>
-                    </div>
+
+          {/* Order Summary */}
+          <div className="lg:col-span-1">
+            <div className="bg-gray-800 rounded-lg p-6 sticky top-4">
+              <h2 className="text-2xl font-bold mb-6">Sipariş Özeti</h2>
+
+              <div className="space-y-3 mb-6">
+                <div className="flex justify-between text-gray-400">
+                  <span>Ara Toplam</span>
+                  <span>{total.toFixed(2)} TRY</span>
                 </div>
-                <div className="w-full h-px bg-gray-200/20"></div>
-                <div className="flex justify-between items-center">
-                    <span className="text-white text-xl font-bold">Total</span>
-                    <span className="text-white text-2xl font-bold">{total.toFixed(0)} Credits</span>
+                <div className="flex justify-between text-gray-400">
+                  <span>KDV (%20)</span>
+                  <span>{(total * 0.2).toFixed(2)} TRY</span>
                 </div>
-                <Link href="/checkout" className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-white gap-2 text-base font-bold tracking-wide hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-                    <span className="material-symbols-outlined">lock</span>
-                    <span>Proceed to Secure Payment</span>
-                </Link>
+                <div className="border-t border-gray-700 pt-3">
+                  <div className="flex justify-between text-xl font-bold">
+                    <span>Toplam</span>
+                    <span>{(total * 1.2).toFixed(2)} TRY</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/checkout"
+                className="w-full block text-center px-6 py-4 bg-green-600 hover:bg-green-700 rounded-lg font-semibold text-lg transition-colors"
+              >
+                Ödemeye Geç
+              </Link>
+
+              <Link
+                href="/"
+                className="w-full block text-center mt-4 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+              >
+                Alışverişe Devam Et
+              </Link>
             </div>
+          </div>
         </div>
       </div>
     </div>
