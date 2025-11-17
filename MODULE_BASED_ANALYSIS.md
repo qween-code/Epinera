@@ -926,15 +926,16 @@
 - ✅ Sprint 13-16: Community, Referral, Notifications, Disputes
 - ✅ Sprint 17-20: Creator Dashboard, Campaigns, Audience, Revenue, Giveaway
 - ✅ Sprint 19-20: Admin Dashboard, Wallet Deposit (7 versiyon)
+- ✅ Sprint 21: Order Confirmation design HTML kontrolü ve düzeltmeler, Wallet Deposit kontrolü, Homepage geri kontrol
 
 ### Devam Eden Sprintler
-- 🔄 Sprint 21+: Kısmen uygulanan sayfaları tamamlama
+- 🔄 Sprint 22+: Kısmen uygulanan sayfaları tamamlama
 
 ### Toplam İlerleme
-- **Tam Uygulanan**: 18 sayfa (25%)
-- **Kısmen Uygulanan**: 21 sayfa (29%)
+- **Tam Uygulanan**: 19 sayfa (26%) ⬆️
+- **Kısmen Uygulanan**: 20 sayfa (28%) ⬇️
 - **Eksik**: 33 sayfa (46%)
-- **Genel İlerleme**: ~54% tamamlandı
+- **Genel İlerleme**: ~55% tamamlandı ⬆️
 
 ---
 
@@ -948,5 +949,35 @@
 
 ---
 
-*Son Güncelleme: Sprint 20 Sonrası*
+*Son Güncelleme: Sprint 21 Sonrası*
+
+## 📝 Sprint 21 Detayları
+
+### Tamamlanan İşler
+1. ✅ **Order Confirmation** (`/orders/[id]`)
+   - Design HTML ile birebir uyum kontrolü yapıldı
+   - Import path düzeltildi (`@/lib/supabase/server` → `@/utils/supabase/server`)
+   - Header link'leri düzeltildi (Store → `/products`)
+   - Component'ler design HTML'e uyumlu
+
+2. ✅ **Wallet Deposit** (`/wallet/deposit`)
+   - 7 versiyon kontrol edildi (query parameter ile)
+   - Design HTML ile uyumlu
+   - Backend entegrasyonu mevcut
+
+3. ✅ **Homepage** (`/`)
+   - Geri kontrol yapıldı
+   - Mobile responsive ✅
+   - Link'ler doğru ✅
+   - Component'ler çalışıyor ✅
+
+### Backend & Database Kontrolleri
+- ✅ Wallet actions mevcut (`epin-marketplace/src/app/actions/wallet.ts`)
+- ✅ Wallets ve wallet_transactions tabloları migration'da mevcut
+- ✅ RLS policies tanımlı
+- ✅ Order actions mevcut (`epin-marketplace/src/app/actions/order.ts`)
+
+### Değişiklikler
+- `epin-marketplace/src/app/orders/[id]/page.tsx`: Import path düzeltildi
+- `epin-marketplace/src/components/orders/OrderConfirmationHeader.tsx`: Store link'i düzeltildi
 

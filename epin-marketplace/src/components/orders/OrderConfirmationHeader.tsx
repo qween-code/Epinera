@@ -22,7 +22,7 @@ export default function OrderConfirmationHeader() {
       </div>
       <nav className="hidden items-center gap-9 lg:flex">
         <Link className="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/">Home</Link>
-        <Link className="text-white text-sm font-medium leading-normal" href="/">Store</Link>
+        <Link className="text-white text-sm font-medium leading-normal" href="/products">Store</Link>
         <Link className="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/wallet">My Wallet</Link>
         <Link className="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/community">Community</Link>
       </nav>
