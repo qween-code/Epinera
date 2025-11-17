@@ -22,37 +22,35 @@ export default function CheckoutHeader() {
       </div>
       <div className="hidden lg:flex flex-1 justify-end gap-8">
         <div className="flex items-center gap-9">
-          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/">Home</Link>
-          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/products">Store</Link>
-          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/publishers">Publishers</Link>
-          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/brands">Brands</Link>
+          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal" href="/">Home</Link>
+          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal" href="/products">Store</Link>
+          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal" href="/publishers">Publishers</Link>
+          <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal" href="/brands">Brands</Link>
         </div>
         <div className="flex gap-2">
           <Link
             href="/wallet"
-            className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors"
+            className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]"
           >
             <span className="truncate">My Wallet</span>
           </Link>
-          <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+          <Link
+            href="/notifications"
+            className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+          >
             <span className="material-symbols-outlined text-xl">notifications</span>
-          </button>
+          </Link>
           <Link
             href="/cart"
-            className="relative flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+            className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
           >
             <span className="material-symbols-outlined text-xl">shopping_basket</span>
-            {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
-                {itemCount}
-              </span>
-            )}
           </Link>
         </div>
         <div
           className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
           data-alt="User profile picture"
-          style={{ backgroundImage: 'url("https://api.dicebear.com/7.x/avataaars/svg?seed=user")' }}
+          style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBBIF3lhIXoZI0aHf0OSrs2o6Om-_YDqazBBPUD88tZZ9Wj7uQoJhKR2F_lP3ZuzjBOeqRUMSuH-AbvTnmnmAv0RcF7gJjMDGQqiWc9sKacvLaA9pmcfXBB3IprSxdR_xH-ExlCe8nbFKEHK5FB8vdnWnXsOvAbxslliRyD6MoeaQMLmluIxs0UiOzfXb-IcaXW9L3SQ3jN2J9xMblV1YZ0CZI4KimhNdActwm7B3GgJrK_CYu5Kjuno6odaUUAid4aenbWs8l6z6E3")' }}
         />
       </div>
     </header>

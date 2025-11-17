@@ -26,21 +26,27 @@ export default function WalletDepositHeader() {
       </div>
       <div className="flex flex-1 justify-end gap-8">
         <div className="hidden lg:flex items-center gap-9">
-          <Link className="text-black dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/">Store</Link>
+          <Link className="text-black dark:text-white text-sm font-medium leading-normal" href="/products">Store</Link>
           <Link className="text-primary dark:text-primary text-sm font-bold leading-normal" href="/wallet">Wallet</Link>
-          <Link className="text-black dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/wallet">My Account</Link>
+          <Link className="text-black dark:text-white text-sm font-medium leading-normal" href="/wallet">My Account</Link>
         </div>
         <div className="flex items-center gap-2">
-          <button className="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+          <Link
+            href="/seller/products/new"
+            className="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]"
+          >
             <span className="truncate">Publish</span>
-          </button>
-          <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-gray-100 dark:bg-white/5 text-black dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">
+          </Link>
+          <Link
+            href="/notifications"
+            className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-gray-100 dark:bg-white/5 text-black dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+          >
             <span className="material-symbols-outlined text-xl">notifications</span>
-          </button>
+          </Link>
           <div
             className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
             data-alt="User profile picture"
-            style={{ backgroundImage: 'url("https://api.dicebear.com/7.x/avataaars/svg?seed=user")' }}
+            style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBADrSHsuryUkm0-FocjM-qsEMNJfwxupNaE4VWf4tvQXvTaDUFmAoantuz01wdl8fvN1Q-mo7tR5PzgZgcwufhLUM-FD6jxgHzf-RX09WkDK9uw33QGL4OgL8-n3GZtMSteYdFLiFp7PP6dEGDk71731e5xWFL20qTDg35bW93wJH-wf8Z-y62_1nf0uBkFs64Iwc-J581C_DlIFU8VSZwMC64f0yk4brl2SEctctCHo7mgHJw8lo-zPN6ALXejahf_wV8oP0l90to")' }}
           />
         </div>
       </div>
