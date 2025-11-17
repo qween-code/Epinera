@@ -2,74 +2,133 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// We would create a server action for this, e.g., createDepositIntent
+import WalletDepositHeader from '@/components/wallet/WalletDepositHeader';
+import AmountInput from '@/components/wallet/AmountInput';
+import PromoCodeInput from '@/components/wallet/PromoCodeInput';
+import PaymentMethodSelector from '@/components/wallet/PaymentMethodSelector';
+import CardForm from '@/components/wallet/CardForm';
+import DepositSummary from '@/components/wallet/DepositSummary';
+import { applyDiscountCode } from '@/app/actions/wallet';
 
 export default function DepositPage() {
   const [amount, setAmount] = useState(50.00);
+  const [currency, setCurrency] = useState('USD');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit_card');
+  const [promoDiscount, setPromoDiscount] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  // Calculate fees and totals
+  const processingFee = amount * 0.03; // 3% processing fee
+  const totalPayable = amount + processingFee - promoDiscount;
+  const creditsToReceive = amount; // 1:1 conversion for now
+
+  const handlePromoCodeApply = async (code: string) => {
+    const result = await applyDiscountCode(code);
+    if (result.success && result.discount) {
+      if (result.discount.percentage) {
+        setPromoDiscount(amount * (result.discount.percentage / 100));
+      } else if (result.discount.amount) {
+        setPromoDiscount(parseFloat(result.discount.amount.toString()));
+      }
+    } else {
+      throw new Error(result.error || 'Invalid promo code');
+    }
+  };
+
   const handleDeposit = async () => {
+    if (amount <= 0) {
+      setError('Please enter a valid amount');
+      return;
+    }
+
     setIsProcessing(true);
     setError(null);
+
     try {
-      // In a real app, you would call a server action here:
-      // const result = await createDepositIntent(amount);
-      // if (result.clientSecret) {
-      //   // Use Stripe.js to confirm the payment
-      // } else {
-      //   setError(result.error);
-      // }
-
-      // For now, we'll simulate a successful deposit and redirect
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      alert(`Successfully deposited $${amount}. Your wallet will be updated shortly.`);
-      router.push('/wallet');
-
+      // TODO: Implement actual payment processing
+      // For now, simulate success
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      // Redirect to wallet page
+      router.push('/wallet?deposit=success');
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
-    } finally {
       setIsProcessing(false);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-4xl font-bold mb-8">Deposit Funds</h1>
-      <div className="bg-gray-800 p-8 rounded-xl space-y-6">
-        <div>
-          <label htmlFor="amount" className="block text-lg font-medium mb-2">Amount (USD)</label>
-          <input
-            id="amount"
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
-            className="w-full bg-gray-900 border border-gray-700 rounded-md p-4 text-2xl font-bold"
-            step="5"
-          />
-        </div>
-
-        {/* Placeholder for payment method selection (e.g., Stripe Elements) */}
-        <div className="border-t border-gray-700 pt-6">
-            <h3 className="text-lg font-semibold mb-4">Payment Information</h3>
-            <div className="bg-gray-700 p-4 rounded-md text-center text-gray-400">
-                <p>Secure payment form (e.g., Stripe) would be integrated here.</p>
+    <div className="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark font-display">
+      <WalletDepositHeader />
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="flex flex-col gap-6">
+          {/* Breadcrumbs */}
+          <div>
+            <div className="flex flex-wrap gap-2">
+              <Link className="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal hover:text-primary transition-colors" href="/wallet">
+                Wallet
+              </Link>
+              <span className="text-gray-500 dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+              <span className="text-black dark:text-white text-sm font-medium leading-normal">Deposit</span>
             </div>
+            <div className="flex flex-wrap justify-between gap-3 pt-2">
+              <div>
+                <p className="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
+                  Deposit Funds & Get Credits
+                </p>
+                <p className="mt-2 text-gray-600 dark:text-gray-300">
+                  Deposit money into your wallet to receive site credits for purchases.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            {/* Main Form */}
+            <div className="lg:col-span-2 bg-white dark:bg-black/20 p-6 sm:p-8 rounded-xl border border-gray-200 dark:border-white/10 flex flex-col gap-8">
+              <AmountInput
+                amount={amount}
+                currency={currency}
+                onAmountChange={setAmount}
+              />
+
+              <div className="border-t border-dashed border-gray-200 dark:border-white/10"></div>
+
+              <PromoCodeInput onApply={handlePromoCodeApply} />
+
+              <PaymentMethodSelector
+                selectedMethod={selectedPaymentMethod}
+                onSelectMethod={setSelectedPaymentMethod}
+              />
+
+              {selectedPaymentMethod === 'credit_card' && (
+                <CardForm />
+              )}
+
+              {error && (
+                <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                  <p className="text-red-700 dark:text-red-400">{error}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Summary Sidebar */}
+            <div className="lg:col-span-1">
+              <DepositSummary
+                depositAmount={amount}
+                processingFee={processingFee}
+                totalPayable={totalPayable}
+                creditsToReceive={creditsToReceive}
+                currency={currency}
+                onDeposit={handleDeposit}
+                isProcessing={isProcessing}
+              />
+            </div>
+          </div>
         </div>
-
-        {error && (
-            <p className="text-red-400 bg-red-900/50 p-3 rounded-md">{error}</p>
-        )}
-
-        <button
-          onClick={handleDeposit}
-          disabled={isProcessing || amount <= 0}
-          className="w-full py-4 bg-sky-600 rounded-md text-lg font-semibold hover:bg-sky-700 disabled:bg-gray-600 transition-colors"
-        >
-          {isProcessing ? 'Processing...' : `Deposit $${amount.toFixed(2)}`}
-        </button>
-      </div>
+      </main>
     </div>
   );
 }
