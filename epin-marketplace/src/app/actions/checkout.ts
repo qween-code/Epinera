@@ -181,6 +181,38 @@ export async function processCheckout(discountCode?: string) {
         .eq('id', item.product_variants.id);
     }
 
+    // Create notification for buyer
+    try {
+      await supabase.from('notifications').insert({
+        user_id: user.id,
+        type: 'order',
+        title: `Order #${order.id.substring(0, 8)} Confirmed`,
+        message: `Your order has been confirmed and is being processed. Total: ${total.toFixed(2)} ${currency}`,
+        link: `/orders/${order.id}`,
+        metadata: { order_id: order.id },
+      });
+    } catch (notifError) {
+      console.error('Error creating notification:', notifError);
+      // Don't fail the checkout if notification fails
+    }
+
+    // Create notifications for sellers
+    const sellerIds = [...new Set(orderItems.map((item) => item.seller_id))];
+    for (const sellerId of sellerIds) {
+      try {
+        await supabase.from('notifications').insert({
+          user_id: sellerId,
+          type: 'order',
+          title: 'New Order Received',
+          message: `You have received a new order #${order.id.substring(0, 8)}`,
+          link: `/seller/orders/${order.id}`,
+          metadata: { order_id: order.id },
+        });
+      } catch (notifError) {
+        console.error('Error creating seller notification:', notifError);
+      }
+    }
+
     revalidatePath('/cart');
     revalidatePath('/orders');
     revalidatePath('/wallet');
