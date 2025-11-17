@@ -151,7 +151,7 @@ export default function StoreSettingsPage() {
         </div>
       </header>
       <div className="flex flex-1">
-        <aside className="w-64 shrink-0 p-6 hidden lg:block sticky top-[68px] h-[calc(100vh-68px)]">
+        <aside className="w-64 shrink-0 p-4 sm:p-6 hidden lg:block sticky top-[68px] h-[calc(100vh-68px)]">
           <div className="flex h-full min-h-[700px] flex-col justify-between p-4 bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
@@ -223,19 +223,19 @@ export default function StoreSettingsPage() {
             </div>
           </div>
         </aside>
-        <main className="flex-1 p-6">
-          <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-            <h1 className="text-black dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
+        <main className="flex-1 p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-between items-start sm:items-center gap-4 mb-6">
+            <h1 className="text-black dark:text-white text-2xl sm:text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
               Store Settings
             </h1>
             <button
               onClick={handleSave}
-              className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-md hover:bg-primary/90 transition-colors"
+              className="flex w-full sm:w-auto min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-md hover:bg-primary/90 transition-colors"
             >
               <span className="truncate">Save All Changes</span>
             </button>
           </div>
-          <div className="space-y-8 max-w-4xl mx-auto">
+          <div className="space-y-6 sm:space-y-8 max-w-4xl mx-auto">
             {/* Store Profile Section */}
             <div className="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
               <h2 className="text-black dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] px-6 py-4 border-b border-slate-200 dark:border-slate-800">

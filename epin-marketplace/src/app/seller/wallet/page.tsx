@@ -154,19 +154,19 @@ export default function SellerWalletPage() {
 
   return (
     <div className="relative flex min-h-screen w-full bg-background-light dark:bg-background-dark font-display">
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8">
         <div className="mx-auto max-w-7xl">
           {/* Page Heading */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
             <div className="flex flex-col gap-1">
-              <p className="text-3xl font-bold leading-tight tracking-tight text-white">Wallet & Payouts</p>
-              <p className="text-[#90b8cb] text-base font-normal leading-normal">
+              <p className="text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-white">Wallet & Payouts</p>
+              <p className="text-[#90b8cb] text-sm sm:text-base font-normal leading-normal">
                 Manage your earnings, payouts, and transaction history.
               </p>
             </div>
             <button
               onClick={handleRequestPayout}
-              className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-[#48BB78] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[#48BB78]/90 transition-colors"
+              className="flex w-full sm:w-auto min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-[#48BB78] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[#48BB78]/90 transition-colors"
             >
               <span className="material-symbols-outlined text-base">account_balance_wallet</span>
               <span className="truncate">Withdraw Funds</span>
@@ -191,9 +191,9 @@ export default function SellerWalletPage() {
           )}
 
           {/* Tabs & Content */}
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             <WalletTabs activeTab={activeTab} onTabChange={handleTabChange} />
-            <div className="py-6">
+            <div className="py-4 sm:py-6">
               {activeTab === 'transactions' && <TransactionTable transactions={transactions} />}
               {activeTab === 'payouts' && <PayoutHistory payouts={payouts} onRequestPayout={handleRequestPayout} />}
               {activeTab === 'methods' && (

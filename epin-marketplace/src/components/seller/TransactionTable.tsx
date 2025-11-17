@@ -53,8 +53,10 @@ export default function TransactionTable({ transactions }: TransactionTableProps
   };
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-[#315768]">
-      <table className="min-w-full text-left text-sm text-white">
+    <div className="overflow-x-auto -mx-4 sm:mx-0 rounded-lg border border-[#315768]">
+      <div className="inline-block min-w-full align-middle">
+        <div className="overflow-hidden">
+          <table className="min-w-full text-left text-sm text-white">
         <thead className="border-b border-[#315768] bg-[#1a2931]/50 text-xs uppercase text-[#90b8cb]">
           <tr>
             <th className="px-6 py-3" scope="col">
@@ -99,6 +101,8 @@ export default function TransactionTable({ transactions }: TransactionTableProps
           )}
         </tbody>
       </table>
+        </div>
+      </div>
     </div>
   );
 }

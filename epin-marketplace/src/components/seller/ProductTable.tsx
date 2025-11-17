@@ -73,8 +73,10 @@ export default function ProductTable({
 
   return (
     <div className="bg-slate-100/50 dark:bg-slate-900/50 rounded-xl overflow-hidden border border-slate-200/10 dark:border-slate-800">
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left text-slate-600 dark:text-slate-400">
+      <div className="overflow-x-auto -mx-4 sm:mx-0">
+        <div className="inline-block min-w-full align-middle">
+          <div className="overflow-hidden">
+            <table className="min-w-full text-sm text-left text-slate-600 dark:text-slate-400">
           <thead className="text-xs text-slate-700 dark:text-slate-300 uppercase bg-slate-200/30 dark:bg-slate-800/50">
             <tr>
               <th className="p-4" scope="col">
@@ -189,6 +191,8 @@ export default function ProductTable({
             )}
           </tbody>
         </table>
+          </div>
+        </div>
       </div>
     </div>
   );

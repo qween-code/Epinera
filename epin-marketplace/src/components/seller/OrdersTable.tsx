@@ -61,8 +61,10 @@ export default function OrdersTable({
   };
 
   return (
-    <div className="overflow-x-auto bg-white dark:bg-[#1A2831] rounded border border-gray-200 dark:border-[#2D3748]">
-      <table className="w-full text-sm text-left">
+    <div className="overflow-x-auto -mx-4 sm:mx-0 bg-white dark:bg-[#1A2831] rounded border border-gray-200 dark:border-[#2D3748]">
+      <div className="inline-block min-w-full align-middle">
+        <div className="overflow-hidden">
+          <table className="min-w-full text-sm text-left">
         <thead className="text-xs text-gray-500 dark:text-[#A0AEC0] uppercase bg-gray-50 dark:bg-[#101d23]/50">
           <tr>
             <th className="p-4" scope="col">
@@ -124,6 +126,8 @@ export default function OrdersTable({
           })}
         </tbody>
       </table>
+        </div>
+      </div>
     </div>
   );
 }

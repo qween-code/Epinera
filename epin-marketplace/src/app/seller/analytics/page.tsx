@@ -150,17 +150,17 @@ export default function SellerAnalyticsPage() {
 
   return (
     <div className="relative flex h-auto min-h-screen w-full flex-col bg-[#f0f0f0] dark:bg-[#1E1E2F] font-display text-gray-900 dark:text-[#F0F0F0]">
-      <header className="sticky top-0 z-10 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 bg-[#f0f0f0]/80 px-4 py-3 backdrop-blur-sm dark:bg-[#1E1E2F]/80 md:px-8 lg:px-10">
-        <div className="flex items-center gap-4 text-gray-900 dark:text-white">
-          <div className="size-6 text-[#4A90E2]">
+      <header className="sticky top-0 z-10 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 bg-[#f0f0f0]/80 px-4 py-3 backdrop-blur-sm dark:bg-[#1E1E2F]/80 sm:px-6 md:px-8 lg:px-10">
+        <div className="flex items-center gap-2 sm:gap-4 text-gray-900 dark:text-white">
+          <div className="size-5 sm:size-6 text-[#4A90E2]">
             <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
               <path clipRule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fillRule="evenodd"></path>
               <path clipRule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fillRule="evenodd"></path>
             </svg>
           </div>
-          <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+          <h2 className="text-base sm:text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
         </div>
-        <div className="hidden flex-1 items-center justify-center gap-8 md:flex">
+        <div className="hidden flex-1 items-center justify-center gap-4 sm:gap-6 md:gap-8 md:flex">
           <Link className="text-sm font-medium leading-normal text-gray-600 dark:text-[#F0F0F0]" href="/seller/dashboard">
             Dashboard
           </Link>
@@ -191,20 +191,20 @@ export default function SellerAnalyticsPage() {
           />
         </div>
       </header>
-      <main className="flex w-full flex-1 flex-col items-center p-4 md:p-6 lg:p-10">
-        <div className="flex w-full max-w-7xl flex-col gap-6">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+      <main className="flex w-full flex-1 flex-col items-center p-4 sm:p-6 md:p-8 lg:p-10">
+        <div className="flex w-full max-w-7xl flex-col gap-4 sm:gap-6">
+          <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-4">
             <div className="flex flex-col gap-1">
-              <p className="text-3xl font-bold leading-tight tracking-[-0.033em] text-gray-900 dark:text-white">
+              <p className="text-2xl sm:text-3xl font-bold leading-tight tracking-[-0.033em] text-gray-900 dark:text-white">
                 Sales Analytics & Reporting
               </p>
-              <p className="text-base font-normal leading-normal text-gray-600 dark:text-[#F0F0F0]">
+              <p className="text-sm sm:text-base font-normal leading-normal text-gray-600 dark:text-[#F0F0F0]">
                 Detailed insights into your sales performance.
               </p>
             </div>
             <button
               onClick={handleExport}
-              className="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#4A90E2] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-white hover:bg-[#4A90E2]/90 transition-colors"
+              className="flex w-full sm:w-auto h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-[#4A90E2] px-4 text-sm font-bold leading-normal tracking-[0.015em] text-white hover:bg-[#4A90E2]/90 transition-colors"
             >
               <span className="material-symbols-outlined text-base">download</span>
               <span className="truncate">Export Report</span>
@@ -226,12 +226,12 @@ export default function SellerAnalyticsPage() {
             />
           )}
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-3">
             <RevenueChart title="Revenue Trends" />
             <CustomerInsights returningPercentage={75} newPercentage={25} />
           </div>
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
             <TopProducts products={topProducts} />
             <AIMarketIntelligence insights={insights} />
           </div>

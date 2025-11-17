@@ -199,9 +199,9 @@ export default function StorefrontPage() {
               onFollow={handleFollow}
             />
 
-            <div className="flex flex-col lg:flex-row gap-8 px-4">
+            <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 px-4">
               {/* Left Sidebar / Seller Info */}
-              <aside className="w-full lg:w-1/3 xl:w-1/4 flex flex-col gap-6">
+              <aside className="w-full lg:w-1/3 xl:w-1/4 flex flex-col gap-4 sm:gap-6">
                 <SellerInfoCard
                   rating={store.rating}
                   reviewCount={store.reviewCount}
@@ -249,7 +249,7 @@ export default function StorefrontPage() {
                 </div>
 
                 {/* Product Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 pt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pt-4">
                   {products.map((product) => (
                     <StorefrontProductCard
                       key={product.id}

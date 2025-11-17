@@ -146,23 +146,23 @@ export default function SellerProductsPage() {
 
   return (
     <div className="relative flex min-h-screen w-full bg-background-light dark:bg-background-dark font-display">
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8">
         <div className="w-full max-w-7xl mx-auto">
           {/* Page Heading */}
-          <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-            <h1 className="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
+            <h1 className="text-slate-900 dark:text-white text-2xl sm:text-3xl lg:text-4xl font-black leading-tight tracking-[-0.033em]">
               My Products
             </h1>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
               <button
                 onClick={handleImportCSV}
-                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+                className="flex w-full sm:w-auto min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
               >
                 <span className="truncate">Import via CSV</span>
               </button>
               <button
                 onClick={handleExportListings}
-                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+                className="flex w-full sm:w-auto min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
               >
                 <span className="truncate">Export Listings</span>
               </button>
@@ -170,15 +170,15 @@ export default function SellerProductsPage() {
           </div>
 
           {/* ToolBar & SearchBar */}
-          <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
-            <div className="flex-1">
+          <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 sm:mb-6">
+            <div className="flex-1 w-full">
               <label className="flex flex-col min-w-40 h-12 w-full">
                 <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
                   <div className="text-slate-500 dark:text-[#90b8cb] flex border-y border-l border-slate-200/20 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg">
                     <span className="material-symbols-outlined">search</span>
                   </div>
                   <input
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-y border-r border-slate-200/20 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 focus:border-primary h-full placeholder:text-slate-500 dark:placeholder:text-[#90b8cb] px-4 text-base font-normal leading-normal"
+                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-y border-r border-slate-200/20 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 focus:border-primary h-full placeholder:text-slate-500 dark:placeholder:text-[#90b8cb] px-4 text-sm sm:text-base font-normal leading-normal"
                     placeholder="Search by product name or SKU"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -188,7 +188,7 @@ export default function SellerProductsPage() {
             </div>
             <Link
               href="/seller/products/new"
-              className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-5 hover:bg-primary/90 transition-colors"
+              className="flex w-full sm:w-auto max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-5 hover:bg-primary/90 transition-colors"
             >
               <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
                 add
