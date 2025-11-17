@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import WalletDepositHeader from '@/components/wallet/WalletDepositHeader';
 import AmountInput from '@/components/wallet/AmountInput';
 import PromoCodeInput from '@/components/wallet/PromoCodeInput';

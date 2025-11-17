@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import CartButton from '@/components/cart/CartButton';
 
 export default function Header() {
   const [user, setUser] = useState<any>(null);
+  const router = useRouter();
   const supabase = createClient();
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    window.location.href = '/';
+    router.push('/');
   };
 
   return (

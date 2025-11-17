@@ -27,14 +27,14 @@ export default function OrderConfirmationHeader() {
         <Link className="text-white/80 hover:text-white text-sm font-medium leading-normal transition-colors" href="/community">Community</Link>
       </nav>
       <div className="flex flex-1 justify-end items-center gap-2">
-        <label className="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+        <Link href="/search" className="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
           <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
             <div className="text-white/60 flex border-none bg-white/5 items-center justify-center pl-3 rounded-l-lg border-r-0">
               <span className="material-symbols-outlined">search</span>
             </div>
-            <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-white/5 focus:border-none h-full placeholder:text-white/60 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search" />
+            <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-white/5 focus:border-none h-full placeholder:text-white/60 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search" readOnly />
           </div>
-        </label>
+        </Link>
         <button className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-white/5 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-white/10 transition-colors">
           <span className="material-symbols-outlined text-xl">notifications</span>
         </button>

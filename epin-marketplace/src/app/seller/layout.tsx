@@ -40,9 +40,9 @@ export default function SellerLayout({
               <span className="material-symbols-outlined">inventory_2</span>
               <p className="text-sm font-medium leading-normal">Products</p>
             </Link>
-            <Link href="/seller/orders" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/10 rounded-lg">
-              <span className="material-symbols-outlined">receipt_long</span>
-              <p className="text-sm font-medium leading-normal">Orders</p>
+            <Link href="/seller/orders" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white">
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_cart</span>
+              <p className="text-sm font-bold leading-normal">Order Management</p>
             </Link>
             <Link href="/seller/analytics" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/10 rounded-lg">
               <span className="material-symbols-outlined">bar_chart</span>
@@ -94,9 +94,9 @@ export default function SellerLayout({
               <span className="material-symbols-outlined">inventory_2</span>
               <p className="text-sm font-medium leading-normal">Products</p>
             </Link>
-            <Link href="/seller/orders" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/10 rounded-lg">
-              <span className="material-symbols-outlined">receipt_long</span>
-              <p className="text-sm font-medium leading-normal">Orders</p>
+            <Link href="/seller/orders" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white">
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_cart</span>
+              <p className="text-sm font-bold leading-normal">Order Management</p>
             </Link>
             <Link href="/seller/analytics" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/10 rounded-lg">
               <span className="material-symbols-outlined">bar_chart</span>

@@ -66,11 +66,11 @@ export async function getOrderDeliveryStatus(orderId: string) {
     }
 
     // Determine delivery status
-    let deliveryStatus: 'placed' | 'payment_verified' | 'securing' | 'delivered' = 'placed';
+    let deliveryStatus: 'placed' | 'verified' | 'securing' | 'delivered' = 'placed';
     let code: string | null = null;
 
     if (order.payment_status === 'paid') {
-      deliveryStatus = 'payment_verified';
+      deliveryStatus = 'verified';
     }
 
     const orderItems = order.order_items as any[];

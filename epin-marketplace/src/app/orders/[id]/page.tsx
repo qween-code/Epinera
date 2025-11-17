@@ -140,7 +140,10 @@ export default async function OrderPage({ params, searchParams }: OrderPageProps
                 dateOfPurchase={dateOfPurchase}
                 paymentMethod={paymentMethod}
               />
-              <DeliveryTracking status={deliveryStatus} code={deliveryCode} />
+              <DeliveryTracking 
+                status={deliveryStatus === 'payment_verified' ? 'verified' : deliveryStatus as 'placed' | 'verified' | 'securing' | 'delivered'} 
+                code={deliveryCode} 
+              />
             </div>
 
             {/* Right Column: Actions & Support */}

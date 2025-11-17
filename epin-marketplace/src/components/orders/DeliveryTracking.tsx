@@ -1,7 +1,7 @@
 'use client';
 
 interface DeliveryTrackingProps {
-  status: 'placed' | 'payment_verified' | 'securing' | 'delivered';
+  status: 'placed' | 'verified' | 'securing' | 'delivered';
   code?: string | null;
 }
 
@@ -9,7 +9,7 @@ export default function DeliveryTracking({ status, code }: DeliveryTrackingProps
   const getStatusIndex = () => {
     switch (status) {
       case 'placed': return 0;
-      case 'payment_verified': return 1;
+      case 'verified': return 1;
       case 'securing': return 2;
       case 'delivered': return 3;
       default: return 0;

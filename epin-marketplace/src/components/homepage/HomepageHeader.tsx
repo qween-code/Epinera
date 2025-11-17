@@ -2,12 +2,21 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/cart/CartContext';
 
 export default function HomepageHeader() {
   const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
   const { getItemCount } = useCart();
   const itemCount = getItemCount();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-6 sm:px-10 py-3 sticky top-0 z-50 bg-background-dark/80 backdrop-blur-sm">
@@ -24,7 +33,7 @@ export default function HomepageHeader() {
         </nav>
       </div>
       <div className="flex flex-1 justify-end items-center gap-4">
-        <div className="hidden md:flex flex-1 justify-end max-w-xs">
+        <form onSubmit={handleSearch} className="hidden md:flex flex-1 justify-end max-w-xs">
           <label className="flex flex-col w-full">
             <div className="flex w-full flex-1 items-stretch rounded-lg h-10">
               <div className="text-white/50 flex bg-container-dark items-center justify-center pl-3 rounded-l-lg">
@@ -38,7 +47,7 @@ export default function HomepageHeader() {
               />
             </div>
           </label>
-        </div>
+        </form>
         <div className="hidden sm:flex items-center gap-2">
           <Link
             href="/signup"

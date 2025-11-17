@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +29,7 @@ export default function LoginForm() {
       // Check for redirect parameter
       const urlParams = new URLSearchParams(window.location.search);
       const redirect = urlParams.get('redirect') || '/';
-      window.location.href = redirect;
+      router.push(redirect);
     }
   };
 
