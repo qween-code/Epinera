@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Audit Logs - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex flex-col w-64 bg-white/5 dark:bg-black/20 p-4 border-r border-white/10 dark:border-black/20">
+<div class="flex flex-col gap-4 flex-grow">
+<div class="flex gap-3 items-center mb-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin Fatma's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBPBcdwuPYV3EWd4Ztl6RiJPZSETu8pwaHFwJZwpM2SjGPXh6uthAiTppY6cyGtEqVT2oBrZUEkXTctOByhKR-qOQ_CN5ti_MYkBj5wF2B5Jaq154NadV2vHu7-k7sDX2bO-Tk1mftrQKU5oUrD_38PyjlriY05We4m4r_WBO9TTdwpRWLwJdt7Ll1YfEnTRhlFso80ZEMyyr_HlQU1PNsc1Bu-CZ4q6l4Shbm0gzAgr0Ajg_W7BdmUXOJW9YKK_XD5dlDcogr82zyP");'></div>
+<div class="flex flex-col">
+<h1 class="text-black dark:text-white text-base font-medium leading-normal">Admin Fatma</h1>
+<p class="text-slate-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Administrator</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">group</span>
+<p class="text-sm font-medium leading-normal">Users</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">inventory_2</span>
+<p class="text-sm font-medium leading-normal">Products</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">receipt_long</span>
+<p class="text-sm font-medium leading-normal">Orders</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary dark:text-white dark:bg-primary" href="#">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">history</span>
+<p class="text-sm font-medium leading-normal">Audit Logs</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-2xl">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 lg:p-8">
+<div class="max-w-7xl mx-auto">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between items-start gap-4 mb-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Audit Logs</h1>
+<p class="text-slate-600 dark:text-[#90b8cb] text-base font-normal leading-normal">Review all user and system actions across the platform.</p>
+</div>
+<!-- ToolBar (Export button only) -->
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">download</span>
+<span class="truncate">Export as CSV</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 bg-white/5 dark:bg-black/20 p-4 rounded-xl border border-white/10 dark:border-black/20">
+<!-- SearchBar -->
+<div class="w-full">
+<label class="flex flex-col w-full">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-12">
+<div class="text-slate-500 dark:text-[#90b8cb] flex bg-slate-200 dark:bg-[#223d49] items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-xl text-black dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-slate-200 dark:bg-[#223d49] h-full placeholder:text-slate-500 placeholder:dark:text-[#90b8cb] px-4 text-base font-normal leading-normal" placeholder="Search by User ID, IP Address, or keywords..." value=""/>
+</div>
+</label>
+</div>
+<!-- Chips / Filters -->
+<div class="flex gap-3 overflow-x-auto pb-2">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-200 dark:bg-[#223d49] px-3">
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">calendar_month</span>
+<p class="text-black dark:text-white text-sm font-medium leading-normal">Date Range: Last 7 Days</p>
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">arrow_drop_down</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-200 dark:bg-[#223d49] px-3">
+<p class="text-black dark:text-white text-sm font-medium leading-normal">Action Type</p>
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">arrow_drop_down</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-200 dark:bg-[#223d49] px-3">
+<p class="text-black dark:text-white text-sm font-medium leading-normal">User Type</p>
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">arrow_drop_down</span>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-200 dark:bg-[#223d49] px-3">
+<p class="text-black dark:text-white text-sm font-medium leading-normal">Resource Type</p>
+<span class="material-symbols-outlined text-xl text-slate-600 dark:text-white">arrow_drop_down</span>
+</button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="mt-6 overflow-x-auto">
+<div class="inline-block min-w-full align-middle">
+<div class="overflow-hidden rounded-xl border border-white/10 dark:border-black/20">
+<table class="min-w-full divide-y divide-white/10 dark:divide-black/20">
+<thead class="bg-slate-100 dark:bg-black/20">
+<tr>
+<th class="w-12 px-4 py-3.5 text-left" scope="col"></th>
+<th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-600 dark:text-slate-300" scope="col">Timestamp</th>
+<th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-600 dark:text-slate-300" scope="col">Actor</th>
+<th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-600 dark:text-slate-300" scope="col">Action</th>
+<th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-600 dark:text-slate-300" scope="col">Resource</th>
+<th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-600 dark:text-slate-300" scope="col">IP Address</th>
+<th class="relative py-3.5 pl-3 pr-4" scope="col">
+<span class="sr-only">Details</span>
+</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/10 dark:divide-black/20 bg-white/5 dark:bg-black/10">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-100/50 dark:hover:bg-black/30">
+<td class="whitespace-nowrap px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
+<button class="p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">add_circle_outline</span>
+</button>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">2024-05-21 14:35:10 UTC</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">user:usr_1a2b3c</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm">
+<span class="inline-flex items-center rounded-md bg-red-100 dark:bg-red-900/40 px-2 py-1 text-xs font-medium text-red-700 dark:text-red-300 ring-1 ring-inset ring-red-600/20 dark:ring-red-500/30">ORDER_DELETED</span>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">Order: ord_xyz789</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">192.168.1.101</td>
+<td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+<a class="text-primary hover:text-primary/80" href="#">View Details</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-100/50 dark:hover:bg-black/30">
+<td class="whitespace-nowrap px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
+<button class="p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">add_circle_outline</span>
+</button>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">2024-05-21 14:32:55 UTC</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">admin:adm_fatma</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm">
+<span class="inline-flex items-center rounded-md bg-yellow-100 dark:bg-yellow-900/40 px-2 py-1 text-xs font-medium text-yellow-800 dark:text-yellow-300 ring-1 ring-inset ring-yellow-600/20 dark:ring-yellow-500/30">PRODUCT_PRICE_UPDATED</span>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">Product: prod_4d5e6f</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">203.0.113.45</td>
+<td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+<a class="text-primary hover:text-primary/80" href="#">View Details</a>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-100/50 dark:hover:bg-black/30">
+<td class="whitespace-nowrap px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
+<button class="p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10">
+<span class="material-symbols-outlined text-xl">add_circle_outline</span>
+</button>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">2024-05-21 14:30:02 UTC</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">user:usr_g7h8i9</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm">
+<span class="inline-flex items-center rounded-md bg-blue-100 dark:bg-blue-900/40 px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-300 ring-1 ring-inset ring-blue-700/10 dark:ring-blue-500/30">USER_LOGIN_SUCCESS</span>
+</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">User: usr_g7h8i9</td>
+<td class="whitespace-nowrap px-3 py-4 text-sm text-slate-700 dark:text-slate-300">198.51.100.22</td>
+<td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+<a class="text-primary hover:text-primary/80" href="#">View Details</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<nav aria-label="Pagination" class="flex items-center justify-between border-t border-white/10 dark:border-black/20 px-4 sm:px-0 mt-6 pt-4">
+<div class="hidden sm:block">
+<p class="text-sm text-slate-600 dark:text-slate-400">
+                            Showing
+                            <span class="font-medium">1</span>
+                            to
+                            <span class="font-medium">10</span>
+                            of
+                            <span class="font-medium">2,342</span>
+                            results
+                        </p>
+</div>
+<div class="flex flex-1 justify-between sm:justify-end">
+<a class="relative inline-flex items-center rounded-lg border border-white/20 dark:border-black/30 bg-white/5 dark:bg-black/20 px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-black/30" href="#">Previous</a>
+<a class="relative ml-3 inline-flex items-center rounded-lg border border-white/20 dark:border-black/30 bg-white/5 dark:bg-black/20 px-3 py-2 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-black/30" href="#">Next</a>
+</div>
+</nav>
+</div>
+</main>
+</div>
+</body></html>

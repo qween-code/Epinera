@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Streamer Dashboard - Epin Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0ba3ea",
+            "background-light": "#f5f7f8",
+            "background-dark": "#101c22",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+        font-family: 'Space Grotesk', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full flex-col font-display dark">
+<div class="flex h-full flex-1">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col gap-8 bg-background-light dark:bg-background-dark p-4 border-r border-white/10">
+<div class="flex items-center gap-3 px-2">
+<div class="text-primary" data-icon="Storefront" data-size="32px" data-weight="fill">
+<span class="material-symbols-outlined text-3xl">storefront</span>
+</div>
+<h1 class="text-black dark:text-white text-xl font-bold leading-normal">EpinMarket</h1>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Profile picture of streamer Ayşe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBH2Fc65LTT6oiRz5mKI4l4SRdrz-Weu02box0ljRbo1PqYgmbrh8v2tcB71e_e8RsoAB__-FlQB_HhckX6g0g7RdkFw8LA1zXCKZeqMZ1u3vkS4xVjU5agLfnskRQV8AD876ppVVfL9ysL2YvWct1dvRlcWyfGQKjLEU6quLhTYvWWSJFecfO6Z-1-3TAiqTMIoJcE8-AA9lJQiZc6nTeX-NpLB59v1OpHlLBr_y5RbWsdewSHQ7GEKE6FIXXU2Scza0uNTcJD5C3O");'></div>
+<div class="flex flex-col">
+<h1 class="text-black dark:text-white text-base font-medium leading-normal">Streamer Ayşe</h1>
+<p class="text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">Content Creator</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-black dark:text-white hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">sensors</span>
+<p class="text-sm font-medium leading-normal">Live Stream</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-black dark:text-white hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">construction</span>
+<p class="text-sm font-medium leading-normal">Content Tools</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-black dark:text-white hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<p class="text-sm font-medium leading-normal">Audience</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-black dark:text-white hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<p class="text-sm font-medium leading-normal">Revenue</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-black dark:text-white hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto">
+<div class="p-8">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 mb-6">
+<p class="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Dashboard</p>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="flex flex-1 flex-col gap-2 rounded-xl p-6 bg-white/5 border border-white/10">
+<p class="text-gray-600 dark:text-gray-400 text-base font-medium leading-normal">Live Viewers</p>
+<p class="text-black dark:text-white tracking-light text-2xl font-bold leading-tight">1,204</p>
+<p class="text-green-500 text-base font-medium leading-normal">+5%</p>
+</div>
+<div class="flex flex-1 flex-col gap-2 rounded-xl p-6 bg-white/5 border border-white/10">
+<p class="text-gray-600 dark:text-gray-400 text-base font-medium leading-normal">Real-Time Earnings</p>
+<p class="text-black dark:text-white tracking-light text-2xl font-bold leading-tight">$84.50</p>
+<p class="text-green-500 text-base font-medium leading-normal">+12%</p>
+</div>
+<div class="flex flex-1 flex-col gap-2 rounded-xl p-6 bg-white/5 border border-white/10">
+<p class="text-gray-600 dark:text-gray-400 text-base font-medium leading-normal">Clicks Today</p>
+<p class="text-black dark:text-white tracking-light text-2xl font-bold leading-tight">512</p>
+<p class="text-red-500 text-base font-medium leading-normal">-2%</p>
+</div>
+<div class="flex flex-1 flex-col gap-2 rounded-xl p-6 bg-white/5 border border-white/10">
+<p class="text-gray-600 dark:text-gray-400 text-base font-medium leading-normal">Conversions Today</p>
+<p class="text-black dark:text-white tracking-light text-2xl font-bold leading-tight">32</p>
+<p class="text-green-500 text-base font-medium leading-normal">+8%</p>
+</div>
+</div>
+<!-- Section: Live Stream Integration -->
+<section>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5">Live Stream Integration</h2>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Active Campaign Card -->
+<div class="lg:col-span-2">
+<div class="p-4 @container bg-white/5 rounded-xl border border-white/10 h-full">
+<div class="flex flex-col items-stretch justify-start rounded-xl @xl:flex-row @xl:items-start h-full">
+<div class="w-full @xl:w-1/3 h-48 @xl:h-full bg-center bg-no-repeat aspect-video @xl:aspect-auto bg-cover rounded-xl" data-alt="Promotional image for the Summer Game Fest Sale campaign" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDpH8pnGJRjBv217i_v-N256OaTZZgVAoCWDwvIJHMfYeO4H2nYHPdOHo0BiWTiSxSznKi2h3IRUA8vPZQup2OywqyEFH2HxQrFThs13GuhhbUOVDMHqD0CFBr5Q5htQ6XCAy2fKALPtxolXpWvSQGdPCOyXcx84pef8dXYtS9yuoes97NPvErcYz_sipO3ME0nFkt2IFl4lOaxI5pTyF-nftCr7PSLd5ylV_f5QvsGq-JKogMHC2Q4H8NxaMTYqh0gp3gpg-1xejLB");'></div>
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-2 py-4 @xl:px-4">
+<p class="text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">Active Campaign</p>
+<p class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Summer Game Fest Sale</p>
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Promote our latest titles and get 15% commission on all sales. Use the assets below!</p>
+<div class="flex items-center gap-2 mt-2">
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Promo Code:</p>
+<span class="bg-primary/20 text-primary text-sm font-mono px-3 py-1 rounded">SUMMERSTREAM</span>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium leading-normal mt-4">
+<span class="truncate">View Campaign Details</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Overlay Integration -->
+<div class="flex flex-col gap-4 justify-between rounded-xl p-6 bg-white/5 border border-white/10">
+<div class="flex flex-col gap-2">
+<h3 class="text-black dark:text-white text-lg font-bold leading-tight">Chat Overlay Bot</h3>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Integrate our bot to automatically share campaign links and codes in your stream chat.</p>
+</div>
+<div class="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 text-green-400">
+<span class="material-symbols-outlined">check_circle</span>
+<p class="text-sm font-medium">Status: Connected</p>
+</div>
+<button class="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white text-sm font-medium leading-normal">
+<span class="truncate">Configure Bot</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Section: Content Tools & Revenue -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-8">
+<div class="lg:col-span-3 flex flex-col gap-6">
+<!-- Section: Content Creation Tools -->
+<section>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5">Content Creation Tools</h2>
+<div class="p-6 bg-white/5 rounded-xl border border-white/10">
+<h3 class="text-black dark:text-white text-lg font-bold">Branded Link Generator</h3>
+<p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Create a unique tracked link for any product.</p>
+<div class="flex flex-col sm:flex-row gap-4">
+<input class="flex-grow bg-background-light dark:bg-background-dark border border-white/20 rounded-lg px-3 py-2 text-black dark:text-white placeholder-gray-500 focus:ring-primary focus:border-primary" placeholder="Paste product URL here..." type="text"/>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium leading-normal">
+<span class="truncate">Generate Link</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Section: Asset Download Center -->
+<section>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5">Asset Download Center</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<div class="flex flex-col items-center justify-center gap-2 rounded-xl p-4 bg-white/5 border border-white/10">
+<div class="flex items-center justify-center h-20 w-full bg-background-light dark:bg-background-dark rounded-lg">
+<img class="max-h-12" data-alt="Brand Logo Asset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_36bMhCjJn-_NW4xwl34_PkkBTjoOjV4mqvs_mwSY9lruaXNEIZc2Q85DU0XHlmiSmFq7m1dS29BxgPpaH82txrAlzG9HPm3tA1HPwbsK-7Ppc4ewhT6FB-sX45N9f7fl4xAwXClAlAZRknJ84xTaExPwU38Jq4wSH4P4O-zVLhkElnsUHpSCkil3CEH9Ry9mPCvbcKEmKcbnBVXOY_4VTAYvCt8iu-I7z0nRa6oTT9kva9-6ZmD6CSAchJzIqBAgmesGUEJgYShc"/>
+</div>
+<p class="text-black dark:text-white text-sm font-medium">Brand Logos</p>
+<button class="w-full text-primary text-sm font-medium hover:underline">Download</button>
+</div>
+<div class="flex flex-col items-center justify-center gap-2 rounded-xl p-4 bg-white/5 border border-white/10">
+<div class="flex items-center justify-center h-20 w-full bg-background-light dark:bg-background-dark rounded-lg">
+<img class="max-h-12" data-alt="Promotional Banner Asset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4sb-Ao5GeF9vHO6PjisXVWAUt-u4N3EtBtergUx4LpaYFg4oXm118m_e-iggn2_l5xqamFD4Edb1e5mc21tsrpG3ywmvd22AuMpS-7nNrFTcALPRhxhnOqnGF-IkHJQb05-WMUpHvthqT0vPgwehBxcLV1cv0ViHurwpswzA4wQpKf8zEhXt5-pbixDbnCEhsYk62M710cmQXt5O8rxX7bthSzRMWNWT2iEoi6NIUrY3qHxvffyzhn8gN4A2QKnM3VhFUkfn5gHWY"/>
+</div>
+<p class="text-black dark:text-white text-sm font-medium">Banners</p>
+<button class="w-full text-primary text-sm font-medium hover:underline">Download</button>
+</div>
+<div class="flex flex-col items-center justify-center gap-2 rounded-xl p-4 bg-white/5 border border-white/10">
+<div class="flex items-center justify-center h-20 w-full bg-background-light dark:bg-background-dark rounded-lg">
+<img class="max-h-12" data-alt="Stream Overlay Asset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1The9yBjyRS8Ea882rkw776R6QksD6K2lqX7uffD86gX-RUji9yNy-OrUwPbdDH4HyywEKqyxwmYDkxKzhAvnzztkYRHkh3nyJ5gpB-jcwbP0J39TXezCn8QQPja4M-ozqhinuV4nOGpur0C2ABHwI7CK-2GTwfxRhaUNR7xGpE5nBKOnLAQbM9zDaZ5TMFNx5Zn4ivw8GH4qTryc7liYmgiRkV9wjZZZgQO3rD3S2GOWHLifAhswz6sUggS6FRTpHdcy9LTU71OM"/>
+</div>
+<p class="text-black dark:text-white text-sm font-medium">Stream Overlays</p>
+<button class="w-full text-primary text-sm font-medium hover:underline">Download</button>
+</div>
+</div>
+</section>
+</div>
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- Section: Revenue Management -->
+<section>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5">Revenue Management</h2>
+<div class="p-6 bg-white/5 rounded-xl border border-white/10 flex flex-col gap-4">
+<div>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Total Earnings</p>
+<p class="text-black dark:text-white text-3xl font-bold">$4,521.80</p>
+</div>
+<hr class="border-white/10"/>
+<div class="flex justify-between items-center">
+<div>
+<p class="text-gray-600 dark:text-gray-400 text-sm">Next Payout</p>
+<p class="text-black dark:text-white text-lg font-medium">$350.00</p>
+</div>
+<div>
+<p class="text-gray-600 dark:text-gray-400 text-sm text-right">Payout Date</p>
+<p class="text-black dark:text-white text-lg font-medium">July 15, 2024</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-2">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium leading-normal">
+<span class="truncate">View Payout History</span>
+</button>
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white text-sm font-medium leading-normal">
+<span class="truncate">Tax Documents</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Section: Audience Insights -->
+<section>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5">Audience Insights</h2>
+<div class="p-6 bg-white/5 rounded-xl border border-white/10">
+<h3 class="text-black dark:text-white text-lg font-bold mb-1">Top Follower Locations</h3>
+<p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Based on link engagement</p>
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between text-sm">
+<p class="text-gray-300">1. United States</p><p class="text-white font-medium">42%</p>
+</div>
+<div class="flex items-center justify-between text-sm">
+<p class="text-gray-300">2. Germany</p><p class="text-white font-medium">18%</p>
+</div>
+<div class="flex items-center justify-between text-sm">
+<p class="text-gray-300">3. Brazil</p><p class="text-white font-medium">9%</p>
+</div>
+<div class="flex items-center justify-between text-sm">
+<p class="text-gray-300">4. Turkey</p><p class="text-white font-medium">7%</p>
+</div>
+</div>
+<button class="w-full text-primary text-sm font-medium hover:underline mt-4 text-left">
+                            View Detailed Analytics
+                        </button>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

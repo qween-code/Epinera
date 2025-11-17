@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin - Suspicious Activity Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex h-screen w-64 flex-col bg-white dark:bg-[#101d23] border-r border-gray-200 dark:border-gray-800 sticky top-0">
+<div class="flex h-full min-h-0 flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 p-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin Fatma's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtf_FsxVpwwFT7gvzhUcm3yxLQ9DZNkjg1O-kT6QNzvpV1B-IfdFIhqeeVSi4wI2zHP4bxZpnPIaEv0V8PSLp6tvQN_9dMqmrWr3OC7CCCvhZ_MMChzOwz11twiJXg45capLmvIU4O08Un8Qmuk9wiDnwecWdEI2HKA4ei76H0fDvIQqMhkw6cSme3sMlL5SP5aST-LWNeEno2Ny2RdhWR1h0BHjwDu4x0tDXtXKMyDBU5ZeryLi6w_vArguxGJ4O07CanTMNoQx5M");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Admin Fatma</h1>
+<p class="text-gray-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Platform Manager</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-white rounded-lg hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-white rounded-lg hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">User Management</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary dark:bg-[#223d49] dark:text-white" href="#">
+<span class="material-symbols-outlined">summarize</span>
+<p class="text-sm font-medium leading-normal">Reports</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-white rounded-lg hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-white rounded-lg hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium leading-normal">Support</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-gray-700 dark:text-white rounded-lg hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Log Out</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-gray-200 dark:border-b-[#223d49] px-6 lg:px-10 py-3 bg-white dark:bg-[#101d23] sticky top-0 z-10">
+<div class="flex items-center gap-4 text-gray-900 dark:text-white">
+<div class="text-primary text-2xl">
+<svg class="size-6" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path><path d="m13.29 10.29-1.59 1.59c-.39.39-1.02.39-1.41 0l-1.59-1.59c-.63-.63-.18-1.71.71-1.71h3.17c.89 0 1.34 1.08.71 1.71z"></path><path d="m11 14.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z"></path>
+</svg>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+<div class="flex flex-1 justify-end items-center gap-4 lg:gap-8">
+<label class="hidden md:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-gray-400 dark:text-[#90b8cb] flex border-none bg-gray-100 dark:bg-[#223d49] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-none bg-gray-100 dark:bg-[#223d49] h-full placeholder:text-gray-400 dark:placeholder:text-[#90b8cb] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-gray-100 dark:bg-[#223d49] text-gray-700 dark:text-white">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-gray-100 dark:bg-[#223d49] text-gray-700 dark:text-white">
+<span class="material-symbols-outlined text-xl">help</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin Fatma's profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAPx4z15k_AjDwexew62QVnyOWcu3UB-zDB5WZAdNeJZ17ScRQDNIhoy3myD5cNMGmNP44cghodZGb-hgzdfGGOAQBNLSPPhyhNc8CtH9iEJ9ojBSjIERjVYyru-wZX3Gapxc4SbtrKyUCaSwQQZLDEmsvGJNatSwiM-EQ8ASplxEsNihd2zskclR-k2Cf0sNTyjXiwrPZtgKVxMlpTo457gxzyu3o91aNBX7yosJC1dIcpBWi4Y04Dz3b1IlJBpcnNTi6AKFFFpXtd");'></div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-6 lg:p-10 flex-1 bg-background-light dark:bg-background-dark">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 mb-6">
+<h1 class="text-gray-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Suspicious Activity Report</h1>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-white dark:bg-[#101d23] border border-gray-200 dark:border-[#315768]">
+<p class="text-gray-600 dark:text-white text-base font-medium leading-normal">Total Flags Today</p>
+<p class="text-gray-900 dark:text-white tracking-light text-3xl font-bold leading-tight">48</p>
+<p class="text-green-500 dark:text-[#0bda57] text-base font-medium leading-normal">+5%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-white dark:bg-[#101d23] border border-gray-200 dark:border-[#315768]">
+<p class="text-gray-600 dark:text-white text-base font-medium leading-normal">High-Severity Alerts</p>
+<p class="text-gray-900 dark:text-white tracking-light text-3xl font-bold leading-tight">12</p>
+<p class="text-green-500 dark:text-[#0bda57] text-base font-medium leading-normal">+2%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg p-6 bg-white dark:bg-[#101d23] border border-gray-200 dark:border-[#315768]">
+<p class="text-gray-600 dark:text-white text-base font-medium leading-normal">Users Under Review</p>
+<p class="text-gray-900 dark:text-white tracking-light text-3xl font-bold leading-tight">5</p>
+<p class="text-red-500 dark:text-[#E74C3C] text-base font-medium leading-normal">+1%</p>
+</div>
+</div>
+<!-- Main Content Area with Table -->
+<div class="bg-white dark:bg-[#101d23] rounded-xl border border-gray-200 dark:border-[#315768] overflow-hidden">
+<!-- ToolBar / Filters -->
+<div class="p-4 border-b border-gray-200 dark:border-[#315768] flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-wrap items-center gap-2">
+<input class="form-input w-full sm:w-64 rounded-lg bg-gray-100 dark:bg-[#223d49] border-transparent focus:ring-2 focus:ring-primary focus:border-transparent text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="Search by User ID, details..." type="text"/>
+<select class="form-select rounded-lg bg-gray-100 dark:bg-[#223d49] border-transparent focus:ring-2 focus:ring-primary focus:border-transparent text-gray-900 dark:text-white">
+<option>Activity Type</option>
+<option>Login</option>
+<option>Purchase</option>
+<option>Credit Top-up</option>
+</select>
+<select class="form-select rounded-lg bg-gray-100 dark:bg-[#223d49] border-transparent focus:ring-2 focus:ring-primary focus:border-transparent text-gray-900 dark:text-white">
+<option>Severity Level</option>
+<option>Critical</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+</div>
+<div class="flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-gray-200 dark:bg-[#223d49] text-gray-700 dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4">
+<span>Reset</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4">
+<span class="material-symbols-outlined text-base">filter_alt</span>
+<span class="truncate">Apply Filters</span>
+</button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-[#1a2831] dark:text-gray-400">
+<tr>
+<th class="p-4" scope="col">
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" id="checkbox-all" type="checkbox"/>
+<label class="sr-only" for="checkbox-all">checkbox</label>
+</div>
+</th>
+<th class="px-6 py-3" scope="col">User ID</th>
+<th class="px-6 py-3" scope="col">Activity Type</th>
+<th class="px-6 py-3" scope="col">Description</th>
+<th class="px-6 py-3" scope="col">Timestamp</th>
+<th class="px-6 py-3" scope="col">Severity</th>
+<th class="px-6 py-3" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-white dark:bg-[#101d23] border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#15232a]">
+<td class="w-4 p-4"><input class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"><a class="text-primary hover:underline" href="#">user_1a2b3c</a></td>
+<td class="px-6 py-4">High-Volume Purchase</td>
+<td class="px-6 py-4">5 purchases in 10 mins, total $500</td>
+<td class="px-6 py-4">2023-10-27 14:30:15</td>
+<td class="px-6 py-4"><span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Critical</span></td>
+<td class="px-6 py-4 flex items-center gap-2">
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">person</span></button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">search</span></button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-green-500"><span class="material-symbols-outlined">task_alt</span></button>
+</td>
+</tr>
+<tr class="bg-white dark:bg-[#101d23] border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#15232a]">
+<td class="w-4 p-4"><input class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"><a class="text-primary hover:underline" href="#">user_4d5e6f</a></td>
+<td class="px-6 py-4">Multiple Failed Logins</td>
+<td class="px-6 py-4">15 attempts in 5 mins from 3 IPs</td>
+<td class="px-6 py-4">2023-10-27 14:25:40</td>
+<td class="px-6 py-4"><span class="px-2 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300">High</span></td>
+<td class="px-6 py-4 flex items-center gap-2">
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">person</span></button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">search</span></button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-green-500"><span class="material-symbols-outlined">task_alt</span></button>
+</td>
+</tr>
+<tr class="bg-white dark:bg-[#101d23] border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#15232a]">
+<td class="w-4 p-4"><input class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"><a class="text-primary hover:underline" href="#">user_7g8h9i</a></td>
+<td class="px-6 py-4">Rapid Credit Top-up</td>
+<td class="px-6 py-4">$1000 top-up right after sign-up</td>
+<td class="px-6 py-4">2023-10-27 13:50:02</td>
+<td class="px-6 py-4"><span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Medium</span></td>
+<td class="px-6 py-4 flex items-center gap-2">
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">person</span></button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">search</span></button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-green-500"><span class="material-symbols-outlined">task_alt</span></button>
+</td>
+</tr>
+<tr class="bg-white dark:bg-[#101d23] hover:bg-gray-50 dark:hover:bg-[#15232a]">
+<td class="w-4 p-4"><input class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" type="checkbox"/></td>
+<td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"><a class="text-primary hover:underline" href="#">user_j1k2l3</a></td>
+<td class="px-6 py-4">Unusual Login Location</td>
+<td class="px-6 py-4">Login from new country (RU)</td>
+<td class="px-6 py-4">2023-10-27 12:10:55</td>
+<td class="px-6 py-4"><span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Low</span></td>
+<td class="px-6 py-4 flex items-center gap-2">
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">person</span></button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">search</span></button>
+<button class="text-gray-500 dark:text-gray-400 hover:text-green-500"><span class="material-symbols-outlined">task_alt</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<nav aria-label="Table navigation" class="flex items-center justify-between p-4">
+<span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span class="font-semibold text-gray-900 dark:text-white">1-4</span> of <span class="font-semibold text-gray-900 dark:text-white">1000</span></span>
+<ul class="inline-flex items-center -space-x-px">
+<li><a class="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#1a2831] dark:border-gray-700 dark:text-gray-400 dark:hover:bg-[#223d49] dark:hover:text-white" href="#">Previous</a></li>
+<li><a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#1a2831] dark:border-gray-700 dark:text-gray-400 dark:hover:bg-[#223d49] dark:hover:text-white" href="#">1</a></li>
+<li><a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#1a2831] dark:border-gray-700 dark:text-gray-400 dark:hover:bg-[#223d49] dark:hover:text-white" href="#">2</a></li>
+<li><a aria-current="page" class="z-10 px-3 py-2 leading-tight text-primary border border-primary bg-primary/10 hover:bg-primary/20 dark:border-gray-700 dark:bg-[#223d49] dark:text-white" href="#">3</a></li>
+<li><span class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 dark:bg-[#1a2831] dark:border-gray-700 dark:text-gray-400">...</span></li>
+<li><a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#1a2831] dark:border-gray-700 dark:text-gray-400 dark:hover:bg-[#223d49] dark:hover:text-white" href="#">100</a></li>
+<li><a class="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#1a2831] dark:border-gray-700 dark:text-gray-400 dark:hover:bg-[#223d49] dark:hover:text-white" href="#">Next</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create New Campaign - Epin Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101d23",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px; /* Default size */
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 dark:border-b-[#223d49] px-6 lg:px-10 py-3 sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-black dark:text-white">
+<div class="size-6">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Epin Marketplace</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+<div class="text-gray-500 dark:text-[#90b8cb] flex border-none bg-gray-200 dark:bg-[#223d49] items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-black dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-[#223d49] focus:border-none h-full placeholder:text-gray-500 dark:placeholder:text-[#90b8cb] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-2 md:gap-4">
+<div class="hidden lg:flex items-center gap-6">
+<a class="text-gray-600 dark:text-white text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-black dark:text-primary text-sm font-bold leading-normal" href="#">Campaigns</a>
+<a class="text-gray-600 dark:text-white text-sm font-medium leading-normal" href="#">Products</a>
+<a class="text-gray-600 dark:text-white text-sm font-medium leading-normal" href="#">Analytics</a>
+<a class="text-gray-600 dark:text-white text-sm font-medium leading-normal" href="#">Settings</a>
+</div>
+<div class="flex gap-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-gray-200 dark:bg-[#223d49] text-black dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-gray-200 dark:bg-[#223d49] text-black dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuArVj36E5T3eFgCDwxjNObZnVg-33GW1wcUnNJyEp5S3z7CfYmGFqQKgsNRqpJO2AY_7_3lbtCfJ1d1WQi1hTPb3S1Q99SYmZybYLKtjA8T2R6p17L4nOajUz2JKF8dCXo4XZpPxGqpRPZSwtl0O2r4gGCAiJqil-oqnr55Bg35tctM3N2goE_DFYD0rQJ2k6JgrPfG14KiMh2OZpiaoA6Z3K2AmIqNtNQPBq0EwntyR2_YfK9LWn1kHEKLBdmnlLWX2X9fUNl4GQ_m");'></div>
+</div>
+</header>
+<main class="w-full max-w-screen-2xl mx-auto p-4 sm:p-6 lg:p-10">
+<div class="flex flex-wrap justify-between gap-4 pb-6">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Create New Campaign</p>
+<p class="text-gray-500 dark:text-[#90b8cb] text-base font-normal leading-normal">Follow the steps below to set up and launch your campaign.</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-gray-200 dark:bg-[#223d49] text-black dark:text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Save as Draft</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="truncate">Launch Campaign</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-6 pb-6">
+<div class="flex gap-6 justify-between"><p class="text-black dark:text-white text-base font-medium leading-normal">Step 1 of 4: Setup</p></div>
+<div class="rounded-full bg-gray-200 dark:bg-[#315768] h-2"><div class="h-2 rounded-full bg-primary" style="width: 25%;"></div></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-4">
+<details class="flex flex-col rounded-xl border border-gray-300 dark:border-[#315768] bg-white dark:bg-[#182b34] group" open="">
+<summary class="flex cursor-pointer items-center justify-between gap-6 p-4">
+<div class="flex flex-col">
+<p class="text-black dark:text-white text-lg font-bold leading-normal">Campaign Setup</p>
+<p class="text-gray-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Define your campaign's core details and select a type.</p>
+</div>
+<span class="material-symbols-outlined text-black dark:text-white group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-4 pb-4 border-t border-gray-300 dark:border-[#315768]">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Campaign Name</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-black dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-[#315768] bg-background-light dark:bg-[#101d23] focus:border-primary h-12 placeholder:text-gray-500 dark:placeholder:text-[#90b8cb] p-[15px] text-base font-normal leading-normal" placeholder="e.g. Summer Sale Kick-off" value=""/>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Campaign Duration</p>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-[#90b8cb]">calendar_month</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-black dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-[#315768] bg-background-light dark:bg-[#101d23] focus:border-primary h-12 placeholder:text-gray-500 dark:placeholder:text-[#90b8cb] pl-10 p-[15px] text-base font-normal leading-normal" placeholder="Select date range" value="June 20, 2024 - July 20, 2024"/>
+</div>
+</label>
+</div>
+<div class="pt-6">
+<p class="text-black dark:text-white text-base font-medium leading-normal pb-2">Campaign Type</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-3 p-4 rounded-xl border-2 border-primary bg-primary/10 cursor-pointer">
+<span class="material-symbols-outlined text-primary">group</span>
+<p class="font-bold text-black dark:text-white">Viral Growth</p>
+<p class="text-sm text-gray-600 dark:text-gray-300">Referral ladders, social proof incentives.</p>
+</div>
+<div class="flex flex-col gap-3 p-4 rounded-xl border border-gray-300 dark:border-[#315768] hover:border-primary dark:hover:border-primary bg-background-light dark:bg-[#101d23] cursor-pointer">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-300">layers</span>
+<p class="font-bold text-black dark:text-white">Cross-Platform</p>
+<p class="text-sm text-gray-600 dark:text-gray-300">Twitch drops, Instagram discounts.</p>
+</div>
+<div class="flex flex-col gap-3 p-4 rounded-xl border border-gray-300 dark:border-[#315768] hover:border-primary dark:hover:border-primary bg-background-light dark:bg-[#101d23] cursor-pointer">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-300">sell</span>
+<p class="font-bold text-black dark:text-white">Direct Discount</p>
+<p class="text-sm text-gray-600 dark:text-gray-300">Standard percentage or fixed amount off.</p>
+</div>
+</div>
+</div>
+</div>
+</details>
+<details class="flex flex-col rounded-xl border border-gray-300 dark:border-[#315768] bg-white dark:bg-[#182b34] group">
+<summary class="flex cursor-pointer items-center justify-between gap-6 p-4">
+<div class="flex flex-col">
+<p class="text-black dark:text-white text-lg font-bold leading-normal">Products &amp; Rewards</p>
+<p class="text-gray-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Select products and configure the rewards for this campaign.</p>
+</div>
+<span class="material-symbols-outlined text-black dark:text-white group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="px-4 pb-4 text-gray-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Content for Products &amp; Rewards goes here.</p>
+</details>
+<details class="flex flex-col rounded-xl border border-gray-300 dark:border-[#315768] bg-white dark:bg-[#182b34] group">
+<summary class="flex cursor-pointer items-center justify-between gap-6 p-4">
+<div class="flex flex-col">
+<p class="text-black dark:text-white text-lg font-bold leading-normal">Audience &amp; Integrations</p>
+<p class="text-gray-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Define your target audience and connect platforms.</p>
+</div>
+<span class="material-symbols-outlined text-black dark:text-white group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="px-4 pb-4 text-gray-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Content for Audience &amp; Integrations goes here.</p>
+</details>
+<details class="flex flex-col rounded-xl border border-gray-300 dark:border-[#315768] bg-white dark:bg-[#182b34] group">
+<summary class="flex cursor-pointer items-center justify-between gap-6 p-4">
+<div class="flex flex-col">
+<p class="text-black dark:text-white text-lg font-bold leading-normal">Budget &amp; Goals</p>
+<p class="text-gray-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Set your spending limits and performance objectives.</p>
+</div>
+<span class="material-symbols-outlined text-black dark:text-white group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="px-4 pb-4 text-gray-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Content for Budget &amp; Goals goes here.</p>
+</details>
+</div>
+<aside class="lg:col-span-1">
+<div class="sticky top-28 flex flex-col gap-6">
+<div class="flex flex-col rounded-xl border border-gray-300 dark:border-[#315768] bg-white dark:bg-[#182b34]">
+<div class="p-4 border-b border-gray-300 dark:border-[#315768]">
+<h3 class="text-lg font-bold text-black dark:text-white">Live Preview</h3>
+<p class="text-sm text-gray-500 dark:text-[#90b8cb]">See how your campaign will appear to customers.</p>
+</div>
+<div class="p-4">
+<div class="bg-gray-200 dark:bg-background-dark p-4 rounded-lg">
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden max-w-sm mx-auto">
+<img class="w-full h-32 object-cover" data-alt="Promotional image for a gaming product" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM8MMRYdMEV_fN-Xhp-_1vdNzOhJweSzfcrtVUovQbflytc8aaMXqENN7_zvu0DgG9i4M273z9guuYJwkzwVgjIKeRkIu8xWwQItEYZ7Lur_rUjUkfI6u4EA-XNffs_1agC9n74oihRYNPXdXVlxltKeW65xWEu99cJ5VBocIzqJ0G5V1SatuUPpIkQp_AF8z8oOvSXUDLLK0vhm8-NYC0MHDGzD5pyihdoe8vLhopIpWsG92eoHmf-vWtkxyKoQdVrYGbQWScI5pm"/>
+<div class="p-4">
+<h4 class="text-black dark:text-white font-bold text-lg">Summer Sale Kick-off</h4>
+<p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Get 20% off on all new titles! Refer a friend and get an extra 5% off for both of you. Join now!</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-sm font-semibold text-primary">Ends in 30 days</span>
+<button class="bg-primary text-white text-sm font-bold py-2 px-4 rounded-lg">Claim Reward</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col rounded-xl border border-gray-300 dark:border-[#315768] bg-white dark:bg-[#182b34]">
+<div class="p-4 border-b border-gray-300 dark:border-[#315768]">
+<h3 class="text-lg font-bold text-black dark:text-white">Summary</h3>
+<p class="text-sm text-gray-500 dark:text-[#90b8cb]">Key details and projected performance.</p>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-[#90b8cb]">Total Budget</span>
+<span class="font-bold text-black dark:text-white">$5,000</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-[#90b8cb]">Est. Reach</span>
+<span class="font-bold text-black dark:text-white">~1.2M users</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-[#90b8cb]">Duration</span>
+<span class="font-bold text-black dark:text-white">30 Days</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 dark:text-[#90b8cb]">Primary Goal</span>
+<span class="font-bold text-black dark:text-white">Drive Conversions</span>
+</div>
+<div class="pt-2">
+<p class="text-sm text-gray-500 dark:text-[#90b8cb] pb-2">Budget Allocation</p>
+<div class="flex h-3 rounded-full overflow-hidden bg-gray-200 dark:bg-background-dark">
+<div class="bg-primary" data-alt="60% allocation for social media ads" style="width: 60%"></div>
+<div class="bg-teal-500" data-alt="25% allocation for influencer marketing" style="width: 25%"></div>
+<div class="bg-sky-300" data-alt="15% allocation for platform rewards" style="width: 15%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+</body></html>

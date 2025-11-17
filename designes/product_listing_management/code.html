@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Listing Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ba3ea",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex flex-col gap-4 p-4 bg-background-light dark:bg-background-dark border-r border-slate-200/10 w-64">
+<div class="flex gap-3 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Store owner avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDAbp0lDjC3miQIjJzgF49rl1DC6F1i53zbNVTrj87sDNLP9YVNXyQyMSMbI56fK7clta_UiE9oOv6ULBmUu_z-ssEmYFVwdICoEusl5qzAxOyjC6adAsVj5n4nld7MYw-x9t_NlkkFA0N5Kd8mbWwrFzWWGgtlPwJclfWujqj8f6_2ycZbuopAmyFQ_ScH7MR04B1NCfluaQpzWKYl7krEhBw5q0iUZ9617uWq-jRqB6giJhPsaOcroAFjDgLKp3KOxZGzu_OpNeu9");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-medium leading-normal">Mehmet's Game Store</h1>
+<p class="text-slate-500 dark:text-[#90b8cb] text-sm font-normal leading-normal">Store Owner</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-200/50 dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">table_rows</span>
+<p class="text-sm font-medium leading-normal">Product Listings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-200/50 dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<p class="text-sm font-medium leading-normal">Orders</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-200/50 dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<p class="text-sm font-medium leading-normal">Inventory</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-200/50 dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">credit_card</span>
+<p class="text-sm font-medium leading-normal">Payouts</p>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-8">
+<div class="w-full max-w-7xl mx-auto">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between items-center gap-3 mb-6">
+<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">My Products</h1>
+<div class="flex items-center gap-2">
+<!-- ButtonGroup -->
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700">
+<span class="truncate">Import via CSV</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700">
+<span class="truncate">Export Listings</span>
+</button>
+</div>
+</div>
+<!-- ToolBar & SearchBar -->
+<div class="flex flex-col md:flex-row justify-between gap-4 mb-6">
+<div class="flex-1">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 dark:text-[#90b8cb] flex border-y border-l border-slate-200/20 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-y border-r border-slate-200/20 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 focus:border-primary h-full placeholder:text-slate-500 dark:placeholder:text-[#90b8cb] px-4 text-base font-normal leading-normal" placeholder="Search by product name or SKU" value=""/>
+</div>
+</label>
+</div>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-5 hover:bg-primary/90">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+<span class="truncate">Add New Product</span>
+</button>
+</div>
+<!-- Product Table Container -->
+<div class="bg-slate-100/50 dark:bg-slate-900/50 rounded-xl overflow-hidden border border-slate-200/10 dark:border-slate-800">
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-slate-600 dark:text-slate-400">
+<thead class="text-xs text-slate-700 dark:text-slate-300 uppercase bg-slate-200/30 dark:bg-slate-800/50">
+<tr>
+<th class="p-4" scope="col">
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary bg-slate-200 border-slate-400 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600" id="checkbox-all" type="checkbox"/>
+<label class="sr-only" for="checkbox-all">checkbox</label>
+</div>
+</th>
+<th class="px-6 py-3" scope="col">Product Name</th>
+<th class="px-6 py-3" scope="col">SKU</th>
+<th class="px-6 py-3" scope="col">Stock</th>
+<th class="px-6 py-3" scope="col">Price</th>
+<th class="px-6 py-3" scope="col">Status</th>
+<th class="px-6 py-3" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-slate-200 dark:border-slate-800 hover:bg-slate-200/20 dark:hover:bg-slate-800/20">
+<td class="w-4 p-4">
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary bg-slate-200 border-slate-400 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600" id="checkbox-table-1" type="checkbox"/>
+<label class="sr-only" for="checkbox-table-1">checkbox</label>
+</div>
+</td>
+<th class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap" scope="row">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded size-10" data-alt="Cyber Warrior Game Epin Cover Art" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2mn3GXfErq_j9PiqwdJt6bkGxyTtCa2657-WafVAZVzs_XTzWE3DbMQqen9bHLn059Fkkf0WiEcmIYOkrccGwuXPyLxnUUzJdm0SmZPycozzQh3lBt1Tzcc4xo9buCAUPedl-waKUFjHqrzr8TBIWIBUqPOkPJ27g7_eUTBBNW9bF7oYd4M_TPqEGGuHZnY2V5w8h_dkMeU2rDeRju9L-b4gt3djKBBBfsyclTxuLQ9db_8rmxW35Y7z85EPrg6Xt3obz4GVZTR22");'></div>
+<span>Cyber Warrior - 1000 Credits</span>
+</div>
+</th>
+<td class="px-6 py-4">CW-1000C-US</td>
+<td class="px-6 py-4">250</td>
+<td class="px-6 py-4">$10.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Active</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span class="material-symbols-outlined" style="font-size: 20px;">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-slate-800 hover:bg-slate-200/20 dark:hover:bg-slate-800/20">
+<td class="w-4 p-4">
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary bg-slate-200 border-slate-400 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600" id="checkbox-table-2" type="checkbox"/>
+<label class="sr-only" for="checkbox-table-2">checkbox</label>
+</div>
+</td>
+<th class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap" scope="row">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded size-10" data-alt="Galaxy Runner Game Epin Cover Art" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBi8IZokgZb3XXI4k7MyQ_ZTOidCtbfed1hBOGqQu-7uuIOdEcY_Jwko8LzJOWJpPfA9ijENJbgW5YnTn5hmulGfBf_f66Q6lL-utNhsqOI4iQ8_UFt9vDsFpXjuzw9Cn2qQyd_O9n_tsIrN2okgs0_7ViMT4TYlkDMgnSxZs7VVbattZ3W96HpKDNjd96ML2nOTOo9IokaYdt0yAvMJOJ5sWhpU33G33akk3vNrJq3JV9oZ74r-ZibGOE4PbK74g_6__-ISDtnBEgd");'></div>
+<span>Galaxy Runner - Starter Pack</span>
+</div>
+</th>
+<td class="px-6 py-4">GR-SP-EU</td>
+<td class="px-6 py-4">120</td>
+<td class="px-6 py-4">$5.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Active</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span class="material-symbols-outlined" style="font-size: 20px;">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-slate-200 dark:border-slate-800 hover:bg-slate-200/20 dark:hover:bg-slate-800/20">
+<td class="w-4 p-4">
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary bg-slate-200 border-slate-400 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600" id="checkbox-table-3" type="checkbox"/>
+<label class="sr-only" for="checkbox-table-3">checkbox</label>
+</div>
+</td>
+<th class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap" scope="row">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded size-10" data-alt="Mystic Legends Game Epin Cover Art" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCXklPr8TBZ49pBa8uTg64XHmyrej510RYz8kShk2e3jYOH3Y1q9kOGYpK6xzxl7HKA6dYxgdln6hO6kWtXHwki5xeIFUdJJJ2AeTnVxr7_2VAUvjpagiFM9WkpRxdnwbvfPaWXHvB2zBGa06ksL88kJjk0iEgJy4Dx8Cgq_okHDa5jqfRMYXK1YJNlNEBpG6fl-vQQnMIHdgBJrQl_LJiHP2jQC_BXhouTPCuOX43_K-HmMMcJ4kJP1WIzWnFTLXy8bSiHGN1h9ZyD");'></div>
+<span>Mystic Legends - Dragon Skin</span>
+</div>
+</th>
+<td class="px-6 py-4">ML-DS-WW</td>
+<td class="px-6 py-4">0</td>
+<td class="px-6 py-4">$15.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Out of Stock</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span class="material-symbols-outlined" style="font-size: 20px;">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-200/20 dark:hover:bg-slate-800/20">
+<td class="w-4 p-4">
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary bg-slate-200 border-slate-400 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600" id="checkbox-table-4" type="checkbox"/>
+<label class="sr-only" for="checkbox-table-4">checkbox</label>
+</div>
+</td>
+<th class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap" scope="row">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded size-10" data-alt="Galactic Frontier Game Epin Cover Art" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD73Mn7jF66MlarnoPhVPC_GTCcXnRxi_aym8ToAs_HofaUOrus9jciMALjleWNYdFNl6uXcx01IlzoyIMzlcM1GaqhWiKn_Ki5bllFzha-XqySvWvRWhuQVG2cHOdoLCFSbSwi50dHpKROGXZNyg48PcSxNULdzm8yOMEwvjnng1L_--h7dv3Wg6GiYjc--TGjBOzwgVvw6yhHpTbZJiFSgSSOmicQVEliqobaFx_WCqBWEQm1H6pUf8LPxtxHZdMAdD4jUVqTk0lQ");'></div>
+<span>Galactic Frontier - Monthly Pass</span>
+</div>
+</th>
+<td class="px-6 py-4">GF-MP-TR</td>
+<td class="px-6 py-4">999+</td>
+<td class="px-6 py-4">$8.50</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-300">Inactive</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span class="material-symbols-outlined" style="font-size: 20px;">edit</span></button>
+<button class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"><span class="material-symbols-outlined" style="font-size: 20px;">visibility</span></button>
+<button class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500"><span class="material-symbols-outlined" style="font-size: 20px;">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

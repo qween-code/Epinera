@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Platform Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0ba3ea",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101d23",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex h-full w-full flex-1">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col gap-4 border-r border-slate-200/10 bg-background-light p-4 dark:bg-background-dark">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat" data-alt="Admin Fatma avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBePOAV67pfB7i4NX989AFBaY57tpigu1CDh8zA8hYVMTIyNOa3Qp7v5_S0ViBkwPRfDVhq3__UFIUfx0tG_db7HONT_XSxnpUybErIcAEN4EAS1O0bx0uBJYPpk9uU9NjjE7THspS-UCduSyxpoWONNi6wqeBoChYWDjoRP7zxxzazUc-TjCf1ZXEI8TgP8AvwsUevWEEgockMfjK7YpZr1QnmJ_GSaHuH4_TyrYnrgUH_t_vpNHBIL46YfAKL0TNZYYAb73x7DVXl");'></div>
+<div class="flex flex-col">
+<h1 class="font-medium leading-normal text-slate-900 dark:text-white">Admin Fatma</h1>
+<p class="text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">Platform Administrator</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex cursor-pointer items-center gap-3 rounded-lg bg-primary/10 px-3 py-2 dark:bg-[#223d49]">
+<span class="material-symbols-outlined fill text-primary dark:text-white">category</span>
+<p class="text-sm font-medium leading-normal text-primary dark:text-white">Categories</p>
+</div>
+<div class="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50">
+<span class="material-symbols-outlined text-slate-500 dark:text-white">currency_exchange</span>
+<p class="text-sm font-medium leading-normal text-slate-500 dark:text-white">Currency</p>
+</div>
+<div class="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50">
+<span class="material-symbols-outlined text-slate-500 dark:text-white">translate</span>
+<p class="text-sm font-medium leading-normal text-slate-500 dark:text-white">Language</p>
+</div>
+<div class="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50">
+<span class="material-symbols-outlined text-slate-500 dark:text-white">settings</span>
+<p class="text-sm font-medium leading-normal text-slate-500 dark:text-white">General</p>
+</div>
+</div>
+</div>
+<div class="mt-auto">
+<button class="flex h-10 min-w-[84px] w-full max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold leading-normal tracking-[0.015em] text-white">
+<span class="truncate">View Marketplace</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-6 lg:p-10">
+<div class="mx-auto max-w-7xl">
+<!-- PageHeading -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="font-display text-3xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white">Manage Categories</p>
+<p class="text-base font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">Organize product categories and subcategories for the marketplace.</p>
+</div>
+<button class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold leading-normal tracking-[0.015em] text-white">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="truncate">Add New Category</span>
+</button>
+</div>
+<!-- SearchBar -->
+<div class="mt-6">
+<label class="flex h-12 w-full flex-col">
+<div class="flex h-full w-full flex-1 items-stretch rounded-lg">
+<div class="flex items-center justify-center rounded-l-lg border border-r-0 border-slate-200 bg-slate-50 pl-4 text-slate-400 dark:border-[#315768] dark:bg-[#223d49] dark:text-[#90b8cb]">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input h-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg border border-l-0 border-slate-200 bg-white px-4 text-base font-normal leading-normal text-slate-900 placeholder:text-slate-400 focus:outline-0 focus:ring-0 dark:border-[#315768] dark:bg-[#223d49] dark:text-white dark:placeholder:text-[#90b8cb]" placeholder="Search for a category..." value=""/>
+</div>
+</label>
+</div>
+<!-- Table -->
+<div class="mt-6 @container">
+<div class="overflow-hidden rounded-xl border border-slate-200/80 bg-background-light dark:border-[#315768] dark:bg-background-dark">
+<table class="min-w-full flex-1">
+<thead>
+<tr class="bg-slate-50 dark:bg-[#182b34]">
+<th class="w-16 px-4 py-3 text-left">
+<input class="h-5 w-5 rounded border-2 border-slate-300 bg-transparent text-primary checked:border-primary checked:bg-primary checked:bg-[image:--checkbox-tick-svg] focus:border-primary focus:ring-0 focus:ring-offset-0 dark:border-[#315768] dark:checked:border-primary dark:checked:bg-primary dark:focus:border-primary" type="checkbox"/>
+</th>
+<th class="px-4 py-3 text-left text-sm font-medium leading-normal text-slate-600 dark:text-white">Category Name</th>
+<th class="px-4 py-3 text-left text-sm font-medium leading-normal text-slate-600 dark:text-white">Subcategories</th>
+<th class="px-4 py-3 text-left text-sm font-medium leading-normal text-slate-600 dark:text-white">Status</th>
+<th class="px-4 py-3 text-left text-sm font-medium leading-normal text-slate-600 dark:text-white">Last Updated</th>
+<th class="px-4 py-3 text-left text-sm font-medium leading-normal text-slate-600 dark:text-[#90b8cb]">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-t border-t-slate-200/80 dark:border-t-[#315768]">
+<td class="h-[72px] px-4 py-2 text-center text-sm font-normal leading-normal">
+<input class="h-5 w-5 rounded border-2 border-slate-300 bg-transparent text-primary checked:border-primary checked:bg-primary checked:bg-[image:--checkbox-tick-svg] focus:border-primary focus:ring-0 focus:ring-offset-0 dark:border-[#315768] dark:checked:border-primary dark:checked:bg-primary dark:focus:border-primary" type="checkbox"/>
+</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-800 dark:text-white">PC Games</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">5</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+<div class="inline-flex items-center gap-1.5 rounded-full bg-teal-100 px-3 py-1 text-sm font-medium text-teal-700 dark:bg-teal-500/20 dark:text-teal-400">
+<div class="size-2 rounded-full bg-teal-500"></div>
+                                                Active
+                                            </div>
+</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">2023-10-26</td>
+<td class="h-[72px] px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em]">
+<button class="flex items-center gap-2 font-medium text-primary hover:underline">
+<span class="material-symbols-outlined text-lg">edit</span>
+                                                Edit
+                                            </button>
+</td>
+</tr>
+<tr class="border-t border-t-slate-200/80 dark:border-t-[#315768]">
+<td class="h-[72px] px-4 py-2 text-center text-sm font-normal leading-normal">
+<input class="h-5 w-5 rounded border-2 border-slate-300 bg-transparent text-primary checked:border-primary checked:bg-primary checked:bg-[image:--checkbox-tick-svg] focus:border-primary focus:ring-0 focus:ring-offset-0 dark:border-[#315768] dark:checked:border-primary dark:checked:bg-primary dark:focus:border-primary" type="checkbox"/>
+</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-800 dark:text-white">Mobile Games</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">8</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+<div class="inline-flex items-center gap-1.5 rounded-full bg-teal-100 px-3 py-1 text-sm font-medium text-teal-700 dark:bg-teal-500/20 dark:text-teal-400">
+<div class="size-2 rounded-full bg-teal-500"></div>
+                                                Active
+                                            </div>
+</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">2023-10-25</td>
+<td class="h-[72px] px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em]">
+<button class="flex items-center gap-2 font-medium text-primary hover:underline">
+<span class="material-symbols-outlined text-lg">edit</span>
+                                                Edit
+                                            </button>
+</td>
+</tr>
+<tr class="border-t border-t-slate-200/80 dark:border-t-[#315768]">
+<td class="h-[72px] px-4 py-2 text-center text-sm font-normal leading-normal">
+<input class="h-5 w-5 rounded border-2 border-slate-300 bg-transparent text-primary checked:border-primary checked:bg-primary checked:bg-[image:--checkbox-tick-svg] focus:border-primary focus:ring-0 focus:ring-offset-0 dark:border-[#315768] dark:checked:border-primary dark:checked:bg-primary dark:focus:border-primary" type="checkbox"/>
+</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-800 dark:text-white">Console Games</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">12</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+<div class="inline-flex items-center gap-1.5 rounded-full bg-teal-100 px-3 py-1 text-sm font-medium text-teal-700 dark:bg-teal-500/20 dark:text-teal-400">
+<div class="size-2 rounded-full bg-teal-500"></div>
+                                                Active
+                                            </div>
+</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">2023-10-24</td>
+<td class="h-[72px] px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em]">
+<button class="flex items-center gap-2 font-medium text-primary hover:underline">
+<span class="material-symbols-outlined text-lg">edit</span>
+                                                Edit
+                                            </button>
+</td>
+</tr>
+<tr class="border-t border-t-slate-200/80 dark:border-t-[#315768]">
+<td class="h-[72px] px-4 py-2 text-center text-sm font-normal leading-normal">
+<input class="h-5 w-5 rounded border-2 border-slate-300 bg-transparent text-primary checked:border-primary checked:bg-primary checked:bg-[image:--checkbox-tick-svg] focus:border-primary focus:ring-0 focus:ring-offset-0 dark:border-[#315768] dark:checked:border-primary dark:checked:bg-primary dark:focus:border-primary" type="checkbox"/>
+</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-800 dark:text-white">Software</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">3</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
+<div class="inline-flex items-center gap-1.5 rounded-full bg-slate-200 px-3 py-1 text-sm font-medium text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+<div class="size-2 rounded-full bg-slate-500"></div>
+                                                Disabled
+                                            </div>
+</td>
+<td class="h-[72px] px-4 py-2 text-sm font-normal leading-normal text-slate-500 dark:text-[#90b8cb]">2023-09-15</td>
+<td class="h-[72px] px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em]">
+<button class="flex items-center gap-2 font-medium text-primary hover:underline">
+<span class="material-symbols-outlined text-lg">edit</span>
+                                                Edit
+                                            </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-6 flex items-center justify-between">
+<p class="text-sm text-slate-500 dark:text-[#90b8cb]">Showing 1 to 4 of 35 entries</p>
+<div class="flex items-center justify-center">
+<a class="flex size-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800/50" href="#">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</a>
+<a class="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-sm font-bold leading-normal tracking-[0.015em] text-primary dark:bg-[#223d49] dark:text-white" href="#">1</a>
+<a class="flex size-10 items-center justify-center rounded-lg text-sm font-normal leading-normal text-slate-500 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800/50" href="#">2</a>
+<a class="flex size-10 items-center justify-center rounded-lg text-sm font-normal leading-normal text-slate-500 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800/50" href="#">3</a>
+<span class="flex size-10 items-center justify-center rounded-lg text-sm font-normal leading-normal text-slate-500 dark:text-white" href="#">...</span>
+<a class="flex size-10 items-center justify-center rounded-lg text-sm font-normal leading-normal text-slate-500 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800/50" href="#">8</a>
+<a class="flex size-10 items-center justify-center rounded-lg text-sm font-normal leading-normal text-slate-500 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800/50" href="#">9</a>
+<a class="flex size-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800/50" href="#">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>
