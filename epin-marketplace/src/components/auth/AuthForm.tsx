@@ -116,14 +116,14 @@ export default function AuthForm() {
           By continuing, you agree to our{' '}
           <a
             className="font-medium text-slate-600 underline hover:text-primary dark:text-slate-300 dark:hover:text-primary"
-            href="#"
+            href="/terms"
           >
             Terms of Service
           </a>{' '}
           and{' '}
           <a
             className="font-medium text-slate-600 underline hover:text-primary dark:text-slate-300 dark:hover:text-primary"
-            href="#"
+            href="/privacy"
           >
             Privacy Policy
           </a>

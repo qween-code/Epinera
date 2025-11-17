@@ -15,7 +15,7 @@ type NavigationProps = {
 export function MarketplaceNavigation({ links, ctaLabel, secondaryLabel }: NavigationProps) {
   return (
     <header className="sticky top-0 z-50 mx-auto flex w-full max-w-6xl items-center justify-between rounded-full border border-white/10 bg-black/40 px-4 py-3 backdrop-blur-xl sm:px-6">
-      <Link href="#" className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white">
+      <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white">
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-epin-cyan to-epin-magenta text-lg">
           ⚡
         </span>

@@ -30,7 +30,7 @@ export default function MessagesPage() {
         <header className="flex h-[85px] items-center justify-between border-b border-slate-200 bg-white px-6 dark:border-slate-800 dark:bg-[#0b1418]">
           <div>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Conversation with Jane Doe</h3>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Regarding <a className="text-primary hover:underline" href="#">Order #12345</a></p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Regarding <a className="text-primary hover:underline" href="/orders/12345">Order #12345</a></p>
           </div>
         </header>
         {/* Message Thread */}
