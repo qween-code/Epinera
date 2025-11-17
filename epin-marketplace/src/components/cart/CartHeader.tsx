@@ -1,13 +1,22 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/cart/CartContext';
 import { useState } from 'react';
 
 export default function CartHeader() {
   const { getItemCount } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
   const itemCount = getItemCount();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200/10 bg-background-dark/80 backdrop-blur-sm">
@@ -25,12 +34,12 @@ export default function CartHeader() {
             </Link>
             <nav className="hidden md:flex items-center gap-6">
               <Link className="text-gray-300 hover:text-primary text-sm font-medium transition-colors" href="/">Home</Link>
-              <Link className="text-gray-300 hover:text-primary text-sm font-medium transition-colors" href="/">Store</Link>
-              <Link className="text-gray-300 hover:text-primary text-sm font-medium transition-colors" href="/profile">My Profile</Link>
+              <Link className="text-gray-300 hover:text-primary text-sm font-medium transition-colors" href="/products">Store</Link>
+              <Link className="text-gray-300 hover:text-primary text-sm font-medium transition-colors" href="/wallet">My Profile</Link>
             </nav>
           </div>
           <div className="flex flex-1 justify-end items-center gap-4">
-            <label className="hidden lg:flex flex-col relative !h-10 w-full max-w-xs">
+            <form onSubmit={handleSearch} className="hidden lg:flex flex-col relative !h-10 w-full max-w-xs">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                 <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>search</span>
               </div>
@@ -40,7 +49,7 @@ export default function CartHeader() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </label>
+            </form>
             <Link
               href="/cart"
               className="relative flex shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-gray-200/10 text-white hover:bg-gray-200/20 transition-colors"

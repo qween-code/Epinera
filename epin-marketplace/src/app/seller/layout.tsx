@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import MobileMenu from '@/components/shared/MobileMenu';
 import MobileMenuButton from '@/components/shared/MobileMenuButton';
 
@@ -11,6 +12,7 @@ export default function SellerLayout({
   children: React.ReactNode;
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="flex min-h-screen">
@@ -32,21 +34,95 @@ export default function SellerLayout({
             </div>
           </div>
           <nav className="flex flex-col gap-2 mt-4">
-            <Link href="/seller/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary">
-              <span className="material-symbols-outlined">dashboard</span>
-              <p className="text-sm font-medium leading-normal">Dashboard</p>
+            <Link 
+              href="/seller/dashboard" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/dashboard' 
+                  ? 'bg-primary/20 text-primary' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/dashboard' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                dashboard
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/dashboard' ? 'font-medium' : 'font-medium'}`}>
+                Dashboard
+              </p>
             </Link>
-            <Link href="/seller/products" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/10 rounded-lg">
-              <span className="material-symbols-outlined">inventory_2</span>
-              <p className="text-sm font-medium leading-normal">Products</p>
+            <Link 
+              href="/seller/products" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/products' 
+                  ? 'bg-primary/20 text-primary' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/products' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                table_rows
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/products' ? 'font-medium' : 'font-medium'}`}>
+                Product Listings
+              </p>
             </Link>
-            <Link href="/seller/orders" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white">
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_cart</span>
-              <p className="text-sm font-bold leading-normal">Order Management</p>
+            <Link 
+              href="/seller/orders" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/orders' 
+                  ? 'bg-primary text-white' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/orders' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                shopping_cart
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/orders' ? 'font-bold' : 'font-medium'}`}>
+                Order Management
+              </p>
             </Link>
-            <Link href="/seller/analytics" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/10 rounded-lg">
-              <span className="material-symbols-outlined">bar_chart</span>
-              <p className="text-sm font-medium leading-normal">Analytics</p>
+            <Link 
+              href="/seller/wallet" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/wallet' 
+                  ? 'bg-[#223d49] text-white' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/wallet' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                wallet
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/wallet' ? 'font-medium' : 'font-medium'}`}>
+                Wallet & Payouts
+              </p>
+            </Link>
+            <Link 
+              href="/seller/analytics" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/analytics' 
+                  ? 'bg-primary/20 text-primary' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/analytics' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                bar_chart
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/analytics' ? 'font-medium' : 'font-medium'}`}>
+                Analytics
+              </p>
             </Link>
           </nav>
         </div>
@@ -86,21 +162,95 @@ export default function SellerLayout({
             </div>
           </div>
           <nav className="flex flex-col gap-2 mt-4">
-            <Link href="/seller/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-primary">
-              <span className="material-symbols-outlined">dashboard</span>
-              <p className="text-sm font-medium leading-normal">Dashboard</p>
+            <Link 
+              href="/seller/dashboard" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/dashboard' 
+                  ? 'bg-primary/20 text-primary' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/dashboard' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                dashboard
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/dashboard' ? 'font-medium' : 'font-medium'}`}>
+                Dashboard
+              </p>
             </Link>
-            <Link href="/seller/products" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/10 rounded-lg">
-              <span className="material-symbols-outlined">inventory_2</span>
-              <p className="text-sm font-medium leading-normal">Products</p>
+            <Link 
+              href="/seller/products" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/products' 
+                  ? 'bg-primary/20 text-primary' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/products' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                table_rows
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/products' ? 'font-medium' : 'font-medium'}`}>
+                Product Listings
+              </p>
             </Link>
-            <Link href="/seller/orders" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white">
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_cart</span>
-              <p className="text-sm font-bold leading-normal">Order Management</p>
+            <Link 
+              href="/seller/orders" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/orders' 
+                  ? 'bg-primary text-white' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/orders' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                shopping_cart
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/orders' ? 'font-bold' : 'font-medium'}`}>
+                Order Management
+              </p>
             </Link>
-            <Link href="/seller/analytics" className="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-white/10 rounded-lg">
-              <span className="material-symbols-outlined">bar_chart</span>
-              <p className="text-sm font-medium leading-normal">Analytics</p>
+            <Link 
+              href="/seller/wallet" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/wallet' 
+                  ? 'bg-[#223d49] text-white' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/wallet' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                wallet
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/wallet' ? 'font-medium' : 'font-medium'}`}>
+                Wallet & Payouts
+              </p>
+            </Link>
+            <Link 
+              href="/seller/analytics" 
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                pathname === '/seller/analytics' 
+                  ? 'bg-primary/20 text-primary' 
+                  : 'text-slate-300 hover:bg-white/10'
+              }`}
+            >
+              <span 
+                className="material-symbols-outlined" 
+                style={{ fontVariationSettings: pathname === '/seller/analytics' ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                bar_chart
+              </span>
+              <p className={`text-sm leading-normal ${pathname === '/seller/analytics' ? 'font-medium' : 'font-medium'}`}>
+                Analytics
+              </p>
             </Link>
           </nav>
         </div>
