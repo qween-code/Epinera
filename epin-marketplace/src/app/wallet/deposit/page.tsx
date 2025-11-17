@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import WalletDepositHeader from '@/components/wallet/WalletDepositHeader';
 import AmountInput from '@/components/wallet/AmountInput';
@@ -12,6 +12,8 @@ import DepositSummary from '@/components/wallet/DepositSummary';
 import { applyDiscountCode } from '@/app/actions/wallet';
 
 export default function DepositPage() {
+  const searchParams = useSearchParams();
+  const version = parseInt(searchParams.get('version') || '1', 10);
   const [amount, setAmount] = useState(50.00);
   const [currency, setCurrency] = useState('USD');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('credit_card');
@@ -77,11 +79,13 @@ export default function DepositPage() {
             <div className="flex flex-wrap justify-between gap-3 pt-2">
               <div>
                 <p className="text-black dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
-                  Deposit Funds & Get Credits
+                  {version === 2 ? 'Deposit Funds' : 'Deposit Funds & Get Credits'}
                 </p>
-                <p className="mt-2 text-gray-600 dark:text-gray-300">
-                  Deposit money into your wallet to receive site credits for purchases.
-                </p>
+                {version !== 2 && (
+                  <p className="mt-2 text-gray-600 dark:text-gray-300">
+                    Deposit money into your wallet to receive site credits for purchases.
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -95,13 +99,18 @@ export default function DepositPage() {
                 onAmountChange={setAmount}
               />
 
-              <div className="border-t border-dashed border-gray-200 dark:border-white/10"></div>
-
-              <PromoCodeInput onApply={handlePromoCodeApply} />
+              {/* Promo code section - hidden in version 2 */}
+              {version !== 2 && (
+                <>
+                  <div className="border-t border-dashed border-gray-200 dark:border-white/10"></div>
+                  <PromoCodeInput onApply={handlePromoCodeApply} />
+                </>
+              )}
 
               <PaymentMethodSelector
                 selectedMethod={selectedPaymentMethod}
                 onSelectMethod={setSelectedPaymentMethod}
+                version={version}
               />
 
               {selectedPaymentMethod === 'credit_card' && (
