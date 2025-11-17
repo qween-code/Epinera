@@ -1,144 +1,214 @@
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ProductTable from '@/components/seller/ProductTable';
 
-export default async function SellerProductsPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+export default function SellerProductsPage() {
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  if (!user) {
-    redirect('/login?redirect=/seller/products');
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const supabase = createClient();
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
 
-  // Fetch seller's products
-  const { data: products, error } = await supabase
-    .from('products')
-    .select(`
-      id,
-      title,
-      slug,
-      status,
-      created_at,
-      product_variants (
-        id,
-        name,
-        price,
-        currency,
-        stock_quantity,
-        status
-      )
-    `)
-    .eq('seller_id', user.id)
-    .order('created_at', { ascending: false });
+        if (!currentUser) {
+          router.push('/login?redirect=/seller/products');
+          return;
+        }
 
-  if (error) {
-    console.error('Error fetching products:', error);
+        setUser(currentUser);
+
+        // Fetch seller's products with variants
+        let query = supabase
+          .from('products')
+          .select(
+            `
+            id,
+            title,
+            slug,
+            image_url,
+            status,
+            created_at,
+            product_variants (
+              id,
+              name,
+              price,
+              currency,
+              stock_quantity,
+              status,
+              sku
+            )
+          `
+          )
+          .eq('seller_id', currentUser.id)
+          .order('created_at', { ascending: false });
+
+        if (searchQuery) {
+          query = query.or(`title.ilike.%${searchQuery}%,product_variants.sku.ilike.%${searchQuery}%`);
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+          console.error('Error fetching products:', error);
+        } else {
+          // Transform products to include variant data
+          const transformedProducts = (data || []).map((product: any) => {
+            const variants = product.product_variants || [];
+            const firstVariant = variants[0] || {};
+            const totalStock = variants.reduce((sum: number, v: any) => sum + (v.stock_quantity || 0), 0);
+
+            return {
+              id: product.id,
+              title: product.title,
+              image_url: product.image_url,
+              sku: firstVariant.sku || `PRD-${product.id.slice(0, 8).toUpperCase()}`,
+              stock: totalStock,
+              price: parseFloat(firstVariant.price?.toString() || '0'),
+              currency: firstVariant.currency || 'USD',
+              status: product.status,
+            };
+          });
+
+          setProducts(transformedProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [router, searchQuery]);
+
+  const handleSelectProduct = (productId: string) => {
+    setSelectedProducts((prev) =>
+      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+    );
+  };
+
+  const handleSelectAll = (selected: boolean) => {
+    if (selected) {
+      setSelectedProducts(products.map((p) => p.id));
+    } else {
+      setSelectedProducts([]);
+    }
+  };
+
+  const handleEdit = (productId: string) => {
+    router.push(`/seller/products/${productId}/edit`);
+  };
+
+  const handleView = (productId: string) => {
+    const product = products.find((p) => p.id === productId);
+    if (product) {
+      window.open(`/product/${product.slug}`, '_blank');
+    }
+  };
+
+  const handleDelete = (productId: string) => {
+    if (confirm('Are you sure you want to delete this product?')) {
+      // TODO: Implement delete
+      console.log('Delete product:', productId);
+    }
+  };
+
+  const handleImportCSV = () => {
+    // TODO: Implement CSV import
+    console.log('Import CSV');
+  };
+
+  const handleExportListings = () => {
+    // TODO: Implement export
+    console.log('Export listings');
+  };
+
+  if (loading) {
+    return (
+      <div className="relative flex min-h-screen w-full bg-background-light dark:bg-background-dark font-display">
+        <div className="flex-1 p-8">
+          <div className="text-center text-slate-900 dark:text-white/50">Loading...</div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Ürünlerim</h1>
-          <Link
-            href="/seller/products/new"
-            className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg font-semibold transition-colors"
-          >
-            + Yeni Ürün Ekle
-          </Link>
-        </div>
+    <div className="relative flex min-h-screen w-full bg-background-light dark:bg-background-dark font-display">
+      <main className="flex-1 p-8">
+        <div className="w-full max-w-7xl mx-auto">
+          {/* Page Heading */}
+          <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
+            <h1 className="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
+              My Products
+            </h1>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleImportCSV}
+                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+              >
+                <span className="truncate">Import via CSV</span>
+              </button>
+              <button
+                onClick={handleExportListings}
+                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+              >
+                <span className="truncate">Export Listings</span>
+              </button>
+            </div>
+          </div>
 
-        {!products || products.length === 0 ? (
-          <div className="bg-gray-800 rounded-lg p-12 text-center">
-            <div className="text-6xl mb-4">📦</div>
-            <h2 className="text-2xl font-bold mb-2">Henüz Ürününüz Yok</h2>
-            <p className="text-gray-400 mb-6">İlk ürününüzü ekleyerek satışa başlayın</p>
+          {/* ToolBar & SearchBar */}
+          <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+            <div className="flex-1">
+              <label className="flex flex-col min-w-40 h-12 w-full">
+                <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
+                  <div className="text-slate-500 dark:text-[#90b8cb] flex border-y border-l border-slate-200/20 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg">
+                    <span className="material-symbols-outlined">search</span>
+                  </div>
+                  <input
+                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border-y border-r border-slate-200/20 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 focus:border-primary h-full placeholder:text-slate-500 dark:placeholder:text-[#90b8cb] px-4 text-base font-normal leading-normal"
+                    placeholder="Search by product name or SKU"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              </label>
+            </div>
             <Link
               href="/seller/products/new"
-              className="inline-block px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
+              className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-5 hover:bg-primary/90 transition-colors"
             >
-              Ürün Ekle
+              <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
+                add
+              </span>
+              <span className="truncate">Add New Product</span>
             </Link>
           </div>
-        ) : (
-          <div className="space-y-4">
-            {products.map((product) => {
-              const variantCount = product.product_variants?.length || 0;
-              const activeVariants = product.product_variants?.filter((v: any) => v.status === 'active').length || 0;
-              const totalStock = product.product_variants?.reduce((sum: number, v: any) => sum + (v.stock_quantity || 0), 0) || 0;
 
-              return (
-                <div
-                  key={product.id}
-                  className="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-xl font-bold">{product.title}</h3>
-                        <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                          product.status === 'active' ? 'bg-green-900 text-green-300' :
-                          product.status === 'draft' ? 'bg-gray-700 text-gray-300' :
-                          'bg-red-900 text-red-300'
-                        }`}>
-                          {product.status === 'active' && 'Aktif'}
-                          {product.status === 'draft' && 'Taslak'}
-                          {product.status === 'inactive' && 'Pasif'}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-400">
-                        {variantCount} varyant ({activeVariants} aktif) • Toplam stok: {totalStock}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        Oluşturulma: {new Date(product.created_at).toLocaleDateString('tr-TR')}
-                      </p>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Link
-                        href={`/product/${product.slug}`}
-                        target="_blank"
-                        className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-sm"
-                      >
-                        Önizle
-                      </Link>
-                      <Link
-                        href={`/seller/products/${product.id}/edit`}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-sm"
-                      >
-                        Düzenle
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Variants */}
-                  {product.product_variants && product.product_variants.length > 0 && (
-                    <div className="mt-4 space-y-2">
-                      <div className="text-sm font-semibold text-gray-400 mb-2">Varyantlar:</div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                        {product.product_variants.map((variant: any) => (
-                          <div
-                            key={variant.id}
-                            className="bg-gray-700 rounded p-3 text-sm"
-                          >
-                            <div className="font-medium">{variant.name}</div>
-                            <div className="text-gray-400">
-                              {parseFloat(variant.price).toFixed(2)} {variant.currency}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              Stok: {variant.stock_quantity}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+          {/* Product Table */}
+          <ProductTable
+            products={products}
+            selectedProducts={selectedProducts}
+            onSelectProduct={handleSelectProduct}
+            onSelectAll={handleSelectAll}
+            onEdit={handleEdit}
+            onView={handleView}
+            onDelete={handleDelete}
+          />
+        </div>
+      </main>
     </div>
   );
 }
