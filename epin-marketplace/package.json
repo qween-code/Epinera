@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:users": "tsx scripts/create-comprehensive-test-users.ts",
+    "seed:data": "echo 'Run seed_comprehensive_test_data.sql in Supabase SQL Editor'",
+    "setup:test": "bash scripts/setup-test-environment.sh",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
+    "supabase:status": "supabase status",
+    "supabase:link": "supabase link"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
