@@ -2,6 +2,29 @@
 
 ## 🚀 Hızlı Başlangıç
 
+### API Key'lerle Bağlantı
+
+**API Key'ler `.env.local` dosyasında olmalı:**
+- `STRIPE_SECRET_KEY=sk_test_...`
+- `STRIPE_PUBLISHABLE_KEY=pk_test_...`
+
+```powershell
+# API Key'lerle sandbox'a bağlan
+npm run stripe:connect
+```
+
+**Not:** API Key'leri script'e parametre olarak da geçebilirsiniz:
+```powershell
+.\scripts\stripe-connect-sandbox.ps1 -SecretKey "sk_test_..." -PublishableKey "pk_test_..."
+```
+
+Bu komut:
+- ✅ API Key'leri Stripe CLI'ye yapılandırır
+- ✅ Balance kontrolü yapar
+- ✅ Son işlemleri listeler
+- ✅ Test Payment Intent oluşturur
+- ✅ Test Customer oluşturur
+
 ### Windows Kurulumu
 
 ```powershell
