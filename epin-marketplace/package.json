@@ -10,6 +10,10 @@
     "seed:users": "tsx scripts/create-comprehensive-test-users.ts",
     "seed:data": "echo 'Run seed_comprehensive_test_data.sql in Supabase SQL Editor'",
     "setup:test": "bash scripts/setup-test-environment.sh",
+    "stripe:install": "powershell -ExecutionPolicy Bypass -File scripts/install-stripe-cli.ps1",
+    "stripe:setup": "powershell -ExecutionPolicy Bypass -File scripts/stripe-setup-complete.ps1",
+    "stripe:test": "powershell -ExecutionPolicy Bypass -File scripts/stripe-test-operations.ps1",
+    "stripe:webhook": "powershell -ExecutionPolicy Bypass -File scripts/stripe-webhook-setup.ps1",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "supabase:status": "supabase status",
     "supabase:link": "supabase link"
