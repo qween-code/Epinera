@@ -931,15 +931,16 @@
 - ✅ Sprint 23: User Profile & Wallet design HTML kontrolü, Wallet Withdrawal kontrolü, Product Detail geri kontrol
 - ✅ Sprint 24: Seller Wallet design HTML kontrolü, Seller Products kontrolü, Cart geri kontrol
 - ✅ Sprint 25: Seller Analytics design HTML kontrolü, Seller Settings kontrolü, Checkout geri kontrol
+- ✅ Sprint 26: Product Listing/Category Page, Search Results, Forgot Password, Onboarding, Storefront, Orders List kontrolü ve import path düzeltmeleri
 
 ### Devam Eden Sprintler
-- 🔄 Sprint 26+: Kısmen uygulanan sayfaları tamamlama
+- 🔄 Sprint 27+: Kalan kısmen uygulanan sayfaları tamamlama
 
 ### Toplam İlerleme
-- **Tam Uygulanan**: 27 sayfa (38%) ⬆️
-- **Kısmen Uygulanan**: 12 sayfa (17%) ⬇️
+- **Tam Uygulanan**: 33 sayfa (46%) ⬆️
+- **Kısmen Uygulanan**: 6 sayfa (8%) ⬇️
 - **Eksik**: 33 sayfa (46%)
-- **Genel İlerleme**: ~66% tamamlandı ⬆️
+- **Genel İlerleme**: ~72% tamamlandı ⬆️
 
 ---
 
@@ -953,7 +954,7 @@
 
 ---
 
-*Son Güncelleme: Sprint 25 Sonrası*
+*Son Güncelleme: Sprint 26 Sonrası*
 
 ## 📝 Sprint 21 Detayları
 
@@ -1102,4 +1103,48 @@
 ### Değişiklikler
 - `epin-marketplace/src/app/actions/checkout.ts`: Import path düzeltildi
 - `epin-marketplace/src/app/actions/cart.ts`: Import path düzeltildi
+
+## 📝 Sprint 26 Detayları
+
+### Tamamlanan İşler
+1. ✅ **Product Listing / Category Page** (`/category/[slug]`)
+   - Import path düzeltildi (`@/lib/supabase/server` → `@/utils/supabase/server`)
+   - Design HTML ile uyumlu
+   - Filters, sorting, product grid mevcut
+
+2. ✅ **Search Results** (`/search`)
+   - Design HTML ile uyumlu
+   - Category filters, sorting mevcut
+   - Backend entegrasyonu mevcut
+
+3. ✅ **Forgot Password** (`/forgot-password`)
+   - Design HTML ile uyumlu
+   - Supabase auth entegrasyonu mevcut
+   - Form validation mevcut
+
+4. ✅ **Onboarding** (`/onboarding`)
+   - Design HTML ile uyumlu
+   - Google OAuth, Phone sign-in mevcut
+   - Guest continue mevcut
+
+5. ✅ **Storefront Page** (`/store/[slug]`)
+   - Design HTML ile uyumlu
+   - Backend entegrasyonu mevcut
+   - Product tabs, reviews mevcut
+
+6. ✅ **Orders List** (`/orders`)
+   - Import path düzeltildi (`@/lib/supabase/server` → `@/utils/supabase/server`)
+   - Backend entegrasyonu mevcut
+   - Order cards mevcut
+
+### Backend & Database Kontrolleri
+- ✅ Tüm import path'ler düzeltildi
+- ✅ Category queries Supabase'den çalışıyor
+- ✅ Search queries Supabase'den çalışıyor
+- ✅ Orders queries Supabase'den çalışıyor
+- ✅ RLS policies tanımlı
+
+### Değişiklikler
+- `epin-marketplace/src/app/category/[slug]/page.tsx`: Import path düzeltildi
+- `epin-marketplace/src/app/orders/page.tsx`: Import path düzeltildi
 
