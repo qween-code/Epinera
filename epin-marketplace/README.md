@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Epinera - Gaming Marketplace Platform
 
-## Getting Started
+Dijital oyun ürünleri için modern bir e-ticaret platformu.
 
-First, run the development server:
+## 🚀 Hızlı Başlangıç
+
+Detaylı kurulum için: [MASTER_GUIDE.md](./MASTER_GUIDE.md)
 
 ```bash
+# 1. Dependencies yükle
+npm install
+
+# 2. Environment variables ayarla
+cp .env.local.example .env.local
+# .env.local dosyasını düzenle
+
+# 3. Development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📚 Dökümanlar
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **[MASTER_GUIDE.md](./MASTER_GUIDE.md)** - Tüm önemli bilgiler (kurulum, Stripe, test, deployment)
+- **[COMPREHENSIVE_TEST_SCENARIOS.md](./COMPREHENSIVE_TEST_SCENARIOS.md)** - Kapsamlı test senaryoları
+- **[MODULE_BASED_ANALYSIS.md](../MODULE_BASED_ANALYSIS.md)** - Sayfa implementasyon analizi
+- **[PRODUCTION_DEPLOYMENT_GUIDE.md](../PRODUCTION_DEPLOYMENT_GUIDE.md)** - Production deployment rehberi
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠 Teknolojiler
 
-## Learn More
+- **Frontend**: Next.js 16 (App Router), React 19, TypeScript
+- **Styling**: Tailwind CSS 4
+- **Backend**: Supabase (PostgreSQL)
+- **Payment**: Stripe
+- **Deployment**: Vercel Ready
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Proje Yapısı
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+epin-marketplace/
+├── src/app/              # Next.js sayfaları
+├── src/components/       # React component'leri
+├── supabase/migrations/  # Veritabanı migration'ları
+└── scripts/             # Utility script'leri
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ✅ Özellikler
 
-## Deploy on Vercel
+- ✅ Kullanıcı yönetimi (OAuth, OTP)
+- ✅ Ürün kataloğu ve arama
+- ✅ Sepet ve checkout
+- ✅ Stripe ödeme entegrasyonu
+- ✅ Wallet sistemi
+- ✅ Kampanya ve indirimler
+- ✅ Çekilişler ve giveaway'ler
+- ✅ Satıcı ve creator panelleri
+- ✅ Admin yönetim paneli
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧪 Test
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Test kullanıcıları
+npm run seed:users
+
+# Test senaryoları için:
+# COMPREHENSIVE_TEST_SCENARIOS.md
+```
+
+## 📖 Daha Fazla Bilgi
+
+Detaylı bilgiler için [MASTER_GUIDE.md](./MASTER_GUIDE.md) dosyasına bakın.
+
+---
+
+*Son Güncelleme: Sprint 43 Sonrası*
