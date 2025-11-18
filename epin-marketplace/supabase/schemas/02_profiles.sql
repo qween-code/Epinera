@@ -11,6 +11,7 @@ CREATE TABLE public.profiles (
   phone TEXT UNIQUE,
   role public.user_role NOT NULL DEFAULT 'buyer',
   kyc_status public.kyc_status NOT NULL DEFAULT 'not_started',
+  metadata JSONB DEFAULT '{}'::jsonb,
 
   CONSTRAINT phone_length CHECK (
     phone IS NULL OR char_length(phone) >= 10

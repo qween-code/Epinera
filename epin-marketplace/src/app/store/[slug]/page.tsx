@@ -32,7 +32,7 @@ export default function StorefrontPage() {
         // For now, we'll fetch by seller_id from profiles
         const { data: profile } = await supabase
           .from('profiles')
-          .select('id, full_name, avatar_url')
+          .select('id, full_name, avatar_url, updated_at')
           .ilike('full_name', `%${slug}%`)
           .single();
 
@@ -117,9 +117,23 @@ export default function StorefrontPage() {
           );
         }
 
+        // Fetch seller stats from order_items
+        const { data: orderItemsData } = await supabase
+          .from('order_items')
+          .select('quantity')
+          .eq('seller_id', profile.id);
+
+        const productsSold = orderItemsData?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
+
+        // Calculate years on platform from profile updated_at (approximation)
+        // In production, this should come from auth.users.created_at via server action
+        const profileCreatedAt = profile.updated_at ? new Date(profile.updated_at) : new Date();
+        const now = new Date();
+        const yearsOnPlatform = Math.max(1, Math.floor((now.getTime() - profileCreatedAt.getTime()) / (1000 * 60 * 60 * 24 * 365)));
+
         // Calculate store stats
         const avgRating = reviewsData?.reduce((sum, r) => sum + r.rating, 0) / (reviewsData?.length || 1) || 4.8;
-        const reviewCount = reviewsData?.length || 2451;
+        const reviewCount = reviewsData?.length || 0;
 
         setStore({
           id: profile.id,
@@ -129,9 +143,9 @@ export default function StorefrontPage() {
           isVerified: true,
           rating: avgRating,
           reviewCount,
-          productsSold: 15000,
-          yearsOnPlatform: 3,
-          followers: 5210,
+          productsSold,
+          yearsOnPlatform: yearsOnPlatform || 1, // Default to 1 if calculation fails
+          followers: 0, // TODO: Implement followers feature
         });
       } catch (error) {
         console.error('Error fetching store data:', error);

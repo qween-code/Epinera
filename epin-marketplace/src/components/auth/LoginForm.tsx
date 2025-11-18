@@ -57,10 +57,11 @@ export default function LoginForm() {
           <span className="font-display text-2xl font-bold text-gray-900 dark:text-white">EpinMarket</span>
         </div>
         <div className="flex flex-col gap-3">
-          <p className="font-display text-4xl font-black leading-tight tracking-tight text-gray-900 dark:text-white">Welcome Back</p>
-          <p className="font-display text-base font-normal leading-normal text-gray-500 dark:text-gray-400">Sign in to your account</p>
+          <h1 className="font-display text-4xl font-black leading-tight tracking-tight text-gray-900 dark:text-white">Welcome Back</h1>
+          <p className="font-display text-base font-normal leading-normal text-gray-500 dark:text-gray-400">Log In to Your Account</p>
         </div>
       </div>
+
       {/* Form */}
       <form className="flex w-full flex-col gap-4" onSubmit={handleLogin}>
         {/* Email or Phone Input */}
@@ -81,49 +82,53 @@ export default function LoginForm() {
             />
           </div>
         </label>
+
         {/* Password Input */}
-        <label className="flex flex-col flex-1">
-          <p className="font-display text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200">Password</p>
-          <div className="flex w-full flex-1 items-stretch rounded-lg">
-            <div className="flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pl-4 rounded-l-lg border-r-0 text-gray-400 dark:text-gray-500">
-              <span className="material-symbols-outlined">lock</span>
+        <div className="flex flex-col gap-2">
+          <label className="flex flex-col flex-1">
+            <p className="font-display text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200">Password</p>
+            <div className="flex w-full flex-1 items-stretch rounded-lg">
+              <div className="flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pl-4 rounded-l-lg border-r-0 text-gray-400 dark:text-gray-500">
+                <span className="material-symbols-outlined">lock</span>
+              </div>
+              <input
+                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 rounded-l-none rounded-r-none border-x-0 text-base font-normal leading-normal"
+                placeholder="Enter your password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={isLoading}
+              />
+              <button
+                type="button"
+                className="flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pr-4 rounded-r-lg border-l-0 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <span className="material-symbols-outlined">{showPassword ? 'visibility_off' : 'visibility'}</span>
+              </button>
             </div>
-            <input
-              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 rounded-l-none rounded-r-none border-x-0 text-base font-normal leading-normal"
-              placeholder="Enter your password"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-            <button
-              type="button"
-              className="flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pr-4 rounded-r-lg border-l-0 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors"
-              onClick={() => setShowPassword(!showPassword)}
+          </label>
+          <div className="flex items-center justify-end">
+            <Link
+              href="/forgot-password"
+              className="font-display text-sm font-normal leading-normal text-right text-primary hover:underline"
             >
-              <span className="material-symbols-outlined">{showPassword ? 'visibility_off' : 'visibility'}</span>
-            </button>
+              Forgot Password?
+            </Link>
           </div>
-        </label>
-        {/* Forgot Password Link */}
-        <div className="flex items-center justify-end">
-          <Link 
-            href="/forgot-password" 
-            className="font-display text-sm font-medium text-primary hover:underline"
-          >
-            Forgot password?
-          </Link>
         </div>
+
         {/* Login Button */}
         <button
           type="submit"
           disabled={isLoading}
           className="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-bold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark disabled:opacity-50"
         >
-          {isLoading ? 'Signing in...' : 'Sign In'}
+          {isLoading ? 'Signing in...' : 'Login'}
         </button>
       </form>
+
       {/* Social Logins */}
       <div className="flex flex-col gap-4">
         <div className="relative flex items-center justify-center">
@@ -160,6 +165,7 @@ export default function LoginForm() {
           </button>
         </div>
       </div>
+
       {/* Sign Up Link */}
       <p className="font-display text-center text-sm text-gray-500 dark:text-gray-400">
         Don't have an account?{' '}
@@ -167,6 +173,7 @@ export default function LoginForm() {
           Sign Up
         </Link>
       </p>
+
       {/* Legal/Policy Links */}
       <div className="mt-4 w-full border-t border-slate-200/60 pt-4 dark:border-slate-700/60">
         <p className="text-center font-display text-xs text-slate-500 dark:text-slate-400">
@@ -181,6 +188,7 @@ export default function LoginForm() {
           .
         </p>
       </div>
+
       {message && (
         <div className={`p-4 rounded-lg text-sm ${message.includes('Error') ? 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'}`}>
           {message}

@@ -53,7 +53,7 @@ export default function StorefrontProductCard({
         <h4 className="text-white font-bold text-base mb-1">{title}</h4>
         {platform && <p className="text-[#90b8cb] text-sm mb-4">Platform: {platform}</p>}
         <div className="mt-auto flex justify-between items-center">
-          <p className="text-white text-lg font-bold">{formatPrice(price, currency)} Credits</p>
+          <p className="text-white text-lg font-bold">{Math.round(price * 100)} Credits</p>
           <button
             onClick={handleAddToCart}
             className="bg-primary text-white rounded-lg h-9 px-4 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/90"
