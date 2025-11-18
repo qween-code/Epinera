@@ -99,20 +99,50 @@
      - Multi-step onboarding flow
      - Progress indicator
 
-#### ❌ Eksik (2)
-1. **Sign Up** (`/signup`)
-   - Design HTML: `quick_onboarding_-_sign_in_/_sign_up/code.html`
-   - Durum: ❌ **EKSİK**
-   - Not: Onboarding sayfasında olabilir, kontrol gerekli
+#### ✅ Tam Uygulanan (3)
+1. **Login Page** (`/login`)
+   - Design HTML: `login_/_forgot_password/code.html`
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: LoginForm
+   - Backend: ✅ Supabase auth entegre
+   - Mobile: ✅ Responsive
+   - Link'ler: ✅ Düzeltildi
 
-2. **Reset Password** (`/reset-password`)
-   - Design HTML: `login_/_forgot_password/code.html` (muhtemelen)
-   - Durum: ❌ **EKSİK**
+2. **Sign Up** (`/signup`)
+   - Design HTML: `quick_onboarding_-_sign_in_/_sign_up/code.html`
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Sign up form, Google OAuth, Phone sign-up
+   - Backend: ✅ Supabase auth entegre
+   - Mobile: ✅ Responsive
+   - Not: Sprint 28'de implement edildi
+
+3. **Reset Password** (`/reset-password`)
+   - Design HTML: `login_/_forgot_password/code.html`
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Reset password form
+   - Backend: ✅ Supabase auth entegre
+   - Mobile: ✅ Responsive
+   - Not: Sprint 28'de implement edildi
+
+#### ⚠️ Kısmen Uygulanan (2)
+1. **Forgot Password** (`/forgot-password`)
+   - Design HTML: `login_/_forgot_password/code.html` (aynı dosya)
+   - Durum: ⚠️ **KISMEN UYGULANMIŞ**
+   - Eksikler:
+     - Design HTML'e birebir uyum kontrolü gerekli
+
+2. **Onboarding** (`/onboarding`)
+   - Design HTML: `quick_onboarding_-_sign_in_/_sign_up/code.html`
+   - Durum: ⚠️ **KISMEN UYGULANMIŞ**
+   - Eksikler:
+     - Design HTML'e birebir uyum kontrolü gerekli
+     - Multi-step onboarding flow
+     - Progress indicator
 
 ### Özet
-- **Tam Uygulanan**: 1 sayfa
+- **Tam Uygulanan**: 3 sayfa
 - **Kısmen Uygulanan**: 2 sayfa
-- **Eksik**: 2 sayfa
+- **Eksik**: 0 sayfa
 - **Toplam**: 5 sayfa
 
 ---
@@ -933,15 +963,16 @@
 - ✅ Sprint 25: Seller Analytics design HTML kontrolü, Seller Settings kontrolü, Checkout geri kontrol
 - ✅ Sprint 26: Product Listing/Category Page, Search Results, Forgot Password, Onboarding, Storefront, Orders List kontrolü ve import path düzeltmeleri
 - ✅ Sprint 27: Kısmen uygulanan sayfaların durum güncellemesi - Order Confirmation, Orders List, Seller Orders, Wallet Withdrawal, User Profile & Wallet, Transaction History tam uygulanan olarak işaretlendi
+- ✅ Sprint 28: Sign Up ve Reset Password sayfaları implement edildi
 
 ### Devam Eden Sprintler
-- 🔄 Sprint 28+: Eksik sayfaları implement etme
+- 🔄 Sprint 29+: Kalan eksik sayfaları implement etme
 
 ### Toplam İlerleme
-- **Tam Uygulanan**: 39 sayfa (54%) ⬆️
-- **Kısmen Uygulanan**: 0 sayfa (0%) ⬇️
-- **Eksik**: 33 sayfa (46%)
-- **Genel İlerleme**: ~78% tamamlandı ⬆️
+- **Tam Uygulanan**: 41 sayfa (57%) ⬆️
+- **Kısmen Uygulanan**: 2 sayfa (3%) ⬆️
+- **Eksik**: 31 sayfa (43%) ⬇️
+- **Genel İlerleme**: ~80% tamamlandı ⬆️
 
 ---
 
@@ -955,7 +986,7 @@
 
 ---
 
-*Son Güncelleme: Sprint 27 Sonrası*
+*Son Güncelleme: Sprint 28 Sonrası*
 
 ## 📝 Sprint 21 Detayları
 
@@ -1171,4 +1202,39 @@
 - **Kısmen Uygulanan**: 0 sayfa (0%) ⬇️
 - **Eksik**: 33 sayfa (46%)
 - **Genel İlerleme**: ~78% tamamlandı ⬆️
+
+## 📝 Sprint 28 Detayları
+
+### Tamamlanan İşler
+1. ✅ **Sign Up** (`/signup`)
+   - Yeni sayfa oluşturuldu
+   - Design HTML ile uyumlu (`quick_onboarding_-_sign_in_/_sign_up/code.html`)
+   - Email/password sign up, Google OAuth, Phone sign-up mevcut
+   - Password confirmation, validation mevcut
+   - Backend: ✅ Supabase auth entegre
+   - Mobile: ✅ Responsive
+
+2. ✅ **Reset Password** (`/reset-password`)
+   - Yeni sayfa oluşturuldu
+   - Design HTML ile uyumlu (`login_/_forgot_password/code.html`)
+   - Password reset form, confirmation mevcut
+   - Hash token validation mevcut
+   - Backend: ✅ Supabase auth entegre
+   - Mobile: ✅ Responsive
+
+### Backend & Database Kontrolleri
+- ✅ Supabase auth sign up entegrasyonu mevcut
+- ✅ Supabase auth password reset entegrasyonu mevcut
+- ✅ Email verification flow mevcut
+- ✅ RLS policies tanımlı
+
+### Değişiklikler
+- `epin-marketplace/src/app/signup/page.tsx`: Yeni dosya oluşturuldu
+- `epin-marketplace/src/app/reset-password/page.tsx`: Yeni dosya oluşturuldu
+
+### İlerleme
+- **Tam Uygulanan**: 41 sayfa (57%) ⬆️
+- **Kısmen Uygulanan**: 2 sayfa (3%) ⬆️
+- **Eksik**: 31 sayfa (43%) ⬇️
+- **Genel İlerleme**: ~80% tamamlandı ⬆️
 
