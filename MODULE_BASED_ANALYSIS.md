@@ -246,52 +246,45 @@
 - ✅ `/checkout` - `epin-marketplace/src/app/checkout/page.tsx`
 
 ### Design Dosyaları
-- ✅ `cart_review_1/code.html` - **TAM UYGULANMIŞ**
-- ✅ `cart_review_2/code.html` - **EKSİK**
-- ✅ `cart_review_3/code.html` - **EKSİK**
-- ✅ `cart_review_4/code.html` - **EKSİK**
-- ✅ `cart_review_5/code.html` - **EKSİK**
-- ✅ `payment_selection_1/code.html` - **TAM UYGULANMIŞ**
-- ✅ `payment_selection_2/code.html` - **EKSİK**
-- ✅ `payment_selection_3/code.html` - **EKSİK**
-- ✅ `payment_selection_4/code.html` - **EKSİK**
-- ✅ `payment_selection_5/code.html` - **EKSİK**
+- ✅ `cart_review_1/code.html` - **TAM UYGULANMIŞ** (default, `?version=1`)
+- ✅ `cart_review_2/code.html` - **TAM UYGULANMIŞ** (`?version=2`)
+- ✅ `cart_review_3/code.html` - **TAM UYGULANMIŞ** (`?version=3`)
+- ✅ `cart_review_4/code.html` - **TAM UYGULANMIŞ** (`?version=4`)
+- ✅ `cart_review_5/code.html` - **TAM UYGULANMIŞ** (`?version=5`)
+- ✅ `payment_selection_1/code.html` - **TAM UYGULANMIŞ** (default, `?version=1`)
+- ✅ `payment_selection_2/code.html` - **TAM UYGULANMIŞ** (`?version=2`)
+- ✅ `payment_selection_3/code.html` - **TAM UYGULANMIŞ** (`?version=3`)
+- ✅ `payment_selection_4/code.html` - **TAM UYGULANMIŞ** (`?version=4`)
+- ✅ `payment_selection_5/code.html` - **TAM UYGULANMIŞ** (`?version=5`)
 
 ### Durum Analizi
 
-#### ✅ Tam Uygulanan (2)
+#### ✅ Tam Uygulanan (10)
 1. **Cart Page** (`/cart`)
-   - Design HTML: `cart_review_1/code.html`
-   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Design HTML: `cart_review_1/code.html` (default)
+   - Versiyonlar: `cart_review_2/`, `cart_review_3/`, `cart_review_4/`, `cart_review_5/`
+   - Durum: ✅ **TAM UYGULANMIŞ** (5 versiyon query parameter ile)
+   - Versiyon desteği: `?version=1-5`
    - Component'ler: CartHeader, CartItem, CartSummary, WalletBalance
-   - Backend: ✅ Entegre
+   - Backend: ✅ Entegre (wallet balance kontrolü)
    - Mobile: ✅ Responsive
-   - Link'ler: ✅ Düzeltildi
+   - Not: Sprint 40-41'de tüm versiyonlar implement edildi
 
 2. **Checkout Page** (`/checkout`)
-   - Design HTML: `payment_selection_1/code.html`
-   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Design HTML: `payment_selection_1/code.html` (default)
+   - Versiyonlar: `payment_selection_2/`, `payment_selection_3/`, `payment_selection_4/`, `payment_selection_5/`
+   - Durum: ✅ **TAM UYGULANMIŞ** (5 versiyon query parameter ile)
+   - Versiyon desteği: `?version=1-5`
    - Component'ler: CheckoutHeader, OrderSummary, PaymentMethodSelector
-   - Backend: ✅ Entegre
+   - Backend: ✅ Entegre (wallet balance kontrolü)
    - Mobile: ✅ Responsive
-   - Link'ler: ✅ Düzeltildi
-
-#### ❌ Eksik (8)
-1. **Cart Review Versiyonları** (2-5)
-   - Design HTML: `cart_review_2/`, `cart_review_3/`, `cart_review_4/`, `cart_review_5/`
-   - Durum: ❌ **EKSİK**
-   - Not: Query parameter ile versiyon seçimi eklenebilir
-
-2. **Payment Selection Versiyonları** (2-5)
-   - Design HTML: `payment_selection_2/`, `payment_selection_3/`, `payment_selection_4/`, `payment_selection_5/`
-   - Durum: ❌ **EKSİK**
-   - Not: Query parameter ile versiyon seçimi eklenebilir
+   - Not: Sprint 40-41'de tüm versiyonlar implement edildi
 
 ### Özet
-- **Tam Uygulanan**: 2 sayfa
+- **Tam Uygulanan**: 10 sayfa (2 ana + 8 versiyon)
 - **Kısmen Uygulanan**: 0 sayfa
-- **Eksik**: 8 sayfa (versiyonlar)
-- **Toplam**: 10 sayfa (2 ana + 8 versiyon)
+- **Eksik**: 0 sayfa
+- **Toplam**: 10 sayfa
 
 ---
 
