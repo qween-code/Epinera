@@ -814,7 +814,7 @@
 
 ### Mevcut Sayfalar
 - ✅ `/seller/messages` - `epin-marketplace/src/app/seller/messages/page.tsx`
-- ❌ `/messages` - Eksik (buyer messages)
+- ✅ `/messages` - `epin-marketplace/src/app/messages/page.tsx`
 - ❌ `/support` - Eksik
 - ❌ `/live-chat` - Eksik
 
@@ -835,23 +835,28 @@
      - Message actions
      - File attachments
 
-#### ❌ Eksik (3)
+#### ✅ Tam Uygulanan (1)
 1. **Buyer Messages** (`/messages`)
-   - Design HTML: `customer_messages/code.html` (muhtemelen)
-   - Durum: ❌ **EKSİK**
+   - Design HTML: `customer_messages/code.html`
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Message list, Conversation view, Message composer, Filters (All, Unread, Archived, Disputes), Search
+   - Backend: ✅ Supabase entegre (messages table)
+   - Mobile: ✅ Responsive
+   - Not: Sprint 30'da implement edildi
 
-2. **Live Chat Support** (`/support` veya `/live-chat`)
+#### ❌ Eksik (2)
+1. **Live Chat Support** (`/support` veya `/live-chat`)
    - Design HTML: `live_chat_/_support/code.html`
    - Durum: ❌ **EKSİK**
 
-3. **Support Center** (`/support`)
+2. **Support Center** (`/support`)
    - Design HTML: Yok
    - Durum: ❌ **EKSİK**
 
 ### Özet
-- **Tam Uygulanan**: 0 sayfa
+- **Tam Uygulanan**: 1 sayfa
 - **Kısmen Uygulanan**: 1 sayfa
-- **Eksik**: 3 sayfa
+- **Eksik**: 2 sayfa
 - **Toplam**: 4 sayfa
 
 ---
@@ -1008,15 +1013,16 @@
 - ✅ Sprint 27: Kısmen uygulanan sayfaların durum güncellemesi - Order Confirmation, Orders List, Seller Orders, Wallet Withdrawal, User Profile & Wallet, Transaction History tam uygulanan olarak işaretlendi
 - ✅ Sprint 28: Sign Up ve Reset Password sayfaları implement edildi
 - ✅ Sprint 29: Brands, Publishers ve Top-ups sayfaları implement edildi
+- ✅ Sprint 30: Messages sayfası implement edildi
 
 ### Devam Eden Sprintler
-- 🔄 Sprint 30+: Kalan eksik sayfaları implement etme
+- 🔄 Sprint 31+: Kalan eksik sayfaları implement etme
 
 ### Toplam İlerleme
-- **Tam Uygulanan**: 44 sayfa (61%) ⬆️
+- **Tam Uygulanan**: 45 sayfa (63%) ⬆️
 - **Kısmen Uygulanan**: 2 sayfa (3%)
-- **Eksik**: 28 sayfa (39%) ⬇️
-- **Genel İlerleme**: ~82% tamamlandı ⬆️
+- **Eksik**: 27 sayfa (38%) ⬇️
+- **Genel İlerleme**: ~83% tamamlandı ⬆️
 
 ---
 
@@ -1030,7 +1036,7 @@
 
 ---
 
-*Son Güncelleme: Sprint 29 Sonrası*
+*Son Güncelleme: Sprint 30 Sonrası*
 
 ## 📝 Sprint 21 Detayları
 
@@ -1322,4 +1328,32 @@
 - **Kısmen Uygulanan**: 2 sayfa (3%)
 - **Eksik**: 28 sayfa (39%) ⬇️
 - **Genel İlerleme**: ~82% tamamlandı ⬆️
+
+## 📝 Sprint 30 Detayları
+
+### Tamamlanan İşler
+1. ✅ **Buyer Messages** (`/messages`)
+   - Yeni sayfa oluşturuldu
+   - Design HTML ile uyumlu (`customer_messages/code.html`)
+   - Message list panel, conversation view, message composer
+   - Filters: All, Unread, Archived, Disputes
+   - Search functionality
+   - Backend: ✅ Supabase entegre (messages table migration oluşturuldu)
+   - Mobile: ✅ Responsive
+
+### Backend & Database Kontrolleri
+- ✅ Messages table migration oluşturuldu
+- ✅ RLS policies tanımlı (view own messages, insert own messages, update received messages)
+- ✅ Indexes oluşturuldu (sender_id, receiver_id, order_id, created_at, is_read)
+- ✅ Updated_at trigger oluşturuldu
+
+### Değişiklikler
+- `epin-marketplace/src/app/messages/page.tsx`: Yeni dosya oluşturuldu
+- `epin-marketplace/supabase/migrations/20251130000001_add_messages_table.sql`: Yeni migration dosyası oluşturuldu
+
+### İlerleme
+- **Tam Uygulanan**: 45 sayfa (63%) ⬆️
+- **Kısmen Uygulanan**: 2 sayfa (3%)
+- **Eksik**: 27 sayfa (38%) ⬇️
+- **Genel İlerleme**: ~83% tamamlandı ⬆️
 
