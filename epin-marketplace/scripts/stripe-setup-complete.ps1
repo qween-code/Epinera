@@ -6,16 +6,29 @@ Write-Host ""
 
 # 1. Stripe CLI kurulumu kontrolü
 Write-Host "1️⃣ Stripe CLI kurulumu kontrol ediliyor..." -ForegroundColor Cyan
-if (-not (Get-Command stripe -ErrorAction SilentlyContinue)) {
+try {
+    $stripeVersion = stripe --version 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "   ✅ Stripe CLI zaten kurulu! Versiyon: $stripeVersion" -ForegroundColor Green
+    } else {
+        throw "Stripe CLI bulunamadı"
+    }
+} catch {
     Write-Host "   ⚠️  Stripe CLI bulunamadı. Kurulum yapılıyor..." -ForegroundColor Yellow
     
     # Scoop kontrolü
-    if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
+    try {
+        $scoopVersion = scoop --version 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            throw "Scoop bulunamadı"
+        }
+    } catch {
         Write-Host "   📦 Scoop kuruluyor..." -ForegroundColor Yellow
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
         Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
     }
     
+    Write-Host "   📦 Stripe CLI kuruluyor..." -ForegroundColor Yellow
     scoop install stripe
     
     if ($LASTEXITCODE -ne 0) {
@@ -25,64 +38,86 @@ if (-not (Get-Command stripe -ErrorAction SilentlyContinue)) {
     }
     
     Write-Host "   ✅ Stripe CLI kuruldu!" -ForegroundColor Green
-} else {
-    Write-Host "   ✅ Stripe CLI zaten kurulu!" -ForegroundColor Green
-    stripe --version
 }
 Write-Host ""
 
 # 2. Login kontrolü
 Write-Host "2️⃣ Stripe login durumu kontrol ediliyor..." -ForegroundColor Cyan
-$config = stripe config --list 2>&1
-if ($LASTEXITCODE -ne 0 -or $config -match "not logged in") {
+try {
+    $config = stripe config --list 2>&1
+    if ($LASTEXITCODE -eq 0 -and $config -notmatch "not logged in") {
+        Write-Host "   ✅ Zaten login yapılmış!" -ForegroundColor Green
+    } else {
+        throw "Login yapılmamış"
+    }
+} catch {
     Write-Host "   ⚠️  Stripe'a login yapılmamış." -ForegroundColor Yellow
     Write-Host "   🔐 Login yapılıyor..." -ForegroundColor Yellow
     Write-Host "   (Tarayıcı açılacak, Stripe hesabınıza giriş yapın)" -ForegroundColor White
     stripe login
-} else {
-    Write-Host "   ✅ Zaten login yapılmış!" -ForegroundColor Green
 }
 Write-Host ""
 
 # 3. Test mode kontrolü
 Write-Host "3️⃣ Test mode kontrol ediliyor..." -ForegroundColor Cyan
-stripe config --set test_mode true
+stripe config --set test_mode true 2>&1 | Out-Null
 Write-Host "   ✅ Test mode aktif!" -ForegroundColor Green
 Write-Host ""
 
 # 4. API Key'leri göster
 Write-Host "4️⃣ API Key'ler kontrol ediliyor..." -ForegroundColor Cyan
-$testKey = stripe config --get test_mode_api_key 2>&1
-if ($testKey -match "sk_test_") {
-    Write-Host "   ✅ Test API Key bulundu: $($testKey.Substring(0, 20))..." -ForegroundColor Green
-} else {
-    Write-Host "   ⚠️  Test API Key bulunamadı!" -ForegroundColor Yellow
+try {
+    $testKey = stripe config --get test_mode_api_key 2>&1
+    if ($testKey -match "sk_test_") {
+        $maskedKey = $testKey.Substring(0, [Math]::Min(20, $testKey.Length)) + "..."
+        Write-Host "   ✅ Test API Key bulundu: $maskedKey" -ForegroundColor Green
+    } else {
+        Write-Host "   ⚠️  Test API Key bulunamadı!" -ForegroundColor Yellow
+    }
+} catch {
+    Write-Host "   ⚠️  API Key kontrolü başarısız!" -ForegroundColor Yellow
 }
 Write-Host ""
 
 # 5. Balance kontrolü
 Write-Host "5️⃣ Stripe Balance kontrol ediliyor..." -ForegroundColor Cyan
-$balance = stripe balance retrieve 2>&1
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "   ✅ Balance bilgisi alındı!" -ForegroundColor Green
-    Write-Host $balance -ForegroundColor White
-} else {
-    Write-Host "   ⚠️  Balance bilgisi alınamadı: $balance" -ForegroundColor Yellow
+try {
+    $balance = stripe balance retrieve 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "   ✅ Balance bilgisi alındı!" -ForegroundColor Green
+        Write-Host $balance -ForegroundColor White
+    } else {
+        Write-Host "   ⚠️  Balance bilgisi alınamadı" -ForegroundColor Yellow
+    }
+} catch {
+    Write-Host "   ⚠️  Balance kontrolü başarısız!" -ForegroundColor Yellow
 }
 Write-Host ""
 
 # 6. Son işlemler
 Write-Host "6️⃣ Son işlemler kontrol ediliyor..." -ForegroundColor Cyan
 Write-Host "   📋 Payment Intents:" -ForegroundColor White
-stripe payment_intents list --limit 3 2>&1 | Select-Object -First 5
+try {
+    stripe payment_intents list --limit 3 2>&1 | Select-Object -First 5
+} catch {
+    Write-Host "   ⚠️  Payment Intents listelenemedi" -ForegroundColor Yellow
+}
 Write-Host ""
 
 Write-Host "   📋 Transfers:" -ForegroundColor White
-stripe transfers list --limit 3 2>&1 | Select-Object -First 5
+try {
+    stripe transfers list --limit 3 2>&1 | Select-Object -First 5
+} catch {
+    Write-Host "   ⚠️  Transfers listelenemedi" -ForegroundColor Yellow
+}
 Write-Host ""
 
 Write-Host "   📋 Events:" -ForegroundColor White
-stripe events list --limit 3 2>&1 | Select-Object -First 5
+try {
+    stripe events list --limit 3 2>&1 | Select-Object -First 5
+} catch {
+    Write-Host "   ⚠️  Events listelenemedi" -ForegroundColor Yellow
+}
 Write-Host ""
 
 # 7. Webhook forwarding bilgisi
@@ -101,4 +136,3 @@ Write-Host ""
 
 Write-Host "✅ Stripe CLI kurulum ve yapılandırma tamamlandı!" -ForegroundColor Green
 Write-Host ""
-
