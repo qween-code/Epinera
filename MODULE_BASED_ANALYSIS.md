@@ -1780,3 +1780,40 @@
 - Cart Review ve Payment Selection sayfaları artık 5 versiyonu destekliyor
 - Versiyonlar query parameter ile kontrol ediliyor (`?version=1-5`)
 
+## 📝 Sprint 41 Detayları
+
+### Tamamlanan İşler
+1. ✅ **Cart Review Versiyon 4 & 5** (`/cart?version=4`, `/cart?version=5`)
+   - Versiyon 4: Kompakt insufficient balance uyarısı, "Deposit" butonu, disabled checkout butonu
+   - Versiyon 5: Versiyon 3'e benzer ama disabled checkout butonu eklendi
+   - Query parameter ile versiyon desteği
+   - Backend: ✅ Entegre (wallet balance kontrolü)
+   - Mobile: ✅ Responsive
+
+2. ✅ **Payment Selection Versiyon 3 & 5** (`/checkout?version=3`, `/checkout?version=5`)
+   - Versiyon 3: Terms of Service linki, "Use X Credits to Buy" butonu
+   - Versiyon 5: Hem sufficient hem insufficient credits durumları gösteriliyor (iki ayrı alert box)
+   - Query parameter ile versiyon desteği
+   - Backend: ✅ Entegre (wallet balance kontrolü)
+   - Mobile: ✅ Responsive
+
+### Backend & Database Kontrolleri
+- ✅ Cart: Tüm versiyonlar için wallet balance kontrolü mevcut
+- ✅ Checkout: Tüm versiyonlar için wallet balance kontrolü mevcut
+- ✅ Production-ready kod, mock data kullanılmıyor
+- ✅ RLS policies mevcut
+
+### Değişiklikler
+- `epin-marketplace/src/app/cart/page.tsx`: Versiyon 4 ve 5 için özel layout'lar eklendi
+- `epin-marketplace/src/app/checkout/page.tsx`: Versiyon 3 ve 5 için özel layout'lar eklendi
+
+### İlerleme
+- **Tam Uygulanan**: 72 sayfa (100%) ⬆️
+- **Kısmen Uygulanan**: 2 sayfa (3%)
+- **Eksik**: 0 sayfa (0%) ⬇️
+- **Genel İlerleme**: ~100% tamamlandı ⬆️
+
+### Notlar
+- Tüm Cart Review ve Payment Selection versiyonları artık tam olarak implement edildi
+- Versiyonlar query parameter ile kontrol ediliyor (`?version=1-5`)
+
