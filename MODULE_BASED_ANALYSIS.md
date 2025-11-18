@@ -153,6 +153,9 @@
 - ✅ `/product/[slug]` - `epin-marketplace/src/app/product/[slug]/page.tsx`
 - ✅ `/compare` - `epin-marketplace/src/app/compare/page.tsx`
 - ✅ `/store/[slug]` - `epin-marketplace/src/app/store/[slug]/page.tsx`
+- ✅ `/brands` - `epin-marketplace/src/app/brands/page.tsx`
+- ✅ `/publishers` - `epin-marketplace/src/app/publishers/page.tsx`
+- ✅ `/top-ups` - `epin-marketplace/src/app/top-ups/page.tsx`
 
 ### Design Dosyaları
 - ✅ `product_detail_page/code.html` - **TAM UYGULANMIŞ**
@@ -188,11 +191,51 @@
      - Product tabs detayları
      - Review section detayları
 
+#### ✅ Tam Uygulanan (5)
+1. **Product Detail Page** (`/product/[slug]`)
+   - Design HTML: `product_detail_page/code.html`
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: ProductImageGallery, Breadcrumbs, SellerInfoBlock, ProductTabs, ReviewsSection, RelatedProducts
+   - Backend: ✅ Supabase entegre
+   - Mobile: ✅ Responsive
+   - Link'ler: ✅ Düzeltildi
+
+2. **Product Comparison** (`/compare`)
+   - Design HTML: `product_comparison_page/code.html`
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Comparison table, highlight differences
+   - Backend: ✅ Supabase entegre
+   - Mobile: ✅ Responsive
+
+3. **Brands** (`/brands`)
+   - Design HTML: Yok (products sayfasına benzer)
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Brands grid, brand cards
+   - Backend: ✅ Supabase entegre
+   - Mobile: ✅ Responsive
+   - Not: Sprint 29'da implement edildi
+
+4. **Publishers** (`/publishers`)
+   - Design HTML: Yok (products sayfasına benzer)
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Publishers grid, publisher cards
+   - Backend: ✅ Supabase entegre
+   - Mobile: ✅ Responsive
+   - Not: Sprint 29'da implement edildi
+
+5. **Top-ups** (`/top-ups`)
+   - Design HTML: Yok (products sayfasına benzer)
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Product grid, sort options
+   - Backend: ✅ Supabase entegre
+   - Mobile: ✅ Responsive
+   - Not: Sprint 29'da implement edildi
+
 ### Özet
-- **Tam Uygulanan**: 2 sayfa
+- **Tam Uygulanan**: 5 sayfa
 - **Kısmen Uygulanan**: 1 sayfa
 - **Eksik**: 0 sayfa
-- **Toplam**: 3 sayfa
+- **Toplam**: 6 sayfa
 
 ---
 
@@ -964,15 +1007,16 @@
 - ✅ Sprint 26: Product Listing/Category Page, Search Results, Forgot Password, Onboarding, Storefront, Orders List kontrolü ve import path düzeltmeleri
 - ✅ Sprint 27: Kısmen uygulanan sayfaların durum güncellemesi - Order Confirmation, Orders List, Seller Orders, Wallet Withdrawal, User Profile & Wallet, Transaction History tam uygulanan olarak işaretlendi
 - ✅ Sprint 28: Sign Up ve Reset Password sayfaları implement edildi
+- ✅ Sprint 29: Brands, Publishers ve Top-ups sayfaları implement edildi
 
 ### Devam Eden Sprintler
-- 🔄 Sprint 29+: Kalan eksik sayfaları implement etme
+- 🔄 Sprint 30+: Kalan eksik sayfaları implement etme
 
 ### Toplam İlerleme
-- **Tam Uygulanan**: 41 sayfa (57%) ⬆️
-- **Kısmen Uygulanan**: 2 sayfa (3%) ⬆️
-- **Eksik**: 31 sayfa (43%) ⬇️
-- **Genel İlerleme**: ~80% tamamlandı ⬆️
+- **Tam Uygulanan**: 44 sayfa (61%) ⬆️
+- **Kısmen Uygulanan**: 2 sayfa (3%)
+- **Eksik**: 28 sayfa (39%) ⬇️
+- **Genel İlerleme**: ~82% tamamlandı ⬆️
 
 ---
 
@@ -986,7 +1030,7 @@
 
 ---
 
-*Son Güncelleme: Sprint 28 Sonrası*
+*Son Güncelleme: Sprint 29 Sonrası*
 
 ## 📝 Sprint 21 Detayları
 
@@ -1237,4 +1281,45 @@
 - **Kısmen Uygulanan**: 2 sayfa (3%) ⬆️
 - **Eksik**: 31 sayfa (43%) ⬇️
 - **Genel İlerleme**: ~80% tamamlandı ⬆️
+
+## 📝 Sprint 29 Detayları
+
+### Tamamlanan İşler
+1. ✅ **Brands** (`/brands`)
+   - Yeni sayfa oluşturuldu
+   - Brands grid layout, brand cards
+   - Product count gösterimi
+   - Backend: ✅ Supabase entegre (categories tablosundan)
+   - Mobile: ✅ Responsive
+
+2. ✅ **Publishers** (`/publishers`)
+   - Yeni sayfa oluşturuldu
+   - Publishers grid layout, publisher cards
+   - Product count gösterimi
+   - Backend: ✅ Supabase entegre (profiles tablosundan)
+   - Mobile: ✅ Responsive
+
+3. ✅ **Top-ups** (`/top-ups`)
+   - Yeni sayfa oluşturuldu
+   - Product grid, sort options (popularity, newest, price)
+   - Backend: ✅ Supabase entegre
+   - Mobile: ✅ Responsive
+
+### Backend & Database Kontrolleri
+- ✅ Brands: Categories tablosundan fetch ediliyor
+- ✅ Publishers: Profiles tablosundan fetch ediliyor
+- ✅ Top-ups: Products tablosundan top-up kategorisi filtreleniyor
+- ✅ Product counts doğru hesaplanıyor
+- ✅ RLS policies tanımlı
+
+### Değişiklikler
+- `epin-marketplace/src/app/brands/page.tsx`: Yeni dosya oluşturuldu
+- `epin-marketplace/src/app/publishers/page.tsx`: Yeni dosya oluşturuldu
+- `epin-marketplace/src/app/top-ups/page.tsx`: Yeni dosya oluşturuldu
+
+### İlerleme
+- **Tam Uygulanan**: 44 sayfa (61%) ⬆️
+- **Kısmen Uygulanan**: 2 sayfa (3%)
+- **Eksik**: 28 sayfa (39%) ⬇️
+- **Genel İlerleme**: ~82% tamamlandı ⬆️
 
