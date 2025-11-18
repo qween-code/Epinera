@@ -9,7 +9,7 @@ export async function getWallet() {
   }
 
   const { data: transactions, error } = await supabase
-    .from('transactions')
+    .from('wallet_transactions')
     .select('*')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
@@ -32,14 +32,48 @@ export async function createDeposit(amount: number) {
     return null
   }
 
+  // Get or create wallet first
+  const { data: wallet, error: walletError } = await supabase
+    .from('wallets')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('currency', 'USD')
+    .single()
+
+  if (walletError && walletError.code !== 'PGRST116') {
+    console.error('Error fetching wallet:', walletError)
+    return null
+  }
+
+  let walletId = wallet?.id
+  if (!walletId) {
+    const { data: newWallet, error: createError } = await supabase
+      .from('wallets')
+      .insert({
+        user_id: user.id,
+        currency: 'USD',
+        balance: 0,
+      })
+      .select('id')
+      .single()
+
+    if (createError) {
+      console.error('Error creating wallet:', createError)
+      return null
+    }
+    walletId = newWallet.id
+  }
+
   const { data, error } = await supabase
-    .from('transactions')
+    .from('wallet_transactions')
     .insert({
+      wallet_id: walletId,
       user_id: user.id,
+      transaction_type: 'deposit',
       amount,
-      type: 'deposit',
-      status: 'completed', // In a real app, this would be 'pending' until confirmed
-      details: {
+      currency: 'USD',
+      status: 'pending', // In a real app, this would be 'pending' until confirmed
+      metadata: {
         method: 'Credit Card',
       },
     })

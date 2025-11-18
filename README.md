@@ -150,23 +150,6 @@ npm run dev
 
 Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açın.
 
-## 🎨 Serena AI Coding Assistant
-
-Bu proje, Serena AI coding assistant ile entegre çalışacak şekilde yapılandırılmıştır. Serena, kod tabanınızı semantik olarak anlayan ve sembol düzeyinde düzenlemeler yapabilen güçlü bir araçtır.
-
-### Serena Kurulumu
-
-Detaylı kurulum talimatları için [SERENA_SETUP.md](/home/user/Epinera/SERENA_SETUP.md) dosyasına bakın.
-
-Hızlı başlangıç:
-
-```bash
-# UV paket yöneticisini kurun
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Serena MCP sunucusunu başlatın
-uvx --from git+https://github.com/oraios/serena serena start-mcp-server --workspace /home/user/Epinera/epin-marketplace
-```
 
 ## 📊 Veritabanı Şeması
 
@@ -235,5 +218,3 @@ Bu proje MIT lisansı altında lisanslanmıştır.
 Sorularınız için issue açabilirsiniz.
 
 ---
-
-**Not:** Bu proje, Serena AI coding assistant kullanılarak geliştirilmiştir. Geliştirme sürecinde semantic code analysis ve symbol-level editing özellikleri kullanılmıştır.

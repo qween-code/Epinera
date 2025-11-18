@@ -21,6 +21,7 @@ npm run dev
 ## 📚 Dökümanlar
 
 - **[MASTER_GUIDE.md](./MASTER_GUIDE.md)** - Tüm önemli bilgiler (kurulum, Stripe, test, deployment)
+- **[DATABASE_SCHEMA.md](./DATABASE_SCHEMA.md)** - Declarative schema yönetimi ve veritabanı yapısı
 - **[COMPREHENSIVE_TEST_SCENARIOS.md](./COMPREHENSIVE_TEST_SCENARIOS.md)** - Kapsamlı test senaryoları
 - **[MODULE_BASED_ANALYSIS.md](../MODULE_BASED_ANALYSIS.md)** - Sayfa implementasyon analizi
 - **[PRODUCTION_DEPLOYMENT_GUIDE.md](../PRODUCTION_DEPLOYMENT_GUIDE.md)** - Production deployment rehberi
@@ -39,9 +40,20 @@ npm run dev
 epin-marketplace/
 ├── src/app/              # Next.js sayfaları
 ├── src/components/       # React component'leri
-├── supabase/migrations/  # Veritabanı migration'ları
+├── supabase/
+│   ├── schemas/          # Declarative schema dosyaları
+│   ├── migrations/       # Otomatik oluşturulan migration'lar
+│   └── seeds/            # Seed data dosyaları
 └── scripts/             # Utility script'leri
 ```
+
+## 🗄️ Veritabanı Yönetimi
+
+Bu proje **Supabase Declarative Schema Management** kullanıyor:
+
+- Tüm şema tanımları `supabase/schemas/` dizininde
+- Migration'lar otomatik oluşturulur: `supabase db diff -f <name>`
+- Detaylı bilgi: [DATABASE_SCHEMA.md](./DATABASE_SCHEMA.md)
 
 ## ✅ Özellikler
 

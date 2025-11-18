@@ -8,21 +8,31 @@ export async function getCart() {
     return null
   }
 
-  const { data: cart, error } = await supabase
-    .from('carts')
-    .select('*, cart_items(*)')
+  const { data: cartItems, error } = await supabase
+    .from('cart_items')
+    .select(`
+      *,
+      product_variants (
+        *,
+        products (*)
+      )
+    `)
     .eq('user_id', user.id)
-    .single()
+    .order('created_at', { ascending: false })
 
   if (error) {
     console.error('Error fetching cart:', error)
     return null
   }
 
-  return cart
+  return {
+    id: user.id,
+    user_id: user.id,
+    cart_items: cartItems || [],
+  }
 }
 
-export async function addToCart(productId: string, quantity: number) {
+export async function addToCart(variantId: string, quantity: number) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -30,36 +40,38 @@ export async function addToCart(productId: string, quantity: number) {
     return null
   }
 
-  let { data: cart } = await supabase
-    .from('carts')
-    .select('id')
+  // Check if item already exists
+  const { data: existingItem } = await supabase
+    .from('cart_items')
+    .select('id, quantity')
     .eq('user_id', user.id)
+    .eq('variant_id', variantId)
     .single()
 
-  if (!cart) {
-    const { data: newCart, error } = await supabase
-      .from('carts')
-      .insert({ user_id: user.id })
-      .select('id')
-      .single()
+  if (existingItem) {
+    const { data, error } = await supabase
+      .from('cart_items')
+      .update({ quantity: existingItem.quantity + quantity })
+      .eq('id', existingItem.id)
+      .select()
 
     if (error) {
-      console.error('Error creating cart:', error)
+      console.error('Error updating cart:', error)
       return null
     }
-    cart = newCart
+    return data
+  } else {
+    const { data, error } = await supabase
+      .from('cart_items')
+      .insert({ user_id: user.id, variant_id: variantId, quantity })
+      .select()
+
+    if (error) {
+      console.error('Error adding to cart:', error)
+      return null
+    }
+    return data
   }
-
-  const { data, error } = await supabase
-    .from('cart_items')
-    .insert({ cart_id: cart.id, product_id: productId, quantity })
-
-  if (error) {
-    console.error('Error adding to cart:', error)
-    return null
-  }
-
-  return data
 }
 
 export async function checkout() {
@@ -70,13 +82,12 @@ export async function checkout() {
     return null
   }
 
-  const { data: cart, error: cartError } = await supabase
-    .from('carts')
-    .select('*, cart_items(*)')
+  const { data: cartItems, error: cartError } = await supabase
+    .from('cart_items')
+    .select('*')
     .eq('user_id', user.id)
-    .single()
 
-  if (cartError || !cart || !cart.cart_items) {
+  if (cartError || !cartItems || cartItems.length === 0) {
     console.error('Error fetching cart for checkout:', cartError)
     return null
   }
@@ -86,7 +97,7 @@ export async function checkout() {
   const { error: deleteError } = await supabase
     .from('cart_items')
     .delete()
-    .eq('cart_id', cart.id)
+    .eq('user_id', user.id)
 
   if (deleteError) {
     console.error('Error clearing cart:', deleteError)

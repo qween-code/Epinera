@@ -11,36 +11,40 @@ export async function getCart() {
     return null;
   }
 
-  const { data: cart, error } = await supabase
-    .from('carts')
+  const { data: cartItems, error } = await supabase
+    .from('cart_items')
     .select(`
       id,
-      user_id,
-      created_at,
-      cart_items (
+      quantity,
+      variant_id,
+      product_variants (
         id,
-        quantity,
-        product_variants (
+        name,
+        price,
+        currency,
+        products (
           id,
-          name,
-          price,
-          currency,
-          products (
-            title,
-            description
-          )
+          title,
+          description,
+          slug,
+          image_url
         )
       )
     `)
     .eq('user_id', user.id)
-    .single();
+    .order('created_at', { ascending: false });
 
   if (error) {
     console.error('Error fetching cart:', error);
     return null;
   }
 
-  return cart;
+  return {
+    id: user.id, // Use user_id as cart identifier
+    user_id: user.id,
+    created_at: cartItems?.[0]?.created_at || new Date().toISOString(),
+    cart_items: cartItems || [],
+  };
 }
 
 export async function addToCart(variantId: string, quantity: number) {
@@ -52,57 +56,35 @@ export async function addToCart(variantId: string, quantity: number) {
   }
 
   try {
-    // Get or create a cart for the user
-    let { data: cart, error: cartError } = await supabase
-      .from('carts')
-      .select('id')
-      .eq('user_id', user.id)
-      .single();
-
-    if (cartError && cartError.code !== 'PGRST116') { // PGRST116: row not found
-      throw cartError;
-    }
-
-    if (!cart) {
-      const { data: newCart, error: newCartError } = await supabase
-        .from('carts')
-        .insert({ user_id: user.id })
-        .select('id')
-        .single();
-      if (newCartError) throw newCartError;
-      cart = newCart;
-    }
-
-    if (!cart) {
-        throw new Error("Could not retrieve or create a cart.");
-    }
-
-
     // Check if the item is already in the cart
     const { data: existingItem, error: existingItemError } = await supabase
-        .from('cart_items')
-        .select('id, quantity')
-        .eq('cart_id', cart.id)
-        .eq('product_variant_id', variantId)
-        .single();
+      .from('cart_items')
+      .select('id, quantity')
+      .eq('user_id', user.id)
+      .eq('variant_id', variantId)
+      .single();
 
     if (existingItemError && existingItemError.code !== 'PGRST116') {
-        throw existingItemError;
+      throw existingItemError;
     }
 
     if (existingItem) {
-        // Update quantity if item exists
-        const { error: updateError } = await supabase
-            .from('cart_items')
-            .update({ quantity: existingItem.quantity + quantity })
-            .eq('id', existingItem.id);
-        if (updateError) throw updateError;
+      // Update quantity if item exists
+      const { error: updateError } = await supabase
+        .from('cart_items')
+        .update({ quantity: existingItem.quantity + quantity })
+        .eq('id', existingItem.id);
+      if (updateError) throw updateError;
     } else {
-        // Insert new item if it doesn't exist
-        const { error: insertError } = await supabase
-            .from('cart_items')
-            .insert({ cart_id: cart.id, product_variant_id: variantId, quantity });
-        if (insertError) throw insertError;
+      // Insert new item if it doesn't exist
+      const { error: insertError } = await supabase
+        .from('cart_items')
+        .insert({ 
+          user_id: user.id, 
+          variant_id: variantId, 
+          quantity 
+        });
+      if (insertError) throw insertError;
     }
 
     revalidatePath('/cart');
@@ -111,8 +93,6 @@ export async function addToCart(variantId: string, quantity: number) {
     console.error('Error adding to cart:', error);
     return { success: false, error: error.message };
   }
-
-  revalidatePath('/cart');
 }
 
 export async function removeFromCart(itemId: string) {
@@ -151,40 +131,47 @@ export async function checkout() {
     return;
   }
 
-  const { data: cart, error: cartError } = await supabase
-    .from('carts')
+  const { data: cartItems, error: cartError } = await supabase
+    .from('cart_items')
     .select(`
       id,
-      user_id,
-      created_at,
-      cart_items (
+      quantity,
+      variant_id,
+      product_variants (
         id,
-        quantity,
-        product_variants (
+        name,
+        price,
+        currency,
+        products (
           id,
-          name,
-          price,
-          currency,
-          products (
-            title,
-            description
-          )
+          title,
+          description,
+          seller_id
         )
       )
     `)
-    .eq('user_id', user.id)
-    .single();
+    .eq('user_id', user.id);
 
-  if (cartError || !cart || !cart.cart_items) {
+  if (cartError || !cartItems || cartItems.length === 0) {
     console.error('Error fetching cart for checkout:', cartError);
     return;
   }
 
-  const total = cart.cart_items.reduce((acc: number, item: any) => acc + (item.product_variants.price * item.quantity), 0);
+  const currency = cartItems[0].product_variants.currency;
+  const total = cartItems.reduce((acc: number, item: any) => {
+    const price = parseFloat(item.product_variants.price.toString());
+    return acc + (price * item.quantity);
+  }, 0);
 
   const { data: order, error: orderError } = await supabase
     .from('orders')
-    .insert({ user_id: user.id, total_amount: total, currency: cart.cart_items[0].product_variants.currency, status: 'pending' })
+    .insert({ 
+      buyer_id: user.id, 
+      total_amount: total, 
+      currency, 
+      status: 'pending',
+      payment_status: 'pending'
+    })
     .select('id')
     .single();
 
@@ -193,11 +180,14 @@ export async function checkout() {
     return;
   }
 
-  const orderItems = cart.cart_items.map((item: any) => ({
+  const orderItems = cartItems.map((item: any) => ({
     order_id: order.id,
-    product_variant_id: item.product_variants.id,
+    variant_id: item.variant_id,
+    product_id: item.product_variants.products.id,
+    seller_id: item.product_variants.products.seller_id,
     quantity: item.quantity,
-    price: item.product_variants.price,
+    unit_price: parseFloat(item.product_variants.price.toString()),
+    total_price: parseFloat(item.product_variants.price.toString()) * item.quantity,
   }));
 
   const { error: orderItemsError } = await supabase
@@ -212,7 +202,7 @@ export async function checkout() {
   const { error: deleteError } = await supabase
     .from('cart_items')
     .delete()
-    .eq('cart_id', cart.id);
+    .eq('user_id', user.id);
 
   if (deleteError) {
     console.error('Error clearing cart:', deleteError);

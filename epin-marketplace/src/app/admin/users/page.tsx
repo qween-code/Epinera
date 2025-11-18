@@ -38,28 +38,28 @@ export default function AdminUsersPage() {
         setUser(currentUser);
 
         const { data: profileData } = await supabase
-          .from('profiles')
+    .from('profiles')
           .select('role, full_name, avatar_url')
           .eq('id', currentUser.id)
-          .single();
+    .single();
 
         if (!profileData || profileData.role !== 'admin') {
           router.push('/');
           return;
-        }
+  }
 
         setProfile(profileData);
 
-        // Fetch all users
+  // Fetch all users
         const { data: usersData } = await supabase
-          .from('profiles')
-          .select('*')
+    .from('profiles')
+    .select('*')
           .order('created_at', { ascending: false });
 
         setUsers(usersData || []);
         setFilteredUsers(usersData || []);
       } catch (error) {
-        console.error('Error fetching users:', error);
+    console.error('Error fetching users:', error);
       } finally {
         setLoading(false);
       }
@@ -519,76 +519,76 @@ export default function AdminUsersPage() {
     <AdminLayout>
       <main className="flex-1 overflow-y-auto">
         <div className="p-8">
-          <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-black dark:text-white">User Management</h1>
-            <Link
-              href="/admin"
+          <Link
+            href="/admin"
               className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white"
-            >
+          >
               Back to Dashboard
-            </Link>
-          </div>
+          </Link>
+        </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-gray-800 rounded-lg p-6">
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gray-800 rounded-lg p-6">
               <div className="text-gray-400 text-sm mb-2">Buyers</div>
-              <div className="text-3xl font-bold text-blue-400">{buyers.length}</div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-6">
+            <div className="text-3xl font-bold text-blue-400">{buyers.length}</div>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-6">
               <div className="text-gray-400 text-sm mb-2">Sellers</div>
-              <div className="text-3xl font-bold text-green-400">{sellers.length}</div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-6">
+            <div className="text-3xl font-bold text-green-400">{sellers.length}</div>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-6">
               <div className="text-gray-400 text-sm mb-2">Creators</div>
               <div className="text-3xl font-bold text-purple-400">
                 {users.filter((u) => u.role === 'creator').length}
               </div>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-6">
+          </div>
+          <div className="bg-gray-800 rounded-lg p-6">
               <div className="text-gray-400 text-sm mb-2">Admins</div>
               <div className="text-3xl font-bold text-red-400">
                 {users.filter((u) => u.role === 'admin').length}
               </div>
-            </div>
           </div>
+        </div>
 
-          {/* User List */}
-          <div className="bg-gray-800 rounded-lg overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-900">
-                  <tr>
+        {/* User List */}
+        <div className="bg-gray-800 rounded-lg overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-900">
+                <tr>
                     <th className="px-6 py-4 text-left text-sm font-semibold">User</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold">Role</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold">KYC Status</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold">Registration Date</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-700">
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-700">
                   {filteredUsers.map((user: any) => (
-                    <tr key={user.id} className="hover:bg-gray-750">
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          {user.avatar_url ? (
-                            <img
-                              src={user.avatar_url}
-                              alt={user.full_name || 'User'}
-                              className="w-10 h-10 rounded-full"
-                            />
-                          ) : (
-                            <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
-                              {(user.full_name || 'U').charAt(0).toUpperCase()}
-                            </div>
-                          )}
-                          <div>
-                            <div className="font-semibold">{user.full_name || 'Unknown User'}</div>
-                            <div className="text-sm text-gray-400">{user.id.slice(0, 8)}...</div>
+                  <tr key={user.id} className="hover:bg-gray-750">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        {user.avatar_url ? (
+                          <img
+                            src={user.avatar_url}
+                            alt={user.full_name || 'User'}
+                            className="w-10 h-10 rounded-full"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
+                            {(user.full_name || 'U').charAt(0).toUpperCase()}
                           </div>
+                        )}
+                        <div>
+                            <div className="font-semibold">{user.full_name || 'Unknown User'}</div>
+                          <div className="text-sm text-gray-400">{user.id.slice(0, 8)}...</div>
                         </div>
-                      </td>
-                      <td className="px-6 py-4">
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
                         <span
                           className={`px-3 py-1 rounded-full text-sm font-semibold ${
                             user.role === 'admin'
@@ -600,13 +600,13 @@ export default function AdminUsersPage() {
                                   : 'bg-blue-900 text-blue-300'
                           }`}
                         >
-                          {user.role === 'admin' && 'Admin'}
+                        {user.role === 'admin' && 'Admin'}
                           {user.role === 'seller' && 'Seller'}
                           {user.role === 'creator' && 'Creator'}
                           {user.role === 'buyer' && 'Buyer'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
                         <span
                           className={`px-3 py-1 rounded-full text-sm ${
                             user.kyc_status === 'verified'
@@ -619,23 +619,23 @@ export default function AdminUsersPage() {
                           {user.kyc_status === 'verified' && '✓ Verified'}
                           {user.kyc_status === 'rejected' && '✗ Rejected'}
                           {user.kyc_status === 'pending' && '⏳ Pending'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-400">
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-400">
                         {new Date(user.created_at).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-4">
-                        <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm transition-colors">
+                    </td>
+                    <td className="px-6 py-4">
+                      <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm transition-colors">
                           Details
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>
       </main>
     </AdminLayout>
   );

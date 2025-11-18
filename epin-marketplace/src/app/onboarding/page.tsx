@@ -44,16 +44,11 @@ export default function OnboardingPage() {
 
       {/* Main Container/Card */}
       <div className="relative z-10 flex w-full max-w-md flex-col items-center rounded-xl bg-white/50 p-6 shadow-2xl backdrop-blur-lg dark:bg-[#1A1C20]/50 sm:p-8">
-        {/* Logo */}
+        {/* Large Blue Circular Icon with Exclamation */}
         <div className="mb-6 flex items-center justify-center">
-          <svg
-            className="h-10 w-10 text-primary"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"></path>
-          </svg>
+          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary">
+            <span className="material-symbols-outlined text-5xl text-white">info</span>
+          </div>
         </div>
 
         {/* HeadlineText */}

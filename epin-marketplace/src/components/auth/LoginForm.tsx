@@ -39,20 +39,13 @@ export default function LoginForm() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
   };
 
-  const handleDiscordLogin = async () => {
-    setIsLoading(true);
-    const supabase = createClient();
-    await supabase.auth.signInWithOAuth({
-      provider: 'discord',
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    });
+  const handlePhoneLogin = () => {
+    router.push('/login?method=phone');
   };
 
   return (
@@ -65,12 +58,12 @@ export default function LoginForm() {
         </div>
         <div className="flex flex-col gap-3">
           <p className="font-display text-4xl font-black leading-tight tracking-tight text-gray-900 dark:text-white">Welcome Back</p>
-          <p className="font-display text-base font-normal leading-normal text-gray-500 dark:text-gray-400">Log In to Your Account</p>
+          <p className="font-display text-base font-normal leading-normal text-gray-500 dark:text-gray-400">Sign in to your account</p>
         </div>
       </div>
       {/* Form */}
       <form className="flex w-full flex-col gap-4" onSubmit={handleLogin}>
-        {/* Email/Phone Input */}
+        {/* Email or Phone Input */}
         <label className="flex flex-col flex-1">
           <p className="font-display text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200">Email or Phone Number</p>
           <div className="flex w-full flex-1 items-stretch rounded-lg">
@@ -80,39 +73,46 @@ export default function LoginForm() {
             <input
               className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 rounded-l-none border-l-0 text-base font-normal leading-normal"
               placeholder="Enter your email or phone"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
         </label>
         {/* Password Input */}
-        <div className="flex flex-col gap-2">
-          <label className="flex flex-col flex-1">
-            <p className="font-display text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200">Password</p>
-            <div className="flex w-full flex-1 items-stretch rounded-lg">
-              <div className="flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pl-4 rounded-l-lg border-r-0 text-gray-400 dark:text-gray-500">
-                <span className="material-symbols-outlined">lock</span>
-              </div>
-              <input
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 rounded-l-none rounded-r-none border-x-0 text-base font-normal leading-normal"
-                placeholder="Enter your password"
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <button
-                type="button"
-                className="flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pr-4 rounded-r-lg border-l-0 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                <span className="material-symbols-outlined">{showPassword ? 'visibility_off' : 'visibility'}</span>
-              </button>
+        <label className="flex flex-col flex-1">
+          <p className="font-display text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200">Password</p>
+          <div className="flex w-full flex-1 items-stretch rounded-lg">
+            <div className="flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pl-4 rounded-l-lg border-r-0 text-gray-400 dark:text-gray-500">
+              <span className="material-symbols-outlined">lock</span>
             </div>
-          </label>
-          <Link className="font-display text-sm font-normal leading-normal text-right text-primary hover:underline" href="/forgot-password">
-            Forgot Password?
+            <input
+              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-14 placeholder:text-gray-400 dark:placeholder:text-gray-500 p-4 rounded-l-none rounded-r-none border-x-0 text-base font-normal leading-normal"
+              placeholder="Enter your password"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={isLoading}
+            />
+            <button
+              type="button"
+              className="flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 items-center justify-center pr-4 rounded-r-lg border-l-0 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <span className="material-symbols-outlined">{showPassword ? 'visibility_off' : 'visibility'}</span>
+            </button>
+          </div>
+        </label>
+        {/* Forgot Password Link */}
+        <div className="flex items-center justify-end">
+          <Link 
+            href="/forgot-password" 
+            className="font-display text-sm font-medium text-primary hover:underline"
+          >
+            Forgot password?
           </Link>
         </div>
         {/* Login Button */}
@@ -121,7 +121,7 @@ export default function LoginForm() {
           disabled={isLoading}
           className="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-bold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark disabled:opacity-50"
         >
-          Login
+          {isLoading ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
       {/* Social Logins */}
@@ -146,13 +146,11 @@ export default function LoginForm() {
             </svg>
           </button>
           <button
-            onClick={handleDiscordLogin}
+            onClick={handlePhoneLogin}
             disabled={isLoading}
             className="flex h-12 w-full items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 text-gray-800 dark:text-gray-200 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
           >
-            <svg className="h-6 w-6 text-[#5865F2]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.885-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4464.8254-.6184 1.2525a17.2963 17.2963 0 00-5.4856 0c-.172-.4271-.4074-.8772-.6184-1.2525a.0741.0741 0 00-.0785-.0371 19.7913 19.7913 0 00-4.885 1.5152.069.069 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0321.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8781-1.2982 1.229-2.0112a.0741.0741 0 00-.041-.1064 13.0784 13.0784 0 01-1.8724-.8911.0741.0741 0 01-.0076-.1277c.0381-.0561.102-.1121.1735-.1682a.0741.0741 0 01.0709-.0112c3.4389 1.4113 7.4654 1.4113 10.8928 0a.0741.0741 0 01.071.0112c.0715.0561.1354.1121.1735.1682a.0741.0741 0 01-.0076.1277 13.0861 13.0861 0 01-1.8724.8911.0741.0741 0 00-.041.1064c.3508.713.7674 1.3808 1.229 2.0112a.0777.0777 0 00.0842.0276c1.9516-.6067 3.9401-1.5218 5.9929-3.0294a.0824.0824 0 00.0321-.0561c.5004-5.284-.833-9.68-.833-9.68a.069.069 0 00-.0321-.0277zM8.0203 15.6269c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9744-2.419 2.1569-2.419s2.1569 1.0857 2.1569 2.419c.0001 1.3333-.9744 2.419-2.1569 2.419zm7.9592 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9744-2.419 2.1569-2.419s2.1569 1.0857 2.1569 2.419c0 1.3333-.9743 2.419-2.1569 2.419z"></path>
-            </svg>
+            <span className="material-symbols-outlined text-xl">phone_iphone</span>
           </button>
           <button
             disabled={isLoading}
@@ -169,8 +167,24 @@ export default function LoginForm() {
           Sign Up
         </Link>
       </p>
+      {/* Legal/Policy Links */}
+      <div className="mt-4 w-full border-t border-slate-200/60 pt-4 dark:border-slate-700/60">
+        <p className="text-center font-display text-xs text-slate-500 dark:text-slate-400">
+          By continuing, you agree to our{' '}
+          <Link className="font-medium text-slate-600 underline hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="/terms">
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link className="font-medium text-slate-600 underline hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="/privacy">
+            Privacy Policy
+          </Link>
+          .
+        </p>
+      </div>
       {message && (
-        <div className="text-center text-sm text-red-500 bg-red-500/10 p-3 rounded-lg">{message}</div>
+        <div className={`p-4 rounded-lg text-sm ${message.includes('Error') ? 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'}`}>
+          {message}
+        </div>
       )}
     </div>
   );

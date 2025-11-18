@@ -6,6 +6,17 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+import * as fs from 'fs';
+
+// Load .env.local file
+const envPath = path.join(process.cwd(), '.env.local');
+if (fs.existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+} else {
+  dotenv.config();
+}
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -13,6 +24,7 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error('Missing Supabase environment variables');
   console.error('Required: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY');
+  console.error('Make sure .env.local file exists and contains these variables');
   process.exit(1);
 }
 
@@ -79,21 +91,25 @@ async function createTestUsers() {
 
   for (const user of testUsers) {
     try {
-      // Check if user exists
-      const { data: existingUser } = await supabase.auth.admin.getUserByEmail(user.email);
+      // Check if user exists by querying profiles table
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select('id, email')
+        .eq('email', user.email)
+        .single();
 
-      if (existingUser?.user) {
+      if (existingProfile) {
         console.log(`User already exists: ${user.email}`);
         
-        // Update profile
+        // Update profile (without metadata if column doesn't exist)
+        const updateData: any = {
+          role: user.role,
+          full_name: user.fullName,
+        };
         const { error: updateError } = await supabase
           .from('profiles')
-          .update({
-            role: user.role,
-            full_name: user.fullName,
-            metadata: user.metadata || {},
-          })
-          .eq('id', existingUser.user.id);
+          .update(updateData)
+          .eq('id', existingProfile.id);
 
         if (updateError) {
           console.error(`Error updating profile for ${user.email}:`, updateError);
@@ -104,7 +120,7 @@ async function createTestUsers() {
         continue;
       }
 
-      // Create new user
+      // Create new user using admin API
       const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
         email: user.email,
         password: user.password,
@@ -117,20 +133,52 @@ async function createTestUsers() {
       });
 
       if (createError) {
-        console.error(`Error creating user ${user.email}:`, createError);
-        results.errors++;
+        // If user already exists, try to get user and update profile
+        if (createError.message?.includes('already been registered') || createError.code === 'email_exists') {
+          console.log(`User already exists in auth: ${user.email}, updating profile...`);
+          
+          // Get user by email from auth
+          const { data: existingAuthUser } = await supabase.auth.admin.listUsers();
+          const foundUser = existingAuthUser?.users?.find(u => u.email === user.email);
+          
+          if (foundUser) {
+            // Update profile
+            const profileData: any = {
+              role: user.role,
+              full_name: user.fullName,
+            };
+            const { error: profileError } = await supabase
+              .from('profiles')
+              .update(profileData)
+              .eq('id', foundUser.id);
+
+            if (profileError) {
+              console.error(`Error updating profile for ${user.email}:`, profileError);
+              results.errors++;
+            } else {
+              console.log(`✅ Updated: ${user.email} (${user.role})`);
+              results.updated++;
+            }
+          } else {
+            console.error(`Could not find user ${user.email} in auth system`);
+            results.errors++;
+          }
+        } else {
+          console.error(`Error creating user ${user.email}:`, createError);
+          results.errors++;
+        }
         continue;
       }
 
       if (newUser.user) {
-        // Update profile
+        // Update profile (without metadata if column doesn't exist)
+        const profileData: any = {
+          role: user.role,
+          full_name: user.fullName,
+        };
         const { error: profileError } = await supabase
           .from('profiles')
-          .update({
-            role: user.role,
-            full_name: user.fullName,
-            metadata: user.metadata || {},
-          })
+          .update(profileData)
           .eq('id', newUser.user.id);
 
         if (profileError) {

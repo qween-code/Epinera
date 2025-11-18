@@ -232,16 +232,16 @@ export default function StoreSettingsPage() {
               onClick={handleSave}
               className="flex w-full sm:w-auto min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-md hover:bg-primary/90 transition-colors"
             >
-              <span className="truncate">Save All Changes</span>
-            </button>
-          </div>
+          <span className="truncate">Save All Changes</span>
+        </button>
+      </div>
           <div className="space-y-6 sm:space-y-8 max-w-4xl mx-auto">
-            {/* Store Profile Section */}
-            <div className="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
+      {/* Store Profile Section */}
+      <div className="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
               <h2 className="text-black dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] px-6 py-4 border-b border-slate-200 dark:border-slate-800">
                 Store Profile
               </h2>
-              <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6">
                 <div className="flex flex-col @container gap-4 md:flex-row md:items-center md:justify-between">
                   <div className="flex gap-4 items-center">
                     <div
@@ -271,7 +271,7 @@ export default function StoreSettingsPage() {
                     </button>
                   </div>
                 </div>
-                <div>
+            <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" htmlFor="store-name">
                     Store Name
                   </label>
@@ -282,8 +282,8 @@ export default function StoreSettingsPage() {
                     value={storeData.name}
                     onChange={(e) => setStoreData({ ...storeData, name: e.target.value })}
                   />
-                </div>
-                <div>
+            </div>
+            <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" htmlFor="store-description">
                     Store Description
                   </label>
@@ -332,22 +332,22 @@ export default function StoreSettingsPage() {
                   <button className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-slate-200 dark:bg-slate-800 text-black dark:text-white text-sm font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
                     <span className="truncate">Connect Wallet</span>
                   </button>
-                </div>
-              </div>
             </div>
+        </div>
+      </div>
 
-            {/* Notifications Section */}
-            <div className="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
+      {/* Notifications Section */}
+      <div className="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800">
               <h2 className="text-black dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] px-6 py-4 border-b border-slate-200 dark:border-slate-800">
                 Notifications
               </h2>
-              <div className="p-6 divide-y divide-slate-200 dark:divide-slate-800">
-                <div className="flex items-center justify-between py-4">
-                  <div>
+        <div className="p-6 divide-y divide-slate-200 dark:divide-slate-800">
+            <div className="flex items-center justify-between py-4">
+                <div>
                     <p className="text-black dark:text-white font-medium">New Sales</p>
                     <p className="text-slate-500 dark:text-slate-400 text-sm">Get notified when you make a new sale.</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
                       className="sr-only peer"
@@ -385,9 +385,9 @@ export default function StoreSettingsPage() {
                       onChange={(e) => setNotifications({ ...notifications, productReviews: e.target.checked })}
                     />
                     <div className="w-11 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-primary/50 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
-                  </label>
-                </div>
-              </div>
+                </label>
+            </div>
+        </div>
             </div>
           </div>
         </main>

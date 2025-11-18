@@ -58,7 +58,8 @@ export async function getTransactions(
     }
 
     if (filters?.search) {
-      query = query.or(`description.ilike.%${filters.search}%,id.ilike.%${filters.search}%`);
+      // Search in transaction ID and metadata description
+      query = query.or(`id.ilike.%${filters.search}%,metadata->>description.ilike.%${filters.search}%`);
     }
 
     // Pagination
@@ -138,7 +139,8 @@ export async function exportTransactionsToCSV(filters?: {
     }
 
     if (filters?.search) {
-      query = query.or(`description.ilike.%${filters.search}%,id.ilike.%${filters.search}%`);
+      // Search in transaction ID and metadata description
+      query = query.or(`id.ilike.%${filters.search}%,metadata->>description.ilike.%${filters.search}%`);
     }
 
     const { data: transactions, error } = await query;
@@ -153,7 +155,7 @@ export async function exportTransactionsToCSV(filters?: {
       tx.amount.toString(),
       tx.currency,
       tx.status,
-      tx.description || '',
+      (tx.metadata as any)?.description || '',
     ]);
 
     const csvContent = [

@@ -72,12 +72,11 @@ export async function applyDiscountCode(code: string) {
   }
 
   try {
-    // TODO: Implement discount code validation from campaigns table
-    // For now, return mock response
     const { data, error } = await supabase
       .from('campaigns')
-      .select('id, discount_percentage, discount_amount, currency, valid_from, valid_until')
+      .select('id, discount_percentage, discount_amount, currency, valid_from, valid_until, campaign_type')
       .eq('code', code.toUpperCase())
+      .eq('campaign_type', 'discount')
       .eq('status', 'active')
       .single();
 
@@ -86,11 +85,18 @@ export async function applyDiscountCode(code: string) {
     }
 
     const now = new Date();
-    const validFrom = new Date(data.valid_from);
-    const validUntil = data.valid_until ? new Date(data.valid_until) : null;
-
-    if (now < validFrom || (validUntil && now > validUntil)) {
-      return { success: false, error: 'Discount code has expired' };
+    if (data.valid_from) {
+      const validFrom = new Date(data.valid_from);
+      if (now < validFrom) {
+        return { success: false, error: 'Discount code is not yet valid' };
+      }
+    }
+    
+    if (data.valid_until) {
+      const validUntil = new Date(data.valid_until);
+      if (now > validUntil) {
+        return { success: false, error: 'Discount code has expired' };
+      }
     }
 
     return {
@@ -99,7 +105,7 @@ export async function applyDiscountCode(code: string) {
         id: data.id,
         percentage: data.discount_percentage,
         amount: data.discount_amount,
-        currency: data.currency,
+        currency: data.currency || 'USD',
       },
     };
   } catch (error: any) {

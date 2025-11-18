@@ -60,16 +60,30 @@ export async function processCheckout(discountCode?: string) {
     if (discountCode) {
       const { data: campaign } = await supabase
         .from('campaigns')
-        .select('discount_percentage, discount_amount')
+        .select('discount_percentage, discount_amount, currency, valid_from, valid_until')
         .eq('code', discountCode.toUpperCase())
+        .eq('campaign_type', 'discount')
         .eq('status', 'active')
         .single();
 
       if (campaign) {
-        if (campaign.discount_percentage) {
-          discount = subtotal * (campaign.discount_percentage / 100);
-        } else if (campaign.discount_amount) {
-          discount = parseFloat(campaign.discount_amount.toString());
+        // Check validity dates
+        const now = new Date();
+        if (campaign.valid_from && new Date(campaign.valid_from) > now) {
+          // Discount not yet valid
+        } else if (campaign.valid_until && new Date(campaign.valid_until) < now) {
+          // Discount expired
+        } else {
+          // Calculate discount
+          if (campaign.discount_percentage) {
+            discount = subtotal * (parseFloat(campaign.discount_percentage.toString()) / 100);
+          } else if (campaign.discount_amount) {
+            discount = parseFloat(campaign.discount_amount.toString());
+            // Ensure discount doesn't exceed subtotal
+            if (discount > subtotal) {
+              discount = subtotal;
+            }
+          }
         }
       }
     }
@@ -158,7 +172,12 @@ export async function processCheckout(discountCode?: string) {
       amount: -total,
       currency,
       status: 'completed',
-      description: `Order #${order.id}`,
+      reference_id: order.id,
+      reference_type: 'order',
+      metadata: {
+        description: `Order #${order.id}`,
+        order_id: order.id,
+      },
     });
 
     // Clear cart

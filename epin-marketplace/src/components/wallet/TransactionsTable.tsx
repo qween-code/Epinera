@@ -95,7 +95,7 @@ export default function TransactionsTable({ transactions, onViewDetails }: Trans
                     </div>
                   </td>
                   <td className="px-6 py-4 font-medium text-white">
-                    {transaction.description || `${transaction.transaction_type.charAt(0).toUpperCase() + transaction.transaction_type.slice(1)} transaction`}
+                    {(transaction as any).metadata?.description || `${transaction.transaction_type.charAt(0).toUpperCase() + transaction.transaction_type.slice(1)} transaction`}
                   </td>
                   <td className="px-6 py-4 text-right">
                     {formatAmount(transaction.amount, transaction.currency)}

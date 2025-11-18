@@ -91,8 +91,8 @@ export async function requestPayout(
         amount: -totalDeduction, // Negative for withdrawal
         currency,
         status: 'pending',
-        description: `Withdrawal request: ${amount} ${currency} via ${method}`,
         metadata: {
+          description: `Withdrawal request: ${amount} ${currency} via ${method}`,
           method,
           account_details: accountDetails,
           processing_fee: processingFee,

@@ -56,7 +56,9 @@ export async function createDepositIntent(amount: number, currency: string = 'US
           amount: amount,
           currency,
           status: 'pending',
-          description: `Deposit of ${amount} ${currency}`,
+          metadata: {
+            description: `Deposit of ${amount} ${currency}`,
+          },
         })
         .select('id')
         .single();
@@ -82,7 +84,9 @@ export async function createDepositIntent(amount: number, currency: string = 'US
         amount: amount,
         currency,
         status: 'pending',
-        description: `Deposit of ${amount} ${currency}`,
+        metadata: {
+          description: `Deposit of ${amount} ${currency}`,
+        },
       })
       .select('id')
       .single();
