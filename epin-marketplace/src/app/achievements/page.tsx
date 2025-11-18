@@ -116,14 +116,14 @@ export default function AchievementsPage() {
 
             return {
               id: achievement.id,
-              title: achievement.title,
-              description: achievement.description,
-              icon: achievement.icon || 'military_tech',
+              title: achievement.name || achievement.code || 'Achievement',
+              description: achievement.description || '',
+              icon: achievement.icon_url ? 'military_tech' : 'military_tech', // Use icon_url if available
               progress,
-              target,
+              target: achievement.requirements?.target || target || 1,
               unlocked: isUnlocked,
-              unlocked_at: userAchievement?.unlocked_at,
-              category: achievement.category || 'seller',
+              unlocked_at: userAchievement?.unlocked_at || userAchievement?.completed_at,
+              category: achievement.requirements?.category || 'seller',
             };
           })
         );
