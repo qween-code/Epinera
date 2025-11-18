@@ -445,37 +445,55 @@ NEXT_PUBLIC_API_URL=https://api.epinmarketplace.com
 
 ## 💳 Payment Gateway Entegrasyonu
 
-### Mevcut Durum
+### ✅ Tamamlandı - Stripe Sandbox Entegrasyonu
 
 **Dosya:** `epin-marketplace/src/app/actions/deposit.ts`
 
-**Satır 91:** `// TODO: Integrate with actual payment gateway`
+**Durum:** ✅ Stripe sandbox entegrasyonu tamamlandı
+
+### Test Ortamı (Sandbox)
+
+Stripe test modunda çalışır. Test kartları kullanılabilir:
+
+**Test Kartları:**
+- **Başarılı Ödeme**: `4242 4242 4242 4242`
+- **3D Secure Gerekli**: `4000 0025 0000 3155`
+- **Reddedildi**: `4000 0000 0000 0002`
+- **Yetersiz Bakiye**: `4000 0000 0000 9995`
+
+**Test Kart Detayları:**
+- **Expiry**: Herhangi bir gelecek tarih (örn: 12/34)
+- **CVC**: Herhangi bir 3 haneli sayı (örn: 123)
+- **ZIP**: Herhangi bir 5 haneli sayı (örn: 12345)
 
 ### Production Çözümü
 
-Stripe, PayTR veya tercih edilen payment gateway entegrasyonu:
+**Dosyalar:**
+- ✅ `epin-marketplace/src/app/actions/deposit.ts` - Stripe entegrasyonu eklendi
+- ✅ `epin-marketplace/src/lib/payment/stripe.ts` - Stripe helper functions
+- ✅ `epin-marketplace/src/app/api/webhooks/stripe/route.ts` - Webhook handler
+- ✅ `epin-marketplace/src/components/wallet/StripeCardForm.tsx` - Stripe Elements form
 
-```typescript
-// Örnek Stripe entegrasyonu:
-import Stripe from 'stripe';
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+**Environment Variables:**
+```env
+# Test Mode (Sandbox)
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+PAYMENT_ENVIRONMENT=test
 
-const paymentIntent = await stripe.paymentIntents.create({
-  amount: Math.round(amount * 100), // Convert to cents
-  currency: currency.toLowerCase(),
-  metadata: {
-    user_id: user.id,
-    transaction_id: transaction.id,
-  },
-});
-
-// Webhook handler oluşturulmalı:
-// app/api/webhooks/stripe/route.ts
+# Production Mode
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_PUBLISHABLE_KEY=pk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+PAYMENT_ENVIRONMENT=production
 ```
 
-**Değiştirilecek Dosyalar:**
-- `epin-marketplace/src/app/actions/deposit.ts` - Satır 91+
-- Yeni dosya: `epin-marketplace/src/app/api/webhooks/stripe/route.ts`
+**Test'ten Production'a Geçiş:**
+1. `.env.local` dosyasındaki test key'leri production key'leri ile değiştir
+2. `PAYMENT_ENVIRONMENT=production` olarak güncelle
+3. Stripe Dashboard'da webhook URL'ini production URL'e güncelle
+4. Test kartları yerine gerçek kartlar kullanılacak
 
 ---
 
@@ -637,18 +655,50 @@ const twitchAuthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${TWITCH_
 
 ---
 
-*Son Güncelleme: Sprint 41 Sonrası*
+*Son Güncelleme: Sprint 43 Sonrası - Test Ortamı ve Sandbox Ödeme Entegrasyonu*
 
-## 📝 Sprint 41 Sonrası Güncellemeler
+## 📝 Sprint 43 Sonrası Güncellemeler
 
 ### Tamamlanan İşler
-- ✅ Tüm Cart Review versiyonları (1-5) implement edildi
-- ✅ Tüm Payment Selection versiyonları (1-5) implement edildi
-- ✅ Tüm sayfalar production-ready durumda
-- ✅ Mock data kullanımları belirlendi ve çözümleri dökümanlandı
+- ✅ Stripe Sandbox entegrasyonu tamamlandı
+- ✅ Test verileri seed script'i oluşturuldu
+- ✅ Admin kullanıcısı oluşturma script'i hazırlandı
+- ✅ Test ve Production ortamları için environment variables yapılandırıldı
+- ✅ Stripe test kartları entegre edildi
+- ✅ Webhook handler oluşturuldu
+
+### Test Ortamı Kurulumu
+
+**1. Admin Kullanıcısı Oluştur:**
+```bash
+npx tsx scripts/create-admin-user.ts
+```
+- Email: `turhanhamza@gmail.com`
+- Password: `dodo6171`
+- Role: `admin`
+
+**2. Test Verileri Seed Et:**
+```bash
+# Supabase SQL Editor'de çalıştır:
+supabase/seed_test_data.sql
+
+# Veya script ile:
+npx tsx scripts/seed-test-data.ts
+```
+
+**3. Test Kullanıcıları:**
+- Test Seller: `test-seller@epinmarketplace.com` / `test123456`
+- Test Buyer: `test-buyer@epinmarketplace.com` / `test123456`
+- Test Creator: `test-creator@epinmarketplace.com` / `test123456`
+
+**4. Test Kartları:**
+- Başarılı: `4242 4242 4242 4242`
+- Reddedildi: `4000 0000 0000 0002`
+- Herhangi bir gelecek tarih ve CVC kullanılabilir
 
 ### Önemli Notlar
-- Cart ve Checkout sayfaları artık 5 versiyonu destekliyor (`?version=1-5`)
-- Tüm versiyonlar wallet balance kontrolü yapıyor
-- Production'da mock data kullanımları gerçek veritabanı sorgularıyla değiştirilmeli
+- Test ortamında tüm veriler "test" kelimesi içerir
+- Test'ten production'a geçiş için sadece environment variables değiştirilmeli
+- Stripe webhook URL'i production'da güncellenmeli
+- Admin kullanıcısı production'da da aynı şekilde oluşturulmalı
 

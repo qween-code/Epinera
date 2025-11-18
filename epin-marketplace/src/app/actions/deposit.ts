@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { createPaymentIntent, isTestMode } from '@/lib/payment/stripe';
 
 export async function createDepositIntent(amount: number, currency: string = 'USD', paymentMethod: string) {
   const supabase = await createClient();
@@ -88,8 +89,37 @@ export async function createDepositIntent(amount: number, currency: string = 'US
 
     if (transError) throw transError;
 
-    // TODO: Integrate with actual payment gateway (Stripe, PayTR, etc.)
-    // For now, return the transaction ID for processing
+    // Integrate with Stripe payment gateway
+    const paymentResult = await createPaymentIntent(totalAmount, currency, {
+      user_id: user.id,
+      transaction_id: transaction.id,
+      environment: isTestMode() ? 'test' : 'production',
+    });
+
+    if (!paymentResult.success) {
+      // Update transaction status to failed
+      await supabase
+        .from('wallet_transactions')
+        .update({ status: 'failed' })
+        .eq('id', transaction.id);
+
+      return {
+        success: false,
+        error: paymentResult.error || 'Payment gateway error',
+      };
+    }
+
+    // Store payment intent ID in transaction metadata
+    await supabase
+      .from('wallet_transactions')
+      .update({
+        metadata: {
+          payment_intent_id: paymentResult.paymentIntentId,
+          payment_method: paymentMethod,
+          environment: isTestMode() ? 'test' : 'production',
+        },
+      })
+      .eq('id', transaction.id);
 
     return {
       success: true,
@@ -97,9 +127,9 @@ export async function createDepositIntent(amount: number, currency: string = 'US
       totalAmount,
       processingFee,
       creditsToReceive: amount,
-      // In production, this would include payment gateway client secret or redirect URL
-      // clientSecret: stripeClientSecret,
-      // redirectUrl: paymentGatewayUrl,
+      clientSecret: paymentResult.clientSecret,
+      paymentIntentId: paymentResult.paymentIntentId,
+      isTestMode: isTestMode(),
     };
   } catch (error: any) {
     console.error('Error creating deposit intent:', error);

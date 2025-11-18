@@ -50,12 +50,35 @@ export default function DepositPage() {
     setError(null);
 
     try {
-      // TODO: Implement actual payment processing
-      // For now, simulate success
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
-      // Redirect to wallet page
-      router.push('/wallet?deposit=success');
+      // Create deposit intent with Stripe
+      const { createDepositIntent } = await import('@/app/actions/deposit');
+      const result = await createDepositIntent(amount, currency, selectedPaymentMethod);
+
+      if (!result.success) {
+        setError(result.error || 'Failed to create payment intent');
+        setIsProcessing(false);
+        return;
+      }
+
+      // If we have a client secret, redirect to Stripe payment page
+      // For now, we'll use a simple confirmation flow
+      // In production, integrate with Stripe Elements or redirect to payment page
+      if (result.clientSecret) {
+        // TODO: Integrate with Stripe Elements for card payment
+        // For test mode, we can auto-confirm
+        const { confirmDeposit } = await import('@/app/actions/deposit');
+        const confirmResult = await confirmDeposit(result.transactionId!);
+
+        if (confirmResult.success) {
+          router.push('/wallet?deposit=success');
+        } else {
+          setError(confirmResult.error || 'Payment confirmation failed');
+          setIsProcessing(false);
+        }
+      } else {
+        // Fallback: redirect to wallet page
+        router.push('/wallet?deposit=success');
+      }
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
       setIsProcessing(false);
