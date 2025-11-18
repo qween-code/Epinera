@@ -145,11 +145,11 @@ export default function AdminSecurityPage() {
   const getAlertColor = (type: string) => {
     switch (type) {
       case 'error':
-        return 'text-red-500';
+        return 'text-[#E53E3E]';
       case 'warning':
-        return 'text-yellow-500';
+        return 'text-[#D69E2E]';
       case 'info':
-        return 'text-primary';
+        return 'text-[#3182CE]';
       default:
         return 'text-gray-500';
     }
@@ -157,19 +157,19 @@ export default function AdminSecurityPage() {
 
   const getRiskScoreBadge = (score: number) => {
     if (score >= 80) {
-      return 'bg-red-500/20 text-red-500';
+      return 'bg-[#E53E3E]/20 text-[#E53E3E]';
     } else if (score >= 60) {
-      return 'bg-yellow-500/20 text-yellow-500';
+      return 'bg-[#D69E2E]/20 text-[#D69E2E]';
     } else {
-      return 'bg-green-500/20 text-green-500';
+      return 'bg-[#38A169]/20 text-[#38A169]';
     }
   };
 
   const getStatusBadge = (status: string) => {
     const statusMap: Record<string, { label: string; className: string }> = {
-      pending: { label: 'Pending', className: 'bg-yellow-500/20 text-yellow-500' },
-      blocked: { label: 'Blocked', className: 'bg-red-500/20 text-red-500' },
-      cleared: { label: 'Cleared', className: 'bg-green-500/20 text-green-500' },
+      pending: { label: 'Pending', className: 'bg-[#D69E2E]/20 text-[#D69E2E]' },
+      blocked: { label: 'Blocked', className: 'bg-[#E53E3E]/20 text-[#E53E3E]' },
+      cleared: { label: 'Cleared', className: 'bg-[#38A169]/20 text-[#38A169]' },
     };
     const statusInfo = statusMap[status] || { label: status, className: 'bg-gray-500/20 text-gray-500' };
     return (
@@ -190,34 +190,34 @@ export default function AdminSecurityPage() {
 
           {/* Stats */}
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="flex flex-col gap-2 rounded-xl p-6 bg-white/5 dark:bg-white/5 border border-white/10">
+            <div className="flex flex-col gap-2 rounded-xl p-6 bg-[#2D3748] border border-white/10">
               <p className="text-gray-300 text-base font-medium leading-normal">Overall System Status</p>
-              <p className="text-green-500 tracking-light text-3xl font-bold leading-tight flex items-center gap-2">
+              <p className="text-[#38A169] tracking-light text-3xl font-bold leading-tight flex items-center gap-2">
                 <span className="material-symbols-outlined text-3xl">verified_user</span> SECURE
               </p>
             </div>
-            <div className="flex flex-col gap-2 rounded-xl p-6 bg-white/5 dark:bg-white/5 border border-white/10">
+            <div className="flex flex-col gap-2 rounded-xl p-6 bg-[#2D3748] border border-white/10">
               <p className="text-gray-300 text-base font-medium leading-normal">Active Alerts</p>
-              <p className="text-yellow-500 tracking-light text-3xl font-bold leading-tight">{alerts.length}</p>
+              <p className="text-[#D69E2E] tracking-light text-3xl font-bold leading-tight">{alerts.length}</p>
             </div>
-            <div className="flex flex-col gap-2 rounded-xl p-6 bg-white/5 dark:bg-white/5 border border-white/10">
+            <div className="flex flex-col gap-2 rounded-xl p-6 bg-[#2D3748] border border-white/10">
               <p className="text-gray-300 text-base font-medium leading-normal">Transactions Reviewed (24h)</p>
               <p className="text-white tracking-light text-3xl font-bold leading-tight">1,203</p>
             </div>
-            <div className="flex flex-col gap-2 rounded-xl p-6 bg-white/5 dark:bg-white/5 border border-white/10">
+            <div className="flex flex-col gap-2 rounded-xl p-6 bg-[#2D3748] border border-white/10">
               <p className="text-gray-300 text-base font-medium leading-normal">Accounts Flagged</p>
-              <p className="text-red-500 tracking-light text-3xl font-bold leading-tight">12</p>
+              <p className="text-[#E53E3E] tracking-light text-3xl font-bold leading-tight">12</p>
             </div>
           </section>
 
           {/* Tabs */}
           <nav className="mb-8">
-            <div className="flex border-b border-white/10 gap-8">
+            <div className="flex border-b border-[#2D3748]/50 gap-8">
               <button
                 onClick={() => setActiveTab('overview')}
                 className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${
                   activeTab === 'overview'
-                    ? 'border-b-primary text-white'
+                    ? 'border-b-[#3182CE] text-white'
                     : 'border-b-transparent text-gray-400 hover:text-white'
                 }`}
               >
@@ -263,7 +263,7 @@ export default function AdminSecurityPage() {
               {/* Real-Time Alerts */}
               <div>
                 <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Real-Time Alerts</h2>
-                <div className="bg-white/5 dark:bg-white/5 rounded-xl border border-white/10">
+                <div className="bg-[#2D3748] rounded-xl border border-white/10">
                   <ul className="divide-y divide-white/10">
                     {alerts.map((alert) => (
                       <li key={alert.id} className="p-4 flex items-start gap-4 hover:bg-white/5 cursor-pointer">
@@ -281,7 +281,7 @@ export default function AdminSecurityPage() {
                     ))}
                   </ul>
                   <div className="p-4 border-t border-white/10 text-center">
-                    <Link href="/admin/security/alerts" className="text-primary text-sm font-semibold hover:underline">
+                    <Link href="/admin/security/alerts" className="text-[#3182CE] text-sm font-semibold hover:underline">
                       View All Alerts
                     </Link>
                   </div>
@@ -291,10 +291,12 @@ export default function AdminSecurityPage() {
               {/* Fraudulent Activity Trends */}
               <div>
                 <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Fraudulent Activity Trends</h2>
-                <div className="bg-white/5 dark:bg-white/5 rounded-xl p-6 border border-white/10">
-                  <div className="w-full h-64 flex items-center justify-center text-gray-400">
-                    <p>Chart visualization would go here</p>
-                  </div>
+                <div className="bg-[#2D3748] rounded-xl p-6 border border-white/10">
+                  <img
+                    className="w-full h-64 object-contain invert-[.85] brightness-200"
+                    alt="A line graph showing fraudulent activity trends over the last 30 days, with peaks and troughs indicating fluctuating risk levels."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPcKGWLvitq2hU1ZbKabrYsknbMIs3OOytMlF2EAcWetCDFiaGLofqcJfFpk8SJqNfBsZzDRkeqm6UR75PpMWUZr_9-BgadaxQv4_0L5bjHE25hfM1eia7jNML3MCam4LDHMszElL22_NlGhvksGEwwDRyJimRpHrL6-TaA809Lib2alA9GPggSI8BNTHVBOpDNLl3GOJ0J0AW_9PvlViXxUXgJWexZXYFLEpMWN4moiy6T4dQaOmORoYc8KBXUELoPYrgIWgRGvNd"
+                  />
                 </div>
               </div>
             </div>
@@ -304,24 +306,26 @@ export default function AdminSecurityPage() {
               {/* Top Flagged Regions */}
               <div>
                 <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Top Flagged Regions</h2>
-                <div className="bg-white/5 dark:bg-white/5 rounded-xl p-6 border border-white/10">
-                  <div className="w-full h-auto flex items-center justify-center text-gray-400">
-                    <p>World map visualization would go here</p>
-                  </div>
+                <div className="bg-[#2D3748] rounded-xl p-6 border border-white/10">
+                  <img
+                    className="w-full h-auto object-cover rounded-lg"
+                    alt="A world map with red dots highlighting regions with high-risk activity, with the highest concentration in Eastern Europe and Southeast Asia."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5S1IPKAQYcNwOwaHFza-K0JgETkx9PHOwnlMVs_1hPcnomDNYuNSvTWYxtj0rcvcIeUuc2DdqROlv_OpbAvrIN1j6QnmjYNtmyRBV2kqVznzzPd6jnA7COa_SLwO0ARkFmRTravPOLvsW1KRUd2Lzri9hdCDmpRT643tj-Rvmwc5IloyOGiqhAacnWkijN1rfaMVCsxvVfqKV4Sjab2UazFaHibWd7Fo1Kjgn51zDlVH8-Mlm-2sR9Pv-Ae14Y6sIL9NsUoPCQNbJ"
+                  />
                 </div>
               </div>
 
               {/* Incident Response */}
               <div>
                 <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Incident Response</h2>
-                <div className="bg-white/5 dark:bg-white/5 rounded-xl p-6 border border-white/10 flex flex-col gap-4">
-                  <button className="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-primary hover:bg-primary/80 transition-colors">
+                <div className="bg-[#2D3748] rounded-xl p-6 border border-white/10 flex flex-col gap-4">
+                  <button className="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-[#3182CE] hover:bg-[#3182CE]/80 transition-colors">
                     <span className="material-symbols-outlined text-white">block</span>
                     <span className="text-white font-semibold">Block User</span>
                   </button>
-                  <button className="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-yellow-500/20 hover:bg-yellow-500/30 transition-colors">
-                    <span className="material-symbols-outlined text-yellow-500">pause_circle</span>
-                    <span className="text-yellow-500 font-semibold">Suspend Transaction</span>
+                  <button className="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-[#D69E2E]/20 hover:bg-[#D69E2E]/30 transition-colors">
+                    <span className="material-symbols-outlined text-[#D69E2E]">pause_circle</span>
+                    <span className="text-[#D69E2E] font-semibold">Suspend Transaction</span>
                   </button>
                   <button className="w-full text-left flex items-center gap-3 p-3 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
                     <span className="material-symbols-outlined text-gray-300">task_alt</span>
@@ -339,7 +343,7 @@ export default function AdminSecurityPage() {
           {/* Risk Review Table */}
           <div className="mt-12">
             <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] mb-4">Risk Review Queue</h2>
-            <div className="bg-white/5 dark:bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+            <div className="bg-[#2D3748] rounded-xl border border-white/10 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-300">
                   <thead className="text-xs text-gray-400 uppercase bg-black/20">
@@ -367,7 +371,7 @@ export default function AdminSecurityPage() {
                         <td className="px-6 py-4">{review.timestamp}</td>
                         <td className="px-6 py-4">{getStatusBadge(review.status)}</td>
                         <td className="px-6 py-4 text-right">
-                          <Link href={`/admin/security/review/${review.id}`} className="font-medium text-primary hover:underline">
+                          <Link href={`/admin/security/review/${review.id}`} className="font-medium text-[#3182CE] hover:underline">
                             {review.status === 'pending' ? 'Review' : 'Details'}
                           </Link>
                         </td>
