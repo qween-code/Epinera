@@ -45,9 +45,10 @@ export default function AdminLayout({
     { href: '/admin', label: 'Dashboard', icon: 'dashboard' },
     { href: '/admin/users', label: 'User Management', icon: 'group' },
     { href: '/admin/transactions', label: 'Transactions', icon: 'receipt_long' },
+    { href: '/admin/financial', label: 'Financial Reporting', icon: 'monitoring' },
+    { href: '/admin/content', label: 'Content Moderation', icon: 'folder' },
     { href: '/admin/system', label: 'System Health', icon: 'cardiology' },
     { href: '/admin/security', label: 'Security Center', icon: 'security' },
-    { href: '/admin/reports', label: 'Reports', icon: 'lab_profile' },
     { href: '/admin/settings', label: 'Settings', icon: 'settings' },
   ];
 

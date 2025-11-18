@@ -692,11 +692,19 @@
 
 4. **Admin Financial Reporting 1 & 2** (`/admin/financial`)
    - Design HTML: `admin_financial_reporting_1/`, `admin_financial_reporting_2/`
-   - Durum: ❌ **EKSİK**
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Stats cards (GMV, Net Revenue, Commission Revenue, Payment Processing Costs, Chargeback Losses), Revenue trends chart, Revenue by publisher donut chart, Detailed transactions table, Tabs (Overview, Revenue Streams, Costs & Losses, Compliance Reports)
+   - Backend: ✅ Entegre (orders, wallet_transactions tablolarından veri çekiyor)
+   - Mobile: ✅ Responsive
+   - Not: Sprint 35'te implement edildi
 
 5. **Admin Content Moderation 1 & 2** (`/admin/content`)
    - Design HTML: `admin_content_moderation_1/`, `admin_content_moderation_2/`
-   - Durum: ❌ **EKSİK**
+   - Durum: ✅ **TAM UYGULANMIŞ**
+   - Component'ler: Sidebar filters (AI Flagged, Manual Review, User Reports, Appeals, Approved, Rejected), Search and filter chips, Bulk actions toolbar, Moderation items table, Detail & Action panel (User info, Moderation context, Content preview, Action buttons, Rejection reason)
+   - Backend: ✅ Entegre (reviews, products tablolarından veri çekiyor)
+   - Mobile: ✅ Responsive
+   - Not: Sprint 35'te implement edildi
 
 6. **Admin Verification Workflow 1 & 2** (`/admin/verification`)
    - Design HTML: `admin_verification_workflow_1/`, `admin_verification_workflow_2/`
@@ -735,9 +743,9 @@
     - Durum: ❌ **EKSİK**
 
 ### Özet
-- **Tam Uygulanan**: 4 sayfa ⬆️
+- **Tam Uygulanan**: 6 sayfa ⬆️
 - **Kısmen Uygulanan**: 2 sayfa
-- **Eksik**: 9 sayfa ⬇️
+- **Eksik**: 7 sayfa ⬇️
 - **Toplam**: 15 sayfa
 
 ---
@@ -1052,15 +1060,16 @@
 - ✅ Sprint 32: Admin Transactions ve Admin Security sayfaları implement edildi
 - ✅ Sprint 33: Admin Security design HTML ile birebir uyumlu hale getirildi, Admin System Monitoring sayfası implement edildi
 - ✅ Sprint 34: Production deployment guide ve migration dosyası oluşturuldu, My Campaigns & Giveaways, Seller Campaign Management, Campaign Creation sayfaları implement edildi
+- ✅ Sprint 35: Admin Financial Reporting ve Admin Content Moderation sayfaları implement edildi
 
 ### Devam Eden Sprintler
-- 🔄 Sprint 35+: Kalan eksik sayfaları implement etme
+- 🔄 Sprint 36+: Kalan eksik sayfaları implement etme
 
 ### Toplam İlerleme
-- **Tam Uygulanan**: 52 sayfa (72%) ⬆️
+- **Tam Uygulanan**: 54 sayfa (75%) ⬆️
 - **Kısmen Uygulanan**: 2 sayfa (3%)
-- **Eksik**: 20 sayfa (28%) ⬇️
-- **Genel İlerleme**: ~88% tamamlandı ⬆️
+- **Eksik**: 18 sayfa (25%) ⬇️
+- **Genel İlerleme**: ~89% tamamlandı ⬆️
 
 ---
 
@@ -1074,7 +1083,7 @@
 
 ---
 
-*Son Güncelleme: Sprint 34 Sonrası*
+*Son Güncelleme: Sprint 35 Sonrası*
 
 ## 📝 Sprint 21 Detayları
 
