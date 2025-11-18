@@ -31,8 +31,8 @@ Write-Host ""
 Write-Host "💳 Senaryo 1: Stripe ile Bakiye Yükleme" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "1.1. Payment Intent oluşturuluyor (`$50)..." -ForegroundColor Yellow
-$paymentIntent = & $StripeExePath payment_intents create --amount=5000 --currency=usd --description="Test deposit $50 - Comprehensive Test" 2>&1
+Write-Host "1.1. Payment Intent oluşturuluyor - 50 USD..." -ForegroundColor Yellow
+$paymentIntent = & $StripeExePath payment_intents create --amount=5000 --currency=usd --description="Test deposit 50 USD - Comprehensive Test" 2>&1
 
 if ($LASTEXITCODE -eq 0) {
     try {
@@ -42,11 +42,12 @@ if ($LASTEXITCODE -eq 0) {
         
         Write-Host "   ✅ Payment Intent oluşturuldu!" -ForegroundColor Green
         Write-Host "   📋 Payment Intent ID: $piId" -ForegroundColor White
-        Write-Host "   🔐 Client Secret: $($clientSecret.Substring(0, [Math]::Min(30, $clientSecret.Length)))..." -ForegroundColor White
+        $secretPreview = if ($clientSecret.Length -gt 30) { $clientSecret.Substring(0, 30) + "..." } else { $clientSecret }
+        Write-Host "   🔐 Client Secret: $secretPreview" -ForegroundColor White
         Write-Host ""
         Write-Host "   📝 Sonraki adımlar:" -ForegroundColor Yellow
         Write-Host "   1. Tarayıcıda /wallet/deposit sayfasına git" -ForegroundColor White
-        Write-Host "   2. `$50 seç ve ödeme yap" -ForegroundColor White
+        Write-Host "   2. 50 USD seç ve ödeme yap" -ForegroundColor White
         Write-Host "   3. Test kartı: 4242 4242 4242 4242" -ForegroundColor White
         Write-Host "   4. Webhook otomatik olarak bakiye ekleyecek" -ForegroundColor White
     } catch {
@@ -96,8 +97,9 @@ for ($i = 0; $i -lt $amounts.Length; $i++) {
     $scenario = $scenarios[$i]
     $amountDollar = $amount / 100
     
-    Write-Host "3.$($i+1). $scenario - `$$amountDollar Payment Intent..." -ForegroundColor Yellow
-    $pi = & $StripeExePath payment_intents create --amount=$amount --currency=usd --description="Test $scenario - `$$amountDollar" 2>&1
+    Write-Host "3.$($i+1). $scenario - $amountDollar USD Payment Intent..." -ForegroundColor Yellow
+    $desc = "Test $scenario - $amountDollar USD"
+    $pi = & $StripeExePath payment_intents create --amount=$amount --currency=usd --description=$desc 2>&1
     
     if ($LASTEXITCODE -eq 0) {
         try {
