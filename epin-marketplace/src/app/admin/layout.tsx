@@ -51,6 +51,7 @@ export default function AdminLayout({
     { href: '/admin/gdpr', label: 'GDPR', icon: 'verified_user' },
     { href: '/admin/platform', label: 'Platform Settings', icon: 'settings' },
     { href: '/admin/suspicious', label: 'Suspicious Activity', icon: 'summarize' },
+    { href: '/admin/reports', label: 'Reports', icon: 'summarize' },
     { href: '/admin/system', label: 'System Health', icon: 'cardiology' },
     { href: '/admin/security', label: 'Security Center', icon: 'security' },
     { href: '/admin/settings', label: 'Settings', icon: 'settings' },
