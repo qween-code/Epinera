@@ -1,16 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import WithdrawalHeader from '@/components/wallet/WithdrawalHeader';
 import WithdrawalForm from '@/components/wallet/WithdrawalForm';
 import WithdrawalSummary from '@/components/wallet/WithdrawalSummary';
 import { getWalletBalance } from '@/app/actions/wallet';
 
 export default function WithdrawPage() {
+  const router = useRouter();
   const [wallet, setWallet] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [withdrawalAmount, setWithdrawalAmount] = useState(0);
   const [transactionFee] = useState(2.50);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchWallet = async () => {
@@ -30,10 +34,28 @@ export default function WithdrawPage() {
     fetchWallet();
   }, []);
 
-  const handleWithdraw = (amount: number, method: string, accountId: string) => {
-    setWithdrawalAmount(amount);
-    // TODO: Implement withdrawal processing
-    console.log('Withdraw:', { amount, method, accountId });
+  const handleWithdraw = async (amount: number, method: string, accountId: string) => {
+    setIsProcessing(true);
+    setError(null);
+
+    try {
+      const { requestPayout } = await import('@/app/actions/payout');
+      const result = await requestPayout(amount, currency, method as 'bank' | 'crypto', {
+        accountNumber: method === 'bank' ? accountId : undefined,
+        cryptoAddress: method === 'crypto' ? accountId : undefined,
+      });
+
+      if (result.success) {
+        setWithdrawalAmount(amount);
+        router.push('/wallet?withdraw=success');
+      } else {
+        setError(result.error || 'Withdrawal failed');
+        setIsProcessing(false);
+      }
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred');
+      setIsProcessing(false);
+    }
   };
 
   const handleContinue = () => {
