@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import CategoryPageHeader from '@/components/product/CategoryPageHeader';
-import CategoryFilters from '@/components/product/CategoryFilters';
+import AdvancedFilters, { SearchFilters } from '@/components/search/AdvancedFilters';
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -16,6 +16,13 @@ export default function SearchPage() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortBy, setSortBy] = useState('popularity');
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState<SearchFilters>({
+    priceMin: 0,
+    priceMax: 1000,
+    rating: null,
+    inStock: false,
+    categories: [],
+  });
   const supabase = createClient();
 
   useEffect(() => {
@@ -24,7 +31,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     searchProducts();
-  }, [query, selectedCategory, sortBy]);
+  }, [query, selectedCategory, sortBy, filters]);
 
   const fetchCategories = async () => {
     const { data } = await supabase
@@ -84,7 +91,7 @@ export default function SearchPage() {
             .from('products')
             .select('id, image_url')
             .in('id', data.map(p => p.id));
-          
+
           (productsWithImages || []).forEach(p => {
             imageMap.set(p.id, p.image_url || null);
           });
@@ -97,7 +104,7 @@ export default function SearchPage() {
       }
 
       // Process products to add lowest price
-      const processedProducts = (data || []).map((product: any) => {
+      let processedProducts = (data || []).map((product: any) => {
         const variants = product.product_variants || [];
         const lowestPrice = variants.length > 0
           ? Math.min(...variants.map((v: any) => parseFloat(v.price)))
@@ -112,6 +119,19 @@ export default function SearchPage() {
           currency: variants[0]?.currency || 'TRY',
         };
       });
+
+      // Apply price filter
+      if (filters.priceMin > 0 || filters.priceMax < 1000) {
+        processedProducts = processedProducts.filter(
+          (p) => (p.lowest_price || 0) >= filters.priceMin && (p.lowest_price || 0) <= filters.priceMax
+        );
+      }
+
+      // Apply in-stock filter
+      if (filters.inStock) {
+        // Would need stock data from variants
+        // processedProducts = processedProducts.filter(p => p.in_stock);
+      }
 
       // Sort by price if selected
       if (sortBy === 'price_asc') {
@@ -147,7 +167,7 @@ export default function SearchPage() {
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Sidebar */}
           <aside className="w-full lg:w-1/4 xl:w-1/5">
-            <CategoryFilters categories={categories} />
+            <AdvancedFilters onFilterChange={setFilters} />
           </aside>
 
           {/* Main Content */}
@@ -191,11 +211,10 @@ export default function SearchPage() {
                     <button
                       key={option.value}
                       onClick={() => handleSortChange(option.value)}
-                      className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-3 text-sm font-medium transition-colors ${
-                        isActive
-                          ? 'bg-primary/20 text-primary'
-                          : 'bg-white/10 hover:bg-white/20 text-white'
-                      }`}
+                      className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-3 text-sm font-medium transition-colors ${isActive
+                        ? 'bg-primary/20 text-primary'
+                        : 'bg-white/10 hover:bg-white/20 text-white'
+                        }`}
                     >
                       {option.label}
                     </button>

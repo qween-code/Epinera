@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
+import { SearchHistory } from '@/lib/search-history';
 
 interface SearchAutocompleteProps {
     onSearch?: (query: string) => void;
@@ -11,12 +12,19 @@ interface SearchAutocompleteProps {
 export default function SearchAutocomplete({ onSearch }: SearchAutocompleteProps) {
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState<any[]>([]);
+    const [recentSearches, setRecentSearches] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const inputRef = useRef<HTMLInputElement>(null);
     const suggestionsRef = useRef<HTMLDivElement>(null);
     const supabase = createClient();
+
+    // Load recent searches on mount
+    useEffect(() => {
+        const history = SearchHistory.getHistory();
+        setRecentSearches(history.map(h => h.query));
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -66,6 +74,7 @@ export default function SearchAutocomplete({ onSearch }: SearchAutocompleteProps
     };
 
     const handleSelect = (suggestion: any) => {
+        SearchHistory.addSearch(suggestion.title);
         router.push(`/product/${suggestion.slug}`);
         setQuery('');
         setShowSuggestions(false);
@@ -74,6 +83,7 @@ export default function SearchAutocomplete({ onSearch }: SearchAutocompleteProps
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (query.trim()) {
+            SearchHistory.addSearch(query);
             router.push(`/search?q=${encodeURIComponent(query)}`);
             setShowSuggestions(false);
             if (onSearch) onSearch(query);
@@ -95,7 +105,13 @@ export default function SearchAutocomplete({ onSearch }: SearchAutocompleteProps
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        onFocus={() => query.length >= 2 && setShowSuggestions(true)}
+                        onFocus={() => {
+                            if (query.length >= 2) {
+                                setShowSuggestions(true);
+                            } else if (recentSearches.length > 0) {
+                                setShowSuggestions(true);
+                            }
+                        }}
                         onKeyDown={handleKeyDown}
                         placeholder="Search products..."
                         className="w-full px-4 py-3 pl-12 pr-12 rounded-full bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -112,34 +128,79 @@ export default function SearchAutocomplete({ onSearch }: SearchAutocompleteProps
             </form>
 
             {/* Suggestions Dropdown */}
-            {showSuggestions && suggestions.length > 0 && (
+            {showSuggestions && (suggestions.length > 0 || (query.length < 2 && recentSearches.length > 0)) && (
                 <div
                     ref={suggestionsRef}
                     className="absolute top-full mt-2 w-full bg-slate-900 border border-white/20 rounded-xl shadow-2xl overflow-hidden z-50"
                 >
-                    <div className="py-2">
-                        {suggestions.map((suggestion) => (
-                            <button
-                                key={suggestion.id}
-                                onClick={() => handleSelect(suggestion)}
-                                className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3"
-                            >
-                                <span className="material-symbols-outlined text-white/60">search</span>
-                                <span className="text-white">{suggestion.title}</span>
-                            </button>
-                        ))}
-                    </div>
+                    {/* Recent Searches */}
+                    {query.length < 2 && recentSearches.length > 0 && (
+                        <div className="py-2">
+                            <div className="px-4 py-2 flex items-center justify-between">
+                                <span className="text-white/60 text-sm font-medium">Recent Searches</span>
+                                <button
+                                    onClick={() => {
+                                        SearchHistory.clearHistory();
+                                        setRecentSearches([]);
+                                    }}
+                                    className="text-primary hover:text-primary/80 text-xs"
+                                >
+                                    Clear
+                                </button>
+                            </div>
+                            {recentSearches.slice(0, 5).map((search, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => {
+                                        setQuery(search);
+                                        router.push(`/search?q=${encodeURIComponent(search)}`);
+                                        setShowSuggestions(false);
+                                    }}
+                                    className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3"
+                                >
+                                    <span className="material-symbols-outlined text-white/60">history</span>
+                                    <span className="text-white">{search}</span>
+                                </button>
+                            ))}
+                            {recentSearches.length > 0 && suggestions.length > 0 && (
+                                <div className="border-t border-white/10 my-2" />
+                            )}
+                        </div>
+                    )}
+
+                    {/* Product Suggestions */}
+                    {suggestions.length > 0 && (
+                        <div className="py-2">
+                            {query.length >= 2 && (
+                                <div className="px-4 py-2">
+                                    <span className="text-white/60 text-sm font-medium">Products</span>
+                                </div>
+                            )}
+                            {suggestions.map((suggestion) => (
+                                <button
+                                    key={suggestion.id}
+                                    onClick={() => handleSelect(suggestion)}
+                                    className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3"
+                                >
+                                    <span className="material-symbols-outlined text-white/60">search</span>
+                                    <span className="text-white">{suggestion.title}</span>
+                                </button>
+                            ))}
+                        </div>
+                    )}
 
                     {/* View All Results */}
-                    <div className="border-t border-white/10">
-                        <button
-                            onClick={handleSubmit}
-                            className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3 text-primary"
-                        >
-                            <span className="material-symbols-outlined">arrow_forward</span>
-                            <span>View all results for "{query}"</span>
-                        </button>
-                    </div>
+                    {query.length >= 2 && (
+                        <div className="border-t border-white/10">
+                            <button
+                                onClick={handleSubmit}
+                                className="w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3 text-primary"
+                            >
+                                <span className="material-symbols-outlined">arrow_forward</span>
+                                <span>View all results for "{query}"</span>
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
