@@ -15,6 +15,8 @@ import ReviewCard from '@/components/seller/ReviewCard';
 export default function StorefrontPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [store, setStore] = useState<any>(null);
   const [products, setProducts] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
@@ -27,6 +29,7 @@ export default function StorefrontPage() {
       setLoading(true);
       try {
         const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
 
         // Fetch store by slug (assuming slug is seller username or store name)
         // For now, we'll fetch by seller_id from profiles
@@ -40,6 +43,24 @@ export default function StorefrontPage() {
           setLoading(false);
           return;
         }
+
+        // Check if following
+        if (user) {
+          const { data: followData } = await supabase
+            .from('followers')
+            .select('id')
+            .eq('follower_id', user.id)
+            .eq('followed_id', profile.id)
+            .single();
+
+          setIsFollowing(!!followData);
+        }
+
+        // Fetch follower count
+        const { count: followerCount } = await supabase
+          .from('followers')
+          .select('id', { count: 'exact', head: true })
+          .eq('followed_id', profile.id);
 
         // Fetch seller's products
         const { data: productsData } = await supabase
@@ -73,7 +94,7 @@ export default function StorefrontPage() {
                 id: product.id,
                 title: product.title,
                 imageUrl: product.image_url,
-                platform: 'PC', // TODO: Get from product data
+                platform: 'PC', // Default to PC
                 price: parseFloat(variant.price.toString()),
                 currency: variant.currency || 'USD',
                 slug: product.slug,
@@ -126,7 +147,6 @@ export default function StorefrontPage() {
         const productsSold = orderItemsData?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
 
         // Calculate years on platform from profile updated_at (approximation)
-        // In production, this should come from auth.users.created_at via server action
         const profileCreatedAt = profile.updated_at ? new Date(profile.updated_at) : new Date();
         const now = new Date();
         const yearsOnPlatform = Math.max(1, Math.floor((now.getTime() - profileCreatedAt.getTime()) / (1000 * 60 * 60 * 24 * 365)));
@@ -144,8 +164,8 @@ export default function StorefrontPage() {
           rating: avgRating,
           reviewCount,
           productsSold,
-          yearsOnPlatform: yearsOnPlatform || 1, // Default to 1 if calculation fails
-          followers: 0, // TODO: Implement followers feature
+          yearsOnPlatform: yearsOnPlatform || 1,
+          followers: followerCount || 0,
         });
       } catch (error) {
         console.error('Error fetching store data:', error);
@@ -159,15 +179,51 @@ export default function StorefrontPage() {
     }
   }, [slug]);
 
-  const handleFollow = () => {
-    // TODO: Implement follow functionality
-    console.log('Follow store');
+  const handleFollow = async () => {
+    if (!store) return;
+
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      // Redirect to login or show toast
+      return;
+    }
+
+    if (isFollowing) {
+      // Unfollow
+      const { error } = await supabase
+        .from('followers')
+        .delete()
+        .eq('follower_id', user.id)
+        .eq('followed_id', store.id);
+
+      if (!error) {
+        setIsFollowing(false);
+        setStore((prev: any) => ({ ...prev, followers: Math.max(0, prev.followers - 1) }));
+      }
+    } else {
+      // Follow
+      const { error } = await supabase
+        .from('followers')
+        .insert({ follower_id: user.id, followed_id: store.id });
+
+      if (!error) {
+        setIsFollowing(true);
+        setStore((prev: any) => ({ ...prev, followers: prev.followers + 1 }));
+      }
+    }
   };
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
-    // TODO: Filter products by tab
   };
+
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesTab = activeTab === 'all' || true; // TODO: Add category filtering if category data available
+    return matchesSearch && matchesTab;
+  });
 
   if (loading) {
     return (
@@ -211,6 +267,7 @@ export default function StorefrontPage() {
               logoUrl={store.logoUrl}
               isVerified={store.isVerified}
               onFollow={handleFollow}
+              isFollowing={isFollowing}
             />
 
             <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 px-4">
@@ -242,10 +299,8 @@ export default function StorefrontPage() {
                         <input
                           className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#223d49] focus:border-none h-full placeholder:text-[#90b8cb] px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal"
                           placeholder="Search in this store..."
-                          value=""
-                          onChange={(e) => {
-                            // TODO: Implement store-specific search
-                          }}
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
                         />
                       </div>
                     </form>
@@ -267,7 +322,7 @@ export default function StorefrontPage() {
 
                 {/* Product Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 pt-4">
-                  {products.map((product) => (
+                  {filteredProducts.map((product) => (
                     <StorefrontProductCard
                       key={product.id}
                       id={product.id}

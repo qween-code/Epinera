@@ -42,39 +42,22 @@ export default function AdminSystemPage() {
           return;
         }
 
-        // Mock alerts data (in production, this would come from a system_alerts table)
-        const mockAlerts: Alert[] = [
-          {
-            id: '1',
-            severity: 'critical',
-            timestamp: '2023-10-27 14:35:12',
-            name: 'Database Connection Failure',
-            status: 'unacknowledged',
-          },
-          {
-            id: '2',
-            severity: 'warning',
-            timestamp: '2023-10-27 14:30:05',
-            name: 'API Latency > 500ms',
-            status: 'acknowledged',
-          },
-          {
-            id: '3',
-            severity: 'warning',
-            timestamp: '2023-10-27 14:28:19',
-            name: 'Server CPU Usage > 85%',
-            status: 'unacknowledged',
-          },
-          {
-            id: '4',
-            severity: 'info',
-            timestamp: '2023-10-27 14:25:00',
-            name: 'New Application Deployment',
-            status: 'resolved',
-          },
-        ];
+        // Fetch real system alerts
+        const { data: realAlerts } = await supabase
+          .from('system_alerts')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(10);
 
-        setAlerts(mockAlerts);
+        if (realAlerts) {
+          setAlerts(realAlerts.map(alert => ({
+            id: alert.id,
+            severity: alert.severity,
+            timestamp: alert.created_at,
+            name: alert.name,
+            status: alert.status
+          })));
+        }
       } catch (error) {
         console.error('Error fetching system data:', error);
       } finally {
@@ -148,41 +131,36 @@ export default function AdminSystemPage() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setTimeRange('all')}
-                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${
-                  timeRange === 'all' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
-                }`}
+                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${timeRange === 'all' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
+                  }`}
               >
                 All Time
               </button>
               <button
                 onClick={() => setTimeRange('24h')}
-                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${
-                  timeRange === '24h' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
-                }`}
+                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${timeRange === '24h' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
+                  }`}
               >
                 Last 24h
               </button>
               <button
                 onClick={() => setTimeRange('7d')}
-                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${
-                  timeRange === '7d' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
-                }`}
+                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${timeRange === '7d' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
+                  }`}
               >
                 Last 7d
               </button>
               <button
                 onClick={() => setTimeRange('30d')}
-                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${
-                  timeRange === '30d' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
-                }`}
+                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${timeRange === '30d' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
+                  }`}
               >
                 Last 30d
               </button>
               <button
                 onClick={() => setTimeRange('custom')}
-                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${
-                  timeRange === 'custom' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
-                }`}
+                className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 text-sm font-medium leading-normal ${timeRange === 'custom' ? 'bg-primary/20 text-primary' : 'bg-[#223d49] text-white hover:bg-primary/30'
+                  }`}
               >
                 Custom Range
               </button>

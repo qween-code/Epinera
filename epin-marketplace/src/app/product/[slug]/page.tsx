@@ -64,22 +64,50 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  // Get seller stats (mock data for now, will be replaced with real query later)
+  // Get real seller stats from database  
   const sellerData = Array.isArray(product.seller) ? product.seller[0] : product.seller;
+  const sellerId = (sellerData as any)?.id || product.seller_id;
+
+  // Query real seller statistics
+  const { data: sellerOrders } = await supabase
+    .from('order_items')
+    .select('id')
+    .eq('seller_id', sellerId);
+
+  // Get seller's products first, then get reviews
+  const { data: sellerProducts } = await supabase
+    .from('products')
+    .select('id')
+    .eq('seller_id', sellerId);
+
+  const productIds = sellerProducts?.map(p => p.id) || [];
+
+  const { data: sellerReviews } = productIds.length > 0
+    ? await supabase
+      .from('reviews')
+      .select('rating')
+      .in('product_id', productIds)
+    : { data: [] };
+
+  const salesCount = sellerOrders?.length || 0;
+  const avgRating = sellerReviews && sellerReviews.length > 0
+    ? (sellerReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / sellerReviews.length).toFixed(1)
+    : '4.8';
+
   const seller = {
-    id: (sellerData as any)?.id || product.seller_id,
+    id: sellerId,
     name: (sellerData as any)?.full_name || 'Unknown Seller',
     avatar: (sellerData as any)?.avatar_url,
-    rating: 4.9,
-    salesCount: 25000,
+    rating: parseFloat(avgRating),
+    salesCount,
     isVerified: true,
     deliveryTime: 'Instant Delivery',
   };
 
   // Build breadcrumbs
   const category = Array.isArray(product.categories) ? product.categories[0] : product.categories;
-  const parentCategory = (category as any)?.parent && Array.isArray((category as any).parent) 
-    ? (category as any).parent[0] 
+  const parentCategory = (category as any)?.parent && Array.isArray((category as any).parent)
+    ? (category as any).parent[0]
     : (category as any)?.parent;
   const breadcrumbs = [
     { label: 'Home', href: '/' },
@@ -105,8 +133,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const activeVariants = variants.filter((v: any) => v.status === 'active');
   const lowestPriceVariant = activeVariants.length > 0
     ? activeVariants.reduce((min: any, v: any) =>
-        parseFloat(v.price) < parseFloat(min.price) ? v : min
-      )
+      parseFloat(v.price) < parseFloat(min.price) ? v : min
+    )
     : null;
 
   const currentPrice = lowestPriceVariant
@@ -117,82 +145,90 @@ export default async function ProductPage({ params }: ProductPageProps) {
     ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
     : 0;
 
-  // Mock reviews data (will be replaced with real query later)
+  // Real reviews query
+  const { data: reviews } = await supabase
+    .from('reviews')
+    .select(`
+      id,
+      rating,
+      comment,
+      created_at,
+      profiles!reviews_user_id_fkey(id, full_name, avatar_url)
+    `)
+    .eq('product_id', product.id)
+    .order('created_at', { ascending: false })
+    .limit(10);
+
+  // Calculate stats
+  const { data: allRatings } = await supabase
+    .from('reviews')
+    .select('rating')
+    .eq('product_id', product.id);
+
+  const totalReviews = allRatings?.length || 0;
+  const averageRating = totalReviews > 0
+    ? allRatings.reduce((sum, r) => sum + r.rating, 0) / totalReviews
+    : 0;
+
+  const ratingBreakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+  allRatings?.forEach(r => {
+    if (r.rating >= 1 && r.rating <= 5) {
+      // @ts-ignore
+      ratingBreakdown[r.rating]++;
+    }
+  });
+
   const reviewsData = {
-    averageRating: 4.8,
-    totalReviews: 1283,
-    ratingBreakdown: {
-      5: 1090,
-      4: 128,
-      3: 38,
-      2: 12,
-      1: 15,
-    },
-    reviews: [
-      {
-        id: '1',
-        reviewer: {
-          name: 'GamerAli',
-          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=GamerAli',
-        },
-        rating: 5,
-        comment:
-          'Super fast delivery! Got my code instantly and it worked perfectly. The seller is legit and the process was secured with blockchain verification which gave me peace of mind. Highly recommended!',
-        date: '2 days ago',
+    averageRating,
+    totalReviews,
+    ratingBreakdown,
+    reviews: reviews?.map(r => ({
+      id: r.id,
+      reviewer: {
+        // @ts-ignore
+        name: r.profiles?.full_name || 'Anonymous',
+        // @ts-ignore
+        avatar: r.profiles?.avatar_url,
       },
-      {
-        id: '2',
-        reviewer: {
-          name: 'ProPlayer92',
-          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=ProPlayer92',
-        },
-        rating: 4,
-        comment:
-          'Good price and fast transaction. Would be 5 stars but the checkout process had a small glitch. Still, I got what I paid for.',
-        date: '1 week ago',
-      },
-    ],
+      rating: r.rating,
+      comment: r.comment,
+      date: new Date(r.created_at).toLocaleDateString(),
+    })) || [],
   };
 
-  // Mock related products (will be replaced with real query later)
-  const relatedProducts = [
-    {
-      id: '1',
-      title: 'Season 4 Battle Pass',
-      game: 'Cybernetic Heroes',
-      price: 19.99,
-      currency: 'USD',
-      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80',
-      slug: 'season-4-battle-pass',
-    },
-    {
-      id: '2',
-      title: 'Legendary Skin Pack',
-      game: 'Cybernetic Heroes',
-      price: 12.5,
-      currency: 'USD',
-      image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800&q=80',
-      slug: 'legendary-skin-pack',
-    },
-    {
-      id: '3',
-      title: '5000 Credits Pack',
-      game: 'Cybernetic Heroes',
-      price: 44.99,
-      currency: 'USD',
-      image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80',
-      slug: '5000-credits-pack',
-    },
-    {
-      id: '4',
-      title: 'Void Runners - Starter Pack',
-      game: 'Void Runners',
-      price: 7.99,
-      currency: 'USD',
-      image: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&q=80',
-      slug: 'void-runners-starter-pack',
-    },
-  ];
+  // Real related products query
+  const { data: relatedProductsData } = await supabase
+    .from('products')
+    .select(`
+      id,
+      title,
+      slug,
+      category_id,
+      product_variants (
+        price,
+        currency
+      )
+    `)
+    .eq('category_id', product.category_id)
+    .neq('id', product.id)
+    .eq('status', 'active')
+    .limit(4);
+
+  const relatedProducts = relatedProductsData?.map(p => {
+    // @ts-ignore
+    const variant = p.product_variants?.[0];
+    return {
+      id: p.id,
+      title: p.title,
+      game: 'Game', // Placeholder or fetch category name
+      // @ts-ignore
+      price: variant ? parseFloat(variant.price) : 0,
+      // @ts-ignore
+      currency: variant?.currency || 'USD',
+      image: getProductImage(p.title),
+      slug: p.slug,
+    };
+  }) || [];
 
   // Tab content
   const tabs = [

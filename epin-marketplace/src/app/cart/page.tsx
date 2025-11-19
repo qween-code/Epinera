@@ -13,6 +13,7 @@ import { createClient } from '@/utils/supabase/client';
 export default function CartPage() {
   const { items, loading, removeFromCart, updateQuantity, getTotal } = useCart();
   const [walletBalance, setWalletBalance] = useState(10000); // Default, will fetch from API
+  const [taxRate, setTaxRate] = useState(0.08); // Default 8%
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -20,31 +21,45 @@ export default function CartPage() {
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchWalletBalance = async () => {
+    const fetchWalletAndProfile = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        const { data, error } = await supabase
+        // Fetch Wallet Balance
+        const { data: walletData, error: walletError } = await supabase
           .from('wallets')
           .select('balance')
           .eq('user_id', user.id)
           .eq('currency', 'USD')
           .single();
 
-        if (error && error.code !== 'PGRST116') {
-          console.error('Error fetching wallet balance:', error);
-          return;
+        if (walletError && walletError.code !== 'PGRST116') {
+          console.error('Error fetching wallet balance:', walletError);
+        } else if (walletData) {
+          setWalletBalance(parseFloat(walletData.balance.toString()));
         }
 
-        if (data) {
-          setWalletBalance(parseFloat(data.balance.toString()));
+        // Fetch Tax Rate from Profile
+        try {
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('tax_rate')
+            .eq('id', user.id)
+            .single();
+
+          if (profileData?.tax_rate !== undefined && profileData.tax_rate !== null) {
+            setTaxRate(profileData.tax_rate);
+          }
+        } catch (e) {
+          // Ignore if column doesn't exist yet
         }
+
       } catch (error) {
-        console.error('Error fetching wallet balance:', error);
+        console.error('Error fetching user data:', error);
       }
     };
-    fetchWalletBalance();
+    fetchWalletAndProfile();
   }, [supabase]);
 
   const handleRemove = async (itemId: string) => {
@@ -68,7 +83,7 @@ export default function CartPage() {
     try {
       const { processCheckout } = await import('@/app/actions/checkout');
       const result = await processCheckout();
-      
+
       if (result.success) {
         // Navigate to order confirmation
         router.push(`/orders/${result.orderId}`);
@@ -134,7 +149,7 @@ export default function CartPage() {
 
   const subtotal = getTotal();
   const discount = 0; // TODO: Calculate from applied discount codes
-  const taxes = subtotal * 0.08; // 8% tax (mock)
+  const taxes = subtotal * taxRate;
   const total = subtotal - discount + taxes;
   const currency = items[0]?.variant?.currency || 'USD';
   const useCredits = version === '3' || version === '4' || version === '5';
@@ -206,7 +221,7 @@ export default function CartPage() {
                         id: item.product.id,
                         title: item.product.title,
                         slug: item.product.slug,
-                        image: item.product.image || null,
+                        image: item.product.image || undefined,
                       }}
                       variant={{
                         id: item.variant.id,
@@ -376,7 +391,7 @@ export default function CartPage() {
                         id: item.product.id,
                         title: item.product.title,
                         slug: item.product.slug,
-                        image: item.product.image || null,
+                        image: item.product.image || undefined,
                       }}
                       variant={{
                         id: item.variant.id,

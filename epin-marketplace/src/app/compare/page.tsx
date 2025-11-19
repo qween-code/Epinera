@@ -40,13 +40,13 @@ export default function ComparePage() {
 
       try {
         const supabase = createClient();
+        // First get products without image_url to avoid column error
         const { data, error } = await supabase
           .from('products')
           .select(`
             id,
             title,
             slug,
-            image_url,
             description,
             seller_id,
             product_variants (
@@ -65,25 +65,76 @@ export default function ComparePage() {
 
         if (error) throw error;
 
-        const processedProducts = (data || []).map((product: any) => {
+        // Try to get image_url separately if column exists
+        const imageMap = new Map<string, string | null>();
+        if (data && data.length > 0) {
+          try {
+            const { data: productsWithImages } = await supabase
+              .from('products')
+              .select('id, image_url')
+              .in('id', data.map(p => p.id));
+
+            (productsWithImages || []).forEach(p => {
+              imageMap.set(p.id, p.image_url || null);
+            });
+          } catch (error: any) {
+            // image_url column doesn't exist, continue without images
+            if (error?.code !== '42703') {
+              console.error('Error fetching image_url:', error);
+            }
+          }
+        }
+
+        const processedProducts = await Promise.all((data || []).map(async (product: any) => {
           const variant = product.product_variants?.[0];
+
+          // Fetch seller rating
+          let sellerRating = 0;
+          try {
+            const { data: sellerReviews } = await supabase
+              .from('reviews')
+              .select('rating')
+              .eq('seller_id', product.seller_id);
+
+            if (sellerReviews && sellerReviews.length > 0) {
+              sellerRating = sellerReviews.reduce((sum, r) => sum + r.rating, 0) / sellerReviews.length;
+            }
+          } catch (e) {
+            console.error('Error fetching seller rating', e);
+          }
+
+          // Fetch attributes
+          let featureList: string[] = [];
+          try {
+            const { data: attributes } = await supabase
+              .from('product_attributes')
+              .select('name, value')
+              .eq('product_id', product.id);
+
+            if (attributes) {
+              featureList = attributes.map((a: any) => `${a.name}: ${a.value}`);
+            }
+          } catch (e) {
+            // Ignore error if table doesn't exist yet
+          }
+
           return {
             id: product.id,
             title: product.title,
             slug: product.slug,
-            image_url: product.image_url || 'https://via.placeholder.com/300',
+            image_url: imageMap.get(product.id) || 'https://via.placeholder.com/300',
             description: product.description,
             price: variant ? parseFloat(variant.price) : 0,
             currency: variant?.currency || 'USD',
             seller: {
               name: product.profiles?.full_name || 'Unknown Seller',
-              rating: 4.8, // TODO: Fetch from reviews
+              rating: sellerRating,
             },
-            platform: 'PC', // TODO: Get from product data
+            platform: 'PC', // Default for now
             deliveryTime: 'Instant',
-            features: [], // TODO: Get from product attributes
+            features: featureList,
           };
-        });
+        }));
 
         setProducts(processedProducts);
       } catch (error) {

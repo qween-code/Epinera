@@ -39,14 +39,13 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     .eq('parent_id', category.id)
     .order('name');
 
-  // Build query
+  // Build query (without image_url to avoid column error)
   let query = supabase
     .from('products')
     .select(`
       id,
       slug,
       title,
-      image_url,
       status,
       seller_id,
       product_variants (
@@ -77,6 +76,26 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     console.error('Error fetching products for category:', productsError);
   }
 
+  // Try to get image_url separately if column exists
+  let imageMap = new Map<string, string | null>();
+  if (products && products.length > 0) {
+    try {
+      const { data: productsWithImages } = await supabase
+        .from('products')
+        .select('id, image_url')
+        .in('id', products.map(p => p.id));
+      
+      (productsWithImages || []).forEach(p => {
+        imageMap.set(p.id, p.image_url || null);
+      });
+    } catch (error: any) {
+      // image_url column doesn't exist, continue without images
+      if (error?.code !== '42703') {
+        console.error('Error fetching image_url:', error);
+      }
+    }
+  }
+
   // Process products
   const processedProducts = (products || []).map((product: any) => {
     const variants = product.product_variants || [];
@@ -89,7 +108,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       id: product.id,
       title: product.title,
       slug: product.slug,
-      image_url: product.image_url || 'https://via.placeholder.com/300',
+      image_url: imageMap.get(product.id) || 'https://via.placeholder.com/300',
       lowest_price: lowestPrice,
       currency,
       seller: {

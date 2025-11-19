@@ -54,71 +54,43 @@ export default function AdminSecurityPage() {
           return;
         }
 
-        // Mock alerts data (in production, this would come from a security_alerts table)
-        const mockAlerts: Alert[] = [
-          {
-            id: '1',
-            type: 'error',
-            title: 'High-Risk Transaction',
-            message: 'Transaction ID #84521 flagged for unusual amount from a new device.',
-            timestamp: new Date(Date.now() - 2 * 60 * 1000).toISOString(),
-          },
-          {
-            id: '2',
-            type: 'warning',
-            title: 'Multiple Failed Logins',
-            message: "User 'PlayerX' account has 5 failed login attempts from IP 192.168.1.1.",
-            timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
-          },
-          {
-            id: '3',
-            type: 'info',
-            title: 'Spam Detected',
-            message: "Spam content identified and blocked from user 'SpamBot99'.",
-            timestamp: new Date(Date.now() - 32 * 60 * 1000).toISOString(),
-          },
-          {
-            id: '4',
-            type: 'error',
-            title: 'Account Takeover Attempt',
-            message: "Suspicious password reset request for user 'GamerPro123'.",
-            timestamp: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
-          },
-        ];
+        // Fetch real security alerts
+        const { data: realAlerts } = await supabase
+          .from('security_alerts')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(10);
 
-        // Mock risk reviews data
-        const mockRiskReviews: RiskReview[] = [
-          {
-            id: '1',
-            userId: 'PlayerX',
-            transactionId: '#84521',
-            riskScore: 92,
-            reason: 'High amount, new device',
-            timestamp: '2024-10-26 14:30',
-            status: 'pending',
-          },
-          {
-            id: '2',
-            userId: 'GamerPro123',
-            transactionId: '#84520',
-            riskScore: 85,
-            reason: 'Account takeover attempt',
-            timestamp: '2024-10-26 13:15',
-            status: 'blocked',
-          },
-          {
-            id: '3',
-            userId: 'NewbieJane',
-            transactionId: '#84519',
-            riskScore: 65,
-            reason: 'Unusual login location',
-            timestamp: '2024-10-26 11:55',
-            status: 'cleared',
-          },
-        ];
+        if (realAlerts) {
+          setAlerts(realAlerts.map(alert => ({
+            id: alert.id,
+            type: alert.type || 'info',
+            title: alert.title,
+            message: alert.message,
+            timestamp: alert.created_at
+          })));
+        }
 
-        setAlerts(mockAlerts);
-        setRiskReviews(mockRiskReviews);
+        // Fetch real risk reviews
+        const { data: realReviews } = await supabase
+          .from('risk_reviews')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(10);
+
+        if (realReviews) {
+          setRiskReviews(realReviews.map(review => ({
+            id: review.id,
+            userId: review.user_id, // Assuming column name is user_id
+            transactionId: review.transaction_id, // Assuming column name is transaction_id
+            riskScore: review.risk_score, // Assuming column name
+            reason: review.reason,
+            timestamp: review.created_at,
+            status: review.status
+          })));
+        }
+
+
       } catch (error) {
         console.error('Error fetching security data:', error);
       } finally {
@@ -215,41 +187,37 @@ export default function AdminSecurityPage() {
             <div className="flex border-b border-[#2D3748]/50 gap-8">
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${
-                  activeTab === 'overview'
-                    ? 'border-b-[#3182CE] text-white'
-                    : 'border-b-transparent text-gray-400 hover:text-white'
-                }`}
+                className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${activeTab === 'overview'
+                  ? 'border-b-[#3182CE] text-white'
+                  : 'border-b-transparent text-gray-400 hover:text-white'
+                  }`}
               >
                 <p className="text-sm font-bold leading-normal tracking-[0.015em]">Overview</p>
               </button>
               <button
                 onClick={() => setActiveTab('transaction')}
-                className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${
-                  activeTab === 'transaction'
-                    ? 'border-b-primary text-white'
-                    : 'border-b-transparent text-gray-400 hover:text-white'
-                }`}
+                className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${activeTab === 'transaction'
+                  ? 'border-b-primary text-white'
+                  : 'border-b-transparent text-gray-400 hover:text-white'
+                  }`}
               >
                 <p className="text-sm font-bold leading-normal tracking-[0.015em]">Transaction Fraud</p>
               </button>
               <button
                 onClick={() => setActiveTab('account')}
-                className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${
-                  activeTab === 'account'
-                    ? 'border-b-primary text-white'
-                    : 'border-b-transparent text-gray-400 hover:text-white'
-                }`}
+                className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${activeTab === 'account'
+                  ? 'border-b-primary text-white'
+                  : 'border-b-transparent text-gray-400 hover:text-white'
+                  }`}
               >
                 <p className="text-sm font-bold leading-normal tracking-[0.015em]">Account Security</p>
               </button>
               <button
                 onClick={() => setActiveTab('audit')}
-                className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${
-                  activeTab === 'audit'
-                    ? 'border-b-primary text-white'
-                    : 'border-b-transparent text-gray-400 hover:text-white'
-                }`}
+                className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 ${activeTab === 'audit'
+                  ? 'border-b-primary text-white'
+                  : 'border-b-transparent text-gray-400 hover:text-white'
+                  }`}
               >
                 <p className="text-sm font-bold leading-normal tracking-[0.015em]">Audit Logs</p>
               </button>

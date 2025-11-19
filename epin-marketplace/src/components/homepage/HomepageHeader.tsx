@@ -27,7 +27,7 @@ export default function HomepageHeader() {
         </Link>
         <nav className="hidden lg:flex items-center gap-9">
           <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/products">Games</Link>
-          <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/deals">Deals</Link>
+          <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/products?deals=true">Deals</Link>
           <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/community">Community</Link>
           <Link className="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="/wallet">Wallet</Link>
         </nav>
@@ -73,8 +73,9 @@ export default function HomepageHeader() {
             </span>
           )}
         </Link>
-        <div
-          className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+        <Link
+          href="/profile"
+          className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 hover:ring-2 hover:ring-primary transition-all cursor-pointer"
           data-alt="User profile avatar"
           style={{ backgroundImage: 'url("https://api.dicebear.com/7.x/avataaars/svg?seed=user")' }}
         />

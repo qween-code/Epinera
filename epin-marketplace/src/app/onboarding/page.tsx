@@ -15,7 +15,7 @@ export default function OnboardingPage() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback?next=/complete-profile`,
       },
     });
   };
@@ -24,16 +24,35 @@ export default function OnboardingPage() {
     router.push('/login?method=phone');
   };
 
-  const handleGuestContinue = () => {
-    router.push('/');
+  const handleGuestContinue = async () => {
+    // Check if user is already logged in
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      // User is logged in, check profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('id, full_name, avatar_url')
+        .eq('id', user.id)
+        .single();
+
+      if (profile && profile.full_name && profile.avatar_url) {
+        router.push('/dashboard');
+      } else {
+        router.push('/complete-profile');
+      }
+    } else {
+      // Guest user, go to homepage
+      router.push('/');
+    }
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden p-4 bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden p-4 bg-background-light dark:bg-background-dark font-display">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <div
           className="h-full w-full bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-10"
+          data-alt="Faint image of a vibrant esports gaming arena with bright stage lights"
           style={{
             backgroundImage:
               "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnLq0aVbjLXyJC4TgmXsb6KP7YmnRnify9fSAmqDolSMmzrM2WyX7DU-H627KxJSB0Pqq5nC4x670dHv9z5J3EmMsBb_k90XbACuL7nQsUHuGGwpQumffaIY_-yxDLWD1_j-m8StWaBmypWmdXJPBuDa1yET02bE4DHPjhylrD56kLpOIQ8ibL5kvOr30HantW-ETniu-2i0UgYixwUMm4Br6BI6W8rSaY7d9A5443FIfjjOVcBeUdXZwyOZjBqsmYgrXxf4NpLlC4')",
@@ -92,12 +111,12 @@ export default function OnboardingPage() {
         </div>
 
         {/* MetaText */}
-        <button
+        <p
           onClick={handleGuestContinue}
           className="mt-8 cursor-pointer text-center font-display text-sm font-normal leading-normal text-slate-500 underline decoration-slate-400 decoration-1 underline-offset-2 transition-colors hover:text-primary dark:text-[#90b8cb] dark:decoration-slate-500 dark:hover:text-primary"
         >
           Continue as Guest
-        </button>
+        </p>
 
         {/* Legal/Policy Links */}
         <div className="mt-8 w-full border-t border-slate-200/60 pt-4 dark:border-slate-700/60">

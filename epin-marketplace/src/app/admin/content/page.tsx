@@ -5,6 +5,8 @@ import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { logModerationAction } from '@/utils/audit-logger';
+import { sendModerationNotification, buildModerationNotification } from '@/utils/notifications';
 
 interface ModerationItem {
   id: string;
@@ -54,8 +56,7 @@ export default function AdminContentModerationPage() {
           return;
         }
 
-        // Fetch moderation items from reviews, products, and forum_posts
-        // For now, we'll use a combination of reviews with moderation_status and products
+        // Fetch moderation items from reviews and products with moderation status
         const { data: reviewsData } = await supabase
           .from('reviews')
           .select(`
@@ -64,11 +65,14 @@ export default function AdminContentModerationPage() {
             created_at,
             user_id,
             product_id,
+            moderation_status,
+            moderation_reason,
             profiles!reviews_user_id_fkey (
               full_name
             )
           `)
-          .or('comment.ilike.%spam%,comment.ilike.%profanity%,comment.ilike.%hate%')
+          .in('moderation_status', ['pending', 'approved', 'rejected'])
+          .order('created_at', { ascending: false })
           .limit(50);
 
         const { data: productsData } = await supabase
@@ -79,27 +83,34 @@ export default function AdminContentModerationPage() {
             description,
             created_at,
             seller_id,
+            moderation_status,
+            moderation_reason,
             profiles!products_seller_id_fkey (
               full_name
             )
           `)
-          .or('title.ilike.%spam%,description.ilike.%spam%')
+          .in('moderation_status', ['pending', 'approved', 'rejected'])
+          .order('created_at', { ascending: false })
           .limit(50);
 
         const mappedItems: ModerationItem[] = [];
 
         // Map reviews
         (reviewsData || []).forEach((review: any) => {
+          // Determine reason and flagged_by based on content or use existing moderation_reason
+          const reason = review.moderation_reason || 'AI: Profanity';
+          const flaggedBy: 'ai' | 'user' = review.moderation_reason?.includes('User') ? 'user' : 'ai';
+
           mappedItems.push({
             id: review.id,
             item_id: `Review #${review.id.substring(0, 5)}`,
             item_type: 'review',
             user_id: review.user_id,
             user_name: review.profiles?.full_name || 'Unknown',
-            reason: 'AI: Profanity',
-            flagged_by: 'ai',
+            reason: reason,
+            flagged_by: flaggedBy,
             date: review.created_at,
-            status: 'pending',
+            status: review.moderation_status || 'pending',
             content: review.comment,
             ai_confidence: 85,
           });
@@ -107,16 +118,19 @@ export default function AdminContentModerationPage() {
 
         // Map products
         (productsData || []).forEach((product: any) => {
+          const reason = product.moderation_reason || 'User Report: Spam';
+          const flaggedBy: 'ai' | 'user' = product.moderation_reason?.includes('User') ? 'user' : 'ai';
+
           mappedItems.push({
             id: product.id,
             item_id: `Product #${product.id.substring(0, 5)}`,
             item_type: 'product',
             user_id: product.seller_id,
             user_name: product.profiles?.full_name || 'Unknown',
-            reason: 'User Report: Spam',
-            flagged_by: 'user',
+            reason: reason,
+            flagged_by: flaggedBy,
             date: product.created_at,
-            status: 'pending',
+            status: product.moderation_status || 'pending',
             content: product.description || product.title,
             ai_confidence: 90,
           });
@@ -141,33 +155,237 @@ export default function AdminContentModerationPage() {
 
   const handleApprove = async (itemId: string) => {
     try {
+      const item = items.find((i) => i.id === itemId);
+      if (!item) return;
+
+      // Get current user for audit log
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       // Update moderation status in database
-      // This would update the review/product/forum_post moderation_status
+      const table = item.item_type === 'review' ? 'reviews' : 'products';
+      const { error } = await supabase
+        .from(table)
+        .update({
+          moderation_status: 'approved',
+          moderation_reason: null,
+        })
+        .eq('id', itemId);
+
+      if (error) throw error;
+
+      // Log moderation action
+      await logModerationAction(user.id, {
+        moderation_action: 'approve',
+        item_type: item.item_type,
+        item_id: itemId,
+        old_status: item.status,
+        new_status: 'approved',
+      });
+
+      // Send notification to user
+      const notificationData = buildModerationNotification('approved', item.item_type, itemId);
+      await sendModerationNotification({
+        ...notificationData,
+        user_id: item.user_id,
+      });
+
+      // Update local state
       setItems((prev) => prev.map((item) => (item.id === itemId ? { ...item, status: 'approved' } : item)));
       if (selectedItem?.id === itemId) {
         setSelectedItem((prev) => (prev ? { ...prev, status: 'approved' } : null));
       }
     } catch (error) {
       console.error('Error approving item:', error);
+      alert('Failed to approve item. Please try again.');
     }
   };
 
   const handleReject = async (itemId: string, reason: string) => {
     try {
+      const item = items.find((i) => i.id === itemId);
+      if (!item) return;
+
+      // Get current user for audit log
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
       // Update moderation status in database
+      const table = item.item_type === 'review' ? 'reviews' : 'products';
+      const { error } = await supabase
+        .from(table)
+        .update({
+          moderation_status: 'rejected',
+          moderation_reason: reason,
+        })
+        .eq('id', itemId);
+
+      if (error) throw error;
+
+      // Log moderation action
+      await logModerationAction(user.id, {
+        moderation_action: 'reject',
+        item_type: item.item_type,
+        item_id: itemId,
+        old_status: item.status,
+        new_status: 'rejected',
+        reason: reason,
+      });
+
+      // Send notification to user
+      const notificationData = buildModerationNotification('rejected', item.item_type, itemId, reason);
+      await sendModerationNotification({
+        ...notificationData,
+        user_id: item.user_id,
+      });
+
+      // Update local state
       setItems((prev) => prev.map((item) => (item.id === itemId ? { ...item, status: 'rejected' } : item)));
       if (selectedItem?.id === itemId) {
         setSelectedItem((prev) => (prev ? { ...prev, status: 'rejected' } : null));
       }
     } catch (error) {
       console.error('Error rejecting item:', error);
+      alert('Failed to reject item. Please try again.');
+    }
+  };
+
+  const handleBulkApprove = async () => {
+    if (selectedItems.size === 0) {
+      alert('Please select items to approve');
+      return;
+    }
+
+    if (!confirm(`Are you sure you want to approve ${selectedItems.size} items?`)) {
+      return;
+    }
+
+    try {
+      // Get current user for audit log
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const itemsToApprove = items.filter((item) => selectedItems.has(item.id));
+
+      // Group by item type for batch update
+      const reviewIds = itemsToApprove.filter((item) => item.item_type === 'review').map((item) => item.id);
+      const productIds = itemsToApprove.filter((item) => item.item_type === 'product').map((item) => item.id);
+
+      // Update reviews
+      if (reviewIds.length > 0) {
+        const { error: reviewError } = await supabase
+          .from('reviews')
+          .update({ moderation_status: 'approved', moderation_reason: null })
+          .in('id', reviewIds);
+
+        if (reviewError) throw reviewError;
+      }
+
+      // Update products
+      if (productIds.length > 0) {
+        const { error: productError } = await supabase
+          .from('products')
+          .update({ moderation_status: 'approved', moderation_reason: null })
+          .in('id', productIds);
+
+        if (productError) throw productError;
+      }
+
+      // Log bulk moderation action for each item
+      for (const item of itemsToApprove) {
+        await logModerationAction(user.id, {
+          moderation_action: 'bulk_approve',
+          item_type: item.item_type,
+          item_id: item.id,
+          old_status: item.status,
+          new_status: 'approved',
+        });
+      }
+
+      // Update local state
+      setItems((prev) =>
+        prev.map((item) => (selectedItems.has(item.id) ? { ...item, status: 'approved' } : item))
+      );
+      setSelectedItems(new Set());
+      alert(`Successfully approved ${itemsToApprove.length} items`);
+    } catch (error) {
+      console.error('Error bulk approving items:', error);
+      alert('Failed to approve some items. Please try again.');
+    }
+  };
+
+  const handleBulkReject = async () => {
+    if (selectedItems.size === 0) {
+      alert('Please select items to reject');
+      return;
+    }
+
+    const reason = prompt('Enter rejection reason:');
+    if (!reason) return;
+
+    if (!confirm(`Are you sure you want to reject ${selectedItems.size} items?`)) {
+      return;
+    }
+
+    try {
+      // Get current user for audit log
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const itemsToReject = items.filter((item) => selectedItems.has(item.id));
+
+      // Group by item type for batch update
+      const reviewIds = itemsToReject.filter((item) => item.item_type === 'review').map((item) => item.id);
+      const productIds = itemsToReject.filter((item) => item.item_type === 'product').map((item) => item.id);
+
+      // Update reviews
+      if (reviewIds.length > 0) {
+        const { error: reviewError } = await supabase
+          .from('reviews')
+          .update({ moderation_status: 'rejected', moderation_reason: reason })
+          .in('id', reviewIds);
+
+        if (reviewError) throw reviewError;
+      }
+
+      // Update products
+      if (productIds.length > 0) {
+        const { error: productError } = await supabase
+          .from('products')
+          .update({ moderation_status: 'rejected', moderation_reason: reason })
+          .in('id', productIds);
+
+        if (productError) throw productError;
+      }
+
+      // Log bulk moderation action for each item
+      for (const item of itemsToReject) {
+        await logModerationAction(user.id, {
+          moderation_action: 'bulk_reject',
+          item_type: item.item_type,
+          item_id: item.id,
+          old_status: item.status,
+          new_status: 'rejected',
+          reason: reason,
+        });
+      }
+
+      // Update local state
+      setItems((prev) =>
+        prev.map((item) => (selectedItems.has(item.id) ? { ...item, status: 'rejected' } : item))
+      );
+      setSelectedItems(new Set());
+      alert(`Successfully rejected ${itemsToReject.length} items`);
+    } catch (error) {
+      console.error('Error bulk rejecting items:', error);
+      alert('Failed to reject some items. Please try again.');
     }
   };
 
   const filteredItems = items.filter((item) => {
     const matchesSearch = item.item_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.user_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         (item.content && item.content.toLowerCase().includes(searchQuery.toLowerCase()));
+      item.user_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (item.content && item.content.toLowerCase().includes(searchQuery.toLowerCase()));
 
     if (activeFilter === 'ai_flagged') {
       return matchesSearch && item.flagged_by === 'ai' && item.status === 'pending';
@@ -232,11 +450,10 @@ export default function AdminContentModerationPage() {
           <div className="flex flex-col gap-1 mt-4">
             <button
               onClick={() => setActiveFilter('ai_flagged')}
-              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${
-                activeFilter === 'ai_flagged'
-                  ? 'bg-primary/20 text-primary'
-                  : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
-              }`}
+              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${activeFilter === 'ai_flagged'
+                ? 'bg-primary/20 text-primary'
+                : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
+                }`}
             >
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-xl">spark</span>
@@ -248,11 +465,10 @@ export default function AdminContentModerationPage() {
             </button>
             <button
               onClick={() => setActiveFilter('manual_review')}
-              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${
-                activeFilter === 'manual_review'
-                  ? 'bg-primary/20 text-primary'
-                  : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
-              }`}
+              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${activeFilter === 'manual_review'
+                ? 'bg-primary/20 text-primary'
+                : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
+                }`}
             >
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-xl">visibility</span>
@@ -264,11 +480,10 @@ export default function AdminContentModerationPage() {
             </button>
             <button
               onClick={() => setActiveFilter('user_reports')}
-              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${
-                activeFilter === 'user_reports'
-                  ? 'bg-primary/20 text-primary'
-                  : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
-              }`}
+              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${activeFilter === 'user_reports'
+                ? 'bg-primary/20 text-primary'
+                : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
+                }`}
             >
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-xl">flag</span>
@@ -277,11 +492,10 @@ export default function AdminContentModerationPage() {
             </button>
             <button
               onClick={() => setActiveFilter('appeals')}
-              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${
-                activeFilter === 'appeals'
-                  ? 'bg-primary/20 text-primary'
-                  : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
-              }`}
+              className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg ${activeFilter === 'appeals'
+                ? 'bg-primary/20 text-primary'
+                : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
+                }`}
             >
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-xl">gavel</span>
@@ -291,22 +505,20 @@ export default function AdminContentModerationPage() {
             <div className="my-2 border-t border-gray-200 dark:border-gray-800"></div>
             <button
               onClick={() => setActiveFilter('approved')}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg ${
-                activeFilter === 'approved'
-                  ? 'bg-primary/20 text-primary'
-                  : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
-              }`}
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg ${activeFilter === 'approved'
+                ? 'bg-primary/20 text-primary'
+                : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
+                }`}
             >
               <span className="material-symbols-outlined text-xl">check_circle</span>
               <p className="text-sm font-medium leading-normal">Approved</p>
             </button>
             <button
               onClick={() => setActiveFilter('rejected')}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg ${
-                activeFilter === 'rejected'
-                  ? 'bg-primary/20 text-primary'
-                  : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
-              }`}
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg ${activeFilter === 'rejected'
+                ? 'bg-primary/20 text-primary'
+                : 'hover:bg-gray-200 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300'
+                }`}
             >
               <span className="material-symbols-outlined text-xl">cancel</span>
               <p className="text-sm font-medium leading-normal">Rejected</p>
@@ -385,10 +597,18 @@ export default function AdminContentModerationPage() {
                 </span>
               </div>
               <div className="flex gap-2">
-                <button className="p-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-primary/20 hover:text-primary">
+                <button
+                  onClick={handleBulkApprove}
+                  className="p-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/20 hover:text-green-600 transition-colors"
+                  title="Approve selected"
+                >
                   <span className="material-symbols-outlined text-2xl">check_circle</span>
                 </button>
-                <button className="p-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-primary/20 hover:text-primary">
+                <button
+                  onClick={handleBulkReject}
+                  className="p-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/20 hover:text-red-600 transition-colors"
+                  title="Reject selected"
+                >
                   <span className="material-symbols-outlined text-2xl">cancel</span>
                 </button>
                 <button className="p-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-primary/20 hover:text-primary">
@@ -445,11 +665,10 @@ export default function AdminContentModerationPage() {
                   filteredItems.map((item) => (
                     <tr
                       key={item.id}
-                      className={`border-b dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer ${
-                        selectedItem?.id === item.id
-                          ? 'bg-primary/10 ring-2 ring-primary'
-                          : 'bg-gray-50 dark:bg-gray-900'
-                      }`}
+                      className={`border-b dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer ${selectedItem?.id === item.id
+                        ? 'bg-primary/10 ring-2 ring-primary'
+                        : 'bg-gray-50 dark:bg-gray-900'
+                        }`}
                       onClick={() => setSelectedItem(item)}
                     >
                       <td className="w-4 p-4">

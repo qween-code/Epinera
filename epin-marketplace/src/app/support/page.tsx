@@ -37,44 +37,26 @@ export default function SupportPage() {
 
         // Fetch support conversations (using messages table with support flag or separate support_conversations table)
         // For now, we'll use mock data structure
-        const mockConversations: SupportConversation[] = [
-          {
-            id: '1',
-            title: 'Order #12345 Inquiry',
-            status: 'open',
-            lastMessage: 'AI: Your order has been processed...',
-            lastMessageTime: '2 days ago',
-            handledBy: 'ai',
-          },
-          {
-            id: '2',
-            title: 'Login Issue',
-            status: 'closed',
-            lastMessage: 'Agent: Your account has been verified...',
-            lastMessageTime: '1 week ago',
-            handledBy: 'agent',
-          },
-          {
-            id: '3',
-            title: 'Payment Failed',
-            status: 'closed',
-            lastMessage: 'AI: Please check your payment method...',
-            lastMessageTime: '2 weeks ago',
-            handledBy: 'ai',
-          },
-          {
-            id: '4',
-            title: 'Redemption Code Help',
-            status: 'closed',
-            lastMessage: 'Agent: The code should be entered in...',
-            lastMessageTime: '1 month ago',
-            handledBy: 'agent',
-          },
-        ];
+        // Fetch support conversations
+        const { data: tickets, error } = await supabase
+          .from('support_tickets')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('updated_at', { ascending: false });
 
-        setConversations(mockConversations);
-        if (mockConversations.length > 0 && !selectedConversation) {
-          setSelectedConversation(mockConversations[0].id);
+        if (tickets) {
+          setConversations(tickets.map(ticket => ({
+            id: ticket.id,
+            title: ticket.subject,
+            status: ticket.status,
+            lastMessage: ticket.last_message_preview || 'No messages yet',
+            lastMessageTime: new Date(ticket.updated_at).toLocaleDateString(),
+            handledBy: 'agent' // Defaulting to agent for now
+          })));
+
+          if (tickets.length > 0 && !selectedConversation) {
+            setSelectedConversation(tickets[0].id);
+          }
         }
       } catch (error) {
         console.error('Error fetching conversations:', error);
@@ -88,30 +70,25 @@ export default function SupportPage() {
 
   useEffect(() => {
     if (selectedConversation) {
-      // Fetch messages for selected conversation
-      const mockMessages = [
-        {
-          id: '1',
-          sender: 'ai',
-          content: "Hello! I'm your AI Assistant, here to help you 24/7. How can I assist you today? You can ask me about your orders, payments, or any technical issues.",
-          timestamp: new Date(),
-        },
-        {
-          id: '2',
-          sender: 'user',
-          content: 'I need help with my order #12345',
-          timestamp: new Date(),
-        },
-        {
-          id: '3',
-          sender: 'ai',
-          content: 'I can help you with that! Let me check your order status...',
-          timestamp: new Date(),
-        },
-      ];
-      setMessages(mockMessages);
+      const fetchMessages = async () => {
+        const { data: ticketMessages } = await supabase
+          .from('support_messages')
+          .select('*')
+          .eq('ticket_id', selectedConversation)
+          .order('created_at', { ascending: true });
+
+        if (ticketMessages) {
+          setMessages(ticketMessages.map(msg => ({
+            id: msg.id,
+            sender: msg.sender_type === 'user' ? 'user' : 'ai',
+            content: msg.content,
+            timestamp: new Date(msg.created_at),
+          })));
+        }
+      };
+      fetchMessages();
     }
-  }, [selectedConversation]);
+  }, [selectedConversation, supabase]);
 
   const filteredConversations = conversations.filter((conv) =>
     conv.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -121,26 +98,29 @@ export default function SupportPage() {
     e.preventDefault();
     if (!message.trim() || !selectedConversation) return;
 
-    // Add user message
-    const newMessage = {
-      id: Date.now().toString(),
-      sender: 'user',
-      content: message,
-      timestamp: new Date(),
-    };
-    setMessages((prev) => [...prev, newMessage]);
-    setMessage('');
+    try {
+      const { data: newMessage, error } = await supabase
+        .from('support_messages')
+        .insert({
+          ticket_id: selectedConversation,
+          content: message,
+          sender_type: 'user'
+        })
+        .select()
+        .single();
 
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponse = {
-        id: (Date.now() + 1).toString(),
-        sender: 'ai',
-        content: "I understand your concern. Let me help you with that. Can you provide more details?",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, aiResponse]);
-    }, 1000);
+      if (newMessage) {
+        setMessages((prev) => [...prev, {
+          id: newMessage.id,
+          sender: 'user',
+          content: newMessage.content,
+          timestamp: new Date(newMessage.created_at),
+        }]);
+        setMessage('');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
   };
 
   const selectedConv = conversations.find((c) => c.id === selectedConversation);
@@ -184,18 +164,16 @@ export default function SupportPage() {
                   <button
                     key={conv.id}
                     onClick={() => setSelectedConversation(conv.id)}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-left ${
-                      selectedConversation === conv.id
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-left ${selectedConversation === conv.id
                         ? 'bg-primary/20 dark:bg-primary/20'
                         : 'hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50'
-                    }`}
+                      }`}
                   >
                     <span
-                      className={`material-symbols-outlined text-2xl ${
-                        selectedConversation === conv.id
+                      className={`material-symbols-outlined text-2xl ${selectedConversation === conv.id
                           ? 'text-primary'
                           : 'text-zinc-500 dark:text-zinc-400'
-                      }`}
+                        }`}
                       style={{ fontVariationSettings: selectedConversation === conv.id ? "'FILL' 1" : "'FILL' 0" }}
                     >
                       chat_bubble
@@ -304,11 +282,10 @@ export default function SupportPage() {
                   )}
                   <div className={`flex flex-col gap-2 max-w-lg ${msg.sender === 'user' ? 'items-end' : ''}`}>
                     <div
-                      className={`p-3.5 rounded-lg ${
-                        msg.sender === 'user'
+                      className={`p-3.5 rounded-lg ${msg.sender === 'user'
                           ? 'bg-primary/20 dark:bg-primary/30 rounded-tr-none'
                           : 'bg-zinc-200/70 dark:bg-zinc-800 rounded-tl-none'
-                      }`}
+                        }`}
                     >
                       <p className="text-zinc-900 dark:text-zinc-50 text-sm leading-relaxed">{msg.content}</p>
                     </div>

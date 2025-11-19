@@ -42,28 +42,41 @@ export default function SellerWalletPage() {
 
         if (walletData) {
           // Calculate monthly earnings (last 30 days)
+          const now = new Date();
           const thirtyDaysAgo = new Date();
           thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          const sixtyDaysAgo = new Date();
+          sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
 
-          const { data: monthlyTransactions } = await supabase
+          // Fetch transactions for last 60 days to calculate growth
+          const { data: recentTransactions } = await supabase
             .from('wallet_transactions')
-            .select('amount')
+            .select('amount, created_at')
             .eq('user_id', currentUser.id)
             .eq('transaction_type', 'sale')
             .eq('status', 'completed')
-            .gte('created_at', thirtyDaysAgo.toISOString());
+            .gte('created_at', sixtyDaysAgo.toISOString());
 
-          const monthlyEarnings = monthlyTransactions?.reduce((sum, tx) => sum + parseFloat(tx.amount.toString()), 0) || 0;
+          const currentMonthTx = recentTransactions?.filter((tx: any) => new Date(tx.created_at) >= thirtyDaysAgo) || [];
+          const previousMonthTx = recentTransactions?.filter((tx: any) => new Date(tx.created_at) < thirtyDaysAgo && new Date(tx.created_at) >= sixtyDaysAgo) || [];
 
-          // Calculate growth (mock for now)
-          const monthlyGrowth = 15.2;
+          const monthlyEarnings = currentMonthTx.reduce((sum, tx) => sum + parseFloat(tx.amount.toString()), 0);
+          const previousEarnings = previousMonthTx.reduce((sum, tx) => sum + parseFloat(tx.amount.toString()), 0);
+
+          // Calculate growth
+          let monthlyGrowth = 0;
+          if (previousEarnings > 0) {
+            monthlyGrowth = ((monthlyEarnings - previousEarnings) / previousEarnings) * 100;
+          } else if (monthlyEarnings > 0) {
+            monthlyGrowth = 100; // 100% growth if previous was 0
+          }
 
           setWallet({
             availableBalance: parseFloat(walletData.balance.toString()),
             pendingPayouts: parseFloat(walletData.escrow_balance.toString()),
             monthlyEarnings,
-            monthlyGrowth,
-            nextPayoutDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+            monthlyGrowth: parseFloat(monthlyGrowth.toFixed(1)),
+            nextPayoutDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now (mock logic for payout schedule)
             currency: walletData.currency,
           });
         }
@@ -187,7 +200,11 @@ export default function SellerWalletPage() {
 
           {/* Earnings Chart */}
           {wallet && (
-            <EarningsChart earnings={8950} growth={5.8} period="Last 30 Days" />
+            <EarningsChart
+              earnings={wallet.monthlyEarnings}
+              growth={wallet.monthlyGrowth}
+              period="Last 30 Days"
+            />
           )}
 
           {/* Tabs & Content */}
@@ -209,4 +226,3 @@ export default function SellerWalletPage() {
     </div>
   );
 }
-

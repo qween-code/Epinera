@@ -15,70 +15,41 @@ export async function GET(request: Request) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value
+          getAll() {
+            return cookieStore.getAll()
           },
-          set(name: string, value: string, options) {
-            cookieStore.set({ name, value, ...options })
-          },
-          remove(name: string, options) {
-            cookieStore.delete({ name, ...options })
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) =>
+                cookieStore.set(name, value, options)
+              )
+            } catch {
+              // The `setAll` method was called from a Server Component.
+              // This can be ignored if you have middleware refreshing
+              // user sessions.
+            }
           },
         },
       }
     )
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      // Check if user profile exists (trigger should create it, but we verify)
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        // Check if profile exists
-        const { data: profile, error: profileError } = await supabase
+        const { data: profile } = await supabase
           .from('profiles')
-          .select('id, full_name, avatar_url')
+          .select('full_name, avatar_url')
           .eq('id', user.id)
           .single()
 
-        // If profile doesn't exist, create it (fallback if trigger didn't fire)
-        if (profileError && profileError.code === 'PGRST116') {
-          const metadata = user.user_metadata || {}
-          await supabase
-            .from('profiles')
-            .insert({
-              id: user.id,
-              full_name: metadata.full_name || metadata.name || null,
-              avatar_url: metadata.avatar_url || metadata.picture || null,
-              phone: metadata.phone || null,
-              role: 'buyer',
-              kyc_status: 'not_started',
-              metadata: {},
-            })
-        }
+        // Check if user is new (created within the last 2 minutes)
+        const isNewUser = user.created_at && (new Date().getTime() - new Date(user.created_at).getTime() < 2 * 60 * 1000);
 
-        // If profile is incomplete (no name or avatar), redirect to complete-profile
-        if (profile && (!profile.full_name || !profile.avatar_url)) {
+        // Only redirect to complete-profile if it's a NEW user and profile is incomplete
+        if (isNewUser && (!profile || !profile.full_name || !profile.avatar_url)) {
           return NextResponse.redirect(`${origin}/complete-profile`)
         }
-
-        // If user just signed up (new user), redirect to onboarding or complete-profile
-        // Check if this is a new user by checking created_at
-        const userCreatedAt = new Date(user.created_at)
-        const now = new Date()
-        const minutesSinceCreation = (now.getTime() - userCreatedAt.getTime()) / (1000 * 60)
-        
-        // If user was created less than 5 minutes ago, likely a new signup
-        if (minutesSinceCreation < 5) {
-          // Check if profile is complete
-          if (profile && profile.full_name && profile.avatar_url) {
-            // Profile is complete, go to dashboard
-            return NextResponse.redirect(`${origin}${next}`)
-          } else {
-            // Profile incomplete, go to complete-profile
-            return NextResponse.redirect(`${origin}/complete-profile`)
-          }
-        }
       }
-
       return NextResponse.redirect(`${origin}${next}`)
     }
   }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import AnalyticsStats from '@/components/seller/AnalyticsStats';
 import TimeRangeButtons from '@/components/seller/TimeRangeButtons';
 import RevenueChart from '@/components/seller/RevenueChart';
@@ -71,13 +72,47 @@ export default function SellerAnalyticsPage() {
         const totalRevenue = orderItems?.reduce((sum, item) => sum + parseFloat(item.total_price.toString()), 0) || 0;
         const unitsSold = orderItems?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
 
-        // Mock growth calculations (in production, compare with previous period)
-        const revenueGrowth = 5.2;
-        const unitsGrowth = 8.1;
-        const conversionRate = 4.7;
-        const conversionChange = -0.3;
-        const customerSatisfaction = 95;
-        const satisfactionChange = 1.5;
+        // Calculate previous period for growth comparison
+        const duration = now.getTime() - startDate.getTime();
+        const previousEndDate = startDate;
+        const previousStartDate = new Date(startDate.getTime() - duration);
+
+        // Fetch previous order items
+        const { data: prevOrderItems } = await supabase
+          .from('order_items')
+          .select('total_price, quantity')
+          .eq('seller_id', currentUser.id)
+          .gte('created_at', previousStartDate.toISOString())
+          .lt('created_at', previousEndDate.toISOString());
+
+        const prevRevenue = prevOrderItems?.reduce((sum, item) => sum + parseFloat(item.total_price.toString()), 0) || 0;
+        const prevUnits = prevOrderItems?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
+
+        const revenueGrowth = prevRevenue === 0 ? (totalRevenue > 0 ? 100 : 0) : ((totalRevenue - prevRevenue) / prevRevenue) * 100;
+        const unitsGrowth = prevUnits === 0 ? (unitsSold > 0 ? 100 : 0) : ((unitsSold - prevUnits) / prevUnits) * 100;
+
+        // Fetch views for conversion rate
+        const { data: analyticsData } = await supabase
+          .from('product_analytics')
+          .select('views')
+          .eq('seller_id', currentUser.id);
+
+        const totalViews = analyticsData?.reduce((sum, a) => sum + (a.views || 0), 0) || 0;
+        const conversionRate = totalViews > 0 ? (unitsSold / totalViews) * 100 : 0;
+        const conversionChange = 0; // Complex to calculate historical conversion without snapshots
+
+        // Fetch reviews for satisfaction
+        const { data: reviews } = await supabase
+          .from('reviews')
+          .select('rating')
+          .eq('seller_id', currentUser.id);
+
+        const avgRating = reviews && reviews.length > 0
+          ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+          : 0;
+
+        const customerSatisfaction = avgRating * 20; // Convert 5-star to percentage
+        const satisfactionChange = 0; // Placeholder
 
         setAnalytics({
           totalRevenue,

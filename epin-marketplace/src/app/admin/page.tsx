@@ -71,7 +71,40 @@ export default function AdminDashboardPage() {
           .limit(10);
 
         setRecentTransactions(transactionsData || []);
-        setStats((prev) => ({ ...prev, activeUsers: totalUsers || 0 }));
+
+        // Calculate stats from real data
+        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+        const { data: tx24h } = await supabase
+          .from('wallet_transactions')
+          .select('amount, status')
+          .gte('created_at', oneDayAgo);
+
+        const { count: pendingCount } = await supabase
+          .from('wallet_transactions')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'pending');
+
+        const { count: ticketCount } = await supabase
+          .from('support_tickets')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'open');
+
+        if (tx24h) {
+          const volume = tx24h.reduce((acc, tx) => acc + (Number(tx.amount) || 0), 0);
+          const count = tx24h.length;
+          const avg = count > 0 ? volume / count : 0;
+
+          setStats({
+            activeUsers: totalUsers || 0,
+            salesVolume24h: volume,
+            revenue24h: volume * 0.05, // Assuming 5% platform fee
+            avgTransactionValue: avg,
+            transactions24h: count,
+            pendingTransactions: pendingCount || 0,
+            supportTickets: ticketCount || 0,
+          });
+        }
       } catch (error) {
         console.error('Error fetching admin data:', error);
       } finally {
@@ -527,10 +560,9 @@ export default function AdminDashboardPage() {
                               </td>
                               <td className="whitespace-nowrap px-6 py-4">
                                 <span
-                                  className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                                    statusColors[transaction.status as keyof typeof statusColors] ||
+                                  className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${statusColors[transaction.status as keyof typeof statusColors] ||
                                     'bg-gray-100 text-gray-800 dark:bg-gray-900/50 dark:text-gray-300'
-                                  }`}
+                                    }`}
                                 >
                                   {transaction.status}
                                 </span>

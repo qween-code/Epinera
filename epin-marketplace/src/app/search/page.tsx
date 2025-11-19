@@ -76,8 +76,28 @@ export default function SearchPage() {
 
       if (error) throw error;
 
+      // Try to get image_url separately if column exists
+      const imageMap = new Map<string, string | null>();
+      if (data && data.length > 0) {
+        try {
+          const { data: productsWithImages } = await supabase
+            .from('products')
+            .select('id, image_url')
+            .in('id', data.map(p => p.id));
+          
+          (productsWithImages || []).forEach(p => {
+            imageMap.set(p.id, p.image_url || null);
+          });
+        } catch (error: any) {
+          // image_url column doesn't exist, continue without images
+          if (error?.code !== '42703') {
+            console.error('Error fetching image_url:', error);
+          }
+        }
+      }
+
       // Process products to add lowest price
-      const processedProducts = (data || []).map((product) => {
+      const processedProducts = (data || []).map((product: any) => {
         const variants = product.product_variants || [];
         const lowestPrice = variants.length > 0
           ? Math.min(...variants.map((v: any) => parseFloat(v.price)))
@@ -87,6 +107,7 @@ export default function SearchPage() {
           id: product.id,
           title: product.title,
           slug: product.slug,
+          image_url: imageMap.get(product.id) || null,
           lowest_price: lowestPrice,
           currency: variants[0]?.currency || 'TRY',
         };

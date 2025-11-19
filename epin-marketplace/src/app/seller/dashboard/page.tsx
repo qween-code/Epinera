@@ -39,7 +39,20 @@ export default async function SellerDashboardPage() {
   const averageRating = reviews?.length
     ? reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length
     : 4.8;
-  const productViews = 15209; // Mock data, will be from analytics later
+  // Real analytics
+  let productViews = 0;
+  try {
+    const { data: analytics } = await supabase
+      .from('product_analytics')
+      .select('views')
+      .eq('seller_id', user.id);
+
+    if (analytics) {
+      productViews = analytics.reduce((sum, a) => sum + (a.views || 0), 0);
+    }
+  } catch (e) {
+    console.error('Error fetching analytics', e);
+  }
 
   const stats = {
     totalRevenue: Math.round(totalRevenue),
@@ -48,33 +61,47 @@ export default async function SellerDashboardPage() {
     productViews,
   };
 
-  // Top selling products (mock for now)
-  const topProducts = [
-    {
-      id: '1',
-      name: 'Cyber Odyssey - 1000 Credits',
-      type: 'Digital Code',
-      revenue: 4520,
-      sold: 120,
-      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&q=80',
-    },
-    {
-      id: '2',
-      name: 'Starfall Chronicles Deluxe',
-      type: 'Steam Key',
-      revenue: 2890,
-      sold: 85,
-      image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80',
-    },
-    {
-      id: '3',
-      name: 'Valiant Heroes Skin Pack',
-      type: 'In-Game Item',
-      revenue: 1950,
-      sold: 210,
-      image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80',
-    },
-  ];
+  // Real top selling products
+  let topProducts: any[] = [];
+  try {
+    const { data: topSelling } = await supabase
+      .from('order_items')
+      .select(`
+        product_id, 
+        price, 
+        products (
+          title, 
+          image_url
+        )
+      `)
+      .eq('seller_id', user.id);
+
+    if (topSelling) {
+      const salesMap = new Map();
+      topSelling.forEach((item: any) => {
+        const pid = item.product_id;
+        if (!salesMap.has(pid)) {
+          salesMap.set(pid, {
+            id: pid,
+            name: item.products?.title || 'Unknown Product',
+            type: 'Digital Product',
+            revenue: 0,
+            sold: 0,
+            image: item.products?.image_url || 'https://via.placeholder.com/400',
+          });
+        }
+        const p = salesMap.get(pid);
+        p.revenue += parseFloat(item.price?.toString() || '0');
+        p.sold += 1;
+      });
+
+      topProducts = Array.from(salesMap.values())
+        .sort((a: any, b: any) => b.revenue - a.revenue)
+        .slice(0, 5);
+    }
+  } catch (e) {
+    console.error('Error fetching top products', e);
+  }
 
   // Recent activities
   const activities = [

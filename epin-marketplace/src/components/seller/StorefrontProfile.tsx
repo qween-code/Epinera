@@ -6,6 +6,7 @@ interface StorefrontProfileProps {
   logoUrl?: string;
   isVerified?: boolean;
   onFollow?: () => void;
+  isFollowing?: boolean;
 }
 
 export default function StorefrontProfile({
@@ -14,6 +15,7 @@ export default function StorefrontProfile({
   logoUrl,
   isVerified = false,
   onFollow,
+  isFollowing = false,
 }: StorefrontProfileProps) {
   return (
     <div className="px-4 -mt-24">
@@ -23,7 +25,7 @@ export default function StorefrontProfile({
             className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-32 border-4 border-[#101d23] shadow-lg"
             data-alt={`${storeName} store logo`}
             style={{
-              backgroundImage: logoUrl || 'url("https://api.dicebear.com/7.x/avataaars/svg?seed=' + storeName + '")',
+              backgroundImage: logoUrl ? `url("${logoUrl}")` : 'url("https://api.dicebear.com/7.x/avataaars/svg?seed=' + storeName + '")',
             }}
           />
           <div className="flex flex-col justify-center pb-2">
@@ -40,9 +42,12 @@ export default function StorefrontProfile({
         </div>
         <button
           onClick={onFollow}
-          className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full max-w-[480px] md:w-auto hover:bg-primary/90 transition-colors"
+          className={`flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 text-sm font-bold leading-normal tracking-[0.015em] w-full max-w-[480px] md:w-auto transition-colors ${isFollowing
+              ? 'bg-gray-700 text-white hover:bg-gray-600'
+              : 'bg-primary text-white hover:bg-primary/90'
+            }`}
         >
-          <span className="truncate">Follow</span>
+          <span className="truncate">{isFollowing ? 'Unfollow' : 'Follow'}</span>
         </button>
       </div>
     </div>

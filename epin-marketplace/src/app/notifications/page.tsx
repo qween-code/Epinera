@@ -8,7 +8,7 @@ import Header from '@/components/layout/Header';
 
 interface Notification {
   id: string;
-  type: 'order' | 'price_alert' | 'recommendation' | 'campaign' | 'security' | 'community';
+  type: 'order' | 'price_alert' | 'recommendation' | 'campaign' | 'security' | 'community' | 'moderation_approved' | 'moderation_rejected' | 'moderation_appeal';
   title: string;
   message: string;
   isRead: boolean;
@@ -124,6 +124,9 @@ export default function NotificationsPage() {
       campaign: 'campaign',
       security: 'security',
       community: 'groups',
+      moderation_approved: 'check_circle',
+      moderation_rejected: 'cancel',
+      moderation_appeal: 'gavel',
     };
     return icons[type] || 'notifications';
   };
@@ -180,11 +183,10 @@ export default function NotificationsPage() {
                       <button
                         key={item.id}
                         onClick={() => setFilter(item.id)}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                          isActive
-                            ? 'bg-primary/20 text-primary'
-                            : 'hover:bg-gray-500/10 text-gray-600 dark:text-gray-300'
-                        }`}
+                        className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive
+                          ? 'bg-primary/20 text-primary'
+                          : 'hover:bg-gray-500/10 text-gray-600 dark:text-gray-300'
+                          }`}
                       >
                         <span
                           className="material-symbols-outlined text-2xl"
@@ -195,11 +197,10 @@ export default function NotificationsPage() {
                         <p className="text-sm font-medium leading-normal flex-1 text-left">{item.label}</p>
                         {count > 0 && (
                           <span
-                            className={`text-xs font-semibold size-5 flex items-center justify-center rounded-full ${
-                              item.id === 'security'
-                                ? 'bg-amber-500 text-white'
-                                : 'bg-gray-500/20 text-gray-500 dark:text-gray-400'
-                            }`}
+                            className={`text-xs font-semibold size-5 flex items-center justify-center rounded-full ${item.id === 'security'
+                              ? 'bg-amber-500 text-white'
+                              : 'bg-gray-500/20 text-gray-500 dark:text-gray-400'
+                              }`}
                           >
                             {count}
                           </span>
@@ -265,18 +266,16 @@ export default function NotificationsPage() {
                 filteredNotifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`flex gap-4 p-4 rounded-xl border transition-colors ${
-                      notification.isRead
-                        ? 'bg-white dark:bg-slate-900/50 border-gray-200 dark:border-slate-800'
-                        : 'bg-primary/5 dark:bg-primary/10 border-primary/20 dark:border-primary/30'
-                    }`}
+                    className={`flex gap-4 p-4 rounded-xl border transition-colors ${notification.isRead
+                      ? 'bg-white dark:bg-slate-900/50 border-gray-200 dark:border-slate-800'
+                      : 'bg-primary/5 dark:bg-primary/10 border-primary/20 dark:border-primary/30'
+                      }`}
                   >
                     <div
-                      className={`flex items-center justify-center size-12 rounded-lg shrink-0 ${
-                        notification.type === 'security'
-                          ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
-                          : 'bg-primary/10 text-primary'
-                      }`}
+                      className={`flex items-center justify-center size-12 rounded-lg shrink-0 ${notification.type === 'security'
+                        ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                        : 'bg-primary/10 text-primary'
+                        }`}
                     >
                       <span className="material-symbols-outlined text-3xl">{getTypeIcon(notification.type)}</span>
                     </div>

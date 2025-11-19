@@ -14,11 +14,13 @@ export default function CreatorDashboardPage() {
   const [activeCampaign, setActiveCampaign] = useState<any>(null);
   const [totalEarnings, setTotalEarnings] = useState(4521.8);
   const [nextPayout, setNextPayout] = useState(350.0);
+  const [audienceInsights, setAudienceInsights] = useState<any[]>([]);
   const supabase = createClient();
 
   useEffect(() => {
     fetchCampaigns();
     fetchEarnings();
+    fetchAudienceInsights();
   }, []);
 
   const fetchCampaigns = async () => {
@@ -27,7 +29,7 @@ export default function CreatorDashboardPage() {
       if (!user) return;
 
       const { data: campaigns } = await supabase
-        .from('campaigns')
+        .from('creator_campaigns')
         .select('*')
         .eq('creator_id', user.id)
         .eq('status', 'active')
@@ -58,10 +60,83 @@ export default function CreatorDashboardPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // TODO: Calculate from actual campaign earnings
-      // For now, using mock data
+      // Fetch real-time stats from analytics
+      let currentStats = {
+        liveViewers: 0,
+        realTimeEarnings: 0,
+        clicksToday: 0,
+        conversionsToday: 0,
+      };
+
+      try {
+        const { data: analytics } = await supabase
+          .from('creator_analytics')
+          .select('*')
+          .eq('creator_id', user.id)
+          .gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString()); // Today's data
+
+        if (analytics && analytics.length > 0) {
+          currentStats = analytics.reduce((acc, curr) => ({
+            liveViewers: acc.liveViewers + (curr.live_viewers || 0),
+            realTimeEarnings: acc.realTimeEarnings + (curr.earnings || 0),
+            clicksToday: acc.clicksToday + (curr.clicks || 0),
+            conversionsToday: acc.conversionsToday + (curr.conversions || 0),
+          }), currentStats);
+        }
+      } catch (e) {
+        console.error('Error fetching analytics', e);
+      }
+
+      setStats(currentStats);
+
+      // Fetch total earnings
+      try {
+        const { data: earnings } = await supabase
+          .from('campaign_earnings')
+          .select('amount')
+          .eq('creator_id', user.id);
+
+        const total = earnings?.reduce((sum, e) => sum + parseFloat(e.amount || 0), 0) || 0;
+        setTotalEarnings(total);
+
+        // Calculate next payout (mock logic: 80% of pending earnings)
+        setNextPayout(total * 0.8);
+      } catch (e) {
+        console.error('Error fetching total earnings', e);
+      }
+
     } catch (error) {
       console.error('Error fetching earnings:', error);
+    }
+  };
+
+  const fetchAudienceInsights = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: audience } = await supabase
+        .from('creator_audience')
+        .select('country, count')
+        .eq('creator_id', user.id)
+        .order('count', { ascending: false })
+        .limit(5);
+
+      if (audience && audience.length > 0) {
+        const total = audience.reduce((sum, a) => sum + a.count, 0);
+        const insights = audience.map(a => ({
+          country: a.country,
+          percentage: Math.round((a.count / total) * 100)
+        }));
+        setAudienceInsights(insights);
+      } else {
+        // Fallback if no data
+        setAudienceInsights([
+          { country: 'No Data', percentage: 0 }
+        ]);
+      }
+    } catch (e) {
+      console.error('Error fetching audience insights', e);
     }
   };
 
@@ -106,9 +181,8 @@ export default function CreatorDashboardPage() {
             <p className="text-gray-600 dark:text-gray-400 text-base font-medium leading-normal">{stat.label}</p>
             <p className="text-black dark:text-white tracking-light text-2xl font-bold leading-tight">{stat.value}</p>
             <p
-              className={`text-base font-medium leading-normal ${
-                stat.changeType === 'positive' ? 'text-green-500' : 'text-red-500'
-              }`}
+              className={`text-base font-medium leading-normal ${stat.changeType === 'positive' ? 'text-green-500' : 'text-red-500'
+                }`}
             >
               {stat.change}
             </p>
@@ -257,40 +331,6 @@ export default function CreatorDashboardPage() {
                 <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white text-sm font-medium leading-normal">
                   <span className="truncate">Tax Documents</span>
                 </button>
-              </div>
-            </div>
-          </section>
-
-          {/* Section: Audience Insights */}
-          <section>
-            <h2 className="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5">
-              Audience Insights
-            </h2>
-            <div className="p-6 bg-white/5 rounded-xl border border-white/10">
-              <h3 className="text-black dark:text-white text-lg font-bold mb-1">Top Follower Locations</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">Based on your last 30 days</p>
-              <div className="flex flex-col gap-3">
-                {[
-                  { country: 'United States', percentage: 32 },
-                  { country: 'United Kingdom', percentage: 18 },
-                  { country: 'Germany', percentage: 12 },
-                  { country: 'France', percentage: 8 },
-                ].map((location, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <p className="text-black dark:text-white text-sm font-medium">{location.country}</p>
-                    <div className="flex items-center gap-2">
-                      <div className="w-24 h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary rounded-full"
-                          style={{ width: `${location.percentage}%` }}
-                        ></div>
-                      </div>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm font-medium w-8 text-right">
-                        {location.percentage}%
-                      </p>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </section>

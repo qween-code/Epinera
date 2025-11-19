@@ -4,23 +4,18 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { subDays } from 'date-fns';
 
 export default function CreatorRevenuePage() {
   const [timeRange, setTimeRange] = useState<'30days' | '90days' | 'year'>('30days');
   const [stats, setStats] = useState({
-    availableForPayout: 4250.75,
-    lifetimeEarnings: 87432.1,
-    earnings30Days: 6812.3,
+    availableForPayout: 0,
+    lifetimeEarnings: 0,
+    earnings30Days: 0,
   });
-  const [payouts, setPayouts] = useState([
-    { date: 'Oct 15, 2023', amount: 1200.0, method: 'Bank Transfer', status: 'paid' },
-    { date: 'Sep 28, 2023', amount: 550.5, method: 'Web3 Wallet', status: 'paid' },
-    { date: 'Sep 12, 2023', amount: 2500.0, method: 'Bank Transfer', status: 'paid' },
-  ]);
-  const [payoutMethods, setPayoutMethods] = useState([
-    { name: 'Web3 Wallet', details: '0x123...abcd', isPrimary: true },
-    { name: 'Bank Account', details: '**** **** **** 5678', isPrimary: false },
-  ]);
+  const [payouts, setPayouts] = useState<any[]>([]);
+  const [payoutMethods, setPayoutMethods] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const supabase = createClient();
   const router = useRouter();
 
@@ -29,6 +24,7 @@ export default function CreatorRevenuePage() {
   }, [timeRange]);
 
   const fetchEarnings = async () => {
+    setLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -36,10 +32,68 @@ export default function CreatorRevenuePage() {
         return;
       }
 
-      // TODO: Fetch real earnings data from campaigns and wallet_transactions
-      // For now, using mock data
+      // 1. Fetch Wallet Balance (Available for Payout)
+      const { data: wallet } = await supabase
+        .from('wallets')
+        .select('balance')
+        .eq('user_id', user.id)
+        .single();
+
+      // 2. Fetch Lifetime Earnings (from campaign_earnings)
+      const { data: allEarnings } = await supabase
+        .from('campaign_earnings')
+        .select('amount, created_at')
+        .eq('creator_id', user.id);
+
+      const lifetimeTotal = allEarnings?.reduce((sum, e) => sum + parseFloat(e.amount || 0), 0) || 0;
+
+      // 3. Calculate Period Earnings
+      const now = new Date();
+      let daysToSubtract = 30;
+      if (timeRange === '90days') daysToSubtract = 90;
+      if (timeRange === 'year') daysToSubtract = 365;
+
+      const startDate = subDays(now, daysToSubtract);
+
+      const periodEarnings = allEarnings
+        ?.filter((e: any) => new Date(e.created_at) >= startDate)
+        .reduce((sum, e) => sum + parseFloat(e.amount || 0), 0) || 0;
+
+      setStats({
+        availableForPayout: parseFloat(wallet?.balance?.toString() || '0'),
+        lifetimeEarnings: lifetimeTotal,
+        earnings30Days: periodEarnings,
+      });
+
+      // 4. Fetch Payout History
+      const { data: payoutHistory } = await supabase
+        .from('wallet_transactions')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('transaction_type', 'withdrawal')
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (payoutHistory) {
+        setPayouts(payoutHistory.map((p: any) => ({
+          date: new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          amount: parseFloat(p.amount || 0),
+          method: p.metadata?.method || 'Bank Transfer',
+          status: p.status
+        })));
+      }
+
+      // 5. Fetch Payout Methods (Mock for now as table might not exist, but structured for replacement)
+      // In a real app, we'd query a 'payout_methods' table
+      setPayoutMethods([
+        { name: 'Bank Account', details: '**** **** **** 5678', isPrimary: true },
+        { name: 'PayPal', details: user.email, isPrimary: false },
+      ]);
+
     } catch (error) {
       console.error('Error fetching earnings:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,6 +102,10 @@ export default function CreatorRevenuePage() {
     { id: '90days', label: 'Last 90 Days' },
     { id: 'year', label: 'This Year' },
   ];
+
+  if (loading) {
+    return <div className="flex-1 p-8 text-white">Loading revenue data...</div>;
+  }
 
   return (
     <div className="flex-1 p-8 overflow-y-auto">
@@ -78,7 +136,9 @@ export default function CreatorRevenuePage() {
             </p>
           </div>
           <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white/5 border border-white/10">
-            <p className="text-gray-300 text-base font-medium leading-normal">30-Day Earnings</p>
+            <p className="text-gray-300 text-base font-medium leading-normal">
+              {timeRange === '30days' ? '30-Day' : timeRange === '90days' ? '90-Day' : 'Yearly'} Earnings
+            </p>
             <p className="text-white tracking-light text-3xl font-bold leading-tight">
               ${stats.earnings30Days.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
@@ -96,11 +156,10 @@ export default function CreatorRevenuePage() {
                   <button
                     key={option.id}
                     onClick={() => setTimeRange(option.id as any)}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                      isActive
+                    className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${isActive
                         ? 'bg-primary/20 text-primary'
                         : 'text-gray-300 hover:bg-white/10'
-                    }`}
+                      }`}
                   >
                     {option.label}
                   </button>
@@ -109,7 +168,7 @@ export default function CreatorRevenuePage() {
             </div>
           </div>
           <div className="h-80 flex items-center justify-center bg-white/5 rounded-lg">
-            <p className="text-gray-400 text-sm">Earnings Chart Placeholder</p>
+            <p className="text-gray-400 text-sm">Earnings Chart (Coming Soon)</p>
           </div>
         </div>
 
@@ -128,21 +187,27 @@ export default function CreatorRevenuePage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {payouts.map((payout, index) => (
-                    <tr key={index} className="border-b border-white/10 last:border-b-0">
-                      <td className="p-3 text-sm text-gray-200">{payout.date}</td>
-                      <td className="p-3 text-sm text-gray-200 font-medium">
-                        ${payout.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </td>
-                      <td className="p-3 text-sm text-gray-200">{payout.method}</td>
-                      <td className="p-3 text-sm text-green-400">
-                        <div className="flex items-center gap-1.5">
-                          <div className="size-2 rounded-full bg-green-400"></div>
-                          {payout.status === 'paid' ? 'Paid' : payout.status}
-                        </div>
-                      </td>
+                  {payouts.length > 0 ? (
+                    payouts.map((payout, index) => (
+                      <tr key={index} className="border-b border-white/10 last:border-b-0">
+                        <td className="p-3 text-sm text-gray-200">{payout.date}</td>
+                        <td className="p-3 text-sm text-gray-200 font-medium">
+                          ${payout.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                        <td className="p-3 text-sm text-gray-200">{payout.method}</td>
+                        <td className="p-3 text-sm text-green-400">
+                          <div className="flex items-center gap-1.5">
+                            <div className={`size-2 rounded-full ${payout.status === 'completed' ? 'bg-green-400' : 'bg-yellow-400'}`}></div>
+                            {payout.status === 'completed' ? 'Paid' : payout.status}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="p-3 text-sm text-gray-400 text-center">No payout history found</td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -155,9 +220,8 @@ export default function CreatorRevenuePage() {
                 {payoutMethods.map((method, index) => (
                   <div
                     key={index}
-                    className={`p-3 rounded-lg border ${
-                      method.isPrimary ? 'border-white/20 bg-white/5' : 'border-white/10'
-                    }`}
+                    className={`p-3 rounded-lg border ${method.isPrimary ? 'border-white/20 bg-white/5' : 'border-white/10'
+                      }`}
                   >
                     <p className="text-white font-medium">
                       {method.name}
@@ -191,4 +255,3 @@ export default function CreatorRevenuePage() {
     </div>
   );
 }
-
