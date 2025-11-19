@@ -702,3 +702,35 @@ npx tsx scripts/seed-test-data.ts
 - Stripe webhook URL'i production'da güncellenmeli
 - Admin kullanıcısı production'da da aynı şekilde oluşturulmalı
 
+
+## Database Migration Checklist
+
+### New Tables (Phase 7)
+- [ ] Run migration: create_ecommerce_tables
+- [ ] Verify table creation
+- [ ] Seed test data
+- [ ] Test foreign key constraints
+- [ ] Verify RLS policies
+
+### Required Migrations
+`sql
+-- Orders \u0026 Commerce
+orders, order_items, product_variants
+
+-- Analytics
+product_analytics, creator_analytics
+
+-- Creator System
+creator_campaigns, campaign_products, campaign_earnings
+``n
+### Environment Variables
+No new environment variables required for Phase 7.
+Existing Supabase and Stripe configurations sufficient.
+
+### Testing Steps
+1. Verify product pages load seller stats
+2. Check seller dashboard shows real orders
+3. Test creator campaign tracking
+4. Validate order creation flow
+5. Confirm analytics data  updates
+

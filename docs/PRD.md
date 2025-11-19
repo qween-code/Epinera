@@ -1896,3 +1896,37 @@ const \[isPressed, setIsPressed\] = useState(false);
 `return ( <> `
 
 `
+## Database Schema - E-Commerce Tables
+
+The following tables support the complete e-commerce flow:
+
+### Core Commerce Tables
+
+**orders** - Customer order records
+- id, user_id, status, total_amount, currency, payment_method, created_at
+
+**order_items** - Individual items per order
+- id, order_id, product_id, seller_id, quantity, price, total_price, delivery_status
+
+**product_variants** - Product SKUs with pricing
+- id, product_id, name, price, currency, stock_quantity, status
+
+### Analytics \u0026 Tracking
+
+**product_analytics** - Product performance metrics
+- id, product_id, seller_id, views, clicks, conversions, date
+
+**creator_analytics** - Creator campaign metrics
+- id, creator_id, campaign_id, live_viewers, earnings, clicks, conversions, date
+
+### Creator/Influencer System
+
+**creator_campaigns** - Influencer marketing campaigns
+- id, creator_id, title, description, promo_code, commission_rate, status, starts_at, ends_at
+
+**campaign_products** - Products in campaigns
+- id, campaign_id, product_id, clicks, conversions, revenue
+
+**campaign_earnings** - Creator commission tracking
+- id, creator_id, campaign_id, order_id, amount, status
+
