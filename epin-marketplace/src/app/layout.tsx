@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { DeepLayout } from "@/components/layout/DeepLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,27 +15,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Epin Marketplace | AI-Powered Gaming Commerce",
-    template: "%s | Epin Marketplace",
+    default: "EPINERA | Next-Gen Epin Marketplace",
+    template: "%s | EPINERA",
   },
   description:
-    "Discover AI-curated epin deals, verified sellers, and lightning delivery across 150+ gaming ecosystems.",
-  metadataBase: new URL("https://epin.marketplace"),
-  openGraph: {
-    title: "Epin Marketplace",
-    description:
-      "AI-first digital goods marketplace delivering verified game keys, creator bundles, and instant fulfillment.",
-    url: "https://epin.marketplace",
-    siteName: "Epin Marketplace",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Epin Marketplace",
-    description:
-      "Next-gen digital goods marketplace with AI fraud protection and creator-first economics.",
-  },
+    "The most advanced marketplace for gamers. Buy and sell accounts, items, and keys instantly.",
 };
 
 export default function RootLayout({
@@ -43,9 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+    <html lang="tr" className="dark">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--color-surface-0)]`}>
+        <DeepLayout>
+          {children}
+        </DeepLayout>
       </body>
     </html>
   );
