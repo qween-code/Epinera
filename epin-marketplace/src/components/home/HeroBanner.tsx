@@ -7,22 +7,36 @@ import { HERO_IMAGES } from '@/lib/constants/games';
 
 export default function HeroBanner() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 5000);
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentSlide((prev) => (prev + 1) % HERO_IMAGES.length);
+        setIsTransitioning(false);
+      }, 300);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, []);
 
+  const goToSlide = (index: number) => {
+    if (index === currentSlide) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentSlide(index);
+      setIsTransitioning(false);
+    }, 300);
+  };
+
   return (
-    <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden rounded-3xl">
+    <div className="relative w-full h-[520px] md:h-[600px] overflow-hidden rounded-2xl neo border border-[var(--border-dim)]">
       {/* Background Images */}
       {HERO_IMAGES.map((image, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
+          className={`absolute inset-0 transition-opacity duration-700 ${
             index === currentSlide ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -33,81 +47,97 @@ export default function HeroBanner() {
             className="object-cover"
             priority={index === 0}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-transparent" />
+          {/* Multi-layer overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--void)]/95 via-[var(--void)]/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--void)]/80 via-transparent to-transparent" />
+          {/* Scanline overlay */}
+          <div className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,240,255,0.08) 2px, rgba(0,240,255,0.08) 4px)',
+            }}
+          />
         </div>
       ))}
 
       {/* Content */}
       <div className="relative h-full flex items-center">
-        <div className="container mx-auto px-6">
-          <div className="max-w-2xl animate-slide-up">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6">
-              <span className="text-gradient">
+        <div className="container mx-auto px-6 md:px-10">
+          <div className={`max-w-2xl transition-all duration-500 ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+            {/* Terminal tag */}
+            <div className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full neo-sm border border-[rgba(0,240,255,0.15)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--neon-green)] animate-pulse" />
+              <span className="terminal-label text-[0.65rem]">CANLI // AKTIF</span>
+            </div>
+
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-[var(--text-primary)] mb-5 leading-[1.1]">
+              <span className="text-gradient text-glitch">
                 {HERO_IMAGES[currentSlide].title}
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-8">
+
+            <p className="text-base md:text-lg text-[var(--text-secondary)] mb-8 max-w-lg leading-relaxed">
               {HERO_IMAGES[currentSlide].subtitle}
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/search"
-                className="btn btn-primary btn-lg"
-              >
+
+            <div className="flex flex-wrap gap-3">
+              <Link href="/search" className="btn btn-filled btn-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                Ürünleri Keşfet
+                Urunleri Kesfet
               </Link>
-              <Link
-                href="/categories"
-                className="btn btn-secondary btn-lg glass"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
+              <Link href="/categories" className="btn btn-secondary btn-lg">
                 Kategoriler
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3">
+      {/* Slide indicators */}
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
         {HERO_IMAGES.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
+            onClick={() => goToSlide(index)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
               index === currentSlide
-                ? 'bg-white w-8'
-                : 'bg-white/50 hover:bg-white/75'
+                ? 'bg-[var(--neon-cyan)] w-8 shadow-[0_0_8px_rgba(0,240,255,0.5)]'
+                : 'bg-[var(--text-ghost)] w-4 hover:bg-[var(--text-tertiary)]'
             }`}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`Slide ${index + 1}`}
           />
         ))}
       </div>
 
       {/* Navigation Arrows */}
       <button
-        onClick={() => setCurrentSlide((prev) => (prev - 1 + HERO_IMAGES.length) % HERO_IMAGES.length)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full glass hover:bg-white/20 transition-colors"
+        onClick={() => goToSlide((currentSlide - 1 + HERO_IMAGES.length) % HERO_IMAGES.length)}
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-lg neo-sm flex items-center justify-center border border-[var(--border-subtle)] hover:border-[var(--neon-cyan)] hover:shadow-[var(--glow-cyan-sm)] transition-all"
         aria-label="Previous slide"
       >
-        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
       <button
-        onClick={() => setCurrentSlide((prev) => (prev + 1) % HERO_IMAGES.length)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full glass hover:bg-white/20 transition-colors"
+        onClick={() => goToSlide((currentSlide + 1) % HERO_IMAGES.length)}
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-lg neo-sm flex items-center justify-center border border-[var(--border-subtle)] hover:border-[var(--neon-cyan)] hover:shadow-[var(--glow-cyan-sm)] transition-all"
         aria-label="Next slide"
       >
-        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
+
+      {/* HUD corners */}
+      <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-[var(--neon-cyan)] opacity-30" />
+      <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-[var(--neon-cyan)] opacity-30" />
+      <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-[var(--neon-cyan)] opacity-30" />
+      <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-[var(--neon-cyan)] opacity-30" />
     </div>
   );
 }

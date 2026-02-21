@@ -5,142 +5,122 @@ import Link from 'next/link';
 export default async function AdminUsersPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/login?redirect=/admin/users');
 
-  if (!user) {
-    redirect('/login?redirect=/admin/users');
-  }
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+  if (!profile || profile.role !== 'admin') redirect('/');
 
-  // Check if user is admin
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
-
-  if (!profile || profile.role !== 'admin') {
-    redirect('/');
-  }
-
-  // Fetch all users
-  const { data: users, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .order('updated_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching users:', error);
-  }
+  const { data: users } = await supabase.from('profiles').select('*').order('updated_at', { ascending: false });
 
   const buyers = users?.filter(u => u.role === 'buyer') || [];
   const sellers = users?.filter(u => u.role === 'seller') || [];
   const creators = users?.filter(u => u.role === 'creator') || [];
   const admins = users?.filter(u => u.role === 'admin') || [];
 
+  const roleMap: Record<string, { label: string; badge: string }> = {
+    admin: { label: 'Admin', badge: 'badge-red' },
+    seller: { label: 'Satici', badge: 'badge-green' },
+    creator: { label: 'Icerik Uretici', badge: 'badge-purple' },
+    buyer: { label: 'Alici', badge: 'badge-cyan' },
+  };
+
+  const kycMap: Record<string, { label: string; badge: string }> = {
+    verified: { label: 'Dogrulandi', badge: 'badge-green' },
+    rejected: { label: 'Reddedildi', badge: 'badge-red' },
+    pending: { label: 'Bekliyor', badge: 'badge-amber' },
+  };
+
+  const stats = [
+    { label: 'ALICILAR', value: buyers.length, color: 'var(--neon-cyan)' },
+    { label: 'SATICILAR', value: sellers.length, color: 'var(--neon-green)' },
+    { label: 'ICERIK URETICILER', value: creators.length, color: 'var(--neon-purple)' },
+    { label: 'ADMINLER', value: admins.length, color: 'var(--neon-red)' },
+  ];
+
   return (
-    <div className="min-h-screen py-8">
+    <div className="container mx-auto px-6 py-10">
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Kullanıcı Yönetimi</h1>
-          <Link
-            href="/admin"
-            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
-          >
-            Admin Paneline Dön
+          <h1 className="text-2xl font-heading"><span className="text-gradient">Kullanici Yonetimi</span></h1>
+          <Link href="/admin" className="btn btn-secondary">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Admin Paneli
           </Link>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">Alıcılar</div>
-            <div className="text-3xl font-bold text-blue-400">{buyers.length}</div>
-          </div>
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">Satıcılar</div>
-            <div className="text-3xl font-bold text-green-400">{sellers.length}</div>
-          </div>
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">İçerik Üreticiler</div>
-            <div className="text-3xl font-bold text-purple-400">{creators.length}</div>
-          </div>
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-gray-400 text-sm mb-2">Adminler</div>
-            <div className="text-3xl font-bold text-red-400">{admins.length}</div>
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {stats.map((stat) => (
+            <div key={stat.label} className="neo rounded-xl p-5">
+              <div className="terminal-label text-[0.6rem] mb-2" style={{ color: stat.color }}>{stat.label}</div>
+              <div className="text-3xl font-bold stat-number text-[var(--text-primary)]">{stat.value}</div>
+            </div>
+          ))}
         </div>
 
-        {/* User List */}
-        <div className="bg-gray-800 rounded-lg overflow-hidden">
+        {/* User Table */}
+        <div className="neo rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-900">
-                <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Kullanıcı</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Rol</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">KYC Durumu</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Kayıt Tarihi</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">İşlemler</th>
+              <thead>
+                <tr className="border-b border-[var(--border-subtle)]">
+                  <th className="px-5 py-4 text-left terminal-label text-[0.6rem]">// KULLANICI</th>
+                  <th className="px-5 py-4 text-left terminal-label text-[0.6rem]">// ROL</th>
+                  <th className="px-5 py-4 text-left terminal-label text-[0.6rem]">// KYC DURUMU</th>
+                  <th className="px-5 py-4 text-left terminal-label text-[0.6rem]">// TARIH</th>
+                  <th className="px-5 py-4 text-left terminal-label text-[0.6rem]">// ISLEM</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-700">
-                {users?.map((user: any) => (
-                  <tr key={user.id} className="hover:bg-gray-750">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        {user.avatar_url ? (
-                          <img
-                            src={user.avatar_url}
-                            alt={user.full_name || 'User'}
-                            className="w-10 h-10 rounded-full"
-                          />
-                        ) : (
-                          <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
-                            {(user.full_name || 'U').charAt(0).toUpperCase()}
+              <tbody className="divide-y divide-[var(--border-subtle)]">
+                {users?.map((u: any) => {
+                  const role = roleMap[u.role] || roleMap.buyer;
+                  const kyc = kycMap[u.kyc_status] || kycMap.pending;
+                  return (
+                    <tr key={u.id} className="hover:bg-[var(--surface)] transition-colors">
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-3">
+                          {u.avatar_url ? (
+                            <img src={u.avatar_url} alt={u.full_name || 'User'} className="w-9 h-9 rounded-lg neo-inset-sm object-cover" />
+                          ) : (
+                            <div className="w-9 h-9 rounded-lg neo-inset-sm flex items-center justify-center text-sm font-bold text-[var(--neon-cyan)]">
+                              {(u.full_name || 'U').charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <div>
+                            <div className="text-sm font-semibold text-[var(--text-primary)]">{u.full_name || 'Isimsiz Kullanici'}</div>
+                            <div className="text-[0.65rem] font-mono-accent text-[var(--text-ghost)]">{u.id.slice(0, 8)}...</div>
                           </div>
-                        )}
-                        <div>
-                          <div className="font-semibold">{user.full_name || 'İsimsiz Kullanıcı'}</div>
-                          <div className="text-sm text-gray-400">{user.id.slice(0, 8)}...</div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        user.role === 'admin' ? 'bg-red-900 text-red-300' :
-                        user.role === 'seller' ? 'bg-green-900 text-green-300' :
-                        user.role === 'creator' ? 'bg-purple-900 text-purple-300' :
-                        'bg-blue-900 text-blue-300'
-                      }`}>
-                        {user.role === 'admin' && 'Admin'}
-                        {user.role === 'seller' && 'Satıcı'}
-                        {user.role === 'creator' && 'İçerik Üretici'}
-                        {user.role === 'buyer' && 'Alıcı'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-sm ${
-                        user.kyc_status === 'verified' ? 'bg-green-900 text-green-300' :
-                        user.kyc_status === 'rejected' ? 'bg-red-900 text-red-300' :
-                        'bg-yellow-900 text-yellow-300'
-                      }`}>
-                        {user.kyc_status === 'verified' && '✓ Doğrulandı'}
-                        {user.kyc_status === 'rejected' && '✗ Reddedildi'}
-                        {user.kyc_status === 'pending' && '⏳ Bekliyor'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-400">
-                      {new Date(user.updated_at).toLocaleDateString('tr-TR')}
-                    </td>
-                    <td className="px-6 py-4">
-                      <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm transition-colors">
-                        Detaylar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className={`badge ${role.badge}`}>{role.label}</span>
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className={`badge ${kyc.badge}`}>{kyc.label}</span>
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className="text-xs text-[var(--text-ghost)]">
+                          {new Date(u.updated_at).toLocaleDateString('tr-TR')}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4">
+                        <button className="btn btn-sm btn-primary">Detaylar</button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
+
+          {(!users || users.length === 0) && (
+            <div className="p-10 text-center">
+              <p className="text-sm text-[var(--text-ghost)]">Henuz kullanici bulunamadi</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -22,7 +22,7 @@ export default function AddToCartButton({
 
   const handleAddToCart = async () => {
     if (stockQuantity <= 0) {
-      alert('Bu ürün şu anda stokta yok');
+      alert('Bu urun su anda stokta yok');
       return;
     }
 
@@ -30,19 +30,14 @@ export default function AddToCartButton({
     try {
       await addToCart(variantId, 1);
       setAdded(true);
-
-      // Show success state for 2 seconds
-      setTimeout(() => {
-        setAdded(false);
-      }, 2000);
+      setTimeout(() => setAdded(false), 2000);
     } catch (error: any) {
-      if (error.message?.includes('giriş yap')) {
-        // Redirect to login if not authenticated
-        if (confirm('Sepete eklemek için giriş yapmalısınız. Giriş sayfasına gitmek ister misiniz?')) {
+      if (error.message?.includes('giris yap')) {
+        if (confirm('Sepete eklemek icin giris yapmalisiniz. Giris sayfasina gitmek ister misiniz?')) {
           router.push('/login');
         }
       } else {
-        alert('Sepete eklenirken bir hata oluştu');
+        alert('Sepete eklenirken bir hata olustu');
       }
     } finally {
       setAdding(false);
@@ -53,16 +48,18 @@ export default function AddToCartButton({
     <button
       onClick={handleAddToCart}
       disabled={adding || stockQuantity <= 0}
-      className={`mt-1 px-6 py-2 rounded-md text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+      className={`btn btn-sm ${
         added
-          ? 'bg-green-600 hover:bg-green-700'
-          : 'bg-blue-600 hover:bg-blue-700'
+          ? 'btn-success'
+          : stockQuantity <= 0
+          ? 'btn-ghost opacity-50'
+          : 'btn-primary'
       }`}
     >
       {adding ? (
-        'Ekleniyor...'
+        <><div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" /> Ekleniyor...</>
       ) : added ? (
-        '✓ Sepete Eklendi'
+        'Sepete Eklendi'
       ) : stockQuantity <= 0 ? (
         'Stokta Yok'
       ) : (

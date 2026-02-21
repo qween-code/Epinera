@@ -3,54 +3,33 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 
 type CategoryPageProps = {
-  params: {
-    slug: string;
-  };
+  params: { slug: string };
 };
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = params;
   const supabase = await createClient();
 
-  // First, fetch the category to get its ID
-  const { data: category, error: categoryError } = await supabase
+  const { data: category } = await supabase
     .from('categories')
     .select('id, name, slug')
     .eq('slug', slug)
     .single();
 
-  if (categoryError || !category) {
-    notFound();
-  }
+  if (!category) notFound();
 
-  // Then fetch products for this category using the category_id
-  const { data: products, error: productsError } = await supabase
+  const { data: products } = await supabase
     .from('products')
-    .select(`
-      id,
-      slug,
-      title,
-      product_variants (
-        price,
-        currency
-      )
-    `)
+    .select(`id, slug, title, product_variants (price, currency)`)
     .eq('category_id', category.id)
     .eq('status', 'active')
     .order('created_at', { ascending: false });
 
-  if (productsError) {
-    console.error('Error fetching products for category:', productsError);
-    return <p className="text-center text-red-500">Ürünler yüklenirken hata oluştu.</p>;
-  }
-
-  // Process products to add lowest price
   const processedProducts = (products || []).map((product: any) => {
     const variants = product.product_variants || [];
     const lowestPrice = variants.length > 0
       ? Math.min(...variants.map((v: any) => parseFloat(v.price)))
       : undefined;
-
     return {
       id: product.id,
       title: product.title,
@@ -61,32 +40,30 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   });
 
   return (
-    <div className="py-8">
-      <div className="container mx-auto px-6">
-        {/* Category Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient">{category.name}</span>
-          </h1>
-          <p className="text-gray-400">
-            {processedProducts.length} ürün bulundu
-          </p>
+    <div className="container mx-auto px-6 py-10">
+      <div className="mb-8">
+        <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full border border-[var(--border-subtle)] bg-[var(--surface)]">
+          <span className="terminal-label text-[0.6rem]">// KATEGORI</span>
         </div>
-
-        {/* Products Grid */}
-        {processedProducts.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-4">🎮</div>
-            <h2 className="text-2xl font-bold mb-2">Bu kategoride henüz ürün yok</h2>
-            <p className="text-gray-400 mb-8">Yakında yeni ürünler eklenecek</p>
-            <a href="/" className="btn btn-primary">
-              Ana Sayfaya Dön
-            </a>
-          </div>
-        ) : (
-          <ProductGrid products={processedProducts} />
-        )}
+        <h1 className="text-3xl font-heading">
+          <span className="text-gradient">{category.name}</span>
+        </h1>
+        <p className="text-sm text-[var(--text-tertiary)] mt-2">{processedProducts.length} urun bulundu</p>
       </div>
+
+      {processedProducts.length === 0 ? (
+        <div className="neo rounded-2xl p-14 text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl neo-inset flex items-center justify-center">
+            <svg className="w-8 h-8 text-[var(--text-ghost)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-heading mb-2">Henuz urun yok</h2>
+          <p className="text-sm text-[var(--text-tertiary)]">Bu kategoride henuz urun bulunmuyor</p>
+        </div>
+      ) : (
+        <ProductGrid products={processedProducts} />
+      )}
     </div>
   );
 }

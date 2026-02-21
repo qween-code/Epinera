@@ -16,155 +16,70 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    searchProducts();
-  }, [query, selectedCategory, sortBy]);
+  useEffect(() => { fetchCategories(); }, []);
+  useEffect(() => { searchProducts(); }, [query, selectedCategory, sortBy]);
 
   const fetchCategories = async () => {
-    const { data } = await supabase
-      .from('categories')
-      .select('id, name, slug')
-      .is('parent_id', null);
-
-    if (data) {
-      setCategories(data);
-    }
+    const { data } = await supabase.from('categories').select('id, name, slug').is('parent_id', null);
+    if (data) setCategories(data);
   };
 
   const searchProducts = async () => {
     setLoading(true);
-
     try {
-      let queryBuilder = supabase
-        .from('products')
-        .select(`
-          id,
-          title,
-          slug,
-          category_id,
-          product_variants (
-            price,
-            currency
-          )
-        `)
-        .eq('status', 'active');
+      let queryBuilder = supabase.from('products').select(`id, title, slug, category_id, product_variants (price, currency)`).eq('status', 'active');
+      if (query) queryBuilder = queryBuilder.ilike('title', `%${query}%`);
+      if (selectedCategory) queryBuilder = queryBuilder.eq('category_id', selectedCategory);
+      if (sortBy === 'created_at') queryBuilder = queryBuilder.order('created_at', { ascending: false });
+      else if (sortBy === 'title') queryBuilder = queryBuilder.order('title', { ascending: true });
 
-      // Search by title
-      if (query) {
-        queryBuilder = queryBuilder.ilike('title', `%${query}%`);
-      }
-
-      // Filter by category
-      if (selectedCategory) {
-        queryBuilder = queryBuilder.eq('category_id', selectedCategory);
-      }
-
-      // Sort
-      if (sortBy === 'created_at') {
-        queryBuilder = queryBuilder.order('created_at', { ascending: false });
-      } else if (sortBy === 'title') {
-        queryBuilder = queryBuilder.order('title', { ascending: true });
-      }
-
-      const { data, error } = await queryBuilder;
-
-      if (error) throw error;
-
-      // Process products to add lowest price
+      const { data } = await queryBuilder;
       const processedProducts = (data || []).map((product) => {
         const variants = product.product_variants || [];
-        const lowestPrice = variants.length > 0
-          ? Math.min(...variants.map((v: any) => parseFloat(v.price)))
-          : undefined;
-
-        return {
-          id: product.id,
-          title: product.title,
-          slug: product.slug,
-          lowest_price: lowestPrice,
-          currency: variants[0]?.currency || 'TRY',
-        };
+        const lowestPrice = variants.length > 0 ? Math.min(...variants.map((v: any) => parseFloat(v.price))) : undefined;
+        return { id: product.id, title: product.title, slug: product.slug, lowest_price: lowestPrice, currency: variants[0]?.currency || 'TRY' };
       });
-
-      // Sort by price if selected
-      if (sortBy === 'price_asc') {
-        processedProducts.sort((a, b) => (a.lowest_price || 0) - (b.lowest_price || 0));
-      } else if (sortBy === 'price_desc') {
-        processedProducts.sort((a, b) => (b.lowest_price || 0) - (a.lowest_price || 0));
-      }
-
+      if (sortBy === 'price_asc') processedProducts.sort((a, b) => (a.lowest_price || 0) - (b.lowest_price || 0));
+      else if (sortBy === 'price_desc') processedProducts.sort((a, b) => (b.lowest_price || 0) - (a.lowest_price || 0));
       setProducts(processedProducts);
-    } catch (error) {
-      console.error('Search error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    searchProducts();
+    } catch (err) { console.error('Search error:', err); }
+    finally { setLoading(false); }
   };
 
   return (
-    <div className="min-h-screen py-8">
+    <div className="container mx-auto px-6 py-10">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Ürün Ara</h1>
+        <h1 className="text-2xl font-heading mb-8"><span className="text-gradient">Urun Ara</span></h1>
 
         {/* Search Form */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <form onSubmit={handleSearch} className="space-y-4">
+        <div className="neo rounded-xl p-6 mb-8">
+          <form onSubmit={(e) => { e.preventDefault(); searchProducts(); }} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Arama</label>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Ürün adı yazın..."
-                className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <label className="terminal-label block mb-2">// ARAMA</label>
+              <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Urun adi yazin..." className="input" />
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Kategori</label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Tüm Kategoriler</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
-                  ))}
+                <label className="terminal-label block mb-2">// KATEGORI</label>
+                <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="input">
+                  <option value="">Tum Kategoriler</option>
+                  {categories.map((cat) => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
                 </select>
               </div>
-
               <div>
-                <label className="block text-sm font-medium mb-2">Sıralama</label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
+                <label className="terminal-label block mb-2">// SIRALAMA</label>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="input">
                   <option value="created_at">En Yeni</option>
-                  <option value="title">İsme Göre (A-Z)</option>
-                  <option value="price_asc">Fiyat (Düşük - Yüksek)</option>
-                  <option value="price_desc">Fiyat (Yüksek - Düşük)</option>
+                  <option value="title">Isme Gore (A-Z)</option>
+                  <option value="price_asc">Fiyat (Dusuk - Yuksek)</option>
+                  <option value="price_desc">Fiyat (Yuksek - Dusuk)</option>
                 </select>
               </div>
             </div>
-
-            <button
-              type="submit"
-              className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition-colors"
-            >
+            <button type="submit" className="w-full btn btn-primary justify-center py-3">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
               Ara
             </button>
           </form>
@@ -172,32 +87,28 @@ export default function SearchPage() {
 
         {/* Results */}
         {loading ? (
-          <div className="text-center py-12">
-            <div className="text-xl">Aranıyor...</div>
+          <div className="text-center py-16">
+            <div className="w-8 h-8 border-2 border-[var(--neon-cyan)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-sm text-[var(--text-tertiary)]">Araniyor...</p>
           </div>
         ) : products.length === 0 ? (
-          <div className="bg-gray-800 rounded-lg p-12 text-center">
-            <div className="text-6xl mb-4">🔍</div>
-            <h2 className="text-2xl font-bold mb-2">Sonuç Bulunamadı</h2>
-            <p className="text-gray-400 mb-6">
-              {query ? `"${query}" için sonuç bulunamadı` : 'Arama yaparak ürünleri keşfedin'}
+          <div className="neo rounded-2xl p-14 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl neo-inset flex items-center justify-center">
+              <svg className="w-8 h-8 text-[var(--text-ghost)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-heading mb-2">Sonuc Bulunamadi</h2>
+            <p className="text-sm text-[var(--text-tertiary)] mb-6">
+              {query ? `"${query}" icin sonuc bulunamadi` : 'Arama yaparak urunleri kesfedin'}
             </p>
-            <Link
-              href="/"
-              className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-            >
-              Ana Sayfaya Dön
-            </Link>
+            <Link href="/" className="btn btn-primary">Ana Sayfaya Don</Link>
           </div>
         ) : (
           <>
-            <div className="mb-4 text-gray-400">
-              {products.length} ürün bulundu
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+            <div className="mb-4 text-sm text-[var(--text-tertiary)]">{products.length} urun bulundu</div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {products.map((product) => <ProductCard key={product.id} product={product} />)}
             </div>
           </>
         )}

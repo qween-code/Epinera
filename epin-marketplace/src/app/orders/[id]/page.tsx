@@ -3,182 +3,116 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 type OrderPageProps = {
-  params: {
-    id: string;
-  };
-  searchParams: {
-    success?: string;
-  };
+  params: { id: string };
+  searchParams: { success?: string };
 };
 
 export default async function OrderPage({ params, searchParams }: OrderPageProps) {
   const { id } = params;
   const supabase = await createClient();
 
-  // Fetch order details
   const { data: order, error } = await supabase
     .from('orders')
-    .select(`
-      *,
-      order_items (
-        *,
-        product_variants (
-          name,
-          price,
-          currency
-        ),
-        products (
-          title,
-          slug
-        )
-      )
-    `)
+    .select(`*, order_items (*, product_variants (name, price, currency), products (title, slug))`)
     .eq('id', id)
     .single();
 
-  if (error || !order) {
-    notFound();
-  }
+  if (error || !order) notFound();
 
-  // Verify user owns this order
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user || order.buyer_id !== user.id) {
-    notFound();
-  }
+  if (!user || order.buyer_id !== user.id) notFound();
 
   const isSuccess = searchParams.success === 'true';
 
+  const statusMap: Record<string, { label: string; badge: string }> = {
+    pending: { label: 'Beklemede', badge: 'badge-amber' },
+    processing: { label: 'Isleniyor', badge: 'badge-cyan' },
+    completed: { label: 'Tamamlandi', badge: 'badge-green' },
+    cancelled: { label: 'Iptal Edildi', badge: 'badge-red' },
+    refunded: { label: 'Iade Edildi', badge: 'badge-purple' },
+  };
+
+  const status = statusMap[order.status] || statusMap.pending;
+
   return (
-    <div className="min-h-screen py-8">
+    <div className="container mx-auto px-6 py-10">
       <div className="max-w-4xl mx-auto">
         {isSuccess && (
-          <div className="bg-green-900/50 border border-green-600 rounded-lg p-6 mb-8">
+          <div className="neo rounded-xl p-5 mb-8 border border-[rgba(57,255,20,0.2)] bg-[rgba(57,255,20,0.03)]">
             <div className="flex items-center gap-4">
-              <div className="text-4xl">✓</div>
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(57,255,20,0.1)]">
+                <svg className="w-6 h-6 text-[var(--neon-green)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
               <div>
-                <h2 className="text-2xl font-bold text-green-400">Siparişiniz Alındı!</h2>
-                <p className="text-green-200 mt-1">
-                  Sipariş numaranız: <span className="font-mono">{order.id}</span>
-                </p>
+                <h2 className="text-lg font-bold text-[var(--neon-green)]">Siparisiniz Alindi!</h2>
+                <p className="text-xs font-mono-accent text-[var(--text-tertiary)] mt-0.5">Siparis No: {order.id}</p>
               </div>
             </div>
           </div>
         )}
 
-        <div className="bg-gray-800 rounded-lg p-8">
+        <div className="neo rounded-2xl p-8">
           <div className="flex justify-between items-start mb-8">
             <div>
-              <h1 className="text-3xl font-bold">Sipariş Detayları</h1>
-              <p className="text-gray-400 mt-2">
-                Sipariş No: <span className="font-mono">{order.id}</span>
-              </p>
-              <p className="text-gray-400">
-                Tarih: {new Date(order.created_at).toLocaleDateString('tr-TR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
+              <h1 className="text-2xl font-heading mb-2">Siparis Detaylari</h1>
+              <p className="text-xs font-mono-accent text-[var(--text-ghost)]">ID: {order.id}</p>
+              <p className="text-xs text-[var(--text-ghost)] mt-0.5">
+                {new Date(order.created_at).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
               </p>
             </div>
-            <div className="text-right">
-              <div className="inline-block px-4 py-2 bg-blue-900 text-blue-300 rounded-lg font-semibold">
-                {order.status === 'pending' && 'Beklemede'}
-                {order.status === 'processing' && 'İşleniyor'}
-                {order.status === 'completed' && 'Tamamlandı'}
-                {order.status === 'cancelled' && 'İptal Edildi'}
-                {order.status === 'refunded' && 'İade Edildi'}
-              </div>
-            </div>
+            <span className={`badge ${status.badge}`}>{status.label}</span>
           </div>
 
-          {/* Order Items */}
+          {/* Items */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">Ürünler</h2>
-            <div className="space-y-4">
+            <h2 className="terminal-label mb-4">// URUNLER</h2>
+            <div className="space-y-2">
               {order.order_items.map((item: any) => (
-                <div key={item.id} className="bg-gray-700 rounded-lg p-4 flex justify-between items-center">
+                <div key={item.id} className="neo-inset-sm rounded-xl p-4 flex justify-between items-center">
                   <div>
-                    <Link
-                      href={`/product/${item.products.slug}`}
-                      className="text-lg font-semibold hover:text-blue-400 transition-colors"
-                    >
+                    <Link href={`/product/${item.products.slug}`} className="font-semibold text-[var(--text-primary)] hover:text-[var(--neon-cyan)] transition-colors">
                       {item.products.title}
                     </Link>
-                    <p className="text-gray-400 text-sm">{item.product_variants.name}</p>
-                    <p className="text-gray-400 text-sm">Adet: {item.quantity}</p>
+                    <p className="text-xs text-[var(--text-tertiary)] mt-0.5">{item.product_variants.name} &middot; {item.quantity}x</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xl font-bold">
-                      {parseFloat(item.total_price).toFixed(2)} {item.product_variants.currency}
-                    </p>
-                    <p className="text-sm text-gray-400">
-                      {parseFloat(item.unit_price).toFixed(2)} {item.product_variants.currency} / adet
-                    </p>
+                    <p className="font-bold stat-number text-neon-cyan">{parseFloat(item.total_price).toFixed(2)} {item.product_variants.currency}</p>
+                    <p className="text-[0.65rem] text-[var(--text-ghost)]">{parseFloat(item.unit_price).toFixed(2)} / adet</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Order Summary */}
-          <div className="border-t border-gray-700 pt-6">
-            <div className="flex justify-between text-xl font-bold mb-4">
-              <span>Toplam Tutar</span>
-              <span>{parseFloat(order.total_amount).toFixed(2)} {order.currency}</span>
-            </div>
-            <div className="text-gray-400">
-              <p>Ödeme Yöntemi: {
-                order.payment_method === 'credit_card' ? 'Kredi/Banka Kartı' :
-                order.payment_method === 'paypal' ? 'PayPal' :
-                order.payment_method === 'bank_transfer' ? 'Banka Havalesi' :
-                order.payment_method
-              }</p>
-              <p>Ödeme Durumu: {
-                order.payment_status === 'pending' ? 'Beklemede' :
-                order.payment_status === 'paid' ? 'Ödendi' :
-                order.payment_status === 'failed' ? 'Başarısız' :
-                order.payment_status === 'refunded' ? 'İade Edildi' :
-                order.payment_status
-              }</p>
-            </div>
+          {/* Summary */}
+          <div className="divider" />
+          <div className="flex justify-between text-lg font-bold mb-4">
+            <span>Toplam Tutar</span>
+            <span className="text-neon-cyan stat-number">{parseFloat(order.total_amount).toFixed(2)} {order.currency}</span>
+          </div>
+          <div className="text-sm text-[var(--text-tertiary)] space-y-1">
+            <p>Odeme Yontemi: {order.payment_method === 'credit_card' ? 'Kredi/Banka Karti' : order.payment_method === 'paypal' ? 'PayPal' : 'Banka Havalesi'}</p>
+            <p>Odeme Durumu: {order.payment_status === 'pending' ? 'Beklemede' : order.payment_status === 'paid' ? 'Odendi' : order.payment_status}</p>
           </div>
 
-          {/* Delivery Information */}
+          {/* Delivery Info */}
           {order.delivery_info && (
-            <div className="border-t border-gray-700 pt-6 mt-6">
-              <h3 className="text-xl font-bold mb-4">Teslimat Bilgileri</h3>
-              <div className="text-gray-300 space-y-2">
-                {order.delivery_info.email && (
-                  <p>E-posta: {order.delivery_info.email}</p>
-                )}
-                {order.delivery_info.phone && (
-                  <p>Telefon: {order.delivery_info.phone}</p>
-                )}
-                {order.delivery_info.notes && (
-                  <div>
-                    <p className="font-semibold">Notlar:</p>
-                    <p className="text-gray-400">{order.delivery_info.notes}</p>
-                  </div>
-                )}
+            <>
+              <div className="divider" />
+              <h3 className="terminal-label mb-3">// TESLIMAT BILGILERI</h3>
+              <div className="text-sm text-[var(--text-tertiary)] space-y-1">
+                {order.delivery_info.email && <p>E-posta: {order.delivery_info.email}</p>}
+                {order.delivery_info.phone && <p>Telefon: {order.delivery_info.phone}</p>}
+                {order.delivery_info.notes && <p className="text-[var(--text-ghost)]">Not: {order.delivery_info.notes}</p>}
               </div>
-            </div>
+            </>
           )}
 
-          <div className="mt-8 flex gap-4">
-            <Link
-              href="/orders"
-              className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
-            >
-              Tüm Siparişlerim
-            </Link>
-            <Link
-              href="/"
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-            >
-              Alışverişe Devam Et
-            </Link>
+          <div className="mt-8 flex gap-3">
+            <Link href="/orders" className="btn btn-secondary">Tum Siparislerim</Link>
+            <Link href="/" className="btn btn-primary">Alisverise Devam Et</Link>
           </div>
         </div>
       </div>
