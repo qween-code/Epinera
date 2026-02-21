@@ -5,8 +5,49 @@ import Footer from '@/components/layout/Footer';
 import Providers from '@/components/Providers';
 
 export const metadata: Metadata = {
-  title: 'Epinera | Gaming Marketplace',
-  description: 'Retro-futuristic gaming marketplace. Valorant, LOL, PUBG, Steam ve daha fazlasi.',
+  title: {
+    default: 'Epinera | Gaming Marketplace',
+    template: '%s | Epinera',
+  },
+  description:
+    'Türkiye\'nin en güvenilir gaming marketplace platformu. Valorant, League of Legends, PUBG, Steam ve daha fazlası için güvenli ve hızlı alışveriş.',
+  keywords: [
+    'gaming',
+    'marketplace',
+    'valorant',
+    'lol',
+    'pubg',
+    'steam',
+    'epin',
+    'oyun',
+    'türkiye',
+    'güvenli alışveriş',
+  ],
+  authors: [{ name: 'Epinera' }],
+  creator: 'Epinera',
+  publisher: 'Epinera',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  openGraph: {
+    type: 'website',
+    locale: 'tr_TR',
+    url: '/',
+    siteName: 'Epinera',
+    title: 'Epinera | Gaming Marketplace',
+    description: 'Türkiye\'nin en güvenilir gaming marketplace platformu',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Epinera | Gaming Marketplace',
+    description: 'Türkiye\'nin en güvenilir gaming marketplace platformu',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function RootLayout({
