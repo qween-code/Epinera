@@ -13,6 +13,7 @@ export default async function HomePage() {
       id,
       slug,
       title,
+      image_url,
       product_variants (
         price,
         currency
@@ -36,6 +37,7 @@ export default async function HomePage() {
       id: product.id,
       title: product.title,
       slug: product.slug,
+      image_url: product.image_url,
       lowest_price: lowestPrice,
       currency: variants[0]?.currency || 'TRY',
     };
