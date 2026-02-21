@@ -18,7 +18,6 @@ export default function CheckoutPage() {
     email: '',
     phone: '',
     deliveryNotes: '',
-    paymentMethod: 'credit_card' as 'credit_card' | 'paypal' | 'bank_transfer',
   });
 
   useEffect(() => {
@@ -37,61 +36,41 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (items.length === 0) { alert('Sepetinizde urun yok'); return; }
+    if (items.length === 0) {
+      alert('Sepetinizde ürün yok');
+      return;
+    }
     setProcessing(true);
 
     try {
-      const total = getTotal();
-      const totalWithTax = total * 1.2;
-
-      const { data: order, error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          buyer_id: user.id,
-          total_amount: totalWithTax,
-          currency: 'TRY',
-          status: 'pending',
-          payment_status: 'pending',
-          payment_method: formData.paymentMethod,
-          delivery_info: { email: formData.email, phone: formData.phone, notes: formData.deliveryNotes },
-        })
-        .select()
-        .single();
-
-      if (orderError) throw orderError;
-
-      const orderItemsPromises = items.map(async (item) => {
-        const { data: variant } = await supabase
-          .from('product_variants')
-          .select('product_id, products!inner(seller_id)')
-          .eq('id', item.variant_id)
-          .single();
-        if (!variant) throw new Error('Variant not found');
-        const products = variant.products as any;
-        const sellerId = Array.isArray(products) ? products[0]?.seller_id : products?.seller_id;
-        return {
-          order_id: order.id, variant_id: item.variant_id, product_id: variant.product_id,
-          seller_id: sellerId, quantity: item.quantity, unit_price: item.variant.price,
-          total_price: item.variant.price * item.quantity,
-        };
+      // Call checkout API to create Stripe session
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          deliveryEmail: formData.email,
+          deliveryPhone: formData.phone,
+          deliveryNotes: formData.deliveryNotes,
+        }),
       });
 
-      const orderItems = await Promise.all(orderItemsPromises);
-      const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
-      if (itemsError) throw itemsError;
+      const data = await response.json();
 
-      for (const item of items) {
-        await supabase.rpc('decrement_stock', { p_variant_id: item.variant_id, p_quantity: item.quantity }).then(({ error }) => {
-          if (error) console.error('Stock decrement error:', error);
-        });
+      if (!response.ok) {
+        throw new Error(data.error || 'Ödeme işlemi başlatılamadı');
       }
 
-      await clearCart();
-      router.push(`/orders/${order.id}?success=true`);
+      // Redirect to Stripe Checkout
+      if (data.sessionUrl) {
+        window.location.href = data.sessionUrl;
+      } else {
+        throw new Error('Ödeme URL\'si alınamadı');
+      }
     } catch (error: any) {
       console.error('Checkout error:', error);
-      alert('Siparis olusturulurken bir hata olustu: ' + (error.message || 'Bilinmeyen hata'));
-    } finally {
+      alert('Sipariş oluşturulurken bir hata oluştu: ' + (error.message || 'Bilinmeyen hata'));
       setProcessing(false);
     }
   };
