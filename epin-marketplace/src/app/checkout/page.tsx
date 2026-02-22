@@ -129,37 +129,19 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Payment */}
+              {/* Payment Info */}
               <div className="neo rounded-xl p-6">
                 <h2 className="terminal-label mb-4">// ODEME YONTEMI</h2>
-                <div className="space-y-2">
-                  {[
-                    { value: 'credit_card', label: 'Kredi/Banka Karti', desc: 'Visa, Mastercard, American Express' },
-                    { value: 'paypal', label: 'PayPal', desc: 'Guvenli PayPal ile odeme' },
-                    { value: 'bank_transfer', label: 'Banka Havalesi', desc: 'Havale/EFT ile odeme' },
-                  ].map((method) => (
-                    <label
-                      key={method.value}
-                      className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer transition-all ${
-                        formData.paymentMethod === method.value
-                          ? 'neo-flat border-[rgba(0,240,255,0.2)] bg-[rgba(0,240,255,0.03)]'
-                          : 'neo-inset-sm hover:border-[var(--border-subtle)]'
-                      }`}
-                    >
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                        formData.paymentMethod === method.value ? 'border-[var(--neon-cyan)]' : 'border-[var(--text-ghost)]'
-                      }`}>
-                        {formData.paymentMethod === method.value && (
-                          <div className="w-2.5 h-2.5 rounded-full bg-[var(--neon-cyan)]" />
-                        )}
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-[var(--text-primary)]">{method.label}</div>
-                        <div className="text-xs text-[var(--text-tertiary)]">{method.desc}</div>
-                      </div>
-                      <input type="radio" name="paymentMethod" value={method.value} checked={formData.paymentMethod === method.value} onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as any })} className="hidden" />
-                    </label>
-                  ))}
+                <div className="neo-flat rounded-xl p-4 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg neo-inset-sm flex items-center justify-center">
+                    <svg className="w-5 h-5 text-[var(--neon-cyan)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-[var(--text-primary)]">Stripe ile Guvenli Odeme</div>
+                    <div className="text-xs text-[var(--text-tertiary)]">Kredi karti, banka karti ile guvenli odeme</div>
+                  </div>
                 </div>
               </div>
             </div>

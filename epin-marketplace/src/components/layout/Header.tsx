@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import CartButton from '@/components/cart/CartButton';
 
@@ -9,6 +10,10 @@ export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
   const supabase = createClient();
 
   useEffect(() => {
@@ -32,9 +37,24 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (searchOpen && searchRef.current) {
+      searchRef.current.focus();
+    }
+  }, [searchOpen]);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     window.location.href = '/';
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery('');
+    }
   };
 
   return (
@@ -65,15 +85,42 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
-            <NavLink href="/search">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              Ara
-            </NavLink>
+            {/* Inline Search */}
+            <div className="relative">
+              {searchOpen ? (
+                <form onSubmit={handleSearch} className="flex items-center animate-scale-in">
+                  <input
+                    ref={searchRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Urun ara..."
+                    className="w-48 bg-[var(--deep)] border border-[var(--border-medium)] rounded-lg px-3 py-1.5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-ghost)] focus:outline-none focus:border-[var(--neon-cyan)] focus:shadow-[var(--glow-cyan-sm)] transition-all"
+                    onBlur={() => { if (!searchQuery) setSearchOpen(false); }}
+                    onKeyDown={(e) => { if (e.key === 'Escape') { setSearchOpen(false); setSearchQuery(''); } }}
+                  />
+                </form>
+              ) : (
+                <button
+                  onClick={() => setSearchOpen(true)}
+                  className="flex items-center gap-1.5 px-3.5 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--neon-cyan)] hover:bg-[var(--neon-cyan-pale)] rounded-lg transition-all duration-200"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  Ara
+                </button>
+              )}
+            </div>
             <NavLink href="/categories">Kategoriler</NavLink>
             {user && (
               <>
+                <NavLink href="/wishlist">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                  </svg>
+                  Favoriler
+                </NavLink>
                 <NavLink href="/seller/dashboard">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -130,10 +177,25 @@ export default function Header() {
         {/* Mobile Nav */}
         {mobileOpen && (
           <nav className="md:hidden mt-4 pb-2 border-t border-[var(--border-dim)] pt-4 animate-slide-down space-y-1">
-            <MobileNavLink href="/search" onClick={() => setMobileOpen(false)}>Ara</MobileNavLink>
+            {/* Mobile Search */}
+            <form onSubmit={(e) => { handleSearch(e); setMobileOpen(false); }} className="px-4 mb-3">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Urun ara..."
+                  className="w-full bg-[var(--deep)] border border-[var(--border-subtle)] rounded-lg px-3 py-2.5 pl-9 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-ghost)] focus:outline-none focus:border-[var(--neon-cyan)]"
+                />
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-ghost)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+            </form>
             <MobileNavLink href="/categories" onClick={() => setMobileOpen(false)}>Kategoriler</MobileNavLink>
             {user && (
               <>
+                <MobileNavLink href="/wishlist" onClick={() => setMobileOpen(false)}>Favoriler</MobileNavLink>
                 <MobileNavLink href="/seller/dashboard" onClick={() => setMobileOpen(false)}>Satici Paneli</MobileNavLink>
                 <MobileNavLink href="/orders" onClick={() => setMobileOpen(false)}>Siparislerim</MobileNavLink>
                 <button

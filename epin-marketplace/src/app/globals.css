@@ -180,6 +180,30 @@
   100% { transform: translateY(100%); opacity: 0; }
 }
 
+@keyframes neonFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; text-shadow: 0 0 7px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.2); }
+  20%, 24%, 55% { opacity: 0.6; text-shadow: none; }
+}
+
+@keyframes crtFlicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.98; }
+  15% { opacity: 0.96; }
+  20% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+@keyframes neonBreathe {
+  0%, 100% { border-color: rgba(0, 240, 255, 0.15); box-shadow: 0 0 5px rgba(0, 240, 255, 0.1); }
+  50% { border-color: rgba(0, 240, 255, 0.4); box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), 0 0 40px rgba(0, 240, 255, 0.05); }
+}
+
+@keyframes holographicShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* ============================================
    BASE STYLES
    ============================================ */
@@ -261,6 +285,10 @@ body::after {
 .animate-float { animation: float 3s ease-in-out infinite; }
 .animate-spin { animation: spin 1s linear infinite; }
 .animate-border-glow { animation: borderGlow 3s ease-in-out infinite; }
+.animate-neon-flicker { animation: neonFlicker 3s linear infinite; }
+.animate-crt-flicker { animation: crtFlicker 0.15s infinite; }
+.animate-neon-breathe { animation: neonBreathe 3s ease-in-out infinite; }
+.animate-holographic { background: linear-gradient(90deg, transparent, rgba(0,240,255,0.04), rgba(184,41,255,0.04), transparent); background-size: 200% 100%; animation: holographicShimmer 4s linear infinite; }
 
 /* ============================================
    NEOMORPHIC COMPONENTS
@@ -372,14 +400,21 @@ body::after {
 }
 
 .font-mono-accent {
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', monospace;
+  font-family: 'Space Mono', 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', monospace;
   letter-spacing: 0.03em;
 }
 
 .font-heading {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Exo 2', 'Inter', system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.02em;
+}
+
+.font-display {
+  font-family: 'Orbitron', 'Exo 2', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* ============================================

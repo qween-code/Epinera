@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     const lineItems: any[] = [];
 
     for (const item of cartItems) {
-      const variant = item.product_variants;
+      const variant = item.product_variants as any;
       if (!variant) continue;
 
       if (variant.stock_quantity < item.quantity) {
@@ -76,12 +76,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Create order in database
+    const firstVariant = cartItems[0].product_variants as any;
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .insert({
         user_id: user.id,
         total_amount: total,
-        currency: cartItems[0].product_variants.currency,
+        currency: firstVariant.currency,
         status: 'pending',
         payment_status: 'pending',
         delivery_email: deliveryEmail,
@@ -96,14 +97,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Create order items
-    const orderItems = cartItems.map((item) => ({
-      order_id: order.id,
-      variant_id: item.product_variants.id,
-      quantity: item.quantity,
-      price_at_time: parseFloat(item.product_variants.price),
-      currency: item.product_variants.currency,
-      seller_id: item.product_variants.products.seller_id,
-    }));
+    const orderItems = cartItems.map((item) => {
+      const v = item.product_variants as any;
+      return {
+        order_id: order.id,
+        variant_id: v.id,
+        quantity: item.quantity,
+        price_at_time: parseFloat(v.price),
+        currency: v.currency,
+        seller_id: v.products.seller_id,
+      };
+    });
 
     const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
 

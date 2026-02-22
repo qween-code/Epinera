@@ -1,10 +1,33 @@
 import ProductGrid from '@/components/ui/ProductGrid';
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 
 type CategoryPageProps = {
   params: { slug: string };
 };
+
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  const { slug } = params;
+  const supabase = await createClient();
+
+  const { data: category } = await supabase
+    .from('categories')
+    .select('name')
+    .eq('slug', slug)
+    .single();
+
+  if (!category) return { title: 'Kategori Bulunamadi' };
+
+  return {
+    title: category.name,
+    description: `${category.name} kategorisindeki tum urunler - Epinera Gaming Marketplace`,
+    openGraph: {
+      title: `${category.name} | Epinera`,
+      description: `${category.name} kategorisindeki tum urunler`,
+    },
+  };
+}
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = params;
@@ -20,7 +43,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const { data: products } = await supabase
     .from('products')
-    .select(`id, slug, title, product_variants (price, currency)`)
+    .select(`id, slug, title, image_url, average_rating, review_count, product_variants (price, currency)`)
     .eq('category_id', category.id)
     .eq('status', 'active')
     .order('created_at', { ascending: false });
@@ -34,6 +57,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       id: product.id,
       title: product.title,
       slug: product.slug,
+      image_url: product.image_url,
+      average_rating: product.average_rating,
+      review_count: product.review_count,
       lowest_price: lowestPrice,
       currency: variants[0]?.currency || 'TRY',
     };
