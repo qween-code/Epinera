@@ -63,5 +63,17 @@ scripts/        Yardımcı bakım/seed scriptleri
 | `docker compose exec backend pytest`         | Backend testleri               |
 | `docker compose exec backend ruff check .`   | Lint                           |
 | `docker compose exec backend alembic ...`    | Migration komutları            |
+| `docker compose exec backend python -m scripts.list_openrouter_models` | Free modelleri listele |
 
-Daha fazla bilgi için [docs/architecture.md](docs/architecture.md).
+## Dokümantasyon
+
+- [Mimari](docs/architecture.md)
+- [Veri modeli](docs/data-model.md)
+- [Runbook](docs/runbook.md)
+- [AI provider seçimi & LiteLLM köprüsü](docs/integration-ai-providers.md)
+- [OpenRouter free model curation](docs/ai-models-curation.md)
+- [Vector DB / RAG karşılaştırma](docs/vector-stores.md)
+- [ProManage entegrasyonu](docs/integration-promanage.md)
+- [SAP entegrasyonu](docs/integration-sap.md)
+- [Coolify deployment](docs/deployment-coolify.md)
+- [Yol haritası](docs/roadmap.md)

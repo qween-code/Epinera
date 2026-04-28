@@ -23,6 +23,7 @@ class OllamaProvider(AIProvider):
         system: str | None = None,
         temperature: float = 0.2,
         max_tokens: int = 2048,
+        profile: str | None = None,
     ) -> AIResponse:
         has_image = any(m.image_paths for m in messages)
         model = self.vision_model if has_image else self.text_model

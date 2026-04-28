@@ -23,10 +23,11 @@ class Settings(BaseSettings):
     admin_username: str = "admin"
     admin_password: str = "change-me"
 
-    ai_provider: Literal["anthropic", "ollama", "openai_compat"] = "ollama"
+    ai_provider: Literal["anthropic", "ollama", "openai_compat"] = "openai_compat"
     ai_text_model: str = "claude-opus-4-7"
     ai_vision_model: str = "claude-opus-4-7"
-    ai_fallback_provider: Literal["anthropic", "ollama", "openai_compat", "none"] = "anthropic"
+    ai_fallback_provider: Literal["anthropic", "ollama", "openai_compat", "none"] = "ollama"
+    embedding_provider: Literal["anthropic", "ollama", "openai_compat"] = "ollama"
 
     anthropic_api_key: str = ""
 
@@ -35,11 +36,16 @@ class Settings(BaseSettings):
     ollama_vision_model: str = "qwen3-vl:8b"
     ollama_embed_model: str = "bge-m3"
 
-    openai_compat_base_url: str = ""
+    openai_compat_base_url: str = "https://openrouter.ai/api/v1"
     openai_compat_api_key: str = ""
-    openai_compat_text_model: str = "qwen/qwen3.5-9b"
-    openai_compat_vision_model: str = "qwen/qwen3-vl-8b"
-    openai_compat_embed_model: str = "text-embedding-3-large"
+    openai_compat_text_model: str = "google/gemma-4-31b-it:free"
+    openai_compat_vision_model: str = "google/gemma-4-31b-it:free"
+    openai_compat_triage_model: str = "liquid/lfm-2.5-1.2b-thinking:free"
+    openai_compat_heavy_model: str = "nvidia/nemotron-3-super-120b-a12b:free"
+    openai_compat_embed_model: str = ""
+
+    openrouter_http_referer: str = "http://localhost:3000"
+    openrouter_x_title: str = "Sentinel"
 
     ocr_langs: str = "tr,en"
 

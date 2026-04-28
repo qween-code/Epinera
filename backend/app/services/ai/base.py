@@ -25,6 +25,7 @@ class AIProvider(ABC):
         system: str | None = None,
         temperature: float = 0.2,
         max_tokens: int = 2048,
+        profile: str | None = None,  # "triage" | "heavy" | None — provider içinde model seçer
     ) -> AIResponse:
         ...
 

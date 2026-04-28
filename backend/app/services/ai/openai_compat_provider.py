@@ -43,13 +43,30 @@ class OpenAICompatProvider(AIProvider):
         self.api_key = settings.openai_compat_api_key
         self.text_model = settings.openai_compat_text_model
         self.vision_model = settings.openai_compat_vision_model
+        self.triage_model = settings.openai_compat_triage_model
+        self.heavy_model = settings.openai_compat_heavy_model
         self.embed_model = settings.openai_compat_embed_model
+        self._openrouter_referer = settings.openrouter_http_referer
+        self._openrouter_title = settings.openrouter_x_title
 
     def _headers(self) -> dict:
         h = {"Content-Type": "application/json"}
         if self.api_key:
             h["Authorization"] = f"Bearer {self.api_key}"
+        # OpenRouter önerilen başlıklar — hata durumunda zararsız
+        if "openrouter.ai" in self.base_url:
+            if self._openrouter_referer:
+                h["HTTP-Referer"] = self._openrouter_referer
+            if self._openrouter_title:
+                h["X-Title"] = self._openrouter_title
         return h
+
+    def _pick_model(self, has_image: bool, profile: str | None) -> str:
+        if profile == "triage" and self.triage_model:
+            return self.triage_model
+        if profile == "heavy" and self.heavy_model:
+            return self.heavy_model
+        return self.vision_model if has_image else self.text_model
 
     async def complete(
         self,
@@ -57,9 +74,10 @@ class OpenAICompatProvider(AIProvider):
         system: str | None = None,
         temperature: float = 0.2,
         max_tokens: int = 2048,
+        profile: str | None = None,
     ) -> AIResponse:
         has_image = any(m.image_paths for m in messages)
-        model = self.vision_model if has_image else self.text_model
+        model = self._pick_model(has_image, profile)
 
         oai_messages: list[dict] = []
         if system:
@@ -93,6 +111,12 @@ class OpenAICompatProvider(AIProvider):
         return AIResponse(text=text, raw=data)
 
     async def embed(self, texts: list[str]) -> list[list[float]]:
+        if not self.embed_model:
+            raise RuntimeError(
+                "OPENAI_COMPAT_EMBED_MODEL boş — embedding için ayrı bir provider "
+                "kullanın (EMBEDDING_PROVIDER=ollama önerilir, OpenRouter free "
+                "tier embedding sunmaz)."
+            )
         async with httpx.AsyncClient(timeout=60.0) as client:
             resp = await client.post(
                 f"{self.base_url}/embeddings",
