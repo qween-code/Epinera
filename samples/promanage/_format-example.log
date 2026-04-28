@@ -1,0 +1,14 @@
+# Bu dosya yalnızca FORMAT göstergesidir.
+# Kendi ProManage loglarınızı bu klasöre kopyalayın, sonra silin.
+# Sistem aşağıdaki yaygın formatları otomatik ayrıştırır:
+
+2026-04-28 14:22:01 INFO  wms-sync   Job 3142 started
+2026-04-28 14:22:05 WARN  wms-sync   Endpoint slow (8s)
+2026-04-28 14:22:33 ERROR wms-sync   Connection timeout to 10.0.0.42:8080
+2026-04-28 14:22:34 ERROR wms-sync   Job 3142 abend code=TIMEOUT
+
+# JSON satır da olur:
+{"timestamp":"2026-04-28T14:22:33","severity":"ERROR","module":"wms-sync","message":"Connection timeout"}
+
+# Köşeli parantez format da olur:
+[2026-04-28 14:22:33] [ERROR] wms-sync: Connection timeout

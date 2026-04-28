@@ -1,0 +1,18 @@
+───────────────────────────────────────────────────────
+Bu dosya yalnızca FORMAT göstergesidir.
+Kendi SAP dump'larınızı bu klasöre kopyalayın, sonra silin.
+───────────────────────────────────────────────────────
+
+Runtime Errors    : TIME_OUT
+Short text        : Time limit exceeded
+What happened     : The program "SAPLMIGO" has triggered a runtime error.
+Program           : SAPLMIGO
+Transaction       : MIGO
+User              : KULLANICI_ADI
+Date / Time       : 28.04.2026 / 14:22:33
+Termination type  : RABAX_STATE
+Error class       : Exception condition "TIME_OUT" raised
+Last 4 KB of memory dump:
+  ...
+SY-MSGV1: 4711
+SY-MSGV2: MSEG

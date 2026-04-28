@@ -25,6 +25,8 @@ log = get_logger("api.logs")
 @router.get("/recent")
 async def list_recent(
     source: str | None = None,
+    severity: str | None = None,
+    q: str | None = None,
     limit: int = 200,
     db: Session = Depends(get_db),
     _: str = Depends(require_user),
@@ -32,6 +34,10 @@ async def list_recent(
     stmt = select(LogEvent).order_by(desc(LogEvent.observed_at)).limit(limit)
     if source:
         stmt = stmt.where(LogEvent.source == source)
+    if severity:
+        stmt = stmt.where(LogEvent.severity == severity.upper())
+    if q:
+        stmt = stmt.where(LogEvent.message.ilike(f"%{q}%"))
     return [
         {
             "id": str(e.id),

@@ -18,6 +18,8 @@ router = APIRouter()
 async def list_incidents(
     status: str | None = None,
     severity: str | None = None,
+    source: str | None = None,
+    q: str | None = None,
     limit: int = 100,
     db: Session = Depends(get_db),
     _: str = Depends(require_user),
@@ -27,6 +29,15 @@ async def list_incidents(
         stmt = stmt.where(Incident.status == IncidentStatus(status))
     if severity:
         stmt = stmt.where(Incident.severity == IncidentSeverity(severity))
+    if source:
+        stmt = stmt.where(Incident.source == source)
+    if q:
+        like = f"%{q}%"
+        stmt = stmt.where(
+            (Incident.title.ilike(like))
+            | (Incident.summary.ilike(like))
+            | (Incident.root_cause.ilike(like))
+        )
     return list(db.scalars(stmt))
 
 

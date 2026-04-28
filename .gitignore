@@ -25,6 +25,8 @@ out/
 # Logs
 *.log
 logs/
+# samples/ içindeki test log dosyalarını engelleme
+!samples/**/*.log
 
 # OS
 .DS_Store

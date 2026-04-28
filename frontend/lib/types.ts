@@ -69,3 +69,50 @@ export interface LogEventLive {
   message: string;
   raw?: Record<string, unknown>;
 }
+
+export interface LogEventStored {
+  id: string;
+  source: string;
+  stream: string | null;
+  severity: string | null;
+  message: string;
+  observed_at: string;
+}
+
+export interface DashboardStats {
+  opened_24h: number;
+  opened_7d: number;
+  resolved_24h: number;
+  open_total: number;
+  by_severity: Record<string, number>;
+  by_status: Record<string, number>;
+  by_source: Record<string, number>;
+  mttr_hours_30d: number | null;
+  log_events_1h: number;
+  trend_24h: { hour: string; count: number }[];
+}
+
+export interface SystemStatus {
+  ai: {
+    primary: string;
+    fallback: string;
+    embedding: string;
+    openrouter_reachable: boolean;
+    ollama_reachable: boolean;
+    anthropic_configured: boolean;
+    models: {
+      text: string;
+      vision: string;
+      triage: string;
+      heavy: string;
+      embedding: string;
+    };
+  };
+  infra: { redis_reachable: boolean };
+  promanage: {
+    configured: boolean;
+    stream_mode: string;
+    actions_configured: boolean;
+  };
+  ticket: { smtp_configured: boolean; to_email: string | null };
+}
