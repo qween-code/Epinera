@@ -56,9 +56,13 @@ yükleme └──────────────────┘           
 
 ## AI seçimi
 
-`AI_PROVIDER=anthropic|ollama` (env). Birinci başarısız olursa
+`AI_PROVIDER=ollama|anthropic|openai_compat` (env). Birinci başarısız olursa
 `AI_FALLBACK_PROVIDER` devreye girer. Multimodal istek (resim ekli)
 geldiğinde router otomatik olarak vision-capable modele yönlendirir.
+
+Varsayılan **Ollama + Qwen3.5 / Qwen3-VL / bge-m3** (tamamen on-prem,
+abonelik gerektirmez). LM Studio, vLLM, LiteLLM köprüsü, OpenRouter ve
+abonelik yönetimi için bkz: `docs/integration-ai-providers.md`.
 
 ## Veri modeli özeti
 

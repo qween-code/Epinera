@@ -6,8 +6,6 @@ import httpx
 from app.core.config import get_settings
 from app.services.ai.base import AIMessage, AIProvider, AIResponse
 
-EMBED_MODEL = "mxbai-embed-large"  # 1024 dim — pgvector boyutuyla uyumlu
-
 
 class OllamaProvider(AIProvider):
     name = "ollama"
@@ -17,6 +15,7 @@ class OllamaProvider(AIProvider):
         self.base_url = settings.ollama_base_url.rstrip("/")
         self.text_model = settings.ollama_text_model
         self.vision_model = settings.ollama_vision_model
+        self.embed_model = settings.ollama_embed_model
 
     async def complete(
         self,
@@ -60,7 +59,7 @@ class OllamaProvider(AIProvider):
             for t in texts:
                 resp = await client.post(
                     f"{self.base_url}/api/embeddings",
-                    json={"model": EMBED_MODEL, "prompt": t},
+                    json={"model": self.embed_model, "prompt": t},
                 )
                 resp.raise_for_status()
                 out.append(resp.json()["embedding"])

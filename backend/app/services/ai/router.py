@@ -2,6 +2,7 @@ from app.core.config import get_settings
 from app.services.ai.anthropic_provider import AnthropicProvider
 from app.services.ai.base import AIProvider
 from app.services.ai.ollama_provider import OllamaProvider
+from app.services.ai.openai_compat_provider import OpenAICompatProvider
 
 
 def _build(name: str) -> AIProvider:
@@ -9,6 +10,8 @@ def _build(name: str) -> AIProvider:
         return AnthropicProvider()
     if name == "ollama":
         return OllamaProvider()
+    if name == "openai_compat":
+        return OpenAICompatProvider()
     raise ValueError(f"Unknown AI provider: {name}")
 
 

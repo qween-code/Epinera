@@ -23,15 +23,23 @@ class Settings(BaseSettings):
     admin_username: str = "admin"
     admin_password: str = "change-me"
 
-    ai_provider: Literal["anthropic", "ollama"] = "anthropic"
+    ai_provider: Literal["anthropic", "ollama", "openai_compat"] = "ollama"
     ai_text_model: str = "claude-opus-4-7"
     ai_vision_model: str = "claude-opus-4-7"
-    ai_fallback_provider: Literal["anthropic", "ollama", "none"] = "ollama"
+    ai_fallback_provider: Literal["anthropic", "ollama", "openai_compat", "none"] = "anthropic"
 
     anthropic_api_key: str = ""
+
     ollama_base_url: str = "http://host.docker.internal:11434"
-    ollama_text_model: str = "llama3.1:8b"
-    ollama_vision_model: str = "qwen2-vl:7b"
+    ollama_text_model: str = "qwen3.5:9b"
+    ollama_vision_model: str = "qwen3-vl:8b"
+    ollama_embed_model: str = "bge-m3"
+
+    openai_compat_base_url: str = ""
+    openai_compat_api_key: str = ""
+    openai_compat_text_model: str = "qwen/qwen3.5-9b"
+    openai_compat_vision_model: str = "qwen/qwen3-vl-8b"
+    openai_compat_embed_model: str = "text-embedding-3-large"
 
     ocr_langs: str = "tr,en"
 

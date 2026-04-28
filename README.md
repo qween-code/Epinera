@@ -15,17 +15,19 @@ durmadan müdahale önerir veya uygular, gerektiğinde ticket açar / mail gönd
 
 ## Tech Stack
 
-| Katman      | Teknoloji                                          |
-|-------------|---------------------------------------------------|
-| Backend     | Python 3.12 + FastAPI + SQLAlchemy 2 + Alembic    |
-| Veritabanı  | PostgreSQL 16 + pgvector                          |
-| Realtime    | Redis pub/sub + FastAPI WebSocket                 |
-| AI (on-prem)| Ollama (Llama 3.1 + Qwen2-VL)                     |
-| AI (API)    | Anthropic Claude (multimodal)                     |
-| OCR         | PaddleOCR (Türkçe dahil)                          |
-| Frontend    | Next.js 15 + TypeScript + Tailwind + shadcn/ui    |
-| Canlı log   | xterm.js                                          |
-| Deployment  | Docker Compose (lokal)                            |
+| Katman          | Teknoloji                                                  |
+|-----------------|-----------------------------------------------------------|
+| Backend         | Python 3.12 + FastAPI + SQLAlchemy 2 + Alembic            |
+| Veritabanı      | PostgreSQL 16 + pgvector                                  |
+| Realtime        | Redis pub/sub + FastAPI WebSocket                         |
+| AI (on-prem)    | Ollama → **Qwen3.5 / Qwen3-VL / Gemma 4** (varsayılan)    |
+| AI (API)        | Anthropic Claude (multimodal)                             |
+| AI (köprü)      | OpenAI-compatible: LM Studio / vLLM / LiteLLM / OpenRouter|
+| OCR             | PaddleOCR (Türkçe dahil)                                  |
+| Frontend        | Next.js 15 + TypeScript + Tailwind                        |
+| Canlı log       | WebSocket + Redis pub/sub                                 |
+| Lokal           | Docker Compose                                            |
+| Self-hosted     | Coolify (ileride; bkz `docs/deployment-coolify.md`)       |
 
 ## Hızlı başlangıç
 
