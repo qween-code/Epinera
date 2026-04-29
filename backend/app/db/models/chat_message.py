@@ -19,5 +19,5 @@ class ChatMessage(Base, UUIDMixin, TimestampMixin):
     incident_id: Mapped[UUID | None] = mapped_column(ForeignKey("incidents.id"))
     incident = relationship("Incident", back_populates="chat_messages")
 
-    role: Mapped[ChatRole] = mapped_column(Enum(ChatRole))
+    role: Mapped[ChatRole] = mapped_column(Enum(ChatRole, native_enum=False, length=32))
     content: Mapped[str] = mapped_column(Text)

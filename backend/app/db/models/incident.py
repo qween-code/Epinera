@@ -31,10 +31,12 @@ class Incident(Base, UUIDMixin, TimestampMixin):
     title: Mapped[str] = mapped_column(String(300))
     source: Mapped[str] = mapped_column(String(50))  # promanage, sap, manual_upload
     severity: Mapped[IncidentSeverity] = mapped_column(
-        Enum(IncidentSeverity), default=IncidentSeverity.info
+        Enum(IncidentSeverity, native_enum=False, length=32),
+        default=IncidentSeverity.info,
     )
     status: Mapped[IncidentStatus] = mapped_column(
-        Enum(IncidentStatus), default=IncidentStatus.detected
+        Enum(IncidentStatus, native_enum=False, length=32),
+        default=IncidentStatus.detected,
     )
 
     summary: Mapped[str | None] = mapped_column(Text)

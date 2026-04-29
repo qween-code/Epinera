@@ -1,7 +1,10 @@
 from sqlalchemy.orm import Session
 
+from app.core.logging import get_logger
 from app.db.models import KnowledgeEntry
 from app.services.ai import get_ai_provider
+
+log = get_logger("kb.store")
 
 
 async def upsert_knowledge_entry(
@@ -31,9 +34,12 @@ async def upsert_knowledge_entry(
     text_blob = "\n".join(
         filter(None, [title, problem, root_cause or "", resolution or ""])
     )
-    embeddings = await ai.embed([text_blob])
-    if embeddings and embeddings[0]:
-        entry.embedding = embeddings[0]
+    try:
+        embeddings = await ai.embed([text_blob])
+        if embeddings and embeddings[0]:
+            entry.embedding = embeddings[0]
+    except Exception as e:  # noqa: BLE001 — embedding kapalıysa kaydı yine yaz
+        log.warning("kb.store.embed_failed", error=str(e))
 
     db.add(entry)
     db.commit()

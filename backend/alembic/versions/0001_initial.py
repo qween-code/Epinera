@@ -17,6 +17,31 @@ branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
 
 
+SEVERITY_VALUES = ("info", "low", "medium", "high", "critical")
+STATUS_VALUES = (
+    "detected",
+    "analyzing",
+    "awaiting_action",
+    "in_progress",
+    "resolved",
+    "closed",
+)
+CHAT_ROLE_VALUES = ("user", "assistant", "system")
+ACTION_TYPE_VALUES = ("promanage_inplace", "email", "ticket", "note")
+ACTION_STATUS_VALUES = (
+    "proposed",
+    "approved",
+    "executing",
+    "succeeded",
+    "failed",
+    "skipped",
+)
+
+
+def _str_enum(values: tuple[str, ...], name: str) -> sa.Enum:
+    return sa.Enum(*values, name=name, native_enum=False, length=32)
+
+
 def upgrade() -> None:
     op.execute("CREATE EXTENSION IF NOT EXISTS vector")
 
@@ -36,21 +61,6 @@ def upgrade() -> None:
         sa.Column("embedding", Vector(1024)),
     )
 
-    severity = sa.Enum(
-        "info", "low", "medium", "high", "critical", name="incidentseverity"
-    )
-    status = sa.Enum(
-        "detected",
-        "analyzing",
-        "awaiting_action",
-        "in_progress",
-        "resolved",
-        "closed",
-        name="incidentstatus",
-    )
-    severity.create(op.get_bind(), checkfirst=True)
-    status.create(op.get_bind(), checkfirst=True)
-
     op.create_table(
         "incidents",
         sa.Column("id", sa.UUID(), primary_key=True),
@@ -58,8 +68,18 @@ def upgrade() -> None:
         sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
         sa.Column("title", sa.String(300), nullable=False),
         sa.Column("source", sa.String(50), nullable=False),
-        sa.Column("severity", severity, nullable=False, server_default="info"),
-        sa.Column("status", status, nullable=False, server_default="detected"),
+        sa.Column(
+            "severity",
+            _str_enum(SEVERITY_VALUES, "incidentseverity"),
+            nullable=False,
+            server_default="info",
+        ),
+        sa.Column(
+            "status",
+            _str_enum(STATUS_VALUES, "incidentstatus"),
+            nullable=False,
+            server_default="detected",
+        ),
         sa.Column("summary", sa.Text()),
         sa.Column("root_cause", sa.Text()),
         sa.Column("resolution", sa.Text()),
@@ -106,33 +126,19 @@ def upgrade() -> None:
         sa.Column("analysis", sa.JSON()),
     )
 
-    chat_role = sa.Enum("user", "assistant", "system", name="chatrole")
-    chat_role.create(op.get_bind(), checkfirst=True)
-
     op.create_table(
         "chat_messages",
         sa.Column("id", sa.UUID(), primary_key=True),
         sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
         sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
         sa.Column("incident_id", sa.UUID(), sa.ForeignKey("incidents.id")),
-        sa.Column("role", chat_role, nullable=False),
+        sa.Column(
+            "role",
+            _str_enum(CHAT_ROLE_VALUES, "chatrole"),
+            nullable=False,
+        ),
         sa.Column("content", sa.Text(), nullable=False),
     )
-
-    action_type = sa.Enum(
-        "promanage_inplace", "email", "ticket", "note", name="actiontype"
-    )
-    action_status = sa.Enum(
-        "proposed",
-        "approved",
-        "executing",
-        "succeeded",
-        "failed",
-        "skipped",
-        name="actionstatus",
-    )
-    action_type.create(op.get_bind(), checkfirst=True)
-    action_status.create(op.get_bind(), checkfirst=True)
 
     op.create_table(
         "actions",
@@ -140,8 +146,17 @@ def upgrade() -> None:
         sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
         sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
         sa.Column("incident_id", sa.UUID(), sa.ForeignKey("incidents.id"), nullable=False),
-        sa.Column("type", action_type, nullable=False),
-        sa.Column("status", action_status, nullable=False, server_default="proposed"),
+        sa.Column(
+            "type",
+            _str_enum(ACTION_TYPE_VALUES, "actiontype"),
+            nullable=False,
+        ),
+        sa.Column(
+            "status",
+            _str_enum(ACTION_STATUS_VALUES, "actionstatus"),
+            nullable=False,
+            server_default="proposed",
+        ),
         sa.Column("title", sa.String(300), nullable=False),
         sa.Column("description", sa.Text()),
         sa.Column("payload", sa.JSON()),
@@ -160,11 +175,3 @@ def downgrade() -> None:
     op.drop_table("log_events")
     op.drop_table("incidents")
     op.drop_table("knowledge_entries")
-    for name in [
-        "actionstatus",
-        "actiontype",
-        "chatrole",
-        "incidentstatus",
-        "incidentseverity",
-    ]:
-        op.execute(f"DROP TYPE IF EXISTS {name}")

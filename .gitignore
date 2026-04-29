@@ -49,3 +49,9 @@ docker/data/
 # Build
 dist/
 build/
+
+# Sandbox-only (this machine has TLS-inspecting proxy; not committed)
+.docker/
+backend/*.crt
+frontend/*.crt
+docker-compose.override.yml

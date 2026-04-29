@@ -1,0 +1,17 @@
+FROM node:20
+
+WORKDIR /app
+
+# Install sandbox/corporate TLS CAs
+COPY *.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+
+ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+
+COPY package.json package-lock.json* ./
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+EXPOSE 3000
+CMD ["npm", "run", "dev"]

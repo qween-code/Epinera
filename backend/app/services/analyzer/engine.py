@@ -4,6 +4,7 @@ akışında bir anomali tespit edildiğinde çağrılır. LLM'e geçmiş benzer
 vakaları + ham içeriği verir, yapılandırılmış öneri döndürür.
 """
 import json
+import re
 from dataclasses import dataclass
 
 from sqlalchemy.orm import Session
@@ -20,25 +21,48 @@ ProManage tarafında YAPILABİLİR aksiyonları doğrudan öner.
 SAP tarafında erişim yok → ticket açılması veya mail gönderilmesi gereken
 durumları belirt.
 
-Yanıtı SADECE JSON olarak ver. Şema:
+KRİTİK: Yanıtı SADECE geçerli JSON olarak ver. Markdown code fence (```)
+KULLANMA. Açıklama, ön/son metin EKLEME. Sadece JSON nesnesi.
+Tüm string değerleri TÜRKÇE yaz.
+
+Şema:
 {
-  "title": "kısa başlık",
+  "title": "kısa başlık (Türkçe)",
   "severity": "info|low|medium|high|critical",
-  "summary": "ne olduğu, 2-3 cümle",
-  "root_cause": "muhtemel kök neden",
+  "summary": "ne olduğu, 2-3 cümle (Türkçe)",
+  "root_cause": "muhtemel kök neden (Türkçe)",
   "proactive_actions": [
     {
       "type": "promanage_inplace|email|ticket|note",
-      "title": "...",
-      "description": "...",
+      "title": "kısa başlık (Türkçe)",
+      "description": "ne yapılacak, adım adım (Türkçe)",
       "system": "promanage|sap|other",
-      "requires_approval": true|false,
-      "payload": { ... aksiyona özel veriler ... }
+      "requires_approval": true,
+      "payload": {}
     }
   ],
   "tags": ["..."]
 }
 """
+
+
+_FENCE_RE = re.compile(r"```(?:json)?\s*(.+?)\s*```", re.DOTALL)
+
+
+def _extract_json(text: str) -> dict:
+    """Code-fence ya da serbest metinden ilk geçerli JSON nesnesini çıkar."""
+    candidates: list[str] = []
+    for m in _FENCE_RE.finditer(text):
+        candidates.append(m.group(1))
+    s, e = text.find("{"), text.rfind("}")
+    if s != -1 and e != -1 and e > s:
+        candidates.append(text[s : e + 1])
+    for c in candidates:
+        try:
+            return json.loads(c)
+        except json.JSONDecodeError:
+            continue
+    return {}
 
 
 @dataclass
@@ -84,35 +108,66 @@ async def analyze_payload(
     user_text_parts.append(text[:8000])
 
     ai = get_ai_provider()
-    response = await ai.complete(
-        messages=[
-            AIMessage(
-                role="user",
-                text="\n\n".join(user_text_parts),
-                image_paths=image_paths,
-            )
-        ],
-        system=SYSTEM_PROMPT,
-        temperature=0.1,
-        max_tokens=2000,
-    )
-
-    parsed: dict = {}
     try:
-        json_start = response.text.find("{")
-        json_end = response.text.rfind("}")
-        if json_start != -1 and json_end != -1:
-            parsed = json.loads(response.text[json_start : json_end + 1])
-    except json.JSONDecodeError:
-        parsed = {}
+        response = await ai.complete(
+            messages=[
+                AIMessage(
+                    role="user",
+                    text="\n\n".join(user_text_parts),
+                    image_paths=image_paths,
+                )
+            ],
+            system=SYSTEM_PROMPT,
+            temperature=0.1,
+            max_tokens=2000,
+        )
+    except Exception as e:  # noqa: BLE001 — AI down olsa da incident kaydı oluşmalı
+        from app.core.logging import get_logger
+
+        get_logger("analyzer").error("analyzer.ai_failed", error=str(e))
+        return AnalysisResult(
+            title=(text.splitlines()[0][:120] if text.strip() else "AI offline — manuel inceleme"),
+            severity="info",
+            summary=f"AI sağlayıcısı şu an erişilemez ({type(e).__name__}). "
+                    f"Ham içerik aşağıdadır; manuel olarak inceleyin.\n\n{text[:1500]}",
+            root_cause="",
+            proactive_actions=[
+                {
+                    "type": "note",
+                    "title": "Manuel inceleme gerekli",
+                    "description": "AI servisi erişilemediği için otomatik öneri çıkarılamadı. "
+                                   "Ham içeriği gözden geçirip aksiyon planlayın.",
+                    "system": source,
+                    "requires_approval": False,
+                }
+            ],
+            tags=["ai-unavailable"],
+            similar_entries=similar_brief,
+            raw_text="",
+        )
+
+    raw = response.text or ""
+    # GLM/qwen gibi thinking modeller <think>...</think> blokları döndürebilir
+    raw_clean = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
+    parsed = _extract_json(raw_clean) or _extract_json(raw)
+
+    if not parsed:
+        from app.core.logging import get_logger
+
+        get_logger("analyzer").warning(
+            "analyzer.json_parse_failed",
+            raw_preview=raw[:300],
+        )
+
+    summary_fallback = (raw_clean or raw)[:600] or "Model yanıtı boş"
 
     return AnalysisResult(
-        title=parsed.get("title", "Otomatik analiz"),
-        severity=parsed.get("severity", "info"),
-        summary=parsed.get("summary", response.text[:500]),
-        root_cause=parsed.get("root_cause", ""),
-        proactive_actions=parsed.get("proactive_actions", []),
-        tags=parsed.get("tags", []),
+        title=parsed.get("title") or "Otomatik analiz",
+        severity=parsed.get("severity") or "info",
+        summary=parsed.get("summary") or summary_fallback,
+        root_cause=parsed.get("root_cause") or "",
+        proactive_actions=parsed.get("proactive_actions") or [],
+        tags=parsed.get("tags") or [],
         similar_entries=similar_brief,
-        raw_text=response.text,
+        raw_text=raw,
     )

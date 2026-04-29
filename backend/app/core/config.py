@@ -38,14 +38,21 @@ class Settings(BaseSettings):
 
     openai_compat_base_url: str = "https://openrouter.ai/api/v1"
     openai_compat_api_key: str = ""
-    openai_compat_text_model: str = "google/gemma-4-31b-it:free"
-    openai_compat_vision_model: str = "google/gemma-4-31b-it:free"
-    openai_compat_triage_model: str = "liquid/lfm-2.5-1.2b-thinking:free"
-    openai_compat_heavy_model: str = "nvidia/nemotron-3-super-120b-a12b:free"
+    openai_compat_text_model: str = "z-ai/glm-4.5-air:free"
+    openai_compat_vision_model: str = "z-ai/glm-4.5-air:free"
+    openai_compat_triage_model: str = "z-ai/glm-4.5-air:free"
+    openai_compat_heavy_model: str = "tencent/hy3-preview:free"
     openai_compat_embed_model: str = ""
+    # Vision modeli görüntü ekini destekliyor mu? Free model çoğunlukla
+    # account privacy guardrail'ine takıldığı için False; OCR text'i metin
+    # model'e gider, ham resim payload'a eklenmez.
+    openai_compat_vision_supports_images: bool = False
 
     openrouter_http_referer: str = "http://localhost:3000"
     openrouter_x_title: str = "Sentinel"
+    # Free modeller veri toplamasına izin verilmesini ister
+    # Kilo Code'un "Allow prompt training" toggle'ı ile aynı işlevde.
+    openrouter_allow_training: bool = True
 
     ocr_langs: str = "tr,en"
 

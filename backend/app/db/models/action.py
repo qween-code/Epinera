@@ -30,8 +30,11 @@ class Action(Base, UUIDMixin, TimestampMixin):
     incident_id: Mapped[UUID] = mapped_column(ForeignKey("incidents.id"))
     incident = relationship("Incident", back_populates="actions")
 
-    type: Mapped[ActionType] = mapped_column(Enum(ActionType))
-    status: Mapped[ActionStatus] = mapped_column(Enum(ActionStatus), default=ActionStatus.proposed)
+    type: Mapped[ActionType] = mapped_column(Enum(ActionType, native_enum=False, length=32))
+    status: Mapped[ActionStatus] = mapped_column(
+        Enum(ActionStatus, native_enum=False, length=32),
+        default=ActionStatus.proposed,
+    )
 
     title: Mapped[str] = mapped_column(String(300))
     description: Mapped[str | None] = mapped_column(Text)

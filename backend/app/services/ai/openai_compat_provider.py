@@ -48,18 +48,36 @@ class OpenAICompatProvider(AIProvider):
         self.embed_model = settings.openai_compat_embed_model
         self._openrouter_referer = settings.openrouter_http_referer
         self._openrouter_title = settings.openrouter_x_title
+        self._openrouter_allow_training = settings.openrouter_allow_training
+        self._vision_supports_images = settings.openai_compat_vision_supports_images
+        self._is_openrouter = "openrouter.ai" in self.base_url
 
     def _headers(self) -> dict:
         h = {"Content-Type": "application/json"}
         if self.api_key:
             h["Authorization"] = f"Bearer {self.api_key}"
-        # OpenRouter önerilen başlıklar — hata durumunda zararsız
-        if "openrouter.ai" in self.base_url:
+        # OpenRouter önerilen başlıklar — Kilo Code / Cline aynısını gönderir
+        if self._is_openrouter:
             if self._openrouter_referer:
                 h["HTTP-Referer"] = self._openrouter_referer
             if self._openrouter_title:
                 h["X-Title"] = self._openrouter_title
         return h
+
+    def _openrouter_extras(self, body: dict) -> dict:
+        """
+        OpenRouter'a özel body alanları. Free modeller (örn. gemma-4-31b:free)
+        çoğunlukla provider veri toplamasına izin verilmesini şart koşar;
+        bu, hesabın varsayılan privacy ayarını override eder. Kilo Code'un
+        "Allow prompt training" toggle'ı bunu yapar.
+        """
+        if not self._is_openrouter:
+            return body
+        if self._openrouter_allow_training:
+            body["provider"] = {"data_collection": "allow"}
+        # maliyet bilgisi response'a eklenir (Kilo Code da kullanır)
+        body["usage"] = {"include": True}
+        return body
 
     def _pick_model(self, has_image: bool, profile: str | None) -> str:
         if profile == "triage" and self.triage_model:
@@ -83,7 +101,9 @@ class OpenAICompatProvider(AIProvider):
         if system:
             oai_messages.append({"role": "system", "content": system})
         for m in messages:
-            if not m.image_paths:
+            # Vision desteklenmiyorsa görseli payload'dan çıkar; OCR metni
+            # zaten m.text içinde ulaşmıştır.
+            if not m.image_paths or not self._vision_supports_images:
                 oai_messages.append({"role": m.role, "content": m.text})
                 continue
             content: list[dict] = [{"type": "text", "text": m.text}]
@@ -93,16 +113,19 @@ class OpenAICompatProvider(AIProvider):
                 )
             oai_messages.append({"role": m.role, "content": content})
 
+        body: dict = {
+            "model": model,
+            "messages": oai_messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+        body = self._openrouter_extras(body)
+
         async with httpx.AsyncClient(timeout=120.0) as client:
             resp = await client.post(
                 f"{self.base_url}/chat/completions",
                 headers=self._headers(),
-                json={
-                    "model": model,
-                    "messages": oai_messages,
-                    "temperature": temperature,
-                    "max_tokens": max_tokens,
-                },
+                json=body,
             )
             resp.raise_for_status()
             data = resp.json()
